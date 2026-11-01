@@ -1,0 +1,42 @@
+refactoring-kit
+Copyright 2026 Gabriel R. Marques
+
+This package is licensed under the Creative Commons Attribution 4.0 International
+License (CC BY 4.0); see LICENSE. You may share and adapt it for any purpose, including
+academic and commercial use, as long as you give appropriate credit, as described below.
+
+Credit
+------
+The refactoring catalogs, the refactoring and code smell names, and the method these skills
+teach are the work of Martin Fowler and Joshua Kerievsky, the design patterns are the work
+of Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides, and the SOLID principles in the
+`rules/solid.md` rule are the work of Robert C. Martin, published in:
+
+  Martin Fowler. Refactoring: Improving the Design of Existing Code. 2nd ed.
+  Boston: Addison-Wesley (Pearson Education), 2018. ISBN 978-0-13-475759-9.
+  Online catalog: https://refactoring.com/catalog/
+
+  Joshua Kerievsky. Refactoring to Patterns. Boston: Addison-Wesley
+  (Pearson Education), 2004. ISBN 978-0-321-21335-8.
+  Online catalog: https://www.industriallogic.com/refactoring-to-patterns/catalog/
+
+  Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides. Design Patterns:
+  Elements of Reusable Object-Oriented Software. Reading: Addison-Wesley, 1995.
+  ISBN 978-0-201-63361-0.
+
+  Robert C. Martin. Agile Software Development: Principles, Patterns, and Practices.
+  Prentice Hall, 2002. ISBN 978-0-13-597444-5.
+
+  Robert C. Martin. Clean Architecture: A Craftsman's Guide to Software Structure and Design.
+  Pearson, 2017. ISBN 978-0-13-449416-6.
+
+When you reuse or adapt this package, credit both this package and the books above.
+
+What the license covers
+-----------------------
+CC BY 4.0 covers only this package's own content: the paraphrased descriptions, the
+skill structure, the C# examples and the agents. It does not cover the books, which remain
+copyright of their authors and Pearson Education, Inc. This package contains no text, code
+or figures from the books; refactoring names, former names and inverses are cited as they
+appear in the book's section headers (and in the public online catalog for the five
+web-only refactorings), and sources are cited by chapter and entry name, never by page (Fowler, in its 2nd edition).
