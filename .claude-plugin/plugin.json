@@ -1,0 +1,10 @@
+{
+  "name": "refactoring-kit",
+  "version": "0.7.0",
+  "description": "Fowler's Refactoring (2nd ed.), Kerievsky's Refactoring to Patterns and the 23 GoF design patterns as three Agent Skills, one per book, and the /refactoring entry point: 29 code smells, 66 refactorings, 27 refactorings to patterns and 23 patterns, each refactoring and each pattern with a C# example, plus two subagents: one finds smells and plans, the other applies one refactoring.",
+  "author": {
+    "name": "Gabriel R. Marques"
+  },
+  "license": "CC-BY-4.0",
+  "keywords": ["refactoring", "fowler", "kerievsky", "gof", "design-patterns", "code-smells", "csharp", "agent-skills"]
+}
