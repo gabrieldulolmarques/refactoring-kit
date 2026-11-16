@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: Refactoring catalogs of Martin Fowler (Refactoring, 2nd ed.) and Joshua Kerievsky (Refactoring to Patterns): 29 code smells, 66 refactorings and 27 refactorings to patterns (Strategy, State, Command, Observer, Composite, Factory, Template Method...), each with mechanics, a C# example and verification. Includes the 23 GoF design patterns (Gamma et al.), each with intent, participants and a C# example. Use to refactor or clean up code without changing behavior, when code is hard to read or change, when conditionals or switches keep growing, or when a refactoring, code smell or design pattern is named.
+description: "Refactoring catalogs of Martin Fowler (Refactoring, 2nd ed.) and Joshua Kerievsky (Refactoring to Patterns): 29 code smells, 66 refactorings and 27 refactorings to patterns (Strategy, State, Command, Observer, Composite, Factory, Template Method...), each with mechanics, a C# example and verification. Includes the 23 GoF design patterns (Gamma et al.), each with intent, participants and a C# example. Use to refactor or clean up code without changing behavior, when code is hard to read or change, when conditionals or switches keep growing, or when a refactoring, code smell or design pattern is named."
 ---
 
 # Refactoring and design patterns: Fowler, Kerievsky and GoF
