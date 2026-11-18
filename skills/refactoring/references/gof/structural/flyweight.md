@@ -1,6 +1,6 @@
 # Flyweight
 
-Gamma et al. (1995), cap. 4, p. 195. Categoria: estrutural de objeto.
+Gamma et al. (1995), cap. 4. Categoria: estrutural de objeto.
 
 ## Intenção
 Compartilhar objetos para que um número muito grande de objetos pequenos, de granularidade fina, se torne viável. A parte compartilhada fica dentro do objeto, e a parte que varia é passada pelo chamador.

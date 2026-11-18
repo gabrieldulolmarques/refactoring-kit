@@ -1,6 +1,6 @@
 # Deslocar Instruções (Slide Statements)
 
-Fowler (2018), cap. 8, p. 223. Nome anterior / outro nome: Consolidate Duplicate Conditional Fragments. Inversa: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: Consolidate Duplicate Conditional Fragments. Inversa: —.
 
 ## Quando usar
 Smells: Código Duplicado (Duplicated Code), Dados Mutáveis (Mutable Data) (e como passo dentro de Função Longa (Long Function)).

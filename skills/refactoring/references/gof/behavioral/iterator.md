@@ -1,6 +1,6 @@
 # Iterator
 
-Gamma et al. (1995), cap. 5, p. 257. Também conhecido como: Cursor. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Também conhecido como: Cursor. Categoria: comportamental de objeto.
 
 ## Intenção
 Dar acesso sequencial aos elementos de uma coleção sem expor como ela é armazenada.

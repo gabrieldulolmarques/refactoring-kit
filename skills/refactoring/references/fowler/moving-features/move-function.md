@@ -1,6 +1,6 @@
 # Mover Função (Move Function)
 
-Fowler (2018), cap. 8, p. 198. Nome anterior / outro nome: Move Method. Inversa: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: Move Method. Inversa: —.
 
 ## Quando usar
 Smells: Inveja de Recursos (Feature Envy), Alteração Divergente (Divergent Change), Cirurgia com Espingarda (Shotgun Surgery), Campo Temporário (Temporary Field), Cadeias de Mensagens (Message Chains), Troca de Informações Privilegiadas (Insider Trading), Classes Alternativas com Interfaces Diferentes (Alternative Classes with Different Interfaces), Classe de Dados (Data Class).

@@ -1,6 +1,6 @@
 # Substituir Linguagem Implícita por Interpreter (Replace Implicit Language with Interpreter)
 
-Kerievsky (2004), cap. 8, p. 269. Padrão: Interpreter. Direção: até.
+Kerievsky (2004), cap. 8. Padrão: Interpreter. Direção: até.
 
 ## Quando usar
 Smells: Explosão Combinatória (Combinatorial Explosion), Classe Grande (Large Class), Obsessão por Primitivos (Primitive Obsession), Código Duplicado (Duplicated Code).

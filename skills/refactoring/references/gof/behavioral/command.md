@@ -1,6 +1,6 @@
 # Command
 
-Gamma et al. (1995), cap. 5, p. 233. Também conhecido como: Action, Transaction. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Também conhecido como: Action, Transaction. Categoria: comportamental de objeto.
 
 ## Intenção
 Transformar uma requisição em um objeto. Isso permite passar requisições como valores, parametrizar quem chama com elas, enfileirá-las ou registrá-las em log, e desfazê-las.

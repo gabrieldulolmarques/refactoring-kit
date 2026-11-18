@@ -1,6 +1,6 @@
 # Introduzir Criação Polimórfica com Factory Method (Introduce Polymorphic Creation with Factory Method)
 
-Kerievsky (2004), cap. 6, p. 88. Padrão: Factory Method. Direção: até.
+Kerievsky (2004), cap. 6. Padrão: Factory Method. Direção: até.
 
 ## Quando usar
 Smells: Código Duplicado (Duplicated Code).

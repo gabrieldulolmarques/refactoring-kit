@@ -1,6 +1,6 @@
 # Substituir Lógica Condicional por Strategy (Replace Conditional Logic with Strategy)
 
-Kerievsky (2004), cap. 7, p. 129. Padrão: Strategy. Direção: até, rumo a.
+Kerievsky (2004), cap. 7. Padrão: Strategy. Direção: até, rumo a.
 
 ## Quando usar
 Smells: Complexidade Condicional (Conditional Complexity), Método Longo (Long Method), Obsessão por Primitivos (Primitive Obsession).

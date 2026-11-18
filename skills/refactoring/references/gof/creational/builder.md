@@ -1,6 +1,6 @@
 # Builder
 
-Gamma et al. (1995), cap. 3, p. 97. Categoria: criacional de objeto.
+Gamma et al. (1995), cap. 3. Categoria: criacional de objeto.
 
 ## Intenção
 Executar uma mesma sequência de passos de construção, que não depende da forma final, para que ela possa gerar várias formas de um objeto complexo.

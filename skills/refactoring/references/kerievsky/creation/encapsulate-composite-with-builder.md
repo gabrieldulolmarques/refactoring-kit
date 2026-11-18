@@ -1,6 +1,6 @@
 # Encapsular Composite com Builder (Encapsulate Composite with Builder)
 
-Kerievsky (2004), cap. 6, p. 96. Padrão: Builder. Direção: até (Builder); longe (Composite).
+Kerievsky (2004), cap. 6. Padrão: Builder. Direção: até (Builder); longe (Composite).
 
 ## Quando usar
 Smells: Obsessão por Primitivos (Primitive Obsession), Código Duplicado (Duplicated Code).

@@ -1,6 +1,6 @@
 # Introduzir Null Object (Introduce Null Object)
 
-Kerievsky (2004), cap. 9, p. 301. Padrão: Null Object. Direção: até.
+Kerievsky (2004), cap. 9. Padrão: Null Object. Direção: até.
 
 ## Quando usar
 Smells: Complexidade Condicional (Conditional Complexity), Código Duplicado (Duplicated Code).

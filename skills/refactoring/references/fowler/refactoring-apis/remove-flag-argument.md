@@ -1,6 +1,6 @@
 # Remover Argumento de Flag (Remove Flag Argument)
 
-Fowler (2018), cap. 11, p. 314. Nome anterior / outro nome: Replace Parameter with Explicit Methods. Inversa: —.
+Fowler (2018), cap. 11. Nome anterior / outro nome: Replace Parameter with Explicit Methods. Inversa: —.
 
 ## Quando usar
 Smells: Lista Longa de Parâmetros (Long Parameter List).

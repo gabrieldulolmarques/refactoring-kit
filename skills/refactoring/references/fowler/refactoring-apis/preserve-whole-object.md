@@ -1,6 +1,6 @@
 # Preservar Objeto Inteiro (Preserve Whole Object)
 
-Fowler (2018), cap. 11, p. 319. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 11. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Função Longa (Long Function), Lista Longa de Parâmetros (Long Parameter List), Agrupamentos de Dados (Data Clumps).

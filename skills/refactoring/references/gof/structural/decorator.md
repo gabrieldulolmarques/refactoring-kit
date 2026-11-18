@@ -1,6 +1,6 @@
 # Decorator
 
-Gamma et al. (1995), cap. 4, p. 175. Também conhecido como: Wrapper. Categoria: estrutural de objeto.
+Gamma et al. (1995), cap. 4. Também conhecido como: Wrapper. Categoria: estrutural de objeto.
 
 ## Intenção
 Acrescentar responsabilidades a um objeto individual em tempo de execução, envolvendo-o em outro objeto com a mesma interface. É uma alternativa flexível à herança para cada combinação de funcionalidades.

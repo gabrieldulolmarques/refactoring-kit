@@ -77,7 +77,7 @@ Kerievsky correspondem a um smell de Fowler; onde o nome dele é outro, está en
   de C#), Verificação. O que um arquivo acrescenta além do livro vem marcado como **Além do livro**.
   Um arquivo de Kerievsky também diz o padrão de destino e a direção: *até* o padrão, *rumo a* ele,
   ou para *longe* dele. "(web)" marca uma refatoração de Fowler que existe só na edição web do
-  livro, sem página no impresso.
+  livro, fora do impresso.
 - **GoF:** Intenção, Quando compensa, Participantes em C#, Exemplo (C#), Variações, Riscos e
   alternativas em C#, Padrões relacionados, Verificação.
 

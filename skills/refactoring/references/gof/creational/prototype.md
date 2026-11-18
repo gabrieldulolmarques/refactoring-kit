@@ -1,6 +1,6 @@
 # Prototype
 
-Gamma et al. (1995), cap. 3, p. 117. Categoria: criacional de objeto.
+Gamma et al. (1995), cap. 3. Categoria: criacional de objeto.
 
 ## Intenção
 Obter objetos novos clonando uma instância já configurada (o protótipo), o que também define os tipos disponíveis, para que um cliente possa produzir objetos sem conhecer suas classes nem como foram configurados.

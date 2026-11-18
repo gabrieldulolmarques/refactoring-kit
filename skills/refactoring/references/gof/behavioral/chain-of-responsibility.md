@@ -1,6 +1,6 @@
 # Chain of Responsibility
 
-Gamma et al. (1995), cap. 5, p. 223. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
 ## Intenção
 Dar a vários objetos a chance de tratar uma requisição, para que o remetente não precise saber qual deles vai tratá-la. Os receptores são encadeados, e a requisição percorre os elos até que um deles a aceite.

@@ -1,6 +1,6 @@
 # Substituir Código Internalizado por Chamada de Função (Replace Inline Code with Function Call)
 
-Fowler (2018), cap. 8, p. 222. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 - O código internalizado faz o mesmo trabalho de uma função que já existe na base de código ou na

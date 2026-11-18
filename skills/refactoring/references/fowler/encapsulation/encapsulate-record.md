@@ -1,6 +1,6 @@
 # Encapsular Registro (Encapsulate Record)
 
-Fowler (2018), cap. 7, p. 162. Nome anterior / outro nome: Replace Record with Data Class.
+Fowler (2018), cap. 7. Nome anterior / outro nome: Replace Record with Data Class.
 Inversa: —.
 
 ## Quando usar

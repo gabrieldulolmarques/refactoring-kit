@@ -1,6 +1,6 @@
 # Memento
 
-Gamma et al. (1995), cap. 5, p. 283. Também conhecido como: Token. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Também conhecido como: Token. Categoria: comportamental de objeto.
 
 ## Intenção
 Capturar o estado interno de um objeto em um objeto separado, sem quebrar o encapsulamento, para que o objeto possa voltar a esse estado depois.

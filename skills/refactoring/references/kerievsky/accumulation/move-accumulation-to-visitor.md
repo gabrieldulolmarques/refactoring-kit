@@ -1,6 +1,6 @@
 # Mover Acumulação para Visitor (Move Accumulation to Visitor)
 
-Kerievsky (2004), cap. 10, p. 320. Padrão: Visitor. Direção: até, rumo a (Visitor); longe (Iterator).
+Kerievsky (2004), cap. 10. Padrão: Visitor. Direção: até, rumo a (Visitor); longe (Iterator).
 
 ## Quando usar
 Smells: Método Longo (Long Method), Instruções Switch (Switch Statements).

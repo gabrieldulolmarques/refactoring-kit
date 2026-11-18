@@ -1,6 +1,6 @@
 # Composite
 
-Gamma et al. (1995), cap. 4, p. 163. Categoria: estrutural de objeto.
+Gamma et al. (1995), cap. 4. Categoria: estrutural de objeto.
 
 ## Intenção
 Organizar objetos em uma árvore de partes e todos, em que um item isolado e um grupo de itens são usados pela mesma interface.

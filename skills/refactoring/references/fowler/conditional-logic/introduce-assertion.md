@@ -1,6 +1,6 @@
 # Introduzir Asserção (Introduce Assertion)
 
-Fowler (2018), cap. 10, p. 302. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 10. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: Comentários (Comments). Um comentário que diz "isto deve ser positivo" ou "x nunca é nulo aqui" é

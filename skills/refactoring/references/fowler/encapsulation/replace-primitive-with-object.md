@@ -1,6 +1,6 @@
 # Substituir Primitivo por Objeto (Replace Primitive with Object)
 
-Fowler (2018), cap. 7, p. 174. Nome anterior / outro nome: Replace Data Value with Object, Replace Type Code with Class. Inversa: —.
+Fowler (2018), cap. 7. Nome anterior / outro nome: Replace Data Value with Object, Replace Type Code with Class. Inversa: —.
 
 ## Quando usar
 Smell: Obsessão por Primitivos (Primitive Obsession). Um simples `string` ou `int` representa um conceito de domínio, e a lógica sobre ele (validação, formatação, comparação, extração de partes) começa a aparecer ou está duplicada pela base de código. Encapsular o valor dá a essa lógica um lugar só dela.

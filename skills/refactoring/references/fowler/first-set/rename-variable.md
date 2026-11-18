@@ -1,6 +1,6 @@
 # Renomear Variável (Rename Variable)
 
-Fowler (2018), cap. 6, p. 137. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 6. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: Nome Misterioso (Mysterious Name). Quanto maior o alcance de um nome, mais ele importa:

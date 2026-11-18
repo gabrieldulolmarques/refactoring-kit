@@ -1,6 +1,6 @@
 # Extrair Função (Extract Function)
 
-Fowler (2018), cap. 6, p. 106. Nome anterior / outro nome: Extract Method. Inversa: Internalizar Função (Inline Function)
+Fowler (2018), cap. 6. Nome anterior / outro nome: Extract Method. Inversa: Internalizar Função (Inline Function)
 ([inline-function.md](inline-function.md)).
 
 ## Quando usar

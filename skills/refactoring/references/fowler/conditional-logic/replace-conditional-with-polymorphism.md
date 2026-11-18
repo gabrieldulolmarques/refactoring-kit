@@ -1,6 +1,6 @@
 # Substituir Condicional por Polimorfismo (Replace Conditional with Polymorphism)
 
-Fowler (2018), cap. 10, p. 272. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 10. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Switches Repetidos (Repeated Switches), Obsessão por Primitivos (Primitive Obsession), Função Longa (Long Function).

@@ -1,6 +1,6 @@
 # Separar Consulta de Modificador (Separate Query from Modifier)
 
-Fowler (2018), cap. 11, p. 306. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 11. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: Dados Mutáveis (Mutable Data). Uma função que retorna um valor e também tem efeitos colaterais observáveis

@@ -1,6 +1,6 @@
 # Unificar Interfaces com Adapter (Unify Interfaces with Adapter)
 
-Kerievsky (2004), cap. 8, p. 247. Padrão: Adapter. Direção: até, rumo a.
+Kerievsky (2004), cap. 8. Padrão: Adapter. Direção: até, rumo a.
 
 ## Quando usar
 Smells: Classes Alternativas com Interfaces Diferentes (Alternative Classes with Different Interfaces), Solução Destoante (Oddball Solution), Código Duplicado (Duplicated Code).

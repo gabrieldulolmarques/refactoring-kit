@@ -1,6 +1,6 @@
 # Substituir Código de Tipo por Classe (Replace Type Code with Class)
 
-Kerievsky (2004), cap. 9, p. 286. Padrão: —. Direção: —.
+Kerievsky (2004), cap. 9. Padrão: —. Direção: —.
 
 ## Quando usar
 Smells: Obsessão por Primitivos (Primitive Obsession).

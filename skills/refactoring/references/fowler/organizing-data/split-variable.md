@@ -1,6 +1,6 @@
 # Dividir Variável (Split Variable)
 
-Fowler (2018), cap. 9, p. 240. Nome anterior / outro nome: Remove Assignments to Parameters, Split Temp. Inversa: —.
+Fowler (2018), cap. 9. Nome anterior / outro nome: Remove Assignments to Parameters, Split Temp. Inversa: —.
 
 ## Quando usar
 Smell: Dados Mutáveis (Mutable Data).

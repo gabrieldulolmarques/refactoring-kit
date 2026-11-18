@@ -1,6 +1,6 @@
 # Introduzir Objeto de Parâmetros (Introduce Parameter Object)
 
-Fowler (2018), cap. 6, p. 140. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 6. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Agrupamentos de Dados (Data Clumps), Lista Longa de Parâmetros (Long Parameter List), Função Longa (Long Function), Obsessão por Primitivos (Primitive Obsession).

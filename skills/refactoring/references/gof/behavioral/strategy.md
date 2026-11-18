@@ -1,6 +1,6 @@
 # Strategy
 
-Gamma et al. (1995), cap. 5, p. 315. Também conhecido como: Policy. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Também conhecido como: Policy. Categoria: comportamental de objeto.
 
 ## Intenção
 Colocar cada algoritmo de uma família em seu próprio objeto, atrás de uma interface comum, para que o código que usa o algoritmo possa alternar entre eles e o algoritmo possa mudar sem tocar nesse código.

@@ -1,6 +1,6 @@
 # Introduzir Caso Especial (Introduce Special Case)
 
-Fowler (2018), cap. 10, p. 289. Nome anterior / outro nome: Introduce Null Object. Inversa: —.
+Fowler (2018), cap. 10. Nome anterior / outro nome: Introduce Null Object. Inversa: —.
 
 ## Quando usar
 Smells: Campo Temporário (Temporary Field).

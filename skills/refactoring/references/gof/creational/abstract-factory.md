@@ -1,6 +1,6 @@
 # Abstract Factory
 
-Gamma et al. (1995), cap. 3, p. 87. Também conhecido como: Kit. Categoria: criacional de objeto.
+Gamma et al. (1995), cap. 3. Também conhecido como: Kit. Categoria: criacional de objeto.
 
 ## Intenção
 Oferecer uma interface para criar uma família inteira de objetos relacionados, para que o código cliente nunca nomeie as classes concretas dessa família.

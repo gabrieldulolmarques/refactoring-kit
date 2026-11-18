@@ -1,6 +1,6 @@
 # Adapter
 
-Gamma et al. (1995), cap. 4, p. 139. Também conhecido como: Wrapper. Categoria: estrutural de classe e de objeto.
+Gamma et al. (1995), cap. 4. Também conhecido como: Wrapper. Categoria: estrutural de classe e de objeto.
 
 ## Intenção
 Tornar utilizável, pela interface que o cliente espera, uma classe cuja interface não corresponde a essa expectativa. O adaptador traduz as chamadas, e a classe existente permanece inalterada.

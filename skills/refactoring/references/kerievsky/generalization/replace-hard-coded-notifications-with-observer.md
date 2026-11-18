@@ -1,6 +1,6 @@
 # Substituir Notificações Fixas no Código por Observer (Replace Hard-Coded Notifications with Observer)
 
-Kerievsky (2004), cap. 8, p. 236. Padrão: Observer. Direção: até, rumo a.
+Kerievsky (2004), cap. 8. Padrão: Observer. Direção: até, rumo a.
 
 ## Quando usar
 Smells: —.

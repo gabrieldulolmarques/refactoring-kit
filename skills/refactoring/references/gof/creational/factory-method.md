@@ -1,6 +1,6 @@
 # Factory Method
 
-Gamma et al. (1995), cap. 3, p. 107. Também conhecido como: Virtual Constructor. Categoria: criacional de classe.
+Gamma et al. (1995), cap. 3. Também conhecido como: Virtual Constructor. Categoria: criacional de classe.
 
 ## Intenção
 Dar a uma classe um método sobrescrevível que cria o seu produto, para que cada subclasse escolha a classe concreta e a classe base nunca a nomeie.

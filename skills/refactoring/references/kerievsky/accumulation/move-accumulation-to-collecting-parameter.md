@@ -1,6 +1,6 @@
 # Mover Acumulação para Collecting Parameter (Move Accumulation to Collecting Parameter)
 
-Kerievsky (2004), cap. 10, p. 313. Padrão: Collecting Parameter. Direção: até.
+Kerievsky (2004), cap. 10. Padrão: Collecting Parameter. Direção: até.
 
 ## Quando usar
 Smells: Método Longo (Long Method).

@@ -1,6 +1,6 @@
 # Substituir Superclasse por Delegação (Replace Superclass with Delegate)
 
-Fowler (2018), cap. 12, p. 399. Nome anterior / outro nome: Replace Inheritance with Delegation. Inversa: —.
+Fowler (2018), cap. 12. Nome anterior / outro nome: Replace Inheritance with Delegation. Inversa: —.
 
 ## Quando usar
 

@@ -1,6 +1,6 @@
 # Singleton
 
-Gamma et al. (1995), cap. 3, p. 127. Categoria: criacional de objeto.
+Gamma et al. (1995), cap. 3. Categoria: criacional de objeto.
 
 ## Intenção
 Garantir que uma classe tenha exatamente uma instância e oferecer um único ponto de acesso bem conhecido a ela.

@@ -1,6 +1,6 @@
 # Substituir Despachante Condicional por Command (Replace Conditional Dispatcher with Command)
 
-Kerievsky (2004), cap. 7, p. 191. Padrão: Command. Direção: até, rumo a.
+Kerievsky (2004), cap. 7. Padrão: Command. Direção: até, rumo a.
 
 ## Quando usar
 Smells: Instruções Switch (Switch Statements), Classe Grande (Large Class), Método Longo (Long Method).

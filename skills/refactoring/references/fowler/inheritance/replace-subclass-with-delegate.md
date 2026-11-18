@@ -1,6 +1,6 @@
 # Substituir Subclasse por Delegação (Replace Subclass with Delegate)
 
-Fowler (2018), cap. 12, p. 381. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 12. Nome anterior / outro nome: —. Inversa: —.
 Remover Subclasse (Remove Subclass) e Colapsar Hierarquia (Collapse Hierarchy) vão no sentido oposto para casos simples.
 
 ## Quando usar

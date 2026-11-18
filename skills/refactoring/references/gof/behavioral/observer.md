@@ -1,6 +1,6 @@
 # Observer
 
-Gamma et al. (1995), cap. 5, p. 293. Também conhecido como: Dependents, Publish-Subscribe. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Também conhecido como: Dependents, Publish-Subscribe. Categoria: comportamental de objeto.
 
 ## Intenção
 Permitir que um objeto (o sujeito) anuncie suas mudanças a qualquer número de dependentes (os observadores), sem conhecer quem são eles nem o que fazem com a notícia.

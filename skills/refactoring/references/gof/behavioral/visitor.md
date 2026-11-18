@@ -1,6 +1,6 @@
 # Visitor
 
-Gamma et al. (1995), cap. 5, p. 331. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
 ## Intenção
 Empacotar uma operação sobre os elementos de uma estrutura de objetos em um objeto separado, para que novas operações possam ser adicionadas sem mudar as classes dos elementos.

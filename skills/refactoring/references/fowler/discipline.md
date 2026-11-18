@@ -1,16 +1,16 @@
 # Disciplina de refatoração
 
-Fowler (2018), cap. 2, pp. 45-70, e cap. 4, pp. 85-100. Parafraseado.
+Fowler (2018), cap. 2, e cap. 4. Parafraseado.
 
 ## O que conta como refatoração
 
-Uma mudança na estrutura interna que torna o código mais fácil de entender e mais barato de alterar **sem mudar o comportamento observável** (cap. 2, p. 45). É uma cadeia de passos pequenos, cada um deixando o código funcionando. Se o código fica quebrado por dias, não é refatoração. Nada que importe a um usuário pode mudar; um bug que você encontra continua sendo um bug até você terminar e corrigi-lo separadamente.
+Uma mudança na estrutura interna que torna o código mais fácil de entender e mais barato de alterar **sem mudar o comportamento observável** (cap. 2). É uma cadeia de passos pequenos, cada um deixando o código funcionando. Se o código fica quebrado por dias, não é refatoração. Nada que importe a um usuário pode mudar; um bug que você encontra continua sendo um bug até você terminar e corrigi-lo separadamente.
 
 Ajuste de desempenho é diferente: aceita código mais difícil de ler em troca de velocidade. A refatoração pode acelerar ou desacelerar, porque o seu objetivo é a clareza.
 
 ## Dois chapéus
 
-Use um de cada vez (cap. 2, p. 46):
+Use um de cada vez (cap. 2):
 
 - **Chapéu de funcionalidade:** adicione comportamento e testes; não reestruture.
 - **Chapéu de refatoração:** reestruture; não adicione comportamento nem testes (exceto para um caso que você deixou passar). Altere testes só quando uma interface mudou.
@@ -19,7 +19,7 @@ Troque com frequência, mas saiba qual deles você está usando.
 
 ## Quando refatorar
 
-Principalmente de forma oportunista, como parte de outro trabalho (cap. 2, pp. 50-53):
+Principalmente de forma oportunista, como parte de outro trabalho (cap. 2):
 
 - **Regra dos três:** tolere a duplicação duas vezes, refatore na terceira.
 - **Preparatória:** logo antes de adicionar uma funcionalidade ou corrigir um bug, remodele o código para que a mudança fique fácil.
@@ -32,7 +32,7 @@ Principalmente de forma oportunista, como parte de outro trabalho (cap. 2, pp. 5
 1. **Base verde.** Execute os testes. Não comece nem continue enquanto algum teste falhar. Se uma falha aparecer no meio do caminho, volte à última versão que passava.
 2. **Um passo pequeno** da mecânica da refatoração.
 3. **Compile e execute os testes.**
-4. **Faça commit** após cada refatoração concluída e verde. Faça commits com mais frequência se um passo for arriscado. Manter commits de refatoração separados dos de funcionalidade é a opção padrão, não uma lei: o livro (p. 53) deixa isso a critério da equipe. Essa opção tem uma vantagem prática, já que cada commit de refatoração vira um ponto seguro para reverter.
+4. **Faça commit** após cada refatoração concluída e verde. Faça commits com mais frequência se um passo for arriscado. Manter commits de refatoração separados dos de funcionalidade é a opção padrão, não uma lei: o livro deixa isso a critério da equipe. Essa opção tem uma vantagem prática, já que cada commit de refatoração vira um ponto seguro para reverter.
 5. **Repita** com o próximo smell.
 
 Passos pequenos parecem mais lentos, mas são mais rápidos no total: você quase nunca depura, porque a última mudança é a única suspeita.
@@ -53,9 +53,9 @@ A refatoração precisa de testes autoverificáveis: eles rodam sozinhos e infor
 ## Quando não refatorar
 
 - Código que você não precisa alterar: código feio, mas estável, pode ficar como está.
-- Código mais fácil de reescrever do que de remodelar: recomece em vez de uma longa cadeia de passos (cap. 2, p. 55).
+- Código mais fácil de reescrever do que de remodelar: recomece em vez de uma longa cadeia de passos (cap. 2).
 
-Uma interface publicada (usada por código que você não pode editar, como um pacote ou outras equipes) não é motivo para deixar de refatorar, mas alterá-la exige uma transição: mantenha a antiga repassando para a nova por um tempo (cap. 2, p. 57).
+Uma interface publicada (usada por código que você não pode editar, como um pacote ou outras equipes) não é motivo para deixar de refatorar, mas alterá-la exige uma transição: mantenha a antiga repassando para a nova por um tempo (cap. 2).
 
 ## Além do livro: código legado sem testes
 

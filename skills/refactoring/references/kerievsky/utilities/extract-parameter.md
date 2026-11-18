@@ -1,6 +1,6 @@
 # Extrair Parâmetro (Extract Parameter)
 
-Kerievsky (2004), cap. 11, p. 346. Padrão: —. Direção: —.
+Kerievsky (2004), cap. 11. Padrão: —. Direção: —.
 
 ## Quando usar
 Smells: — (um passo de baixo nível; o livro precisou dele logo depois de transformar herança em delegação).

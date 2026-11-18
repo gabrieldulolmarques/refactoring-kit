@@ -1,6 +1,6 @@
 # Compor Método (Compose Method)
 
-Kerievsky (2004), cap. 7, p. 123. Padrão: Composed Method. Direção: até.
+Kerievsky (2004), cap. 7. Padrão: Composed Method. Direção: até.
 
 ## Quando usar
 Smells: Método Longo (Long Method).

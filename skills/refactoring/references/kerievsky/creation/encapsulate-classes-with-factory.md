@@ -1,6 +1,6 @@
 # Encapsular Classes com Factory (Encapsulate Classes with Factory)
 
-Kerievsky (2004), cap. 6, p. 80. Padrão: Factory. Direção: até.
+Kerievsky (2004), cap. 6. Padrão: Factory. Direção: até.
 
 ## Quando usar
 Smells: Exposição Indecente (Indecent Exposure).

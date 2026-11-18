@@ -1,6 +1,6 @@
 # Remover Código Morto (Remove Dead Code)
 
-Fowler (2018), cap. 8, p. 237. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Generalidade Especulativa (Speculative Generality).

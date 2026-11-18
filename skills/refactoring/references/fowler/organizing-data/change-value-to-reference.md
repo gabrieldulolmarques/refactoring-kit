@@ -1,6 +1,6 @@
 # Mudar Valor para Referência (Change Value to Reference)
 
-Fowler (2018), cap. 9, p. 256. Nome anterior / outro nome: —. Inversa: Mudar Referência para Valor (Change Reference to Value)
+Fowler (2018), cap. 9. Nome anterior / outro nome: —. Inversa: Mudar Referência para Valor (Change Reference to Value)
 ([change-reference-to-value.md](change-reference-to-value.md)).
 
 ## Quando usar

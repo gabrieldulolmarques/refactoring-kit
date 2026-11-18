@@ -1,6 +1,6 @@
 # Mover Instruções para os Chamadores (Move Statements to Callers)
 
-Fowler (2018), cap. 8, p. 217. Nome anterior / outro nome: —. Inversa: Mover Instruções para Função (Move Statements into Function) ([move-statements-into-function.md](move-statements-into-function.md)).
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: Mover Instruções para Função (Move Statements into Function) ([move-statements-into-function.md](move-statements-into-function.md)).
 
 ## Quando usar
 - Uma função que era uma unidade coesa agora agrupa duas coisas diferentes, e a fronteira da abstração está no lugar errado.

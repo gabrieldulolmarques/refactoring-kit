@@ -1,6 +1,6 @@
 # Mover Conhecimento de Criação para Factory (Move Creation Knowledge to Factory)
 
-Kerievsky (2004), cap. 6, p. 68. Padrão: Factory. Direção: até.
+Kerievsky (2004), cap. 6. Padrão: Factory. Direção: até.
 
 ## Quando usar
 Smells: Solução Espalhada (Solution Sprawl).

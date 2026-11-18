@@ -1,6 +1,6 @@
 # Limitar Instanciação com Singleton (Limit Instantiation with Singleton)
 
-Kerievsky (2004), cap. 9, p. 296. Padrão: Singleton. Direção: até.
+Kerievsky (2004), cap. 9. Padrão: Singleton. Direção: até.
 
 ## Quando usar
 Smells: —. O motivo do livro é o desempenho, não um smell.

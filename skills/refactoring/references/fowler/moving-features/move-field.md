@@ -1,6 +1,6 @@
 # Mover Campo (Move Field)
 
-Fowler (2018), cap. 8, p. 207. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Cirurgia com Espingarda (Shotgun Surgery), Troca de Informações Privilegiadas (Insider Trading).

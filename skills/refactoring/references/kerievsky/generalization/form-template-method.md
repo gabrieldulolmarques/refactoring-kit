@@ -1,6 +1,6 @@
 # Formar Template Method (Form Template Method)
 
-Kerievsky (2004), cap. 8, p. 205. Padrão: Template Method. Direção: até.
+Kerievsky (2004), cap. 8. Padrão: Template Method. Direção: até.
 
 ## Quando usar
 Smells: Código Duplicado (Duplicated Code).

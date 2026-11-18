@@ -1,6 +1,6 @@
 # Substituir Função por Comando (Replace Function with Command)
 
-Fowler (2018), cap. 11, p. 337. Nome anterior / outro nome: Replace Method with Method Object. Inversa:
+Fowler (2018), cap. 11. Nome anterior / outro nome: Replace Method with Method Object. Inversa:
 Substituir Comando por Função (Replace Command with Function) ([replace-command-with-function.md](replace-command-with-function.md)).
 
 ## Quando usar

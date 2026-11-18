@@ -1,6 +1,6 @@
 # Template Method
 
-Gamma et al. (1995), cap. 5, p. 325. Categoria: comportamental de classe.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de classe.
 
 ## Intenção
 Escrever o esqueleto de um algoritmo uma única vez em uma classe base e deixar algumas etapas para as subclasses. As subclasses preenchem as etapas sem poder mudar a ordem nem a estrutura do todo.

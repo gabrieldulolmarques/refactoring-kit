@@ -1,6 +1,6 @@
 # Substituir Variável Temporária por Consulta (Replace Temp with Query)
 
-Fowler (2018), cap. 7, p. 178. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 7. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Função Longa (Long Function).

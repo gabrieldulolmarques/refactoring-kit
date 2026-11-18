@@ -1,6 +1,6 @@
 # Dividir Laço (Split Loop)
 
-Fowler (2018), cap. 8, p. 227. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Função Longa (Long Function).

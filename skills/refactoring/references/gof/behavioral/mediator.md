@@ -1,6 +1,6 @@
 # Mediator
 
-Gamma et al. (1995), cap. 5, p. 273. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
 ## Intenção
 Colocar as regras de interação de um grupo de objetos em um único objeto, para que os membros do grupo não se refiram uns aos outros. A interação pode então mudar sem tocar nos membros.

@@ -1,6 +1,6 @@
 # Mudar Declaração de Função (Change Function Declaration)
 
-Fowler (2018), cap. 6, p. 124. Nome anterior / outro nome: Rename Function, Change Signature; antes Rename Method, Add Parameter, Remove Parameter. Inversa: —.
+Fowler (2018), cap. 6. Nome anterior / outro nome: Rename Function, Change Signature; antes Rename Method, Add Parameter, Remove Parameter. Inversa: —.
 
 ## Quando usar
 Smells: Nome Misterioso (Mysterious Name), Classes Alternativas com Interfaces Diferentes (Alternative Classes with Different Interfaces), Generalidade Especulativa (Speculative Generality) (parâmetros não usados), Comentários (Comments) (um comentário que explica a função costuma ser um nome melhor).

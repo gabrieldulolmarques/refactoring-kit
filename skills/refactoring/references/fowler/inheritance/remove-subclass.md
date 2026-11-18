@@ -1,6 +1,6 @@
 # Remover Subclasse (Remove Subclass)
 
-Fowler (2018), cap. 12, p. 369. Nome anterior / outro nome: Replace Subclass with Fields.
+Fowler (2018), cap. 12. Nome anterior / outro nome: Replace Subclass with Fields.
 Inversa: Substituir Código de Tipo por Subclasses (Replace Type Code with Subclasses) ([replace-type-code-with-subclasses.md](replace-type-code-with-subclasses.md)).
 
 ## Quando usar

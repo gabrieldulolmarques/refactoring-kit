@@ -1,6 +1,6 @@
 # Renomear Campo (Rename Field)
 
-Fowler (2018), cap. 9, p. 244. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 9. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: Nome Misterioso (Mysterious Name). Estruturas de dados carregam a maior parte do significado de um programa, então os nomes dos seus campos

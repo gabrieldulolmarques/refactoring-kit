@@ -1,6 +1,6 @@
 # Encapsular Variável (Encapsulate Variable)
 
-Fowler (2018), cap. 6, p. 132. Nome anterior / outro nome: Encapsulate Field, Self-Encapsulate Field. Inversa: —.
+Fowler (2018), cap. 6. Nome anterior / outro nome: Encapsulate Field, Self-Encapsulate Field. Inversa: —.
 
 ## Quando usar
 Smells: Dados Globais (Global Data), Dados Mutáveis (Mutable Data).

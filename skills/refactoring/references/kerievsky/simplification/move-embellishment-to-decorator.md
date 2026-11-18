@@ -1,6 +1,6 @@
 # Mover Embelezamento para Decorator (Move Embellishment to Decorator)
 
-Kerievsky (2004), cap. 7, p. 144. Padrão: Decorator. Direção: até, rumo a.
+Kerievsky (2004), cap. 7. Padrão: Decorator. Direção: até, rumo a.
 
 ## Quando usar
 Smells: Complexidade Condicional (Conditional Complexity), Obsessão por Primitivos (Primitive Obsession).

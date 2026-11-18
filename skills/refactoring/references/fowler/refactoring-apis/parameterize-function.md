@@ -1,6 +1,6 @@
 # Parametrizar Função (Parameterize Function)
 
-Fowler (2018), cap. 11, p. 310. Nome anterior / outro nome: Parameterize Method. Inversa: —.
+Fowler (2018), cap. 11. Nome anterior / outro nome: Parameterize Method. Inversa: —.
 
 ## Quando usar
 Duas ou mais funções têm a mesma forma e diferem apenas em valores literais. Fundi-las em uma única função com parâmetros remove a duplicação, e

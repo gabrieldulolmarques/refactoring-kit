@@ -1,6 +1,6 @@
 # Encapsular Coleção (Encapsulate Collection)
 
-Fowler (2018), cap. 7, p. 170. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 7. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: nenhum específico no livro (relacionado: Dados Mutáveis (Mutable Data)). A motivação é encapsular

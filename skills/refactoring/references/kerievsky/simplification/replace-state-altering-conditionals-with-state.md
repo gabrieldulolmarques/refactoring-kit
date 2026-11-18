@@ -1,6 +1,6 @@
 # Substituir Condicionais que Alteram Estado por State (Replace State-Altering Conditionals with State)
 
-Kerievsky (2004), cap. 7, p. 166. Padrão: State. Direção: até, rumo a.
+Kerievsky (2004), cap. 7. Padrão: State. Direção: até, rumo a.
 
 ## Quando usar
 Smells: Complexidade Condicional (Conditional Complexity), Classe Grande (Large Class), Obsessão por Primitivos (Primitive Obsession).

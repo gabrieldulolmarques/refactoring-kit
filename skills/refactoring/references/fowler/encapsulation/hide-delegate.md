@@ -1,6 +1,6 @@
 # Ocultar Delegação (Hide Delegate)
 
-Fowler (2018), cap. 7, p. 189. Nome anterior / outro nome: —. Inversa: Remover Intermediário (Remove Middle Man)
+Fowler (2018), cap. 7. Nome anterior / outro nome: —. Inversa: Remover Intermediário (Remove Middle Man)
 ([remove-middle-man.md](remove-middle-man.md)).
 
 ## Quando usar

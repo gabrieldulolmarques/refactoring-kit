@@ -1,6 +1,6 @@
 # Substituir Distinções Um/Muitos por Composite (Replace One/Many Distinctions with Composite)
 
-Kerievsky (2004), cap. 8, p. 224. Padrão: Composite. Direção: até.
+Kerievsky (2004), cap. 8. Padrão: Composite. Direção: até.
 
 ## Quando usar
 Smells: Código Duplicado (Duplicated Code).

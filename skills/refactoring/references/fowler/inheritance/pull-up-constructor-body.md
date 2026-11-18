@@ -1,6 +1,6 @@
 # Subir Corpo do Construtor (Pull Up Constructor Body)
 
-Fowler (2018), cap. 12, p. 355. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 12. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: nenhum específico no livro (relacionado: Código Duplicado (Duplicated Code)). Duas ou mais subclasses atribuem os mesmos campos, ou

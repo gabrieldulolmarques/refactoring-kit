@@ -1,6 +1,6 @@
 # Proxy
 
-Gamma et al. (1995), cap. 4, p. 207. Também conhecido como: Surrogate. Categoria: estrutural de objeto.
+Gamma et al. (1995), cap. 4. Também conhecido como: Surrogate. Categoria: estrutural de objeto.
 
 ## Intenção
 Colocar na frente de outro objeto um substituto com a mesma interface, para controlar o acesso a ele: adiar sua criação, verificar permissões, alcançá-lo através de uma fronteira ou fazer contabilidade a cada uso.

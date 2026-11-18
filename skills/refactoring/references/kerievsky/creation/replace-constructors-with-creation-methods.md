@@ -1,6 +1,6 @@
 # Substituir Construtores por Métodos de Criação (Replace Constructors with Creation Methods)
 
-Kerievsky (2004), cap. 6, p. 57. Padrão: Creation Method. Direção: até.
+Kerievsky (2004), cap. 6. Padrão: Creation Method. Direção: até.
 
 ## Quando usar
 Smells: Código Duplicado (Duplicated Code), Obsessão por Primitivos (Primitive Obsession).

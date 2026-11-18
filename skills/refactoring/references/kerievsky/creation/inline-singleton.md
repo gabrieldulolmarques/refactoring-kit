@@ -1,6 +1,6 @@
 # Internalizar Singleton (Inline Singleton)
 
-Kerievsky (2004), cap. 6, p. 114. Padrão: Singleton. Direção: longe.
+Kerievsky (2004), cap. 6. Padrão: Singleton. Direção: longe.
 
 ## Quando usar
 Smells: Classe Preguiçosa (Lazy Class).

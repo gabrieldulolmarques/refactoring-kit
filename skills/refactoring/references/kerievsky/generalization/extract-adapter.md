@@ -1,6 +1,6 @@
 # Extrair Adapter (Extract Adapter)
 
-Kerievsky (2004), cap. 8, p. 258. Padrão: Adapter. Direção: até.
+Kerievsky (2004), cap. 8. Padrão: Adapter. Direção: até.
 
 ## Quando usar
 Smells: Solução Espalhada (Solution Sprawl).

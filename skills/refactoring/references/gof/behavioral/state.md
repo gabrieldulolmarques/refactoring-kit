@@ -1,6 +1,6 @@
 # State
 
-Gamma et al. (1995), cap. 5, p. 305. Também conhecido como: Objects for States. Categoria: comportamental de objeto.
+Gamma et al. (1995), cap. 5. Também conhecido como: Objects for States. Categoria: comportamental de objeto.
 
 ## Intenção
 Permitir que um objeto mude seu comportamento quando seu estado interno muda, delegando a um objeto separado por estado. Para quem chama, o objeto parece mudar de classe.

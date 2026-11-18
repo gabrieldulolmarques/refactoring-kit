@@ -1,6 +1,6 @@
 # Substituir Árvore Implícita por Composite (Replace Implicit Tree with Composite)
 
-Kerievsky (2004), cap. 7, p. 178. Padrão: Composite. Direção: até.
+Kerievsky (2004), cap. 7. Padrão: Composite. Direção: até.
 
 ## Quando usar
 Smells: Obsessão por Primitivos (Primitive Obsession).

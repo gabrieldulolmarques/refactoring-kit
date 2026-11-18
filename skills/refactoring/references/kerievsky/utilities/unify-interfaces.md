@@ -1,6 +1,6 @@
 # Unificar Interfaces (Unify Interfaces)
 
-Kerievsky (2004), cap. 11, p. 343. Padrão: —. Direção: —.
+Kerievsky (2004), cap. 11. Padrão: —. Direção: —.
 
 ## Quando usar
 Smells: Código Duplicado (Duplicated Code) (a contracapa interna do livro lista Unificar Interfaces com Adapter (Unify Interfaces with Adapter) ali; este utilitário é o passo de baixo nível em que ela se apoia).

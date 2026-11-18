@@ -1,6 +1,6 @@
 # Substituir Laço por Pipeline (Replace Loop with Pipeline)
 
-Fowler (2018), cap. 8, p. 231. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: Laços (Loops). Um laço que seleciona alguns itens, os converte e reúne os resultados

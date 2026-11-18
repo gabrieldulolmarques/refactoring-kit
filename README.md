@@ -70,7 +70,7 @@ pacote **e** aos livros em que ele se baseia:
 > Reusable Object-Oriented Software*. Reading: Addison-Wesley, 1995. ISBN 978-0-201-63361-0.
 
 A licença cobre apenas o conteúdo próprio deste pacote, não os livros (veja [NOTICE](NOTICE)).
-A motivação e a mecânica na skill são parafraseadas, com capítulo e página citados;
+A motivação e a mecânica na skill são parafraseadas, com o capítulo citado;
 nada é copiado dos livros, de refactoring.com nem de industriallogic.com. Os nomes das refatorações, os nomes
 antigos e as inversas vêm dos cabeçalhos de seção do livro e da edição web do livro para as cinco
 refatorações só da web. Os exemplos em C# são originais.

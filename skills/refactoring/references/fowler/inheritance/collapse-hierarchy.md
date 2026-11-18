@@ -1,6 +1,6 @@
 # Colapsar Hierarquia (Collapse Hierarchy)
 
-Fowler (2018), cap. 12, p. 380. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 12. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smells: Elemento Ocioso (Lazy Element), Generalidade Especulativa (Speculative Generality).

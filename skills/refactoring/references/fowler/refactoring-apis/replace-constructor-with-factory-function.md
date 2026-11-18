@@ -1,6 +1,6 @@
 # Substituir Construtor por Função de Fábrica (Replace Constructor with Factory Function)
 
-Fowler (2018), cap. 11, p. 334. Nome anterior / outro nome: Replace Constructor with Factory Method. Inversa: —.
+Fowler (2018), cap. 11. Nome anterior / outro nome: Replace Constructor with Factory Method. Inversa: —.
 
 ## Quando usar
 - Construtores têm limites: não podem ser renomeados a cada uso, então `new Account(id, 'S')` diz pouco sobre o que é criado. Uma fábrica nomeada (`Account.CreateSavings(id)`) diz.

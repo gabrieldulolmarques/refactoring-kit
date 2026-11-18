@@ -1,6 +1,6 @@
 # Substituir Variável Derivada por Consulta (Replace Derived Variable with Query)
 
-Fowler (2018), cap. 9, p. 248. Nome anterior / outro nome: —. Inversa: —.
+Fowler (2018), cap. 9. Nome anterior / outro nome: —. Inversa: —.
 
 ## Quando usar
 Smell: Dados Mutáveis (Mutable Data). Uma variável guarda um valor totalmente determinado por outros dados

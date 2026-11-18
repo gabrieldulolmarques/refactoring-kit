@@ -1,6 +1,6 @@
 # Substituir Comando por Função (Replace Command with Function)
 
-Fowler (2018), cap. 11, p. 344. Nome anterior / outro nome: —. Inversa: Substituir Função por Comando (Replace Function with Command)
+Fowler (2018), cap. 11. Nome anterior / outro nome: —. Inversa: Substituir Função por Comando (Replace Function with Command)
 ([replace-function-with-command.md](replace-function-with-command.md)).
 
 ## Quando usar

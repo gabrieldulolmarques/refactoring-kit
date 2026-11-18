@@ -1,6 +1,6 @@
 # Remover Intermediário (Remove Middle Man)
 
-Fowler (2018), cap. 7, p. 192. Nome anterior / outro nome: —. Inversa: Ocultar Delegação (Hide Delegate) ([hide-delegate.md](hide-delegate.md)).
+Fowler (2018), cap. 7. Nome anterior / outro nome: —. Inversa: Ocultar Delegação (Hide Delegate) ([hide-delegate.md](hide-delegate.md)).
 
 ## Quando usar
 Smell: Intermediário (Middle Man). Uma classe oculta um delegado atrás de métodos de encaminhamento e, com o tempo, a maioria

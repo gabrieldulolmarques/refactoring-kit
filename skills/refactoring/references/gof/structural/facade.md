@@ -1,6 +1,6 @@
 # Facade
 
-Gamma et al. (1995), cap. 4, p. 185. Categoria: estrutural de objeto.
+Gamma et al. (1995), cap. 4. Categoria: estrutural de objeto.
 
 ## Intenção
 Dar a um conjunto de classes de um subsistema um único ponto de entrada simples, para que a maioria dos clientes não precise saber como as partes se encaixam.

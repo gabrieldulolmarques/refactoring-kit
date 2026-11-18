@@ -1,6 +1,6 @@
 # Bridge
 
-Gamma et al. (1995), cap. 4, p. 151. Também conhecido como: Handle/Body. Categoria: estrutural de objeto.
+Gamma et al. (1995), cap. 4. Também conhecido como: Handle/Body. Categoria: estrutural de objeto.
 
 ## Intenção
 Separar uma abstração da sua implementação em duas hierarquias ligadas por uma referência, para que cada uma possa ser estendida por conta própria.

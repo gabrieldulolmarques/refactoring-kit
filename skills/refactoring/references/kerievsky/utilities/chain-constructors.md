@@ -1,6 +1,6 @@
 # Encadear Construtores (Chain Constructors)
 
-Kerievsky (2004), cap. 11, p. 340. Padrão: —. Direção: —.
+Kerievsky (2004), cap. 11. Padrão: —. Direção: —.
 
 ## Quando usar
 Smells: Código Duplicado (Duplicated Code).

@@ -1,6 +1,6 @@
 # Interpreter
 
-Gamma et al. (1995), cap. 5, p. 243. Categoria: comportamental de classe.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de classe.
 
 ## Intenção
 Para uma linguagem pequena, representar sua gramática como um conjunto de classes e escrever um interpretador que avalia sentenças da linguagem, mantidas como árvores dessas classes.
