@@ -1,6 +1,6 @@
 # Encapsulate Classes with Factory
 
-Kerievsky (2004), ch. 6, p. 80. Pattern: Factory. Direction: to.
+Kerievsky (2004), ch. 6. Pattern: Factory. Direction: to.
 
 ## When to use
 Smells: Indecent Exposure.

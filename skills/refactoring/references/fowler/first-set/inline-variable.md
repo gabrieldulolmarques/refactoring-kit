@@ -1,6 +1,6 @@
 # Inline Variable
 
-Fowler (2018), ch. 6, p. 123. Formerly / aka: Inline Temp. Inverse: Extract Variable
+Fowler (2018), ch. 6. Formerly / aka: Inline Temp. Inverse: Extract Variable
 ([extract-variable.md](extract-variable.md)).
 
 ## When to use

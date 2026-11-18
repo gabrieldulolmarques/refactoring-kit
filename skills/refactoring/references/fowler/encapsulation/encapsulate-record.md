@@ -1,6 +1,6 @@
 # Encapsulate Record
 
-Fowler (2018), ch. 7, p. 162. Formerly / aka: Replace Record with Data Class.
+Fowler (2018), ch. 7. Formerly / aka: Replace Record with Data Class.
 Inverse: —.
 
 ## When to use

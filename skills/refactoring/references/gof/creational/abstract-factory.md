@@ -1,6 +1,6 @@
 # Abstract Factory
 
-Gamma et al. (1995), ch. 3, p. 87. Also known as: Kit. Category: object creational.
+Gamma et al. (1995), ch. 3. Also known as: Kit. Category: object creational.
 
 ## Intent
 Offer one interface for creating a whole family of related objects, so client code never names the concrete classes of that family.

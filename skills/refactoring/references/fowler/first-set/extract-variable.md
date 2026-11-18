@@ -1,6 +1,6 @@
 # Extract Variable
 
-Fowler (2018), ch. 6, p. 119. Formerly / aka: Introduce Explaining Variable. Inverse: Inline
+Fowler (2018), ch. 6. Formerly / aka: Introduce Explaining Variable. Inverse: Inline
 Variable ([inline-variable.md](inline-variable.md)).
 
 ## When to use

@@ -1,6 +1,6 @@
 # Change Reference to Value
 
-Fowler (2018), ch. 9, p. 252. Formerly / aka: —. Inverse: Change Value to Reference
+Fowler (2018), ch. 9. Formerly / aka: —. Inverse: Change Value to Reference
 ([change-value-to-reference.md](change-value-to-reference.md)).
 
 ## When to use

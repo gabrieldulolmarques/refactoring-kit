@@ -1,6 +1,6 @@
 # Push Down Field
 
-Fowler (2018), ch. 12, p. 361. Formerly / aka: —. Inverse: Pull Up Field ([pull-up-field.md](pull-up-field.md)).
+Fowler (2018), ch. 12. Formerly / aka: —. Inverse: Pull Up Field ([pull-up-field.md](pull-up-field.md)).
 
 ## When to use
 Smell: Refused Bequest. A field sits in a superclass but only one subclass, or a small share of them, uses it. The other subclasses carry state they never touch, and a reader of the base class is misled about what every instance has.

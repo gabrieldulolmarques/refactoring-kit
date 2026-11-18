@@ -1,6 +1,6 @@
 # Limit Instantiation with Singleton
 
-Kerievsky (2004), ch. 9, p. 296. Pattern: Singleton. Direction: to.
+Kerievsky (2004), ch. 9. Pattern: Singleton. Direction: to.
 
 ## When to use
 Smells: —. The book's motive is performance, not a smell.

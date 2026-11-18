@@ -1,6 +1,6 @@
 # Compose Method
 
-Kerievsky (2004), ch. 7, p. 123. Pattern: Composed Method. Direction: to.
+Kerievsky (2004), ch. 7. Pattern: Composed Method. Direction: to.
 
 ## When to use
 Smells: Long Method.

@@ -1,6 +1,6 @@
 # Command
 
-Gamma et al. (1995), ch. 5, p. 233. Also known as: Action, Transaction. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Also known as: Action, Transaction. Category: object behavioral.
 
 ## Intent
 Turn a request into an object. That lets you pass requests around as values, parameterize callers with them, queue or log them, and undo them.

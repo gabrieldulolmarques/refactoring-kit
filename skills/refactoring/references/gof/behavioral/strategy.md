@@ -1,6 +1,6 @@
 # Strategy
 
-Gamma et al. (1995), ch. 5, p. 315. Also known as: Policy. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Also known as: Policy. Category: object behavioral.
 
 ## Intent
 Put each algorithm of a family in its own object behind a common interface, so the code that uses the algorithm can switch between them and the algorithm can change without touching that code.

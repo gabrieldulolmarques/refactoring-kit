@@ -1,6 +1,6 @@
 # Replace Type Code with Subclasses
 
-Fowler (2018), ch. 12, p. 362. Formerly / aka: subsumes Replace Type Code with State/Strategy and Extract Subclass. Inverse: Remove Subclass ([remove-subclass.md](remove-subclass.md)).
+Fowler (2018), ch. 12. Formerly / aka: subsumes Replace Type Code with State/Strategy and Extract Subclass. Inverse: Remove Subclass ([remove-subclass.md](remove-subclass.md)).
 
 ## When to use
 Smells: Primitive Obsession, Large Class.

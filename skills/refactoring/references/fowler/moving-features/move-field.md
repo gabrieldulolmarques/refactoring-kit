@@ -1,6 +1,6 @@
 # Move Field
 
-Fowler (2018), ch. 8, p. 207. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 8. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Shotgun Surgery, Insider Trading.

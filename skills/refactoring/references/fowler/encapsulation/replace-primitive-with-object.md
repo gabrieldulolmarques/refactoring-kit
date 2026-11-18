@@ -1,6 +1,6 @@
 # Replace Primitive with Object
 
-Fowler (2018), ch. 7, p. 174. Formerly / aka: Replace Data Value with Object, Replace Type Code with Class. Inverse: —.
+Fowler (2018), ch. 7. Formerly / aka: Replace Data Value with Object, Replace Type Code with Class. Inverse: —.
 
 ## When to use
 Smell: Primitive Obsession. A plain `string` or `int` stands for a domain concept, and logic about it (validation, formatting, comparison, extracting parts) is starting to appear, or is duplicated across the code base. Wrapping the value gives that logic one home.

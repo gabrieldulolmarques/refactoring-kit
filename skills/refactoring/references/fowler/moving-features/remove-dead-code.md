@@ -1,6 +1,6 @@
 # Remove Dead Code
 
-Fowler (2018), ch. 8, p. 237. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 8. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Speculative Generality.

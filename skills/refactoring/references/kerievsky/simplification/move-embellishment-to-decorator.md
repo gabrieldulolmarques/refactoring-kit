@@ -1,6 +1,6 @@
 # Move Embellishment to Decorator
 
-Kerievsky (2004), ch. 7, p. 144. Pattern: Decorator. Direction: to, towards.
+Kerievsky (2004), ch. 7. Pattern: Decorator. Direction: to, towards.
 
 ## When to use
 Smells: Conditional Complexity, Primitive Obsession.

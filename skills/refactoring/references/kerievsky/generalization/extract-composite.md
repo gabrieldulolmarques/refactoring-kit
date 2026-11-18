@@ -1,6 +1,6 @@
 # Extract Composite
 
-Kerievsky (2004), ch. 8, p. 214. Pattern: Composite. Direction: to.
+Kerievsky (2004), ch. 8. Pattern: Composite. Direction: to.
 
 ## When to use
 Smells: Duplicated Code.

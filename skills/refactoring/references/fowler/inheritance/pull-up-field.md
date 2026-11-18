@@ -1,6 +1,6 @@
 # Pull Up Field
 
-Fowler (2018), ch. 12, p. 353. Formerly / aka: —. Inverse: Push Down Field
+Fowler (2018), ch. 12. Formerly / aka: —. Inverse: Push Down Field
 ([push-down-field.md](push-down-field.md)).
 
 ## When to use

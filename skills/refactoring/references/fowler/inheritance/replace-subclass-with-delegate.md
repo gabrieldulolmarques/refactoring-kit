@@ -1,6 +1,6 @@
 # Replace Subclass with Delegate
 
-Fowler (2018), ch. 12, p. 381. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 12. Formerly / aka: —. Inverse: —.
 Remove Subclass and Collapse Hierarchy go the other way for simple cases.
 
 ## When to use

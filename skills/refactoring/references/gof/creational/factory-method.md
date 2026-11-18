@@ -1,6 +1,6 @@
 # Factory Method
 
-Gamma et al. (1995), ch. 3, p. 107. Also known as: Virtual Constructor. Category: class creational.
+Gamma et al. (1995), ch. 3. Also known as: Virtual Constructor. Category: class creational.
 
 ## Intent
 Give a class an overridable method that creates its product, so each subclass picks the concrete class and the base class never names it.

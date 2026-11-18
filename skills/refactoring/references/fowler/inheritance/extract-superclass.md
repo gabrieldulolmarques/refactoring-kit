@@ -1,6 +1,6 @@
 # Extract Superclass
 
-Fowler (2018), ch. 12, p. 375. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 12. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Large Class, Alternative Classes with Different Interfaces.

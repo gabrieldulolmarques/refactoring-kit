@@ -1,6 +1,6 @@
 # Observer
 
-Gamma et al. (1995), ch. 5, p. 293. Also known as: Dependents, Publish-Subscribe. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Also known as: Dependents, Publish-Subscribe. Category: object behavioral.
 
 ## Intent
 Let one object (the subject) announce its changes to any number of dependents (the observers) without knowing who they are or what they do with the news.

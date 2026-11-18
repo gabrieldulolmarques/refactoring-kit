@@ -1,6 +1,6 @@
 # Chain Constructors
 
-Kerievsky (2004), ch. 11, p. 340. Pattern: —. Direction: —.
+Kerievsky (2004), ch. 11. Pattern: —. Direction: —.
 
 ## When to use
 Smells: Duplicated Code.

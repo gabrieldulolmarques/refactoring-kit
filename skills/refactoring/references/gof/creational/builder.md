@@ -1,6 +1,6 @@
 # Builder
 
-Gamma et al. (1995), ch. 3, p. 97. Category: object creational.
+Gamma et al. (1995), ch. 3. Category: object creational.
 
 ## Intent
 Separate the step-by-step process of assembling a complex object from the representation that results, so the same process can produce different representations.

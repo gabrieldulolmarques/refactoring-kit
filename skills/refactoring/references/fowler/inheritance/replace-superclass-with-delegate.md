@@ -1,6 +1,6 @@
 # Replace Superclass with Delegate
 
-Fowler (2018), ch. 12, p. 399. Formerly / aka: Replace Inheritance with Delegation. Inverse: —.
+Fowler (2018), ch. 12. Formerly / aka: Replace Inheritance with Delegation. Inverse: —.
 
 ## When to use
 

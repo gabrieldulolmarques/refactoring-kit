@@ -1,6 +1,6 @@
 # Replace Implicit Tree with Composite
 
-Kerievsky (2004), ch. 7, p. 178. Pattern: Composite. Direction: to.
+Kerievsky (2004), ch. 7. Pattern: Composite. Direction: to.
 
 ## When to use
 Smells: Primitive Obsession.

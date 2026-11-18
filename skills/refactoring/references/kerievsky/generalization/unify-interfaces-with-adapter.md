@@ -1,6 +1,6 @@
 # Unify Interfaces with Adapter
 
-Kerievsky (2004), ch. 8, p. 247. Pattern: Adapter. Direction: to, towards.
+Kerievsky (2004), ch. 8. Pattern: Adapter. Direction: to, towards.
 
 ## When to use
 Smells: Alternative Classes with Different Interfaces, Oddball Solution, Duplicated Code.

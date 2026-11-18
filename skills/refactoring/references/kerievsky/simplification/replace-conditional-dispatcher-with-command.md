@@ -1,6 +1,6 @@
 # Replace Conditional Dispatcher with Command
 
-Kerievsky (2004), ch. 7, p. 191. Pattern: Command. Direction: to, towards.
+Kerievsky (2004), ch. 7. Pattern: Command. Direction: to, towards.
 
 ## When to use
 Smells: Switch Statements, Large Class, Long Method.

@@ -1,6 +1,6 @@
 # Mediator
 
-Gamma et al. (1995), ch. 5, p. 273. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Category: object behavioral.
 
 ## Intent
 Put the rules for how a group of objects interact into one object, so the group's members do not refer to each other. The interaction can then change without touching the members.

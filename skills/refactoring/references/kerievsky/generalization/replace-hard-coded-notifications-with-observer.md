@@ -1,6 +1,6 @@
 # Replace Hard-Coded Notifications with Observer
 
-Kerievsky (2004), ch. 8, p. 236. Pattern: Observer. Direction: to, towards.
+Kerievsky (2004), ch. 8. Pattern: Observer. Direction: to, towards.
 
 ## When to use
 Smells: —.

@@ -1,6 +1,6 @@
 # Replace One/Many Distinctions with Composite
 
-Kerievsky (2004), ch. 8, p. 224. Pattern: Composite. Direction: to.
+Kerievsky (2004), ch. 8. Pattern: Composite. Direction: to.
 
 ## When to use
 Smells: Duplicated Code.

@@ -1,6 +1,6 @@
 # Replace Type Code with Class
 
-Kerievsky (2004), ch. 9, p. 286. Pattern: —. Direction: —.
+Kerievsky (2004), ch. 9. Pattern: —. Direction: —.
 
 ## When to use
 Smells: Primitive Obsession.

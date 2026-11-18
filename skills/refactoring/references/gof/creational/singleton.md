@@ -1,6 +1,6 @@
 # Singleton
 
-Gamma et al. (1995), ch. 3, p. 127. Category: object creational.
+Gamma et al. (1995), ch. 3. Category: object creational.
 
 ## Intent
 Guarantee that a class has exactly one instance and give a single, well-known point of access to it.

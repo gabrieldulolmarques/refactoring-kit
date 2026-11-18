@@ -9,7 +9,12 @@ every example (0.5.0).
 Sources: Fowler, *Refactoring*, 2nd ed. (2018), chapters 2–4 and 6–12, and the online catalog
 ([refactoring.com/catalog](https://refactoring.com/catalog/), checked on 2026-10-31), which
 lists **66 refactorings**: the **61 from the book** plus **5 that only exist in the web
-edition** (marked "web" in the Page column).
+edition** (marked "(web)" after the name).
+
+**How sources are cited:** by chapter, section and entry name, never by page. The page changes
+with the edition and format (print, PDF, O'Reilly, EPUB); the chapter and the name do not. The
+same pattern holds for all three sources: `Fowler (2018), ch. 6`, `Kerievsky (2004), ch. 7`,
+`Gamma et al. (1995), §1.6` or `ch. 5`, always with the name of the refactoring or pattern.
 
 The skill is generic: it teaches the refactorings, not any project's process. The examples
 are plain C# 9 with current, neutral themes (section 7), and nothing refers
@@ -74,114 +79,114 @@ skills/
 ## 2. The 66 refactorings
 
 Checked against the book on 2026-10-31, mechanically from the PDF's text: each of the 61 book
-refactorings starts on the **Page** shown (printed edition), the **Formerly / aka** and
+refactorings is in the chapter shown, the **Formerly / aka** and
 **Inverse** columns are the book's own section header (`formerly:`, `aka:`, `subsumes:`,
-`inverse of:`), and all 575 "Name (page)" cross-references in ch. 3–12 agree with the Page
-column. For the 5 web-only refactorings, names, aliases and mechanics come from the book's web edition (checked on 2026-11-11).
+`inverse of:`), and all 575 "Name (page)" cross-references in ch. 3–12 point to the right
+refactoring. For the 5 web-only refactorings, names, aliases and mechanics come from the book's web edition (checked on 2026-11-11).
 
 **C# note** is what the reference file must add because the book's examples are JavaScript:
 only generic C# points. Where it says "—", the file has no C# notes section.
 
 ### Chapter 6: A First Set of Refactorings
 
-| # | Refactoring | Page | Formerly / aka | Inverse | C# note |
-|---|---|---|---|---|---|
-| 1 | Extract Function | 106 | formerly Extract Method | Inline Function | in C#, local functions are an option for helpers used in one place |
-| 2 | Inline Function | 115 | formerly Inline Method | Extract Function | do not inline a `virtual`/`override` method or an interface implementation without checking the other implementations |
-| 3 | Extract Variable | 119 | formerly Introduce Explaining Variable | Inline Variable | — |
-| 4 | Inline Variable | 123 | formerly Inline Temp | Extract Variable | — |
-| 5 | Change Function Declaration | 124 | aka Rename Function, Change Signature; formerly Rename Method, Add Parameter, Remove Parameter | — | the compiler finds direct callers, not reflection, string-based lookups or serialized names; on a public API, keep the old signature as an `[Obsolete]` forwarder during migration |
-| 6 | Encapsulate Variable | 132 | formerly Encapsulate Field, Self-Encapsulate Field | — | public field → private field + property; a static field → static property |
-| 7 | Rename Variable | 137 | — | — | — |
-| 8 | Introduce Parameter Object | 140 | — | — | a class, `record` or `record struct` |
-| 9 | Combine Functions into Class | 144 | — | — | — |
-| 10 | Combine Functions into Transform | 149 | — | — | idiomatic in JavaScript; in C# it is usually a function that returns a new enriched `record` (`with` expressions), or it becomes Combine Functions into Class |
-| 11 | Split Phase | 154 | — | — | the intermediate data structure is usually a `record` |
+| # | Refactoring | Formerly / aka | Inverse | C# note |
+|---|---|---|---|---|
+| 1 | Extract Function | formerly Extract Method | Inline Function | in C#, local functions are an option for helpers used in one place |
+| 2 | Inline Function | formerly Inline Method | Extract Function | do not inline a `virtual`/`override` method or an interface implementation without checking the other implementations |
+| 3 | Extract Variable | formerly Introduce Explaining Variable | Inline Variable | — |
+| 4 | Inline Variable | formerly Inline Temp | Extract Variable | — |
+| 5 | Change Function Declaration | aka Rename Function, Change Signature; formerly Rename Method, Add Parameter, Remove Parameter | — | the compiler finds direct callers, not reflection, string-based lookups or serialized names; on a public API, keep the old signature as an `[Obsolete]` forwarder during migration |
+| 6 | Encapsulate Variable | formerly Encapsulate Field, Self-Encapsulate Field | — | public field → private field + property; a static field → static property |
+| 7 | Rename Variable | — | — | — |
+| 8 | Introduce Parameter Object | — | — | a class, `record` or `record struct` |
+| 9 | Combine Functions into Class | — | — | — |
+| 10 | Combine Functions into Transform | — | — | idiomatic in JavaScript; in C# it is usually a function that returns a new enriched `record` (`with` expressions), or it becomes Combine Functions into Class |
+| 11 | Split Phase | — | — | the intermediate data structure is usually a `record` |
 
 ### Chapter 7: Encapsulation
 
-| # | Refactoring | Page | Formerly / aka | Inverse | C# note |
-|---|---|---|---|---|---|
-| 12 | Encapsulate Record | 162 | formerly Replace Record with Data Class | — | dictionary, tuple, anonymous or `dynamic` data → a class or `record` with properties |
-| 13 | Encapsulate Collection | 170 | — | — | expose `IReadOnlyList<T>` / `IReadOnlyCollection<T>`, with `Add`/`Remove` methods; a read-only interface does not stop a caller from casting back, so return a copy where that matters |
-| 14 | Replace Primitive with Object | 174 | formerly Replace Data Value with Object, Replace Type Code with Class | — | meaningful `string`/`int` → own type (`record`, `readonly record struct`) or `enum` |
-| 15 | Replace Temp with Query | 178 | — | — | a read-only property or a method; keep expensive queries as methods |
-| 16 | Extract Class | 182 | — | Inline Class | — |
-| 17 | Inline Class | 186 | — | Extract Class | — |
-| 18 | Hide Delegate | 189 | — | Remove Middle Man | — |
-| 19 | Remove Middle Man | 192 | — | Hide Delegate | — |
-| 20 | Substitute Algorithm | 195 | — | — | — |
+| # | Refactoring | Formerly / aka | Inverse | C# note |
+|---|---|---|---|---|
+| 12 | Encapsulate Record | formerly Replace Record with Data Class | — | dictionary, tuple, anonymous or `dynamic` data → a class or `record` with properties |
+| 13 | Encapsulate Collection | — | — | expose `IReadOnlyList<T>` / `IReadOnlyCollection<T>`, with `Add`/`Remove` methods; a read-only interface does not stop a caller from casting back, so return a copy where that matters |
+| 14 | Replace Primitive with Object | formerly Replace Data Value with Object, Replace Type Code with Class | — | meaningful `string`/`int` → own type (`record`, `readonly record struct`) or `enum` |
+| 15 | Replace Temp with Query | — | — | a read-only property or a method; keep expensive queries as methods |
+| 16 | Extract Class | — | Inline Class | — |
+| 17 | Inline Class | — | Extract Class | — |
+| 18 | Hide Delegate | — | Remove Middle Man | — |
+| 19 | Remove Middle Man | — | Hide Delegate | — |
+| 20 | Substitute Algorithm | — | — | — |
 
 ### Chapter 8: Moving Features
 
-| # | Refactoring | Page | Formerly / aka | Inverse | C# note |
-|---|---|---|---|---|---|
-| 21 | Move Function | 198 | formerly Move Method | — | the target may be another class, a static class, or an extension method |
-| 22 | Move Field | 207 | — | — | a field that is persisted or serialized keeps its stored name only if the mapping is updated too |
-| 23 | Move Statements into Function | 213 | — | Move Statements to Callers | — |
-| 24 | Move Statements to Callers | 217 | — | Move Statements into Function | — |
-| 25 | Replace Inline Code with Function Call | 222 | — | — | — |
-| 26 | Slide Statements | 223 | formerly Consolidate Duplicate Conditional Fragments | — | — |
-| 27 | Split Loop | 227 | — | — | — |
-| 28 | Replace Loop with Pipeline | 231 | — | — | LINQ; mind deferred execution (enumerate once) and allocation on hot paths |
-| 29 | Remove Dead Code | 237 | — | — | code with no static callers may still be reached by reflection, dependency injection or serialization |
+| # | Refactoring | Formerly / aka | Inverse | C# note |
+|---|---|---|---|---|
+| 21 | Move Function | formerly Move Method | — | the target may be another class, a static class, or an extension method |
+| 22 | Move Field | — | — | a field that is persisted or serialized keeps its stored name only if the mapping is updated too |
+| 23 | Move Statements into Function | — | Move Statements to Callers | — |
+| 24 | Move Statements to Callers | — | Move Statements into Function | — |
+| 25 | Replace Inline Code with Function Call | — | — | — |
+| 26 | Slide Statements | formerly Consolidate Duplicate Conditional Fragments | — | — |
+| 27 | Split Loop | — | — | — |
+| 28 | Replace Loop with Pipeline | — | — | LINQ; mind deferred execution (enumerate once) and allocation on hot paths |
+| 29 | Remove Dead Code | — | — | code with no static callers may still be reached by reflection, dependency injection or serialization |
 
 ### Chapter 9: Organizing Data
 
-| # | Refactoring | Page | Formerly / aka | Inverse | C# note |
-|---|---|---|---|---|---|
-| 30 | Split Variable | 240 | formerly Remove Assignments to Parameters, Split Temp | — | no immutable locals (`const` only fits compile-time constants), so keep each new variable assigned once; renaming a parameter breaks callers that use named arguments |
-| 31 | Rename Field | 244 | — | — | a serialized or persisted field keeps its wire name only with a mapping attribute (e.g. `[JsonPropertyName("oldName")]`) or a migration |
-| 32 | Replace Derived Variable with Query | 248 | — | — | a computed read-only property |
-| 33 | Change Reference to Value | 252 | — | Change Value to Reference | `record`, `readonly record struct` or an immutable class with value equality (`Equals`/`GetHashCode`) |
-| 34 | Change Value to Reference | 256 | — | Change Reference to Value | a repository or registry that hands out the shared instance |
-| 35 | Replace Magic Literal | web | Replace Magic Number with Symbolic Constant | — | `const` for compile-time values, `static readonly` for the rest |
+| # | Refactoring | Formerly / aka | Inverse | C# note |
+|---|---|---|---|---|
+| 30 | Split Variable | formerly Remove Assignments to Parameters, Split Temp | — | no immutable locals (`const` only fits compile-time constants), so keep each new variable assigned once; renaming a parameter breaks callers that use named arguments |
+| 31 | Rename Field | — | — | a serialized or persisted field keeps its wire name only with a mapping attribute (e.g. `[JsonPropertyName("oldName")]`) or a migration |
+| 32 | Replace Derived Variable with Query | — | — | a computed read-only property |
+| 33 | Change Reference to Value | — | Change Value to Reference | `record`, `readonly record struct` or an immutable class with value equality (`Equals`/`GetHashCode`) |
+| 34 | Change Value to Reference | — | Change Reference to Value | a repository or registry that hands out the shared instance |
+| 35 | Replace Magic Literal (web) | Replace Magic Number with Symbolic Constant | — | `const` for compile-time values, `static readonly` for the rest |
 
 ### Chapter 10: Simplifying Conditional Logic
 
-| # | Refactoring | Page | Formerly / aka | Inverse | C# note |
-|---|---|---|---|---|---|
-| 36 | Decompose Conditional | 260 | — | — | — |
-| 37 | Consolidate Conditional Expression | 263 | — | — | — |
-| 38 | Replace Nested Conditional with Guard Clauses | 266 | — | — | — |
-| 39 | Replace Conditional with Polymorphism | 272 | — | — | a `switch` on a type code → `abstract`/`virtual` members or an interface |
-| 40 | Introduce Special Case | 289 | formerly Introduce Null Object | — | with nullable reference types enabled, the special case removes `?`/null checks at the call sites |
-| 41 | Introduce Assertion | 302 | — | — | `Debug.Assert` (removed from Release builds) |
-| 42 | Replace Control Flag with Break | web | Remove Control Flag | — | — |
+| # | Refactoring | Formerly / aka | Inverse | C# note |
+|---|---|---|---|---|
+| 36 | Decompose Conditional | — | — | — |
+| 37 | Consolidate Conditional Expression | — | — | — |
+| 38 | Replace Nested Conditional with Guard Clauses | — | — | — |
+| 39 | Replace Conditional with Polymorphism | — | — | a `switch` on a type code → `abstract`/`virtual` members or an interface |
+| 40 | Introduce Special Case | formerly Introduce Null Object | — | with nullable reference types enabled, the special case removes `?`/null checks at the call sites |
+| 41 | Introduce Assertion | — | — | `Debug.Assert` (removed from Release builds) |
+| 42 | Replace Control Flag with Break (web) | Remove Control Flag | — | — |
 
 ### Chapter 11: Refactoring APIs
 
-| # | Refactoring | Page | Formerly / aka | Inverse | C# note |
-|---|---|---|---|---|---|
-| 43 | Separate Query from Modifier | 306 | — | — | — |
-| 44 | Parameterize Function | 310 | formerly Parameterize Method | — | — |
-| 45 | Remove Flag Argument | 314 | formerly Replace Parameter with Explicit Methods | — | — |
-| 46 | Preserve Whole Object | 319 | — | — | — |
-| 47 | Replace Parameter with Query | 324 | formerly Replace Parameter with Method | Replace Query with Parameter | — |
-| 48 | Replace Query with Parameter | 327 | — | Replace Parameter with Query | useful to remove a dependency on a static or singleton and make the code testable |
-| 49 | Remove Setting Method | 331 | — | — | `{ get; }` or `{ get; init; }` |
-| 50 | Replace Constructor with Factory Function | 334 | formerly Replace Constructor with Factory Method | — | a static factory method; make the constructor `private` or `protected` |
-| 51 | Replace Function with Command | 337 | formerly Replace Method with Method Object | Replace Command with Function | — |
-| 52 | Replace Command with Function | 344 | — | Replace Function with Command | — |
-| 53 | Return Modified Value | web | — | — | — |
-| 54 | Replace Error Code with Exception | web | — | — | do not use exceptions for expected control flow |
-| 55 | Replace Exception with Precheck | web | Replace Exception with Test | — | the `TryParse`/`TryGetValue` pattern |
+| # | Refactoring | Formerly / aka | Inverse | C# note |
+|---|---|---|---|---|
+| 43 | Separate Query from Modifier | — | — | — |
+| 44 | Parameterize Function | formerly Parameterize Method | — | — |
+| 45 | Remove Flag Argument | formerly Replace Parameter with Explicit Methods | — | — |
+| 46 | Preserve Whole Object | — | — | — |
+| 47 | Replace Parameter with Query | formerly Replace Parameter with Method | Replace Query with Parameter | — |
+| 48 | Replace Query with Parameter | — | Replace Parameter with Query | useful to remove a dependency on a static or singleton and make the code testable |
+| 49 | Remove Setting Method | — | — | `{ get; }` or `{ get; init; }` |
+| 50 | Replace Constructor with Factory Function | formerly Replace Constructor with Factory Method | — | a static factory method; make the constructor `private` or `protected` |
+| 51 | Replace Function with Command | formerly Replace Method with Method Object | Replace Command with Function | — |
+| 52 | Replace Command with Function | — | Replace Function with Command | — |
+| 53 | Return Modified Value (web) | — | — | — |
+| 54 | Replace Error Code with Exception (web) | — | — | do not use exceptions for expected control flow |
+| 55 | Replace Exception with Precheck (web) | Replace Exception with Test | — | the `TryParse`/`TryGetValue` pattern |
 
 ### Chapter 12: Dealing with Inheritance
 
-| # | Refactoring | Page | Formerly / aka | Inverse | C# note |
-|---|---|---|---|---|---|
-| 56 | Pull Up Method | 350 | — | Push Down Method | — |
-| 57 | Pull Up Field | 353 | — | Push Down Field | — |
-| 58 | Pull Up Constructor Body | 355 | — | — | `: base(...)` constructor chaining |
-| 59 | Push Down Method | 359 | — | Pull Up Method | — |
-| 60 | Push Down Field | 361 | — | Pull Up Field | — |
-| 61 | Replace Type Code with Subclasses | 362 | subsumes Replace Type Code with State/Strategy, Extract Subclass | Remove Subclass | — |
-| 62 | Remove Subclass | 369 | formerly Replace Subclass with Fields | Replace Type Code with Subclasses | — |
-| 63 | Extract Superclass | 375 | — | — | an `abstract` base class, or an interface if only the signatures are shared |
-| 64 | Collapse Hierarchy | 380 | — | — | — |
-| 65 | Replace Subclass with Delegate | 381 | — | — | — |
-| 66 | Replace Superclass with Delegate | 399 | formerly Replace Inheritance with Delegation | — | — |
+| # | Refactoring | Formerly / aka | Inverse | C# note |
+|---|---|---|---|---|
+| 56 | Pull Up Method | — | Push Down Method | — |
+| 57 | Pull Up Field | — | Push Down Field | — |
+| 58 | Pull Up Constructor Body | — | — | `: base(...)` constructor chaining |
+| 59 | Push Down Method | — | Pull Up Method | — |
+| 60 | Push Down Field | — | Pull Up Field | — |
+| 61 | Replace Type Code with Subclasses | subsumes Replace Type Code with State/Strategy, Extract Subclass | Remove Subclass | — |
+| 62 | Remove Subclass | formerly Replace Subclass with Fields | Replace Type Code with Subclasses | — |
+| 63 | Extract Superclass | — | — | an `abstract` base class, or an interface if only the signatures are shared |
+| 64 | Collapse Hierarchy | — | — | — |
+| 65 | Replace Subclass with Delegate | — | — | — |
+| 66 | Replace Superclass with Delegate | formerly Replace Inheritance with Delegation | — | — |
 
 ---
 
@@ -190,32 +195,32 @@ only generic C# points. Where it says "—", the file has no C# notes section.
 Summary of ch. 3: the index the agent checks before picking a refactoring. Each refactoring
 named here is the file `references/fowler/<chapter>/<slug>.md`.
 
-| Smell | Page | Suggested refactorings |
-|---|---|---|
-| Mysterious Name | 72 | Change Function Declaration, Rename Variable, Rename Field |
-| Duplicated Code | 72 | Extract Function, Slide Statements, Pull Up Method |
-| Long Function | 73 | Extract Function, Replace Temp with Query, Introduce Parameter Object, Preserve Whole Object, Replace Function with Command, Decompose Conditional, Replace Conditional with Polymorphism, Split Loop |
-| Long Parameter List | 74 | Replace Parameter with Query, Preserve Whole Object, Introduce Parameter Object, Remove Flag Argument, Combine Functions into Class |
-| Global Data | 74 | Encapsulate Variable |
-| Mutable Data | 75 | Encapsulate Variable, Split Variable, Slide Statements, Extract Function, Separate Query from Modifier, Remove Setting Method, Replace Derived Variable with Query, Combine Functions into Class, Combine Functions into Transform, Change Reference to Value |
-| Divergent Change | 76 | Split Phase, Move Function, Extract Function, Extract Class |
-| Shotgun Surgery | 76 | Move Function, Move Field, Combine Functions into Class, Combine Functions into Transform, Split Phase, Inline Function, Inline Class |
-| Feature Envy | 77 | Move Function, Extract Function |
-| Data Clumps | 78 | Extract Class, Introduce Parameter Object, Preserve Whole Object |
-| Primitive Obsession | 78 | Replace Primitive with Object, Replace Type Code with Subclasses, Replace Conditional with Polymorphism, Extract Class, Introduce Parameter Object |
-| Repeated Switches | 79 | Replace Conditional with Polymorphism |
-| Loops | 79 | Replace Loop with Pipeline |
-| Lazy Element | 80 | Inline Function, Inline Class, Collapse Hierarchy |
-| Speculative Generality | 80 | Collapse Hierarchy, Inline Function, Inline Class, Change Function Declaration, Remove Dead Code |
-| Temporary Field | 80 | Extract Class, Move Function, Introduce Special Case |
-| Message Chains | 81 | Hide Delegate, Extract Function, Move Function |
-| Middle Man | 81 | Remove Middle Man, Inline Function, Replace Superclass with Delegate, Replace Subclass with Delegate |
-| Insider Trading | 82 | Move Function, Move Field, Hide Delegate, Replace Subclass with Delegate, Replace Superclass with Delegate |
-| Large Class | 82 | Extract Class, Extract Superclass, Replace Type Code with Subclasses |
-| Alternative Classes with Different Interfaces | 83 | Change Function Declaration, Move Function, Extract Superclass |
-| Data Class | 83 | Encapsulate Record, Remove Setting Method, Move Function, Extract Function |
-| Refused Bequest | 83 | Push Down Method, Push Down Field, Replace Subclass with Delegate, Replace Superclass with Delegate |
-| Comments | 84 | Extract Function, Change Function Declaration, Introduce Assertion |
+| Smell | Suggested refactorings |
+|---|---|
+| Mysterious Name | Change Function Declaration, Rename Variable, Rename Field |
+| Duplicated Code | Extract Function, Slide Statements, Pull Up Method |
+| Long Function | Extract Function, Replace Temp with Query, Introduce Parameter Object, Preserve Whole Object, Replace Function with Command, Decompose Conditional, Replace Conditional with Polymorphism, Split Loop |
+| Long Parameter List | Replace Parameter with Query, Preserve Whole Object, Introduce Parameter Object, Remove Flag Argument, Combine Functions into Class |
+| Global Data | Encapsulate Variable |
+| Mutable Data | Encapsulate Variable, Split Variable, Slide Statements, Extract Function, Separate Query from Modifier, Remove Setting Method, Replace Derived Variable with Query, Combine Functions into Class, Combine Functions into Transform, Change Reference to Value |
+| Divergent Change | Split Phase, Move Function, Extract Function, Extract Class |
+| Shotgun Surgery | Move Function, Move Field, Combine Functions into Class, Combine Functions into Transform, Split Phase, Inline Function, Inline Class |
+| Feature Envy | Move Function, Extract Function |
+| Data Clumps | Extract Class, Introduce Parameter Object, Preserve Whole Object |
+| Primitive Obsession | Replace Primitive with Object, Replace Type Code with Subclasses, Replace Conditional with Polymorphism, Extract Class, Introduce Parameter Object |
+| Repeated Switches | Replace Conditional with Polymorphism |
+| Loops | Replace Loop with Pipeline |
+| Lazy Element | Inline Function, Inline Class, Collapse Hierarchy |
+| Speculative Generality | Collapse Hierarchy, Inline Function, Inline Class, Change Function Declaration, Remove Dead Code |
+| Temporary Field | Extract Class, Move Function, Introduce Special Case |
+| Message Chains | Hide Delegate, Extract Function, Move Function |
+| Middle Man | Remove Middle Man, Inline Function, Replace Superclass with Delegate, Replace Subclass with Delegate |
+| Insider Trading | Move Function, Move Field, Hide Delegate, Replace Subclass with Delegate, Replace Superclass with Delegate |
+| Large Class | Extract Class, Extract Superclass, Replace Type Code with Subclasses |
+| Alternative Classes with Different Interfaces | Change Function Declaration, Move Function, Extract Superclass |
+| Data Class | Encapsulate Record, Remove Setting Method, Move Function, Extract Function |
+| Refused Bequest | Push Down Method, Push Down Field, Replace Subclass with Delegate, Replace Superclass with Delegate |
+| Comments | Extract Function, Change Function Declaration, Introduce Assertion |
 
 Checked against ch. 3 on 2026-10-31: every refactoring the chapter cites as "Name (page)" under
 each smell is in its row. Data Class lists Split Phase with a caveat: the book's smell table names it, but the chapter
@@ -248,7 +253,7 @@ with it.
 ```markdown
 # Extract Class
 
-Fowler (2018), ch. 7, p. 182. Formerly / aka: —. Inverse: Inline Class
+Fowler (2018), ch. 7. Formerly / aka: —. Inverse: Inline Class
 ([inline-class.md](inline-class.md)).
 
 ## When to use
@@ -271,14 +276,14 @@ Before / after in C#, written for this package (not copied from the book).
 No frontmatter and no Source line: the credit is in `SKILL.md` and the NOTICE. A link to
 another refactoring is relative: `[inline-class.md](inline-class.md)` in the same chapter folder,
 `[move-function.md](../moving-features/move-function.md)` in another. For a web-only
-refactoring, the citation line says "web edition only" and links the refactoring.com summary instead of chapter and page.
+refactoring, the citation line says "web edition only" and links the refactoring.com summary instead of the chapter.
 
 ### 4.3 What goes in each part
 
 | Part | Comes from | Note |
 |---|---|---|
 | Name, formerly / aka, inverse | the book's section header (section 2); the web edition for the web-only ones | short: may be literal |
-| When to use, mechanics | the book (its web edition for the web-only ones) | **paraphrase**, with chapter and page; nothing copied |
+| When to use, mechanics | the book (its web edition for the web-only ones) | **paraphrase**, with the chapter; nothing copied |
 | Example | written for this package in C# | current, neutral theme per chapter, C# 9 (section 7); not the book's example or domain |
 | C# notes | section 2, "C# note" column | only where there is something to say |
 | Verification | ch. 4 + `references/fowler/discipline.md` | the shared check, plus one or two specific to the refactoring |
@@ -299,8 +304,7 @@ and a diagram for each; the mechanics come from the book.
 
 ### 5.1 The 27 refactorings
 
-Checked against the book: **Page** is the printed page from the book's own list of refactorings
-(inside front cover), and **Direction** comes from its "Refactoring Directions" table. The
+Checked against the book's own list of refactorings (inside front cover); **Direction** comes from its "Refactoring Directions" table. The
 book's mechanics name Fowler's refactorings by their 1st-edition names; the reference files use
 the 2nd-edition names (section 2) and link their files.
 
@@ -309,60 +313,60 @@ generic C# points. Where it says "—", the file has no C# notes section.
 
 #### Chapter 6: Creation (`kerievsky/creation`)
 
-| # | Refactoring | Page | Pattern | Direction | C# note |
-|---|---|---|---|---|---|
-| 1 | Replace Constructors with Creation Methods | 57 | Creation Method | to | optional parameters and object initializers do not name the variant; a `record` with a private constructor works the same way |
-| 2 | Move Creation Knowledge to Factory | 68 | Factory | to | — |
-| 3 | Encapsulate Classes with Factory | 80 | Factory | to | hide the classes with `internal` (or nested `private`) types and constructors; tests can use `InternalsVisibleTo` |
-| 4 | Introduce Polymorphic Creation with Factory Method | 88 | Factory Method | to | the factory method is `protected abstract`, or `protected virtual` with a default |
-| 5 | Encapsulate Composite with Builder | 96 | Builder | to (Builder); away (Composite) | — |
-| 6 | Inline Singleton | 114 | Singleton | away | a `static class` counts as a Singleton here |
+| # | Refactoring | Pattern | Direction | C# note |
+|---|---|---|---|---|
+| 1 | Replace Constructors with Creation Methods | Creation Method | to | optional parameters and object initializers do not name the variant; a `record` with a private constructor works the same way |
+| 2 | Move Creation Knowledge to Factory | Factory | to | — |
+| 3 | Encapsulate Classes with Factory | Factory | to | hide the classes with `internal` (or nested `private`) types and constructors; tests can use `InternalsVisibleTo` |
+| 4 | Introduce Polymorphic Creation with Factory Method | Factory Method | to | the factory method is `protected abstract`, or `protected virtual` with a default |
+| 5 | Encapsulate Composite with Builder | Builder | to (Builder); away (Composite) | — |
+| 6 | Inline Singleton | Singleton | away | a `static class` counts as a Singleton here |
 
 #### Chapter 7: Simplification (`kerievsky/simplification`)
 
-| # | Refactoring | Page | Pattern | Direction | C# note |
-|---|---|---|---|---|---|
-| 7 | Compose Method | 123 | Composed Method | to | expression-bodied members and local functions keep the pieces short |
-| 8 | Replace Conditional Logic with Strategy | 129 | Strategy | to, towards | an interface, or an abstract class if the strategies share code; stateless strategies can be `static readonly` |
-| 9 | Move Embellishment to Decorator | 144 | Decorator | to, towards | — |
-| 10 | Replace State-Altering Conditionals with State | 166 | State | to, towards | shared `static readonly` state instances, nested `private sealed` subclasses; persist a stable code, not the object |
-| 11 | Replace Implicit Tree with Composite | 178 | Composite | to | a `record` leaf; expose children as `IReadOnlyList<T>` |
-| 12 | Replace Conditional Dispatcher with Command | 191 | Command | to, towards | a `Dictionary<string, Func<...>>` is a lighter command type for tiny handlers |
+| # | Refactoring | Pattern | Direction | C# note |
+|---|---|---|---|---|
+| 7 | Compose Method | Composed Method | to | expression-bodied members and local functions keep the pieces short |
+| 8 | Replace Conditional Logic with Strategy | Strategy | to, towards | an interface, or an abstract class if the strategies share code; stateless strategies can be `static readonly` |
+| 9 | Move Embellishment to Decorator | Decorator | to, towards | — |
+| 10 | Replace State-Altering Conditionals with State | State | to, towards | shared `static readonly` state instances, nested `private sealed` subclasses; persist a stable code, not the object |
+| 11 | Replace Implicit Tree with Composite | Composite | to | a `record` leaf; expose children as `IReadOnlyList<T>` |
+| 12 | Replace Conditional Dispatcher with Command | Command | to, towards | a `Dictionary<string, Func<...>>` is a lighter command type for tiny handlers |
 
 #### Chapter 8: Generalization (`kerievsky/generalization`)
 
-| # | Refactoring | Page | Pattern | Direction | C# note |
-|---|---|---|---|---|---|
-| 13 | Form Template Method | 205 | Template Method | to | a non-`virtual` template method is the C# `final`; `abstract` and `virtual` `protected` steps |
-| 14 | Extract Composite | 214 | Composite | to | expose children as `IReadOnlyList<T>` |
-| 15 | Replace One/Many Distinctions with Composite | 224 | Composite | to | a `params`/`IEnumerable<T>` overload may be enough |
-| 16 | Replace Hard-Coded Notifications with Observer | 236 | Observer | to, towards | `event EventHandler<T>`; every `+=` needs its `-=` |
-| 17 | Unify Interfaces with Adapter | 247 | Adapter | to, towards | — |
-| 18 | Extract Adapter | 258 | Adapter | to | — |
-| 19 | Replace Implicit Language with Interpreter | 269 | Interpreter | to | `Func<T, bool>` or LINQ may be enough; `Expression<Func<T, bool>>` when a provider translates the criteria |
+| # | Refactoring | Pattern | Direction | C# note |
+|---|---|---|---|---|
+| 13 | Form Template Method | Template Method | to | a non-`virtual` template method is the C# `final`; `abstract` and `virtual` `protected` steps |
+| 14 | Extract Composite | Composite | to | expose children as `IReadOnlyList<T>` |
+| 15 | Replace One/Many Distinctions with Composite | Composite | to | a `params`/`IEnumerable<T>` overload may be enough |
+| 16 | Replace Hard-Coded Notifications with Observer | Observer | to, towards | `event EventHandler<T>`; every `+=` needs its `-=` |
+| 17 | Unify Interfaces with Adapter | Adapter | to, towards | — |
+| 18 | Extract Adapter | Adapter | to | — |
+| 19 | Replace Implicit Language with Interpreter | Interpreter | to | `Func<T, bool>` or LINQ may be enough; `Expression<Func<T, bool>>` when a provider translates the criteria |
 
 #### Chapter 9: Protection (`kerievsky/protection`)
 
-| # | Refactoring | Page | Pattern | Direction | C# note |
-|---|---|---|---|---|---|
-| 20 | Replace Type Code with Class | 286 | — | — | an `enum` accepts any integer; use a sealed class with a private constructor for a closed set |
-| 21 | Limit Instantiation with Singleton | 296 | Singleton | to | `static readonly` or `Lazy<T>`; a DI singleton lifetime often replaces the pattern |
-| 22 | Introduce Null Object | 301 | Null Object | to | with nullable reference types the field is no longer nullable; a shared static instance |
+| # | Refactoring | Pattern | Direction | C# note |
+|---|---|---|---|---|
+| 20 | Replace Type Code with Class | — | — | an `enum` accepts any integer; use a sealed class with a private constructor for a closed set |
+| 21 | Limit Instantiation with Singleton | Singleton | to | `static readonly` or `Lazy<T>`; a DI singleton lifetime often replaces the pattern |
+| 22 | Introduce Null Object | Null Object | to | with nullable reference types the field is no longer nullable; a shared static instance |
 
 #### Chapter 10: Accumulation (`kerievsky/accumulation`)
 
-| # | Refactoring | Page | Pattern | Direction | C# note |
-|---|---|---|---|---|---|
-| 23 | Move Accumulation to Collecting Parameter | 313 | Collecting Parameter | to | `StringBuilder`, or a `TextWriter` parameter |
-| 24 | Move Accumulation to Visitor | 320 | Visitor | to, towards (Visitor); away (Iterator) | a `switch` expression with type patterns often suffices; a generic visitor returns values |
+| # | Refactoring | Pattern | Direction | C# note |
+|---|---|---|---|---|
+| 23 | Move Accumulation to Collecting Parameter | Collecting Parameter | to | `StringBuilder`, or a `TextWriter` parameter |
+| 24 | Move Accumulation to Visitor | Visitor | to, towards (Visitor); away (Iterator) | a `switch` expression with type patterns often suffices; a generic visitor returns values |
 
 #### Chapter 11: Utilities (`kerievsky/utilities`)
 
-| # | Refactoring | Page | Pattern | Direction | C# note |
-|---|---|---|---|---|---|
-| 25 | Chain Constructors | 340 | — | — | `: this(...)`; optional parameters as an alternative; primary constructors |
-| 26 | Unify Interfaces | 343 | — | — | `virtual`/`override`, not hiding; default interface methods |
-| 27 | Extract Parameter | 346 | — | — | `ArgumentNullException.ThrowIfNull` |
+| # | Refactoring | Pattern | Direction | C# note |
+|---|---|---|---|---|
+| 25 | Chain Constructors | — | — | `: this(...)`; optional parameters as an alternative; primary constructors |
+| 26 | Unify Interfaces | — | — | `virtual`/`override`, not hiding; default interface methods |
+| 27 | Extract Parameter | — | — | `ArgumentNullException.ThrowIfNull` |
 
 Overlaps with Fowler's 2nd edition, kept short and pointing to the Fowler file: Compose Method
 (Extract Function, Slide Statements), Replace Type Code with Class (Replace Primitive with
@@ -374,20 +378,20 @@ From ch. 4 and the inside back cover, in `references/kerievsky/smells.md`. The "
 column is the bridge that the quick index in `SKILL.md` uses; the two `smells.md` files do not
 refer to each other.
 
-| Smell | Page | Fowler's smell | Refactorings |
-|---|---|---|---|
-| Duplicated Code | 39 | Duplicated Code | Form Template Method, Introduce Polymorphic Creation with Factory Method, Chain Constructors, Replace One/Many Distinctions with Composite, Extract Composite, Unify Interfaces with Adapter, Introduce Null Object |
-| Long Method | 40 | Long Function | Compose Method, Move Accumulation to Collecting Parameter, Replace Conditional Dispatcher with Command, Move Accumulation to Visitor, Replace Conditional Logic with Strategy |
-| Conditional Complexity | 41 | new | Replace Conditional Logic with Strategy, Move Embellishment to Decorator, Replace State-Altering Conditionals with State, Introduce Null Object |
-| Primitive Obsession | 41 | Primitive Obsession | Replace Type Code with Class, Replace State-Altering Conditionals with State, Replace Conditional Logic with Strategy, Replace Implicit Tree with Composite, Replace Implicit Language with Interpreter, Move Embellishment to Decorator, Encapsulate Composite with Builder |
-| Indecent Exposure | 42 | new | Encapsulate Classes with Factory |
-| Solution Sprawl | 43 | new (the book calls it the twin of Shotgun Surgery) | Move Creation Knowledge to Factory |
-| Alternative Classes with Different Interfaces | 43 | same | Unify Interfaces with Adapter |
-| Lazy Class | 43 | Lazy Element | Inline Singleton |
-| Large Class | 44 | Large Class | Replace Conditional Dispatcher with Command, Replace State-Altering Conditionals with State, Replace Implicit Language with Interpreter |
-| Switch Statements | 44 | Repeated Switches | Replace Conditional Dispatcher with Command, Move Accumulation to Visitor |
-| Combinatorial Explosion | 45 | new | Replace Implicit Language with Interpreter |
-| Oddball Solution | 45 | new | Substitute Algorithm, Unify Interfaces with Adapter |
+| Smell | Fowler's smell | Refactorings |
+|---|---|---|
+| Duplicated Code | Duplicated Code | Form Template Method, Introduce Polymorphic Creation with Factory Method, Chain Constructors, Replace One/Many Distinctions with Composite, Extract Composite, Unify Interfaces with Adapter, Introduce Null Object |
+| Long Method | Long Function | Compose Method, Move Accumulation to Collecting Parameter, Replace Conditional Dispatcher with Command, Move Accumulation to Visitor, Replace Conditional Logic with Strategy |
+| Conditional Complexity | new | Replace Conditional Logic with Strategy, Move Embellishment to Decorator, Replace State-Altering Conditionals with State, Introduce Null Object |
+| Primitive Obsession | Primitive Obsession | Replace Type Code with Class, Replace State-Altering Conditionals with State, Replace Conditional Logic with Strategy, Replace Implicit Tree with Composite, Replace Implicit Language with Interpreter, Move Embellishment to Decorator, Encapsulate Composite with Builder |
+| Indecent Exposure | new | Encapsulate Classes with Factory |
+| Solution Sprawl | new (the book calls it the twin of Shotgun Surgery) | Move Creation Knowledge to Factory |
+| Alternative Classes with Different Interfaces | same | Unify Interfaces with Adapter |
+| Lazy Class | Lazy Element | Inline Singleton |
+| Large Class | Large Class | Replace Conditional Dispatcher with Command, Replace State-Altering Conditionals with State, Replace Implicit Language with Interpreter |
+| Switch Statements | Repeated Switches | Replace Conditional Dispatcher with Command, Move Accumulation to Visitor |
+| Combinatorial Explosion | new | Replace Implicit Language with Interpreter |
+| Oddball Solution | new | Substitute Algorithm, Unify Interfaces with Adapter |
 
 ### 5.3 File format
 
@@ -396,7 +400,7 @@ Same as section 4.2, with a different citation line:
 ```markdown
 # Replace State-Altering Conditionals with State
 
-Kerievsky (2004), ch. 7, p. 166. Pattern: State. Direction: to, towards.
+Kerievsky (2004), ch. 7. Pattern: State. Direction: to, towards.
 ```
 
 A mechanics step that is a Fowler refactoring names it by its 2nd-edition name and links its
@@ -415,40 +419,39 @@ long case study in its own domain), §6.2-6.5 (history and community) and the ap
 `gof/` files are self-contained: they do not mention the refactoring catalogs, and the table at the
 end of `SKILL.md` links each pattern to the refactorings that reach it.
 
-| Pattern | Folder | Ch. | Page |
-|---|---|---|---|
-| Abstract Factory | `creational` | 3 | 87 |
-| Builder | `creational` | 3 | 97 |
-| Factory Method | `creational` | 3 | 107 |
-| Prototype | `creational` | 3 | 117 |
-| Singleton | `creational` | 3 | 127 |
-| Adapter | `structural` | 4 | 139 |
-| Bridge | `structural` | 4 | 151 |
-| Composite | `structural` | 4 | 163 |
-| Decorator | `structural` | 4 | 175 |
-| Facade | `structural` | 4 | 185 |
-| Flyweight | `structural` | 4 | 195 |
-| Proxy | `structural` | 4 | 207 |
-| Chain of Responsibility | `behavioral` | 5 | 223 |
-| Command | `behavioral` | 5 | 233 |
-| Interpreter | `behavioral` | 5 | 243 |
-| Iterator | `behavioral` | 5 | 257 |
-| Mediator | `behavioral` | 5 | 273 |
-| Memento | `behavioral` | 5 | 283 |
-| Observer | `behavioral` | 5 | 293 |
-| State | `behavioral` | 5 | 305 |
-| Strategy | `behavioral` | 5 | 315 |
-| Template Method | `behavioral` | 5 | 325 |
-| Visitor | `behavioral` | 5 | 331 |
+| Pattern | Folder | Ch. |
+|---|---|---|
+| Abstract Factory | `creational` | 3 |
+| Builder | `creational` | 3 |
+| Factory Method | `creational` | 3 |
+| Prototype | `creational` | 3 |
+| Singleton | `creational` | 3 |
+| Adapter | `structural` | 4 |
+| Bridge | `structural` | 4 |
+| Composite | `structural` | 4 |
+| Decorator | `structural` | 4 |
+| Facade | `structural` | 4 |
+| Flyweight | `structural` | 4 |
+| Proxy | `structural` | 4 |
+| Chain of Responsibility | `behavioral` | 5 |
+| Command | `behavioral` | 5 |
+| Interpreter | `behavioral` | 5 |
+| Iterator | `behavioral` | 5 |
+| Mediator | `behavioral` | 5 |
+| Memento | `behavioral` | 5 |
+| Observer | `behavioral` | 5 |
+| State | `behavioral` | 5 |
+| Strategy | `behavioral` | 5 |
+| Template Method | `behavioral` | 5 |
+| Visitor | `behavioral` | 5 |
 
-Pages are the printed pages from the book's own list of patterns (inside front cover).
 
 File format:
 
 ```markdown
 # State
 
-Gamma et al. (1995), ch. 5, p. 305. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Category: object behavioral.
 
 ## Intent
 ## When it pays off

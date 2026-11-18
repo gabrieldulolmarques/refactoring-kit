@@ -1,6 +1,6 @@
 # Chain of Responsibility
 
-Gamma et al. (1995), ch. 5, p. 223. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Category: object behavioral.
 
 ## Intent
 Let several objects have a chance to handle a request, so the sender does not need to know which one will. The receivers are linked, and the request travels along the links until one of them takes it.

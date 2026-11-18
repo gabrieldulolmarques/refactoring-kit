@@ -1,6 +1,6 @@
 # Prototype
 
-Gamma et al. (1995), ch. 3, p. 117. Category: object creational.
+Gamma et al. (1995), ch. 3. Category: object creational.
 
 ## Intent
 Create new objects by copying a configured instance (the prototype), so a client can produce objects without knowing their classes or how they are set up.

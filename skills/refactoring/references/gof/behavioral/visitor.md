@@ -1,6 +1,6 @@
 # Visitor
 
-Gamma et al. (1995), ch. 5, p. 331. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Category: object behavioral.
 
 ## Intent
 Package an operation over the elements of an object structure into a separate object, so you can add new operations without changing the element classes.

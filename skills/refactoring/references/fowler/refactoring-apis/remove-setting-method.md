@@ -1,6 +1,6 @@
 # Remove Setting Method
 
-Fowler (2018), ch. 11, p. 331. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 11. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Mutable Data, Data Class.

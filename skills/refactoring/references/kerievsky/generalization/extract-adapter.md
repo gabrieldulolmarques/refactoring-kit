@@ -1,6 +1,6 @@
 # Extract Adapter
 
-Kerievsky (2004), ch. 8, p. 258. Pattern: Adapter. Direction: to.
+Kerievsky (2004), ch. 8. Pattern: Adapter. Direction: to.
 
 ## When to use
 Smells: Solution Sprawl.

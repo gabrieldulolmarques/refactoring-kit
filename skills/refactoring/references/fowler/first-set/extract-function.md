@@ -1,6 +1,6 @@
 # Extract Function
 
-Fowler (2018), ch. 6, p. 106. Formerly / aka: Extract Method. Inverse: Inline Function
+Fowler (2018), ch. 6. Formerly / aka: Extract Method. Inverse: Inline Function
 ([inline-function.md](inline-function.md)).
 
 ## When to use

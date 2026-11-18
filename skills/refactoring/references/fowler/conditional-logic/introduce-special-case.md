@@ -1,6 +1,6 @@
 # Introduce Special Case
 
-Fowler (2018), ch. 10, p. 289. Formerly / aka: Introduce Null Object. Inverse: —.
+Fowler (2018), ch. 10. Formerly / aka: Introduce Null Object. Inverse: —.
 
 ## When to use
 Smells: Temporary Field.
