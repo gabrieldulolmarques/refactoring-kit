@@ -1,6 +1,6 @@
 # Introduce Polymorphic Creation with Factory Method
 
-Kerievsky (2004), ch. 6, p. 88. Pattern: Factory Method. Direction: to.
+Kerievsky (2004), ch. 6. Pattern: Factory Method. Direction: to.
 
 ## When to use
 Smells: Duplicated Code.

@@ -1,6 +1,6 @@
 # Decorator
 
-Gamma et al. (1995), ch. 4, p. 175. Also known as: Wrapper. Category: object structural.
+Gamma et al. (1995), ch. 4. Also known as: Wrapper. Category: object structural.
 
 ## Intent
 Add responsibilities to an individual object at runtime by wrapping it in another object that has the same interface. It is a flexible alternative to subclassing for each combination of features.

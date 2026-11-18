@@ -1,6 +1,6 @@
 # Preserve Whole Object
 
-Fowler (2018), ch. 11, p. 319. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 11. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Long Function, Long Parameter List, Data Clumps.

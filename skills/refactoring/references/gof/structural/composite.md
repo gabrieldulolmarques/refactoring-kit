@@ -1,6 +1,6 @@
 # Composite
 
-Gamma et al. (1995), ch. 4, p. 163. Category: object structural.
+Gamma et al. (1995), ch. 4. Category: object structural.
 
 ## Intent
 Arrange objects in a tree of parts and wholes where a single item and a group of items are used through the same interface.

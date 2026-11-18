@@ -1,6 +1,6 @@
 # Encapsulate Composite with Builder
 
-Kerievsky (2004), ch. 6, p. 96. Pattern: Builder. Direction: to (Builder); away (Composite).
+Kerievsky (2004), ch. 6. Pattern: Builder. Direction: to (Builder); away (Composite).
 
 ## When to use
 Smells: Primitive Obsession, Duplicated Code.

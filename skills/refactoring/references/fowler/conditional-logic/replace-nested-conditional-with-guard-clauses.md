@@ -1,6 +1,6 @@
 # Replace Nested Conditional with Guard Clauses
 
-Fowler (2018), ch. 10, p. 266. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 10. Formerly / aka: —. Inverse: —.
 
 ## When to use
 - A conditional has one leg that is the normal behavior and other legs that are unusual

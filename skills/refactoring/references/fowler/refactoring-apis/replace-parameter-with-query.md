@@ -1,6 +1,6 @@
 # Replace Parameter with Query
 
-Fowler (2018), ch. 11, p. 324. Formerly / aka: formerly Replace Parameter with Method. Inverse: Replace Query with Parameter ([replace-query-with-parameter.md](replace-query-with-parameter.md)).
+Fowler (2018), ch. 11. Formerly / aka: formerly Replace Parameter with Method. Inverse: Replace Query with Parameter ([replace-query-with-parameter.md](replace-query-with-parameter.md)).
 
 ## When to use
 Smell: Long Parameter List. A caller passes a value that the function could obtain just as easily itself, usually from the receiver or from another parameter. The caller does extra work and the parameter list repeats information it already holds. The safest case is a parameter that is computed purely from another parameter in the same list: passing both adds nothing.

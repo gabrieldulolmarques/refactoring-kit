@@ -1,6 +1,6 @@
 # Extract Parameter
 
-Kerievsky (2004), ch. 11, p. 346. Pattern: —. Direction: —.
+Kerievsky (2004), ch. 11. Pattern: —. Direction: —.
 
 ## When to use
 Smells: — (a low-level step; the book needed it right after turning inheritance into delegation).

@@ -1,6 +1,6 @@
 # Adapter
 
-Gamma et al. (1995), ch. 4, p. 139. Also known as: Wrapper. Category: class, object structural.
+Gamma et al. (1995), ch. 4. Also known as: Wrapper. Category: class, object structural.
 
 ## Intent
 Make a class whose interface does not match what the client expects usable through the interface the client wants. The adapter translates calls, and the existing class stays unchanged.

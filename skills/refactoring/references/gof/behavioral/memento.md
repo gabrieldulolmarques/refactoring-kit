@@ -1,6 +1,6 @@
 # Memento
 
-Gamma et al. (1995), ch. 5, p. 283. Also known as: Token. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Also known as: Token. Category: object behavioral.
 
 ## Intent
 Capture an object's internal state in a separate object, without breaking encapsulation, so the object can go back to that state later.

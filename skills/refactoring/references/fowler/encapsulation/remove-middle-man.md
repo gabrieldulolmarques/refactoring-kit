@@ -1,6 +1,6 @@
 # Remove Middle Man
 
-Fowler (2018), ch. 7, p. 192. Formerly / aka: —. Inverse: Hide Delegate ([hide-delegate.md](hide-delegate.md)).
+Fowler (2018), ch. 7. Formerly / aka: —. Inverse: Hide Delegate ([hide-delegate.md](hide-delegate.md)).
 
 ## When to use
 Smell: Middle Man. A class hides a delegate behind forwarding methods, and over time most of

@@ -1,6 +1,6 @@
 # Introduce Null Object
 
-Kerievsky (2004), ch. 9, p. 301. Pattern: Null Object. Direction: to.
+Kerievsky (2004), ch. 9. Pattern: Null Object. Direction: to.
 
 ## When to use
 Smells: Conditional Complexity, Duplicated Code.

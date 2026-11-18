@@ -1,6 +1,6 @@
 # State
 
-Gamma et al. (1995), ch. 5, p. 305. Also known as: Objects for States. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Also known as: Objects for States. Category: object behavioral.
 
 ## Intent
 Let an object change its behavior when its internal state changes, by delegating to a separate object per state. To callers, the object seems to change its class.

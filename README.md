@@ -68,7 +68,7 @@ package **and** the books it is based on:
 > Reusable Object-Oriented Software*. Reading: Addison-Wesley, 1995. ISBN 978-0-201-63361-0.
 
 The license covers only this package's own content, not the books (see [NOTICE](NOTICE)).
-The motivation and mechanics in the skill are paraphrased, with chapter and page cited;
+The motivation and mechanics in the skill are paraphrased, with the chapter cited;
 nothing is copied from the books, refactoring.com or industriallogic.com. Refactoring names, former
 names and inverses come from the book's section headers, and from the book's web edition for the five web-only
 refactorings. The C# examples are original.

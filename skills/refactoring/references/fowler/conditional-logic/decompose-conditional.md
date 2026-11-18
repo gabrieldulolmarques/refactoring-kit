@@ -1,6 +1,6 @@
 # Decompose Conditional
 
-Fowler (2018), ch. 10, p. 260. Formerly / aka: —. Inverse: —. It is Extract Function
+Fowler (2018), ch. 10. Formerly / aka: —. Inverse: —. It is Extract Function
 ([extract-function.md](../first-set/extract-function.md)) applied to the parts of a conditional.
 
 ## When to use

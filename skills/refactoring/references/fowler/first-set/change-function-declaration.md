@@ -1,6 +1,6 @@
 # Change Function Declaration
 
-Fowler (2018), ch. 6, p. 124. Formerly / aka: Rename Function, Change Signature; formerly Rename Method, Add Parameter, Remove Parameter. Inverse: —.
+Fowler (2018), ch. 6. Formerly / aka: Rename Function, Change Signature; formerly Rename Method, Add Parameter, Remove Parameter. Inverse: —.
 
 ## When to use
 Smells: Mysterious Name, Alternative Classes with Different Interfaces, Speculative Generality (unused parameters), Comments (a comment explaining the function is often a better name).

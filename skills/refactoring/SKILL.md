@@ -76,7 +76,7 @@ lists every option. Each slug is a reference file; the tables below give its pat
   something C#-specific), Verification. What a file adds beyond its book is marked
   **Beyond the book**. A Kerievsky file also names the target pattern and the direction: *to* the
   pattern, *towards* it, or *away* from it. "(web)" marks a Fowler refactoring that exists only in
-  the book's web edition, with no print page.
+  the book's web edition, not the print one.
 - **GoF:** Intent, When it pays off, Participants in C#, Example (C#), Variations, Risks and C#
   alternatives, Related patterns, Verification.
 

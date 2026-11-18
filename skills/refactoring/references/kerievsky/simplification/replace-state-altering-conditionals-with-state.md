@@ -1,6 +1,6 @@
 # Replace State-Altering Conditionals with State
 
-Kerievsky (2004), ch. 7, p. 166. Pattern: State. Direction: to, towards.
+Kerievsky (2004), ch. 7. Pattern: State. Direction: to, towards.
 
 ## When to use
 Smells: Conditional Complexity, Large Class, Primitive Obsession.

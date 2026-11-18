@@ -1,6 +1,6 @@
 # Replace Conditional with Polymorphism
 
-Fowler (2018), ch. 10, p. 272. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 10. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Repeated Switches, Primitive Obsession, Long Function.

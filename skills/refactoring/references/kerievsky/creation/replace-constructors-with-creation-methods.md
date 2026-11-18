@@ -1,6 +1,6 @@
 # Replace Constructors with Creation Methods
 
-Kerievsky (2004), ch. 6, p. 57. Pattern: Creation Method. Direction: to.
+Kerievsky (2004), ch. 6. Pattern: Creation Method. Direction: to.
 
 ## When to use
 Smells: Duplicated Code, Primitive Obsession.

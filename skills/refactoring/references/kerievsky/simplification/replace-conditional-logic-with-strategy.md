@@ -1,6 +1,6 @@
 # Replace Conditional Logic with Strategy
 
-Kerievsky (2004), ch. 7, p. 129. Pattern: Strategy. Direction: to, towards.
+Kerievsky (2004), ch. 7. Pattern: Strategy. Direction: to, towards.
 
 ## When to use
 Smells: Conditional Complexity, Long Method, Primitive Obsession.

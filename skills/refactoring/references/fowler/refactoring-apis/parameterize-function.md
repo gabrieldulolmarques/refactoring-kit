@@ -1,6 +1,6 @@
 # Parameterize Function
 
-Fowler (2018), ch. 11, p. 310. Formerly / aka: Parameterize Method. Inverse: —.
+Fowler (2018), ch. 11. Formerly / aka: Parameterize Method. Inverse: —.
 
 ## When to use
 Two or more functions have the same shape and differ only in literal values. Folding them into one function with parameters removes the duplication, and

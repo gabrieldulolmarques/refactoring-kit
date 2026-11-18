@@ -1,6 +1,6 @@
 # Unify Interfaces
 
-Kerievsky (2004), ch. 11, p. 343. Pattern: —. Direction: —.
+Kerievsky (2004), ch. 11. Pattern: —. Direction: —.
 
 ## When to use
 Smells: Duplicated Code (the book's inside back cover lists Unify Interfaces with Adapter there; this utility is the low-level step it builds on).

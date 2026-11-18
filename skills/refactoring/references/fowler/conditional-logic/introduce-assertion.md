@@ -1,6 +1,6 @@
 # Introduce Assertion
 
-Fowler (2018), ch. 10, p. 302. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 10. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smell: Comments. A comment that says "this must be positive" or "x is never null here" is

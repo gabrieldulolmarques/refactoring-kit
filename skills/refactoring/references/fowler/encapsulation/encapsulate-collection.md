@@ -1,6 +1,6 @@
 # Encapsulate Collection
 
-Fowler (2018), ch. 7, p. 170. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 7. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smell: none specific in the book (related: Mutable Data). The motivation is encapsulating

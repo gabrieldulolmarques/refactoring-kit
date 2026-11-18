@@ -1,6 +1,6 @@
 # Encapsulate Variable
 
-Fowler (2018), ch. 6, p. 132. Formerly / aka: Encapsulate Field, Self-Encapsulate Field. Inverse: —.
+Fowler (2018), ch. 6. Formerly / aka: Encapsulate Field, Self-Encapsulate Field. Inverse: —.
 
 ## When to use
 Smells: Global Data, Mutable Data.

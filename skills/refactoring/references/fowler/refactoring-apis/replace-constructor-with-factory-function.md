@@ -1,6 +1,6 @@
 # Replace Constructor with Factory Function
 
-Fowler (2018), ch. 11, p. 334. Formerly / aka: formerly Replace Constructor with Factory Method. Inverse: —.
+Fowler (2018), ch. 11. Formerly / aka: formerly Replace Constructor with Factory Method. Inverse: —.
 
 ## When to use
 - Constructors have limits: they cannot be renamed per use, so `new Account(id, 'S')` says little about what is created. A named factory (`Account.CreateSavings(id)`) says it.

@@ -1,6 +1,6 @@
 # Replace Inline Code with Function Call
 
-Fowler (2018), ch. 8, p. 222. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 8. Formerly / aka: —. Inverse: —.
 
 ## When to use
 - Inline code does the same job as a function that already exists in the codebase or in the

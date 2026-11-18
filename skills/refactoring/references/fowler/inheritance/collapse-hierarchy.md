@@ -1,6 +1,6 @@
 # Collapse Hierarchy
 
-Fowler (2018), ch. 12, p. 380. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 12. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Lazy Element, Speculative Generality.

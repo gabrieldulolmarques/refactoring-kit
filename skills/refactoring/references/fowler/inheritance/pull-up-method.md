@@ -1,6 +1,6 @@
 # Pull Up Method
 
-Fowler (2018), ch. 12, p. 350. Formerly / aka: —. Inverse: Push Down Method
+Fowler (2018), ch. 12. Formerly / aka: —. Inverse: Push Down Method
 ([push-down-method.md](push-down-method.md)).
 
 ## When to use

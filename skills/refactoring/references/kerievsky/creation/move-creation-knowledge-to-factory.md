@@ -1,6 +1,6 @@
 # Move Creation Knowledge to Factory
 
-Kerievsky (2004), ch. 6, p. 68. Pattern: Factory. Direction: to.
+Kerievsky (2004), ch. 6. Pattern: Factory. Direction: to.
 
 ## When to use
 Smells: Solution Sprawl.

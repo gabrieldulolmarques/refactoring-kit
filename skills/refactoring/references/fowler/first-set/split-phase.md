@@ -1,6 +1,6 @@
 # Split Phase
 
-Fowler (2018), ch. 6, p. 154. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 6. Formerly / aka: —. Inverse: —.
 
 ## When to use
 

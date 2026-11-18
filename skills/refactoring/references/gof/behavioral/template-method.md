@@ -1,6 +1,6 @@
 # Template Method
 
-Gamma et al. (1995), ch. 5, p. 325. Category: class behavioral.
+Gamma et al. (1995), ch. 5. Category: class behavioral.
 
 ## Intent
 Write the skeleton of an algorithm once in a base class and leave some steps to subclasses. Subclasses fill in the steps without being able to change the order or structure of the whole.

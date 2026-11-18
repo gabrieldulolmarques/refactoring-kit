@@ -1,6 +1,6 @@
 # Bridge
 
-Gamma et al. (1995), ch. 4, p. 151. Also known as: Handle/Body. Category: object structural.
+Gamma et al. (1995), ch. 4. Also known as: Handle/Body. Category: object structural.
 
 ## Intent
 Split an abstraction from its implementation into two hierarchies joined by a reference, so each can be extended on its own.

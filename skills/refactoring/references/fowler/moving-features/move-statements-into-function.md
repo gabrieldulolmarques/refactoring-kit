@@ -1,6 +1,6 @@
 # Move Statements into Function
 
-Fowler (2018), ch. 8, p. 213. Formerly / aka: —. Inverse: Move Statements to Callers
+Fowler (2018), ch. 8. Formerly / aka: —. Inverse: Move Statements to Callers
 ([move-statements-to-callers.md](move-statements-to-callers.md)).
 
 ## When to use

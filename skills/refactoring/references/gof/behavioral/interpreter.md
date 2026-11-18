@@ -1,6 +1,6 @@
 # Interpreter
 
-Gamma et al. (1995), ch. 5, p. 243. Category: class behavioral.
+Gamma et al. (1995), ch. 5. Category: class behavioral.
 
 ## Intent
 For a small language, represent its grammar as a set of classes and write an interpreter that evaluates sentences of the language, held as trees of those classes.

@@ -1,6 +1,6 @@
 # Facade
 
-Gamma et al. (1995), ch. 4, p. 185. Category: object structural.
+Gamma et al. (1995), ch. 4. Category: object structural.
 
 ## Intent
 Give a set of classes in a subsystem one simple entry point, so that most clients do not have to know how the parts fit together.

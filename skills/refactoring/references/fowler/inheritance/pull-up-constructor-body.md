@@ -1,6 +1,6 @@
 # Pull Up Constructor Body
 
-Fowler (2018), ch. 12, p. 355. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 12. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smell: none specific in the book (related: Duplicated Code). Two or more subclasses assign the same fields, or

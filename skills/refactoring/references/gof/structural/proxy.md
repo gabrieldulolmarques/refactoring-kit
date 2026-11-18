@@ -1,6 +1,6 @@
 # Proxy
 
-Gamma et al. (1995), ch. 4, p. 207. Also known as: Surrogate. Category: object structural.
+Gamma et al. (1995), ch. 4. Also known as: Surrogate. Category: object structural.
 
 ## Intent
 Put a stand-in with the same interface in front of another object, to control access to it: delay its creation, check permissions, reach it across a boundary, or do bookkeeping on each use.

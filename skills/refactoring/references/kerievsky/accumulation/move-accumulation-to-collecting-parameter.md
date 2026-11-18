@@ -1,6 +1,6 @@
 # Move Accumulation to Collecting Parameter
 
-Kerievsky (2004), ch. 10, p. 313. Pattern: Collecting Parameter. Direction: to.
+Kerievsky (2004), ch. 10. Pattern: Collecting Parameter. Direction: to.
 
 ## When to use
 Smells: Long Method.

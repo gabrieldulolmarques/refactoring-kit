@@ -1,6 +1,6 @@
 # Replace Command with Function
 
-Fowler (2018), ch. 11, p. 344. Formerly / aka: —. Inverse: Replace Function with Command
+Fowler (2018), ch. 11. Formerly / aka: —. Inverse: Replace Function with Command
 ([replace-function-with-command.md](replace-function-with-command.md)).
 
 ## When to use

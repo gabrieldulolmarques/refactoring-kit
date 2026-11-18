@@ -1,6 +1,6 @@
 # Replace Implicit Language with Interpreter
 
-Kerievsky (2004), ch. 8, p. 269. Pattern: Interpreter. Direction: to.
+Kerievsky (2004), ch. 8. Pattern: Interpreter. Direction: to.
 
 ## When to use
 Smells: Combinatorial Explosion, Large Class, Primitive Obsession, Duplicated Code.

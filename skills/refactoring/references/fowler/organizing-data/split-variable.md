@@ -1,6 +1,6 @@
 # Split Variable
 
-Fowler (2018), ch. 9, p. 240. Formerly / aka: formerly Remove Assignments to Parameters, formerly Split Temp. Inverse: —.
+Fowler (2018), ch. 9. Formerly / aka: formerly Remove Assignments to Parameters, formerly Split Temp. Inverse: —.
 
 ## When to use
 Smell: Mutable Data.

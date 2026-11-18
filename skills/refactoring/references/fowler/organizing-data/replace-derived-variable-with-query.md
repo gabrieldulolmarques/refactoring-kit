@@ -1,6 +1,6 @@
 # Replace Derived Variable with Query
 
-Fowler (2018), ch. 9, p. 248. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 9. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smell: Mutable Data. A variable holds a value that is fully determined by other data

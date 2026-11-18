@@ -1,6 +1,6 @@
 # Combine Functions into Class
 
-Fowler (2018), ch. 6, p. 144. Formerly / aka: —. Inverse: —. Alternative:
+Fowler (2018), ch. 6. Formerly / aka: —. Inverse: —. Alternative:
 Combine Functions into Transform ([combine-functions-into-transform.md](combine-functions-into-transform.md)).
 
 ## When to use

@@ -1,6 +1,6 @@
 # Hide Delegate
 
-Fowler (2018), ch. 7, p. 189. Formerly / aka: —. Inverse: Remove Middle Man
+Fowler (2018), ch. 7. Formerly / aka: —. Inverse: Remove Middle Man
 ([remove-middle-man.md](remove-middle-man.md)).
 
 ## When to use

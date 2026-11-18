@@ -1,6 +1,6 @@
 # Inline Singleton
 
-Kerievsky (2004), ch. 6, p. 114. Pattern: Singleton. Direction: away.
+Kerievsky (2004), ch. 6. Pattern: Singleton. Direction: away.
 
 ## When to use
 Smells: Lazy Class.

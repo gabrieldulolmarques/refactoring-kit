@@ -1,6 +1,6 @@
 # Move Function
 
-Fowler (2018), ch. 8, p. 198. Formerly / aka: Move Method. Inverse: —.
+Fowler (2018), ch. 8. Formerly / aka: Move Method. Inverse: —.
 
 ## When to use
 Smells: Feature Envy, Divergent Change, Shotgun Surgery, Temporary Field, Message Chains, Insider Trading, Alternative Classes with Different Interfaces, Data Class.

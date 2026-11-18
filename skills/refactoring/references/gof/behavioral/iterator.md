@@ -1,6 +1,6 @@
 # Iterator
 
-Gamma et al. (1995), ch. 5, p. 257. Also known as: Cursor. Category: object behavioral.
+Gamma et al. (1995), ch. 5. Also known as: Cursor. Category: object behavioral.
 
 ## Intent
 Give sequential access to the elements of a collection without exposing how it is stored.

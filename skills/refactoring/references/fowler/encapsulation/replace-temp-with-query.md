@@ -1,6 +1,6 @@
 # Replace Temp with Query
 
-Fowler (2018), ch. 7, p. 178. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 7. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smells: Long Function.

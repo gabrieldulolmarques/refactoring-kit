@@ -1,6 +1,6 @@
 # Replace Function with Command
 
-Fowler (2018), ch. 11, p. 337. Formerly / aka: Replace Method with Method Object. Inverse:
+Fowler (2018), ch. 11. Formerly / aka: Replace Method with Method Object. Inverse:
 Replace Command with Function ([replace-command-with-function.md](replace-command-with-function.md)).
 
 ## When to use

@@ -1,6 +1,6 @@
 # Remove Flag Argument
 
-Fowler (2018), ch. 11, p. 314. Formerly / aka: formerly Replace Parameter with Explicit Methods. Inverse: —.
+Fowler (2018), ch. 11. Formerly / aka: formerly Replace Parameter with Explicit Methods. Inverse: —.
 
 ## When to use
 Smells: Long Parameter List.

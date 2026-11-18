@@ -1,6 +1,6 @@
 # Rename Field
 
-Fowler (2018), ch. 9, p. 244. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 9. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smell: Mysterious Name. Data structures carry most of a program's meaning, so their field

@@ -1,12 +1,12 @@
 # The 23 patterns
 
-Gamma et al. (1995), ch. 1, pp. 8-28, and the comparisons that close ch. 3-5 (pp. 135, 219, 345).
+Gamma et al. (1995), ch. 1, and the comparisons that close ch. 3-5.
 Paraphrased. Start here to find a pattern for a design problem; each pattern links to its file.
 How to choose and apply one is in [principles.md](principles.md).
 
 ---
 
-## By purpose and scope (p. 10)
+## By purpose and scope
 
 *Purpose* says what a pattern does: creational patterns deal with creating objects, structural
 patterns with composing classes or objects, behavioral patterns with how objects interact and share
@@ -18,38 +18,38 @@ compile time) or through object composition (object, changeable at run time).
 | Class | Factory Method | Adapter (class) | Interpreter, Template Method |
 | Object | Abstract Factory, Builder, Prototype, Singleton | Adapter (object), Bridge, Composite, Decorator, Facade, Flyweight, Proxy | Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Visitor |
 
-## Intent of each pattern (pp. 8-9)
+## Intent of each pattern
 
 ### Creational
-- [Abstract Factory](creational/abstract-factory.md) (p. 87): create families of related objects through one interface, without naming their concrete classes.
-- [Builder](creational/builder.md) (p. 97): run one sequence of construction steps that does not depend on the final form, so the same sequence can yield several forms of a complex object.
-- [Factory Method](creational/factory-method.md) (p. 107): declare an operation that creates an object and let subclasses decide which class to create.
-- [Prototype](creational/prototype.md) (p. 117): obtain new objects by cloning an instance that is already configured, which also defines the available kinds.
-- [Singleton](creational/singleton.md) (p. 127): guarantee a class has one instance and give a global access point to it.
+- [Abstract Factory](creational/abstract-factory.md): create families of related objects through one interface, without naming their concrete classes.
+- [Builder](creational/builder.md): run one sequence of construction steps that does not depend on the final form, so the same sequence can yield several forms of a complex object.
+- [Factory Method](creational/factory-method.md): declare an operation that creates an object and let subclasses decide which class to create.
+- [Prototype](creational/prototype.md): obtain new objects by cloning an instance that is already configured, which also defines the available kinds.
+- [Singleton](creational/singleton.md): guarantee a class has one instance and give a global access point to it.
 
 ### Structural
-- [Adapter](structural/adapter.md) (p. 139): make a class usable through an interface it does not implement.
-- [Bridge](structural/bridge.md) (p. 151): split an abstraction from its implementation so each can vary on its own.
-- [Composite](structural/composite.md) (p. 163): arrange objects in trees that model part-whole hierarchies, and let clients treat a single object and a group of objects the same way.
-- [Decorator](structural/decorator.md) (p. 175): add responsibilities to an object at run time by wrapping it, instead of subclassing.
-- [Facade](structural/facade.md) (p. 185): give a subsystem one simpler interface.
-- [Flyweight](structural/flyweight.md) (p. 195): share fine-grained objects so that large numbers of them stay cheap.
-- [Proxy](structural/proxy.md) (p. 207): put a substitute in front of an object, so the substitute decides how and when the real one is reached.
+- [Adapter](structural/adapter.md): make a class usable through an interface it does not implement.
+- [Bridge](structural/bridge.md): split an abstraction from its implementation so each can vary on its own.
+- [Composite](structural/composite.md): arrange objects in trees that model part-whole hierarchies, and let clients treat a single object and a group of objects the same way.
+- [Decorator](structural/decorator.md): add responsibilities to an object at run time by wrapping it, instead of subclassing.
+- [Facade](structural/facade.md): give a subsystem one simpler interface.
+- [Flyweight](structural/flyweight.md): share fine-grained objects so that large numbers of them stay cheap.
+- [Proxy](structural/proxy.md): put a substitute in front of an object, so the substitute decides how and when the real one is reached.
 
 ### Behavioral
-- [Chain of Responsibility](behavioral/chain-of-responsibility.md) (p. 223): pass a request along a chain of handlers until one handles it, so the sender does not know the receiver.
-- [Command](behavioral/command.md) (p. 233): turn a request into an object, so it can be queued, logged, parameterized or undone.
-- [Interpreter](behavioral/interpreter.md) (p. 243): represent the grammar of a small language as classes and evaluate sentences with them.
-- [Iterator](behavioral/iterator.md) (p. 257): walk the elements of a collection one after another without exposing how it is stored.
-- [Mediator](behavioral/mediator.md) (p. 273): put the interaction between a set of objects in one object, so they do not refer to each other.
-- [Memento](behavioral/memento.md) (p. 283): capture an object's internal state outside it, without breaking encapsulation, so it can be restored later.
-- [Observer](behavioral/observer.md) (p. 293): when one object changes, notify all the objects that depend on it.
-- [State](behavioral/state.md) (p. 305): hand an object's behavior to a separate object per state, so that behavior follows the state and the object seems to belong to another class.
-- [Strategy](behavioral/strategy.md) (p. 315): put each algorithm of a family behind one interface so they are interchangeable.
-- [Template Method](behavioral/template-method.md) (p. 325): define the skeleton of an algorithm and let subclasses fill in some steps, without changing the algorithm's structure.
-- [Visitor](behavioral/visitor.md) (p. 331): add operations over the elements of a structure without changing their classes.
+- [Chain of Responsibility](behavioral/chain-of-responsibility.md): pass a request along a chain of handlers until one handles it, so the sender does not know the receiver.
+- [Command](behavioral/command.md): turn a request into an object, so it can be queued, logged, parameterized or undone.
+- [Interpreter](behavioral/interpreter.md): represent the grammar of a small language as classes and evaluate sentences with them.
+- [Iterator](behavioral/iterator.md): walk the elements of a collection one after another without exposing how it is stored.
+- [Mediator](behavioral/mediator.md): put the interaction between a set of objects in one object, so they do not refer to each other.
+- [Memento](behavioral/memento.md): capture an object's internal state outside it, without breaking encapsulation, so it can be restored later.
+- [Observer](behavioral/observer.md): when one object changes, notify all the objects that depend on it.
+- [State](behavioral/state.md): hand an object's behavior to a separate object per state, so that behavior follows the state and the object seems to belong to another class.
+- [Strategy](behavioral/strategy.md): put each algorithm of a family behind one interface so they are interchangeable.
+- [Template Method](behavioral/template-method.md): define the skeleton of an algorithm and let subclasses fill in some steps, without changing the algorithm's structure.
+- [Visitor](behavioral/visitor.md): add operations over the elements of a structure without changing their classes.
 
-## From a cause of redesign to the patterns that prevent it (p. 24)
+## From a cause of redesign to the patterns that prevent it
 
 | Cause of redesign | Patterns |
 |---|---|
@@ -94,7 +94,7 @@ compile time) or through object composition (object, changeable at run time).
 
 ## Choosing between similar patterns
 
-### Creational (p. 135)
+### Creational
 - There are two ways to make a system independent of the classes it creates: **subclass** the
   creator (Factory Method), or **pass in an object** that knows the classes (Abstract Factory,
   Builder, Prototype).
@@ -104,7 +104,7 @@ compile time) or through object composition (object, changeable at run time).
   with Factory Method and move to one of them when more flexibility is really needed.
 - Prototype can replace a parallel hierarchy of factories when each product can copy itself.
 
-### Structural (p. 219)
+### Structural
 - **Adapter vs Bridge:** both add indirection to another object. Adapter reconciles two interfaces
   that already exist, usually after the fact; Bridge separates an abstraction from its
   implementations up front, so both can evolve.
@@ -115,7 +115,7 @@ compile time) or through object composition (object, changeable at run time).
   one object without subclassing; Proxy controls access to an object that holds the real behavior.
   Composite and Decorator are often used together.
 
-### Behavioral (p. 345)
+### Behavioral
 - **Encapsulating what varies:** Strategy (an algorithm), State (state-dependent behavior), Mediator
   (the protocol between objects) and Iterator (traversal) each put a changing aspect in its own
   object.

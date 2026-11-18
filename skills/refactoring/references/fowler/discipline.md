@@ -1,16 +1,16 @@
 # Refactoring discipline
 
-Fowler (2018), ch. 2, pp. 45-70, and ch. 4, pp. 85-100. Paraphrased.
+Fowler (2018), ch. 2, and ch. 4. Paraphrased.
 
 ## What counts as refactoring
 
-A change to internal structure that makes code easier to understand and cheaper to change **without changing observable behavior** (ch. 2, p. 45). It is a chain of small steps, each one leaving the code working. If the code is broken for days, it is not refactoring. Nothing a user cares about may change; a bug you find stays a bug until you finish and fix it separately.
+A change to internal structure that makes code easier to understand and cheaper to change **without changing observable behavior** (ch. 2). It is a chain of small steps, each one leaving the code working. If the code is broken for days, it is not refactoring. Nothing a user cares about may change; a bug you find stays a bug until you finish and fix it separately.
 
 Performance tuning is different: it accepts harder-to-read code in exchange for speed. Refactoring may speed things up or slow them down, because its goal is clarity.
 
 ## Two hats
 
-Wear one at a time (ch. 2, p. 46):
+Wear one at a time (ch. 2):
 
 - **Feature hat:** add behavior and tests; do not restructure.
 - **Refactoring hat:** restructure; add no behavior and no tests (except for a case you missed). Change tests only when an interface changed.
@@ -19,7 +19,7 @@ Swap often, but know which one you are wearing.
 
 ## When to refactor
 
-Mostly opportunistically, as part of other work (ch. 2, pp. 50-53):
+Mostly opportunistically, as part of other work (ch. 2):
 
 - **Rule of three:** tolerate duplication twice, refactor on the third.
 - **Preparatory:** just before adding a feature or fixing a bug, reshape the code so the change becomes easy.
@@ -32,7 +32,7 @@ Mostly opportunistically, as part of other work (ch. 2, pp. 50-53):
 1. **Green baseline.** Run the tests. Do not begin or carry on while any test fails. If a failure shows up mid-way, go back to the last passing version.
 2. **One small step** from the refactoring's mechanics.
 3. **Compile and run the tests.**
-4. **Commit** after each refactoring that is done and green. Commit more often if a step is risky. Keeping refactoring commits apart from feature commits is a default, not a law: the book (p. 53) leaves it to the team. The default has a practical payoff, since each refactoring commit becomes a safe point to revert to.
+4. **Commit** after each refactoring that is done and green. Commit more often if a step is risky. Keeping refactoring commits apart from feature commits is a default, not a law: the book leaves it to the team. The default has a practical payoff, since each refactoring commit becomes a safe point to revert to.
 5. **Repeat** with the next smell.
 
 Small steps feel slower but are faster in total: you almost never debug, because the last change is the only suspect.
@@ -53,9 +53,9 @@ Refactoring needs self-checking tests: they run on their own and report pass/fai
 ## When not to refactor
 
 - Code you do not need to change: ugly but stable code can stay as it is.
-- Code that is easier to rewrite than to reshape: start over instead of a long chain of steps (ch. 2, p. 55).
+- Code that is easier to rewrite than to reshape: start over instead of a long chain of steps (ch. 2).
 
-A published interface (used by code you cannot edit, such as a package or other teams) is not a reason to skip refactoring, but changing it needs a transition: keep the old one forwarding to the new one for a while (ch. 2, p. 57).
+A published interface (used by code you cannot edit, such as a package or other teams) is not a reason to skip refactoring, but changing it needs a transition: keep the old one forwarding to the new one for a while (ch. 2).
 
 ## Beyond the book: legacy code without tests
 

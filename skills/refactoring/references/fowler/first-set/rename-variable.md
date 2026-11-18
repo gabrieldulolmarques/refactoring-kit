@@ -1,6 +1,6 @@
 # Rename Variable
 
-Fowler (2018), ch. 6, p. 137. Formerly / aka: —. Inverse: —.
+Fowler (2018), ch. 6. Formerly / aka: —. Inverse: —.
 
 ## When to use
 Smell: Mysterious Name. The wider a name reaches, the more it matters:

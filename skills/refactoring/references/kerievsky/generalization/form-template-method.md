@@ -1,6 +1,6 @@
 # Form Template Method
 
-Kerievsky (2004), ch. 8, p. 205. Pattern: Template Method. Direction: to.
+Kerievsky (2004), ch. 8. Pattern: Template Method. Direction: to.
 
 ## When to use
 Smells: Duplicated Code.

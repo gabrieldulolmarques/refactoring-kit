@@ -1,6 +1,6 @@
 # Flyweight
 
-Gamma et al. (1995), ch. 4, p. 195. Category: object structural.
+Gamma et al. (1995), ch. 4. Category: object structural.
 
 ## Intent
 Share objects so that a very large number of small, fine-grained objects becomes affordable. The shared part stays inside the object, and the part that varies is handed in by the caller.

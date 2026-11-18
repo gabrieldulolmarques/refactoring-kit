@@ -1,6 +1,6 @@
 # Extract Class
 
-Fowler (2018), ch. 7, p. 182. Formerly / aka: —. Inverse: Inline Class
+Fowler (2018), ch. 7. Formerly / aka: —. Inverse: Inline Class
 ([inline-class.md](inline-class.md)).
 
 ## When to use

@@ -1,6 +1,6 @@
 # Remove Subclass
 
-Fowler (2018), ch. 12, p. 369. Formerly / aka: formerly Replace Subclass with Fields.
+Fowler (2018), ch. 12. Formerly / aka: formerly Replace Subclass with Fields.
 Inverse: Replace Type Code with Subclasses ([replace-type-code-with-subclasses.md](replace-type-code-with-subclasses.md)).
 
 ## When to use

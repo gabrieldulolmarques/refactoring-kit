@@ -1,6 +1,6 @@
 # Move Accumulation to Visitor
 
-Kerievsky (2004), ch. 10, p. 320. Pattern: Visitor. Direction: to, towards (Visitor); away (Iterator).
+Kerievsky (2004), ch. 10. Pattern: Visitor. Direction: to, towards (Visitor); away (Iterator).
 
 ## When to use
 Smells: Long Method, Switch Statements.
