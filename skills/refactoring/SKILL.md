@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: Catálogos de refatoração de Martin Fowler (Refactoring, 2ª ed.) e Joshua Kerievsky (Refactoring to Patterns): 29 code smells, 66 refatorações e 27 refatorações para padrões (Strategy, State, Command, Observer, Composite, Factory, Template Method...), cada uma com mecânica, exemplo em C# e verificação. Inclui os 23 padrões de projeto do GoF (Gamma et al.), cada um com intenção, participantes e exemplo em C#. Use para refatorar ou limpar código sem mudar o comportamento, quando o código estiver difícil de ler ou alterar, quando condicionais ou switches não param de crescer, ou quando uma refatoração, code smell ou padrão de projeto for citado.
+description: "Catálogos de refatoração de Martin Fowler (Refactoring, 2ª ed.) e Joshua Kerievsky (Refactoring to Patterns): 29 code smells, 66 refatorações e 27 refatorações para padrões (Strategy, State, Command, Observer, Composite, Factory, Template Method...), cada uma com mecânica, exemplo em C# e verificação. Inclui os 23 padrões de projeto do GoF (Gamma et al.), cada um com intenção, participantes e exemplo em C#. Use para refatorar ou limpar código sem mudar o comportamento, quando o código estiver difícil de ler ou alterar, quando condicionais ou switches não param de crescer, ou quando uma refatoração, code smell ou padrão de projeto for citado."
 ---
 
 # Refatoração e padrões de projeto: Fowler, Kerievsky e GoF
