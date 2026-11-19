@@ -21,10 +21,10 @@ the `solid.md` rule. If the request has no target, ask for one.
    write a test that pins the current behavior.
 4. **Apply one refactoring at a time**, following its file's mechanics, with build and tests after
    each step. If the `refactoring-implementer` (in Codex, `refactoring_implementer`) subagent exists, hand it each item.
-5. **Record.** One commit per refactoring, with the source ID
-   at the end of the description: `[F:<slug>]`, `[K:<slug>]`, `[GoF:<pattern>]` or
-   `[SOLID:<acronym>]` (the full rule is in
-   `rules/source-ids.md`, if installed).
+5. **Record.** One commit per refactoring, with the refactoring ID at
+   the end of the description, `[F:<slug>]` or `[K:<slug>]`, plus `[GoF:<pattern>]` and
+   `[SOLID:<acronym>]` when they justify the change (the full rule is in `rules/source-ids.md`, if
+   installed).
 6. **Check the result** with the same SOLID checks (without the rule, check SRP, OCP, LSP, ISP and
    DIP by name) and report what changed, the IDs used and what
    was found but left untouched.
