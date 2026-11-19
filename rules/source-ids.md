@@ -18,7 +18,7 @@ O slug é o nome do arquivo de referência sem `.md`; o padrão do GoF vai em mi
 - No commit, o ID vai no fim da descrição, entre colchetes, na mesma linha; vários IDs ficam
   separados por espaço. Os colchetes não contam como descrição, então `SOLID:OCP` pode ter
   maiúsculas:
-  `♻️ refactor(units): replace equipment switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`
+  `♻️ refactor(billing): replace payment type switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`
 - Um commit por refatoração, então cada commit tem um só ID `F:` ou `K:`. `SOLID:` e `GoF:`
   acompanham quando justificam a mudança.
 - Commit que não aplica nada dos catálogos (docs, configuração) não leva ID.
