@@ -52,9 +52,10 @@ Revise o plano do analista antes de entregar um item ao implementador.
 
 ## Instalação
 
-- **Claude Code, como plugin:** `claude --plugin-dir <caminho-deste-repositório>`. As skills e os
+- **Claude Code, como plugin:** clone o repositório (`git clone https://github.com/gabrieldulolmarques/refactoring-kit`)
+  e rode `claude --plugin-dir <caminho-do-clone>`. As skills e os
   agentes ganham o prefixo `refactoring-kit:`, e a entrada é `/refactoring-kit:refactoring`.
-- **Codex, como plugin:** `codex plugin marketplace add <caminho-ou-owner/repo>` e depois
+- **Codex, como plugin:** `codex plugin marketplace add gabrieldulolmarques/refactoring-kit` (ou um caminho local) e depois
   `codex plugin add refactoring-kit@refactoring-kit`. O roteador só roda quando chamado, e o plugin dá um prefixo ao nome: use
   `$refactoring-kit:refactoring`. Os subagentes não vêm no plugin: copie `codex/agents/*.toml` para `.codex/agents/` do
   projeto (ou `~/.codex/agents/`). O Codex não dá sandbox próprio ao subagente: o `refactoring_analyst`
