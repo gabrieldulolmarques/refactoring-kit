@@ -17,7 +17,7 @@ You apply **one** refactoring per call and leave the behavior as it was.
   or README) and run the tests. If they fail before you start, stop and report.
 - A refactoring to a pattern (Kerievsky) is a sequence of smaller refactorings. Apply each
   step that names a Fowler refactoring with that file's own mechanics. For *towards*, stop
-  where the call says, even if the pattern is not complete. Read the pattern in the `gof-design-patterns` skill first, to know the shape you are heading for.
+  where the call says, even if the pattern is not complete. If it is a GoF pattern, read it in the `gof-design-patterns` skill first, to know the shape you are heading for.
 - If no test covers the code, write one that pins the current behavior first.
 - After each step, build and test. On a failure, undo that step and retry in a smaller one.
   After two failures, stop and report.
@@ -26,4 +26,4 @@ You apply **one** refactoring per call and leave the behavior as it was.
 - Commit only if the call asks for it, one commit per refactoring, with the source ID at the end of
   the description, such as `[F:extract-function]`.
 
-Return: the files changed, the test result, and anything you found but did not touch.
+Return: the files changed, the refactoring's source ID (`F:<slug>` or `K:<slug>`), the test result, and anything you found but did not touch.

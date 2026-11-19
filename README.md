@@ -6,7 +6,7 @@ Patterns* (2004) and the 23 patterns of Gamma et al.'s *Design Patterns* (GoF, 1
 skills, one per book, so you can tell which catalog each applied thing came from:
 `fowler-refactoring` maps 24 code smells to the 66 refactorings that fix them,
 `kerievsky-refactoring-to-patterns` maps 12 code smells to the 27 refactorings to patterns, and
-`gof-design-patterns` is the lookup for the 23 patterns, linking each pattern to the refactorings that reach it. A fourth one, `refactoring`, is the entry point: `/refactoring <target>` drives the whole flow and routes to the other three. Every refactoring and pattern file has a C# 9 example.
+`gof-design-patterns` is the lookup for the 23 patterns, linking the patterns to the refactorings that reach them, where there are any. A fourth one, `refactoring`, is the entry point: `/refactoring <target>` drives the whole flow and routes to the other three. Every refactoring and pattern file has a C# 9 example.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (English and Portuguese).
 

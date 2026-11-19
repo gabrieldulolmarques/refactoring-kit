@@ -18,10 +18,12 @@ Flow: **smell -> refactoring -> its file in `references/`.**
 2. Pick one refactoring for that smell and open its file from the tables further down. Reach
    for a refactoring to a pattern only when the smell calls for it, and stop as soon as the
    smell is gone: going *towards* a pattern is often enough. Before you start, read the
-   pattern in the `gof-design-patterns` skill.
+   pattern in the `gof-design-patterns` skill if it is a GoF pattern (the five in the table at the
+   end are not; the refactoring's own file describes them).
 3. Before changing anything, check the safety net in
    [Fowler's discipline.md](../fowler-refactoring/references/discipline.md): passing tests,
-   small steps, a commit after each green refactoring. Also read
+   small steps, a commit after each green refactoring when commits are
+   asked for. Also read
    [references/discipline.md](references/discipline.md): when a pattern pays off, and when to stop.
 4. Follow the mechanics one step at a time. When a step names one of Fowler's refactorings, open
    its file through the link. Compile and run the tests after each step; if anything fails, undo

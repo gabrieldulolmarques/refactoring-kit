@@ -22,8 +22,7 @@ change nothing.
 - Prefer the simplest refactoring that removes the smell. Propose a refactoring to a pattern
   (Kerievsky) only when the smell calls for it, such as state-transition conditionals or a
   large dispatcher, and give its direction: *to* the full pattern, *towards* it (stop as soon
-  as the smell is gone), or *away* from a pattern that no longer pays for itself. Check the
-  pattern in the `gof-design-patterns` skill to confirm it fits.
+  as the smell is gone), or *away* from a pattern that no longer pays for itself. If it is a GoF pattern, check it in the `gof-design-patterns` skill to confirm it fits.
 - Order the plan: what unblocks other items first, then low risk before high.
 - Say whether tests cover each item. Where they do not, the item starts with a test that
   pins the current behavior.

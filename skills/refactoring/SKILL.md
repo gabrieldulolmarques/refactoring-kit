@@ -16,7 +16,7 @@ the `solid.md` rule. If the request has no target, ask for one.
    - a simple refactoring removes the smell: `fowler-refactoring` skill;
    - the smell calls for a pattern (conditionals that choose variants, hard-coded notifications,
      scattered object creation): `kerievsky-refactoring-to-patterns` skill, reading the pattern in
-     the `gof-design-patterns` skill first;
+     the `gof-design-patterns` skill first, when it is a GoF pattern;
    - there is only a question about a pattern: `gof-design-patterns` skill.
 3. **Set up the safety net.** Tests passing before you start. If nothing covers the code, first
    write a test that pins the current behavior.
@@ -24,8 +24,10 @@ the `solid.md` rule. If the request has no target, ask for one.
    each step. If the `refactoring-implementer` subagent exists, hand it each item.
 5. **Record.** One commit per refactoring, only if the user asked for commits, with the source ID
    at the end of the description: `[F:<slug>]`, `[K:<slug>]`, `[GoF:<pattern>]` or
-   `[SOLID:<acronym>]` (see `rules/source-ids.md`).
-6. **Check the result** with the same SOLID checks and report what changed, the IDs used and what
+   `[SOLID:<acronym>]` (the full rule is in
+   `rules/source-ids.md`, if installed).
+6. **Check the result** with the same SOLID checks (without the rule, check SRP, OCP, LSP, ISP and
+   DIP by name) and report what changed, the IDs used and what
    was found but left untouched.
 
 Stop as soon as the smell is gone: going *towards* a pattern is often enough.
