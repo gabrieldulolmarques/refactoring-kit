@@ -2,10 +2,9 @@
 
 The refactoring catalogs of Martin Fowler and Joshua Kerievsky and the 23 GoF design patterns, packaged
 as [Agent Skills](https://agentskills.io) for coding agents (Claude Code and Codex). The package
-also ships two subagents, two rules and a C# 9 example in every refactoring and pattern file. The
-repository is called `refactoring-skill`; the plugin is `refactoring-kit`.
+also ships two subagents, two rules and a C# 9 example in every refactoring and pattern file.
 
-**Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (English and Portuguese).
+**Site:** <https://gabrieldulolmarques.github.io/refactoring-kit/> (English and Portuguese).
 
 **Using it?** If these skills help you in a project, a paper or a post, please mention it: link
 this repository and credit Gabriel R. Marques ([gabrieldulolmarques](https://github.com/gabrieldulolmarques)
