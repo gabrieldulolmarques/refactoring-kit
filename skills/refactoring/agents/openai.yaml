@@ -1,0 +1,6 @@
+interface:
+  display_name: "Refactoring"
+  short_description: "Refactor a target end to end: SOLID, Fowler, Kerievsky and GoF"
+  default_prompt: "Use $refactoring to refactor <target>, step by step."
+policy:
+  allow_implicit_invocation: false

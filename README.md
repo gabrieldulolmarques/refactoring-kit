@@ -24,6 +24,9 @@ The drawing is editable: open [`docs/flow.excalidraw`](docs/flow.excalidraw) in 
 
 ```
 .claude-plugin/plugin.json # makes the package a Claude Code plugin
+.codex-plugin/plugin.json # the same for Codex
+.agents/plugins/marketplace.json # local marketplace, for `codex plugin marketplace add`
+codex/agents/ # the two subagents in TOML, for Codex (the ones in agents/ are Claude Code's)
 LICENSE # CC BY 4.0
 NOTICE # credit to Fowler, Kerievsky, the GoF authors and Addison-Wesley; what the license covers
 CATALOG.md # the spec: 66 + 27 refactorings, 29 smells, 23 patterns, file format, C# level
@@ -71,6 +74,12 @@ from the call or from the project's own instructions, not from this package.
 - **Claude Code plugin**: `claude --plugin-dir <path-to-this-repo>`. The skills and agents are
   then namespaced as `refactoring-kit:<name>`; the entry command is `/refactoring-kit:refactoring`.
 
+- **Codex plugin**: `codex plugin marketplace add <path-or-owner/repo>` and install `refactoring-kit` from
+  the app's plugin directory. It brings the four skills; the router only runs when called
+  (`$refactoring <target>`).
+- **Codex subagents**: Codex does not read Claude Code's `agents/*.md`. Copy `codex/agents/*.toml`
+  into the project's `.codex/agents/` (or `~/.codex/agents/`). Codex does not let a subagent have its
+  own sandbox: `refactoring_analyst` is told not to edit, but the sandbox is the session's.
 - **Rules** (`rules/solid.md` and `rules/source-ids.md`): copy them into the project's rules folder
   (in Claude Code, `.claude/rules/`) or reference them from `AGENTS.md`. Rules are not part of the
   Agent Skills format or of a plugin, so neither route above installs them.
