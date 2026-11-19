@@ -18,7 +18,7 @@ Fluxo: **smell -> refatoração -> seu arquivo em `references/`.**
    `kerievsky-refactoring-to-patterns`.
 3. Antes de alterar qualquer coisa, confira a rede de segurança em
    [references/discipline.md](references/discipline.md): testes passando, passos pequenos, um
-   commit após cada refatoração verde (se o usuário ou o projeto pedir commits). Se o código não tem testes, escreva-os primeiro.
+   commit após cada refatoração verde. Se o código não tem testes, escreva-os primeiro.
 4. Siga a mecânica um passo de cada vez. Compile e execute os testes após cada passo; se
    algo falhar, desfaça o passo.
 

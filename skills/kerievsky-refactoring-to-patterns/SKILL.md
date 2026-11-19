@@ -22,8 +22,7 @@ Fluxo: **smell -> refatoração -> seu arquivo em `references/`.**
    própria refatoração os descreve).
 3. Antes de alterar qualquer coisa, confira a rede de segurança em
    [discipline.md de Fowler](../fowler-refactoring/references/discipline.md): testes passando,
-   passos pequenos, um commit após cada refatoração verde, se commits forem
-   pedidos. Leia também
+   passos pequenos, um commit após cada refatoração verde. Leia também
    [references/discipline.md](references/discipline.md): quando um padrão compensa e quando parar.
 4. Siga a mecânica um passo de cada vez. Quando um passo citar uma refatoração de Fowler, abra o
    arquivo dela pelo link. Compile e execute os testes após cada passo; se algo falhar, desfaça
