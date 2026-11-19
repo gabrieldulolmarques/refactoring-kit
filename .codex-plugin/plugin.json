@@ -1,7 +1,7 @@
 {
   "name": "refactoring-kit",
   "version": "0.7.0",
-  "description": "Fowler's Refactoring (2nd ed.), Kerievsky's Refactoring to Patterns and the 23 GoF design patterns as three Agent Skills, one per book, and the /refactoring entry point: 29 code smells, 66 refactorings, 27 refactorings to patterns and 23 patterns, each refactoring and each pattern with a C# 9 example, plus two subagents: one finds smells and plans, the other applies one refactoring.",
+  "description": "Fowler's Refactoring (2nd ed.), Kerievsky's Refactoring to Patterns and the 23 GoF design patterns as three Agent Skills, one per book, and the $refactoring entry point: 29 code smells, 66 refactorings, 27 refactorings to patterns and 23 patterns, each refactoring and each pattern with a C# 9 example, plus two subagents in TOML, installed separately (see the README).",
   "author": {
     "name": "Gabriel R. Marques"
   },
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Refactoring Kit",
     "shortDescription": "Fowler and Kerievsky refactoring catalogs and GoF patterns for agents",
-    "longDescription": "Fowler's Refactoring (2nd ed.), Kerievsky's Refactoring to Patterns and the 23 GoF design patterns as three Agent Skills, one per book, and the /refactoring entry point: 29 code smells, 66 refactorings, 27 refactorings to patterns and 23 patterns, each refactoring and each pattern with a C# 9 example, plus two subagents: one finds smells and plans, the other applies one refactoring.",
+    "longDescription": "Fowler's Refactoring (2nd ed.), Kerievsky's Refactoring to Patterns and the 23 GoF design patterns as three Agent Skills, one per book, and the $refactoring entry point: 29 code smells, 66 refactorings, 27 refactorings to patterns and 23 patterns, each refactoring and each pattern with a C# 9 example, plus two subagents in TOML, installed separately (see the README).",
     "developerName": "Gabriel R. Marques",
     "category": "Developer Tools",
     "capabilities": [
