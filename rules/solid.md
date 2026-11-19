@@ -50,7 +50,7 @@ infrastructure (network, engine, files) implements it.
   (`SOLID:OCP`).
 - A principle is not a goal: refactor only when the violation has a real cost (frequent change, a
   bug, hard extension). Stable code that violates a principle can stay.
-- If the path leads to a pattern, first read the GoF pattern in the `gof-design-patterns` skill.
+- If the path leads to a GoF pattern, first read it in the `gof-design-patterns` skill.
 
 ## Source
 
