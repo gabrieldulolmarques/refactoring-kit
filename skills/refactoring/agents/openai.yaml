@@ -1,6 +1,5 @@
 interface:
   display_name: "Refactoring"
   short_description: "Refatora um alvo do início ao fim: SOLID, Fowler, Kerievsky e GoF"
-  default_prompt: "Use $refactoring para refatorar <alvo>, passo a passo."
 policy:
   allow_implicit_invocation: false

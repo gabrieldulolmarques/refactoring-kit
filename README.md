@@ -18,7 +18,7 @@ Uma skill por livro, para saber de qual catálogo veio cada coisa aplicada, mais
 
 | Skill | Fonte | O que traz | ID |
 |---|---|---|---|
-| `refactoring` | | A porta de entrada: `/refactoring <alvo>` (no Codex, `$refactoring <alvo>`) diagnostica, escolhe a skill e aplica passo a passo | |
+| `refactoring` | | A porta de entrada: `/refactoring <alvo>` (no Codex, `$refactoring <alvo>`; pelo plugin, `$refactoring-kit:refactoring <alvo>`) diagnostica, escolhe a skill e aplica passo a passo | |
 | `fowler-refactoring` | Fowler (2018) | 24 code smells e 66 refatorações | `F:<slug>` |
 | `kerievsky-refactoring-to-patterns` | Kerievsky (2004) | 12 code smells e 27 refatorações que levam a um padrão, rumo a ele ou para longe dele | `K:<slug>` |
 | `gof-design-patterns` | Gamma et al. (1995) | Consulta aos 23 padrões, cada um ligado às refatorações que levam a ele, quando há | `GoF:<padrão>` |
@@ -55,8 +55,8 @@ Revise o plano do analista antes de entregar um item ao implementador.
 - **Claude Code, como plugin:** `claude --plugin-dir <caminho-deste-repositório>`. As skills e os
   agentes ganham o prefixo `refactoring-kit:`, e a entrada é `/refactoring-kit:refactoring`.
 - **Codex, como plugin:** `codex plugin marketplace add <caminho-ou-owner/repo>` e depois
-  `codex plugin add refactoring-kit@refactoring-kit`. O roteador só roda quando chamado com
-  `$refactoring`. Os subagentes não vêm no plugin: copie `codex/agents/*.toml` para `.codex/agents/` do
+  `codex plugin add refactoring-kit@refactoring-kit`. O roteador só roda quando chamado, e o plugin dá um prefixo ao nome: use
+  `$refactoring-kit:refactoring`. Os subagentes não vêm no plugin: copie `codex/agents/*.toml` para `.codex/agents/` do
   projeto (ou `~/.codex/agents/`). O Codex não dá sandbox próprio ao subagente: o `refactoring_analyst`
   recebe a instrução de não editar, mas usa o sandbox da sessão.
 - **Qualquer cliente de Agent Skills:** crie um link de cada pasta de `skills/` na pasta de skills do

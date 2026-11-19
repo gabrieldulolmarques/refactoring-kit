@@ -1,7 +1,7 @@
 {
   "name": "refactoring-kit",
   "version": "0.7.0",
-  "description": "O Refactoring de Fowler (2ª ed.), o Refactoring to Patterns de Kerievsky e os 23 padrões do GoF como três Agent Skills, uma por livro, e a porta de entrada $refactoring: 29 code smells, 66 refatorações, 27 refatorações para padrões e 23 padrões, cada refatoração e cada padrão com exemplo em C# 9, mais dois subagentes em TOML, que se instalam à parte (veja o README).",
+  "description": "O Refactoring de Fowler (2ª ed.), o Refactoring to Patterns de Kerievsky e os 23 padrões do GoF como três Agent Skills, uma por livro, e a porta de entrada $refactoring-kit:refactoring: 29 code smells, 66 refatorações, 27 refatorações para padrões e 23 padrões, cada refatoração e cada padrão com exemplo em C# 9, mais dois subagentes em TOML, que se instalam à parte (veja o README).",
   "author": {
     "name": "Gabriel R. Marques"
   },
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Refactoring Kit",
     "shortDescription": "Catálogos de refatoração de Fowler e Kerievsky e padrões do GoF para agentes",
-    "longDescription": "O Refactoring de Fowler (2ª ed.), o Refactoring to Patterns de Kerievsky e os 23 padrões do GoF como três Agent Skills, uma por livro, e a porta de entrada $refactoring: 29 code smells, 66 refatorações, 27 refatorações para padrões e 23 padrões, cada refatoração e cada padrão com exemplo em C# 9, mais dois subagentes em TOML, que se instalam à parte (veja o README).",
+    "longDescription": "O Refactoring de Fowler (2ª ed.), o Refactoring to Patterns de Kerievsky e os 23 padrões do GoF como três Agent Skills, uma por livro, e a porta de entrada $refactoring-kit:refactoring: 29 code smells, 66 refatorações, 27 refatorações para padrões e 23 padrões, cada refatoração e cada padrão com exemplo em C# 9, mais dois subagentes em TOML, que se instalam à parte (veja o README).",
     "developerName": "Gabriel R. Marques",
     "category": "Developer Tools",
     "capabilities": [
@@ -28,7 +28,7 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Use $refactoring para refatorar <alvo>, passo a passo."
+      "Use $refactoring-kit:refactoring para refatorar <alvo>, passo a passo."
     ]
   }
 }
