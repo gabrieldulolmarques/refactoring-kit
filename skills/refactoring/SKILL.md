@@ -24,7 +24,8 @@ design, na rule `solid.md`. Se o pedido não trouxer um alvo, pergunte qual é.
    passo. Se o subagente `refactoring-implementer` (no Codex, `refactoring_implementer`) existir, entregue cada item a ele.
 5. **Registrar.** Um commit por refatoração, com o ID da refatoração
    no fim da descrição, `[F:<slug>]` ou `[K:<slug>]`, mais `[GoF:<padrão>]` e `[SOLID:<sigla>]` quando
-   justificarem a mudança (a regra completa está em `rules/source-ids.md`, se instalada).
+   justificarem a mudança (a regra completa está em `rules/source-ids.md`, se instalada). Nunca faça push. Se o
+   `refactoring-implementer` já commitou, esta etapa está cumprida.
 6. **Conferir o resultado** com os mesmos cheques do SOLID (sem a rule, confira SRP, OCP, LSP, ISP e
    DIP pelo nome) e relatar o que mudou, os IDs usados e o
    que foi encontrado mas não tocado.

@@ -32,7 +32,7 @@ Principalmente de forma oportunista, como parte de outro trabalho (cap. 2):
 1. **Base verde.** Execute os testes. Não comece nem continue enquanto algum teste falhar. Se uma falha aparecer no meio do caminho, volte à última versão que passava.
 2. **Um passo pequeno** da mecânica da refatoração.
 3. **Compile e execute os testes.**
-4. **Faça commit** após cada refatoração concluída e verde. Faça commits com mais frequência se um passo for arriscado. Manter commits de refatoração separados dos de funcionalidade é a opção padrão, não uma lei: o livro deixa isso a critério da equipe. Essa opção tem uma vantagem prática, já que cada commit de refatoração vira um ponto seguro para reverter.
+4. **Faça commit** após cada refatoração concluída e verde. Faça commits com mais frequência se um passo for arriscado. Manter commits de refatoração separados dos de funcionalidade é a opção padrão, não uma lei: o livro deixa isso a critério da equipe. Essa opção tem uma vantagem prática, já que cada commit de refatoração vira um ponto seguro para reverter. Os agentes deste pacote mantêm cada refatoração em um commit próprio, separado do trabalho de funcionalidade, e nunca fazem push.
 5. **Repita** com o próximo smell.
 
 Passos pequenos parecem mais lentos, mas são mais rápidos no total: você quase nunca depura, porque a última mudança é a única suspeita.
