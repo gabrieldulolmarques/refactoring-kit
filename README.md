@@ -21,7 +21,7 @@ One skill per book, so you can tell which catalog each applied thing came from, 
 | `kerievsky-refactoring-to-patterns` | Kerievsky (2004) | 12 code smells and 27 refactorings that take code to a pattern, towards it or away from it | `K:<slug>` |
 | `gof-design-patterns` | Gamma et al. (1995) | Lookup for the 23 patterns, each linked to the refactorings that reach it, where there are any | `GoF:<pattern>` |
 
-Each refactoring has when to use, step-by-step mechanics, a C# 9 example and a verification checklist.
+Each refactoring has when to use, step-by-step mechanics, a C# example and a verification checklist.
 Each pattern has intent, when it pays off, participants, an example and risks. Sources are cited by
 chapter and entry name, never by page.
 

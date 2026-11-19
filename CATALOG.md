@@ -19,7 +19,7 @@ same pattern holds for all three sources: `Fowler (2018), ch. 6`, `Kerievsky (20
 `Gamma et al. (1995), §1.6` or `ch. 5`, always with the name of the refactoring or pattern.
 
 The skills are generic: they teach the refactorings and the patterns, not any project's process. The examples
-are plain C# 9 with current, neutral themes (section 7), and nothing refers
+are plain C# with current, neutral themes (section 7), and nothing refers
 to a specific project, framework, engine or team workflow.
 
 ---
@@ -299,7 +299,7 @@ refactoring, the citation line says "web edition only" and links the refactoring
 |---|---|---|
 | Name, formerly / aka, inverse | the book's section header (section 2); the web edition for the web-only ones | short: may be literal |
 | When to use, mechanics | the book (its web edition for the web-only ones) | **paraphrase**, with the chapter; nothing copied |
-| Example | written for this package in C# | current, neutral theme per chapter, C# 9 (section 7); not the book's example or domain |
+| Example | written for this package in C# | current, neutral theme per chapter, C# at the level of section 7; not the book's example or domain |
 | C# notes | section 2, "C# note" column | only where there is something to say |
 | Verification | ch. 4 + `fowler-refactoring/references/discipline.md` | the shared check, plus one or two specific to the refactoring |
 | Source line | this spec (4.1) | once, at the end of `SKILL.md`; credits the author and the publisher |
@@ -480,11 +480,11 @@ Gamma et al. (1995), ch. 5. Category: object behavioral.
 
 ## 7. C# level of every example
 
-All examples in the package are C# 9, so that they also compile where the compiler stops at
-C# 9 and the target is older: no `record` or `init` (they need an `IsExternalInit` shim there), no `required`, no primary
+All examples in the package use a conservative subset of C#, so that they also compile with older
+compilers and targets: no `record` or `init` (they need an `IsExternalInit` shim there), no `required`, no primary
 constructors, no collection expressions, no file-scoped namespaces, no `global using`, no raw
 strings, no list patterns. Pattern matching, switch expressions, `new()`, nullable reference types,
 delegates, events, LINQ and `async` are used freely. Every block is compiled against
-`netstandard2.1` with `LangVersion` 9; a deliberately partial block starts with `// fragment`.
+`netstandard2.1`; a deliberately partial block starts with `// fragment`.
 Examples use current, neutral themes (checkout, billing, payments, HTTP clients, an AI assistant,
 IoT, feature flags, report export, cloud storage...), never the books' own examples.

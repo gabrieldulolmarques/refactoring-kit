@@ -1,6 +1,6 @@
 # Site built by .github/workflows/pages.yml; .github/build_site.py prepares _docs first.
 site_name: Refactoring Kit
-site_description: "Fowler's and Kerievsky's refactoring catalogs and the 23 GoF design patterns as Agent Skills for Claude Code and Codex, with C# 9 examples."
+site_description: "Fowler's and Kerievsky's refactoring catalogs and the 23 GoF design patterns as Agent Skills for Claude Code and Codex, with C# examples."
 site_url: https://gabrieldulolmarques.github.io/refactoring-kit/en/
 repo_url: https://github.com/gabrieldulolmarques/refactoring-kit
 docs_dir: _docs
