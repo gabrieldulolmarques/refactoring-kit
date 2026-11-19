@@ -1,6 +1,6 @@
 # Site gerado por .github/workflows/pages.yml; .github/build_site.py prepara o _docs antes.
 site_name: Refactoring Kit
-site_description: "Os catálogos de refatoração de Fowler e Kerievsky e os 23 padrões do GoF como Agent Skill, com exemplos em C# 9."
+site_description: "Os catálogos de refatoração de Fowler e Kerievsky e os 23 padrões do GoF como Agent Skills para Claude Code e Codex, com exemplos em C# 9."
 site_url: https://gabrieldulolmarques.github.io/refactoring-kit/pt-br/
 repo_url: https://github.com/gabrieldulolmarques/refactoring-kit
 docs_dir: _docs
