@@ -24,4 +24,4 @@ The slug is the reference file's name without `.md`; the GoF pattern is lowercas
   along when they justify the change.
 - A commit that applies nothing from the catalogs (docs, configuration) carries no ID.
 - In plans and agent reports, the refactoring column carries the same ID.
-- To count the use of a source: `git log --grep "\[F:"` (or `\[K:`, `\[GoF:`, `\[SOLID:`).
+- To count the use of a source: `git rev-list --count --grep='\[F:' HEAD` (or `\[K:`, `\[GoF:`, `\[SOLID:`).
