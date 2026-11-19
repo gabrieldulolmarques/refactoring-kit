@@ -1,5 +1,5 @@
 {
-  "name": "refactoring",
+  "name": "refactoring-kit",
   "version": "0.6.0",
   "description": "O Refactoring de Fowler (2ª ed.), o Refactoring to Patterns de Kerievsky e os 23 padrões do GoF como duas Agent Skills, uma por livro de refatoração: 29 code smells, 66 refatorações, 27 refatorações para padrões e 23 padrões, cada um com exemplo em C# 9, mais dois subagentes: um encontra smells e planeja, o outro aplica uma refatoração.",
   "author": {

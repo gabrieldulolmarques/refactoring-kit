@@ -60,7 +60,7 @@ vêm da chamada ou das instruções do próprio projeto, não deste pacote.
   de `skills/` (`fowler-refactoring` e `kerievsky-refactoring-to-patterns`) na pasta de skills do
   projeto (no Windows, uma junção: `New-Item -ItemType Junction`).
 - **Plugin do Claude Code**: `claude --plugin-dir <caminho-deste-repositório>`. As skills e os agentes
-  ficam então com o prefixo `refactoring:<name>`.
+  ficam então com o prefixo `refactoring-kit:<name>`.
 
 - **Rules** (`rules/solid.md` e `rules/source-ids.md`): copie para a pasta de rules do projeto (no
   Claude Code, `.claude/rules/`) ou cite-as no `AGENTS.md`. Rules não fazem parte do formato Agent
