@@ -18,7 +18,7 @@ with the edition and format (print, PDF, O'Reilly, EPUB); the chapter and the na
 same pattern holds for all three sources: `Fowler (2018), ch. 6`, `Kerievsky (2004), ch. 7`,
 `Gamma et al. (1995), §1.6` or `ch. 5`, always with the name of the refactoring or pattern.
 
-The skill is generic: it teaches the refactorings, not any project's process. The examples
+The skills are generic: they teach the refactorings and the patterns, not any project's process. The examples
 are plain C# 9 with current, neutral themes (section 7), and nothing refers
 to a specific project, framework, engine or team workflow.
 
