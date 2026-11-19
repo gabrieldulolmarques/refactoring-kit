@@ -1,11 +1,12 @@
 # Especificação do catálogo
 
-A especificação a partir da qual as skills foram escritas e contra a qual são conferidas: duas
-skills, `fowler-refactoring` e `kerievsky-refactoring-to-patterns`, com um arquivo de referência por refatoração, os code smells e a disciplina,
+A especificação a partir da qual as skills foram escritas e contra a qual são conferidas: três
+skills, `fowler-refactoring`, `kerievsky-refactoring-to-patterns` e `gof-design-patterns`, com um arquivo de referência por refatoração, os code smells e a disciplina,
 e o formato dos arquivos. As seções 1–4 tratam do catálogo de Fowler; a seção 5 trata das
 refatorações para padrões de Kerievsky, acrescentadas na 0.4.0; a seção 6, os padrões do GoF, e a
 seção 7, o nível de C# de todos os exemplos (0.5.0). Na 0.6.0, a skill única `refactoring` foi
-dividida em duas, uma por livro de refatoração, com o GoF dentro da segunda.
+dividida em duas, uma por livro de refatoração, com o GoF dentro da segunda. Na 0.7.0, o GoF virou a terceira
+skill, `gof-design-patterns`.
 
 Fontes: Fowler, *Refactoring*, 2ª ed. (2018), capítulos 2–4 e 6–12, e o catálogo online
 ([refactoring.com/catalog](https://refactoring.com/catalog/), conferido em 2026-10-31), que
@@ -25,29 +26,30 @@ a um projeto, framework, engine ou fluxo de trabalho de equipe específico.
 
 ## 1. As skills
 
-Duas skills, uma por livro de refatoração: `fowler-refactoring` e
-`kerievsky-refactoring-to-patterns`, que traz também o GoF como referência, porque os padrões são o
-destino das refatorações de Kerievsky. A divisão por livro permite saber, pela skill carregada, de
-qual catálogo veio cada refatoração aplicada. Só a `description` de cada uma fica no contexto do
+Três skills, uma por livro: `fowler-refactoring`, `kerievsky-refactoring-to-patterns` e
+`gof-design-patterns`, esta só de consulta, porque os padrões são o destino das refatorações de
+Kerievsky mas não ensinam a refatorar. A divisão por livro permite saber, pela skill carregada, de
+qual catálogo veio cada coisa aplicada. Só a `description` de cada uma fica no contexto do
 agente; o corpo de `SKILL.md` é carregado quando a skill é usada, e cada arquivo de referência só
 quando o agente o abre. O agente parte de um problema (um smell), não do nome de uma refatoração,
 então um ponto de entrada por livro, que roteia smell → refatoração → arquivo, funciona melhor que
-93 descrições concorrentes. As refatorações de Kerievsky apontam para as de Fowler que usam como
-passos, com links para `../fowler-refactoring/`: as duas skills ficam instaladas lado a lado.
+116 descrições concorrentes. As refatorações de Kerievsky apontam para as de Fowler que usam como
+passos, com links para `../fowler-refactoring/`: as três skills ficam instaladas lado a lado.
 
 | Arquivo | Fonte | Conteúdo |
 |---|---|---|
 | `fowler-refactoring/SKILL.md` | esta especificação | o fluxo smell → refatoração → arquivo, um índice rápido dos 24 smells e uma tabela das 66 refatorações (nome, quando, arquivo), agrupadas por capítulo (seção 4.1) |
-| `kerievsky-refactoring-to-patterns/SKILL.md` | esta especificação | o mesmo para os 12 smells e as 27 refatorações para padrões, mais a tabela que liga cada padrão do GoF às refatorações que levam a ele |
+| `kerievsky-refactoring-to-patterns/SKILL.md` | esta especificação | o mesmo para os 12 smells e as 27 refatorações para padrões |
+| `gof-design-patterns/SKILL.md` | esta especificação | o fluxo de consulta e a tabela que liga cada padrão do GoF às refatorações que levam a ele |
 | `fowler-refactoring/references/smells.md` | cap. 3 | os 24 smells, sintomas e refatorações sugeridas (seção 3) |
 | `fowler-refactoring/references/discipline.md` | cap. 2 e 4 | testes primeiro, passos pequenos, commit após cada refatoração verde |
 | `fowler-refactoring/references/<chapter>/<slug>.md` (66 arquivos) | cap. 6–12, ou a edição web para as exclusivas da web | uma refatoração em cada: quando usar, mecânica, exemplo em C#, verificação (seção 4.2) |
 | `kerievsky-refactoring-to-patterns/references/<chapter>/<slug>.md` (27 arquivos) | Kerievsky, cap. 6–11 | uma refatoração para padrão em cada, no mesmo formato, mais padrão e direção (seção 5) |
 | `kerievsky-refactoring-to-patterns/references/smells.md` | Kerievsky, cap. 4 | os 12 smells e as refatorações para padrões a que levam (seção 5.2) |
 | `kerievsky-refactoring-to-patterns/references/discipline.md` | Kerievsky, cap. 1-3 | quando um padrão compensa, refatorações compostas e guiadas por testes, até/rumo a/longe, dívida de design |
-| `kerievsky-refactoring-to-patterns/references/gof/catalog.md` | GoF, cap. 1, 3-5 | as 23 intenções, propósito e escopo, causas de reprojeto, o que cada padrão deixa variar, comparações (seção 6) |
-| `kerievsky-refactoring-to-patterns/references/gof/principles.md` | GoF, cap. 1 e 6 | princípios de design, como escolher e usar um padrão (seção 6) |
-| `kerievsky-refactoring-to-patterns/references/gof/<category>/<slug>.md` (23 arquivos) | GoF, cap. 3-5 | um padrão em cada: intenção, quando compensa, participantes, exemplo em C#, variações, riscos (seção 6) |
+| `gof-design-patterns/references/catalog.md` | GoF, cap. 1, 3-5 | as 23 intenções, propósito e escopo, causas de reprojeto, o que cada padrão deixa variar, comparações (seção 6) |
+| `gof-design-patterns/references/principles.md` | GoF, cap. 1 e 6 | princípios de design, como escolher e usar um padrão (seção 6) |
+| `gof-design-patterns/references/<category>/<slug>.md` (23 arquivos) | GoF, cap. 3-5 | um padrão em cada: intenção, quando compensa, participantes, exemplo em C#, variações, riscos (seção 6) |
 
 O slug é o nome da refatoração em kebab-case. Exemplo: Extrair Função (Extract Function) →
 `fowler-refactoring/references/first-set/extract-function.md`. Os arquivos são agrupados por skill (uma por livro) e, dentro dela, em uma pasta por capítulo. Os de Fowler:
@@ -67,18 +69,20 @@ skills/
 │       │   ├── extract-function.md
 │       │   └── ...
 │       └── ... # 7 pastas de capítulo, 66 arquivos
-└── kerievsky-refactoring-to-patterns/
+├── kerievsky-refactoring-to-patterns/
+│   ├── SKILL.md
+│   └── references/
+│       ├── smells.md
+│       ├── discipline.md
+│       ├── creation/
+│       └── ... # 6 pastas de capítulo, 27 arquivos
+└── gof-design-patterns/
     ├── SKILL.md
     └── references/
-        ├── smells.md
-        ├── discipline.md
-        ├── creation/
-        ├── ... # 6 pastas de capítulo, 27 arquivos
-        └── gof/
-            ├── catalog.md
-            ├── principles.md
-            ├── creational/
-            └── ... # 3 pastas de categoria, 23 arquivos
+        ├── catalog.md
+        ├── principles.md
+        ├── creational/
+        └── ... # 3 pastas de categoria, 23 arquivos
 ```
 
 ---
@@ -240,7 +244,7 @@ correção.
 
 ### 4.1 `SKILL.md`
 
-Frontmatter `name` (`fowler-refactoring` ou `kerievsky-refactoring-to-patterns`) e uma `description`
+Frontmatter `name` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` ou `gof-design-patterns`) e uma `description`
 (no máximo 1024 caracteres) que nomeia o catálogo, os sintomas comuns e as refatorações mais usadas, de modo que o agente encontre a skill
 tanto pelo problema ("esta classe faz coisas demais") quanto pelo nome ("faça um Extrair Classe"). O corpo tem
 o fluxo (smell → refatoração → arquivo, com a disciplina antes do primeiro passo), o índice rápido
@@ -425,8 +429,8 @@ Fonte: Erich Gamma, Richard Helm, Ralph Johnson e John Vlissides, *Design Patter
 Reusable Object-Oriented Software*, Addison-Wesley, 1995. Coberto: cap. 1 (menos o §1.2), cap. 3-5,
 as comparações que fecham cada um deles, e o §6.1. Fora: §1.2 (MVC em Smalltalk), cap. 2 (um estudo
 de caso longo num domínio próprio), §6.2-6.5 (história e comunidade) e os apêndices. Os arquivos de
-`gof/` são autocontidos: não citam os catálogos de refatoração, e a tabela no fim do `SKILL.md` liga
-cada padrão às refatorações que levam a ele.
+`gof-design-patterns/references/` são autocontidos: não citam os catálogos de refatoração, e a tabela
+do `SKILL.md` liga cada padrão às refatorações que levam a ele.
 
 | Padrão | Pasta | Cap. |
 |---|---|---|

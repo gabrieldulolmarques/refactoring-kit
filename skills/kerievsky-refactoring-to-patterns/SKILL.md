@@ -1,14 +1,15 @@
 ---
 name: kerievsky-refactoring-to-patterns
-description: "Refatorações para padrões de Joshua Kerievsky (Refactoring to Patterns): 12 code smells e 27 refatorações que levam o código até um padrão de projeto, rumo a ele ou para longe dele (Strategy, State, Command, Observer, Composite, Factory, Template Method...), cada uma com mecânica, exemplo em C# e verificação. Inclui os 23 padrões do GoF (Gamma et al.) como referência, com intenção, participantes e exemplo em C#. Use quando condicionais ou switches não param de crescer, quando a criação de objetos está espalhada, quando um padrão de projeto for citado ou para escolher um padrão para um problema de design. Usa a skill fowler-refactoring para os passos menores."
+description: "Refatorações para padrões de Joshua Kerievsky (Refactoring to Patterns): 12 code smells e 27 refatorações que levam o código até um padrão de projeto, rumo a ele ou para longe dele (Strategy, State, Command, Observer, Composite, Factory, Template Method...), cada uma com mecânica, exemplo em C# e verificação. Use quando condicionais ou switches não param de crescer, quando a criação de objetos está espalhada ou quando uma refatoração de Kerievsky for citada. Usa a skill fowler-refactoring para os passos menores e a gof-design-patterns para descrever o padrão de destino."
 ---
 
-# Refatoração para padrões: Kerievsky e o catálogo do GoF
+# Refatoração para padrões: Kerievsky
 
 Kerievsky (2004), cap. 4 (smells) e cap. 6-11 (refatorações para padrões). Cada refatoração é
 uma sequência de refatorações menores, muitas delas de Fowler, da skill `fowler-refactoring`, que
-fica instalada ao lado desta (os links apontam para `../fowler-refactoring/`). Gamma et al.
-(1995), em `references/gof/`: os 23 padrões de projeto, destino da maioria dessas refatorações.
+fica instalada ao lado desta (os links apontam para `../fowler-refactoring/`). Os padrões de destino
+estão na skill `gof-design-patterns` (Gamma et al., 1995), também instalada ao lado desta (os links
+apontam para `../gof-design-patterns/`).
 
 Fluxo: **smell -> refatoração -> seu arquivo em `references/`.**
 
@@ -16,8 +17,8 @@ Fluxo: **smell -> refatoração -> seu arquivo em `references/`.**
    [references/smells.md](references/smells.md).
 2. Escolha uma refatoração para esse smell e abra o arquivo dela nas tabelas mais adiante. Só
    recorra a uma refatoração para padrão quando o smell pedir, e pare assim que o smell sumir:
-   ir *rumo a* um padrão muitas vezes basta. Antes, leia o arquivo do padrão em
-   `references/gof/` (tabela no fim).
+   ir *rumo a* um padrão muitas vezes basta. Antes, leia o padrão na skill
+   `gof-design-patterns`.
 3. Antes de alterar qualquer coisa, confira a rede de segurança em
    [discipline.md de Fowler](../fowler-refactoring/references/discipline.md): testes passando,
    passos pequenos, um commit após cada refatoração verde. Leia também
@@ -27,9 +28,8 @@ Fluxo: **smell -> refatoração -> seu arquivo em `references/`.**
    o passo.
 
 Se o pedido nomear uma refatoração, pule para o passo 3 e abra o arquivo dela diretamente. Se
-nomear um padrão de projeto, ou perguntar qual padrão serve para um problema de design, comece por
-[references/gof/catalog.md](references/gof/catalog.md) e
-[references/gof/principles.md](references/gof/principles.md).
+nomear um padrão de projeto, ou perguntar qual padrão serve para um problema de design, use a skill
+`gof-design-patterns`.
 
 ## Índice rápido de smells
 
@@ -58,8 +58,6 @@ O `smells.md` lista todas as opções. Cada slug é um arquivo de referência; a
   C#), Verificação. O que um arquivo acrescenta além do livro vem marcado como **Além do livro**.
   Cada arquivo diz o padrão de destino e a direção: *até* o padrão, *rumo a* ele, ou para
   *longe* dele.
-- **GoF:** Intenção, Quando compensa, Participantes em C#, Exemplo (C#), Variações, Riscos e
-  alternativas em C#, Padrões relacionados, Verificação.
 
 ## Kerievsky: as refatorações para padrões
 
@@ -123,49 +121,20 @@ padrão, avança rumo a ele ou remove um. A coluna Padrão traz a direção.
 | Unificar Interfaces (Unify Interfaces) | — | uma superclasse ou interface precisa da mesma interface de uma subclasse | [unify-interfaces.md](references/utilities/unify-interfaces.md) |
 | Extrair Parâmetro (Extract Parameter) | — | um método ou construtor atribui a um campo um valor criado localmente | [extract-parameter.md](references/utilities/extract-parameter.md) |
 
-## GoF: os 23 padrões de projeto
+## Padrões de destino
 
-A ponte entre os padrões e os dois catálogos de refatoração. Cada arquivo do GoF descreve o padrão
-em si (intenção, quando compensa, participantes, exemplo em C#); as refatorações dizem como
-chegar a ele a partir do código existente, ou como sair dele.
+Os padrões estão na skill `gof-design-patterns`: intenção, quando compensa, participantes e exemplo
+de cada um, e a tabela que liga cada padrão às refatorações que levam a ele. Kerievsky também
+refatora para cinco padrões que não estão no GoF; os arquivos de referência dele os descrevem:
 
-| Padrão | Arquivo do GoF | Refatorações de Kerievsky (direção) | Refatorações de Fowler (skill `fowler-refactoring`) |
-|---|---|---|---|
-| Abstract Factory | [abstract-factory.md](references/gof/creational/abstract-factory.md) | — | — |
-| Builder | [builder.md](references/gof/creational/builder.md) | `encapsulate-composite-with-builder` (até) | — |
-| Factory Method | [factory-method.md](references/gof/creational/factory-method.md) | `introduce-polymorphic-creation-with-factory-method` (até) | — |
-| Prototype | [prototype.md](references/gof/creational/prototype.md) | — | — |
-| Singleton | [singleton.md](references/gof/creational/singleton.md) | `limit-instantiation-with-singleton` (até), `inline-singleton` (longe) | — |
-| Adapter | [adapter.md](references/gof/structural/adapter.md) | `extract-adapter` (até), `unify-interfaces-with-adapter` (até, rumo a) | — |
-| Bridge | [bridge.md](references/gof/structural/bridge.md) | — | — |
-| Composite | [composite.md](references/gof/structural/composite.md) | `replace-one-many-distinctions-with-composite` (até), `extract-composite` (até), `replace-implicit-tree-with-composite` (até), `encapsulate-composite-with-builder` (longe) | — |
-| Decorator | [decorator.md](references/gof/structural/decorator.md) | `move-embellishment-to-decorator` (até, rumo a) | — |
-| Facade | [facade.md](references/gof/structural/facade.md) | — | — |
-| Flyweight | [flyweight.md](references/gof/structural/flyweight.md) | — | — |
-| Proxy | [proxy.md](references/gof/structural/proxy.md) | — | — |
-| Chain of Responsibility | [chain-of-responsibility.md](references/gof/behavioral/chain-of-responsibility.md) | — | — |
-| Command | [command.md](references/gof/behavioral/command.md) | `replace-conditional-dispatcher-with-command` (até, rumo a) | `replace-function-with-command`, `replace-command-with-function` |
-| Interpreter | [interpreter.md](references/gof/behavioral/interpreter.md) | `replace-implicit-language-with-interpreter` (até) | — |
-| Iterator | [iterator.md](references/gof/behavioral/iterator.md) | `move-accumulation-to-visitor` (longe) | — |
-| Mediator | [mediator.md](references/gof/behavioral/mediator.md) | — | — |
-| Memento | [memento.md](references/gof/behavioral/memento.md) | — | — |
-| Observer | [observer.md](references/gof/behavioral/observer.md) | `replace-hard-coded-notifications-with-observer` (até, rumo a) | — |
-| State | [state.md](references/gof/behavioral/state.md) | `replace-state-altering-conditionals-with-state` (até, rumo a) | `replace-type-code-with-subclasses`, `replace-conditional-with-polymorphism`, `replace-subclass-with-delegate` |
-| Strategy | [strategy.md](references/gof/behavioral/strategy.md) | `replace-conditional-logic-with-strategy` (até, rumo a) | `replace-conditional-with-polymorphism`, `replace-subclass-with-delegate` |
-| Template Method | [template-method.md](references/gof/behavioral/template-method.md) | `form-template-method` (até) | — |
-| Visitor | [visitor.md](references/gof/behavioral/visitor.md) | `move-accumulation-to-visitor` (até, rumo a) | — |
+| Padrão | Refatorações de Kerievsky (direção) | Refatorações de Fowler (skill `fowler-refactoring`) |
+|---|---|---|
+| Creation Method | `replace-constructors-with-creation-methods` (até) | — |
+| Factory | `move-creation-knowledge-to-factory` (até), `encapsulate-classes-with-factory` (até) | — |
+| Composed Method | `compose-method` (até) | — |
+| Collecting Parameter | `move-accumulation-to-collecting-parameter` (até) | — |
+| Null Object | `introduce-null-object` (até) | `introduce-special-case` |
 
-Kerievsky também refatora para cinco padrões que não estão no GoF; os arquivos de referência dele os descrevem:
-
-| Padrão | Arquivo do GoF | Refatorações de Kerievsky (direção) | Refatorações de Fowler (skill `fowler-refactoring`) |
-|---|---|---|---|
-| Creation Method | — | `replace-constructors-with-creation-methods` (até) | — |
-| Factory | — | `move-creation-knowledge-to-factory` (até), `encapsulate-classes-with-factory` (até) | — |
-| Composed Method | — | `compose-method` (até) | — |
-| Collecting Parameter | — | `move-accumulation-to-collecting-parameter` (até) | — |
-| Null Object | — | `introduce-null-object` (até) | `introduce-special-case` |
-
-Fontes: Joshua Kerievsky, *Refactoring to Patterns*, Addison-Wesley (Pearson Education),
-2004, e o catálogo online em https://www.industriallogic.com/refactoring-to-patterns/catalog/;
-Erich Gamma, Richard Helm, Ralph Johnson e John Vlissides, *Design Patterns: Elements of
-Reusable Object-Oriented Software*, Addison-Wesley, 1995. Parafraseado; veja o NOTICE do pacote.
+Fonte: Joshua Kerievsky, *Refactoring to Patterns*, Addison-Wesley (Pearson Education),
+2004, e o catálogo online em https://www.industriallogic.com/refactoring-to-patterns/catalog/.
+Parafraseado; veja o NOTICE do pacote.

@@ -7,7 +7,7 @@ o uso de cada fonte e medi-lo depois. Vale para planos, mensagens de commit e re
 |---|---|---|
 | `F:<slug>` | refatoração da skill `fowler-refactoring` | `[F:extract-function]` |
 | `K:<slug>` | refatoração da skill `kerievsky-refactoring-to-patterns` | `[K:replace-conditional-logic-with-strategy]` |
-| `GoF:<padrão>` | padrão de projeto de Gamma et al. (1995) | `[GoF:strategy]` |
+| `GoF:<padrão>` | padrão da skill `gof-design-patterns` (Gamma et al., 1995) | `[GoF:strategy]` |
 | `SOLID:<sigla>` | princípio da rule `solid.md` | `[SOLID:OCP]` |
 
 O slug é o nome do arquivo de referência sem `.md`; o padrão do GoF vai em minúsculas e com hífen

@@ -3,10 +3,10 @@
 Dois catálogos de refatoração e um catálogo de padrões de projeto empacotados como
 [Agent Skills](https://agentskills.io) para agentes de código: o *Refactoring* de Martin Fowler (2ª ed.,
 2018), o *Refactoring to Patterns* de Joshua Kerievsky (2004) e os 23 padrões do *Design Patterns* de
-Gamma et al. (GoF, 1995). São duas skills, uma por livro de refatoração, para que se saiba de qual
-catálogo veio cada refatoração aplicada: `fowler-refactoring` relaciona 24 code smells às 66
-refatorações que os corrigem, e `kerievsky-refactoring-to-patterns` relaciona 12 code smells às 27
-refatorações para padrões e traz o GoF como referência, ligando cada padrão às refatorações que levam a ele.
+Gamma et al. (GoF, 1995). São três skills, uma por livro, para que se saiba de qual catálogo veio cada coisa
+aplicada: `fowler-refactoring` relaciona 24 code smells às 66 refatorações que os corrigem,
+`kerievsky-refactoring-to-patterns` relaciona 12 code smells às 27 refatorações para padrões, e
+`gof-design-patterns` é a consulta aos 23 padrões, ligando cada padrão às refatorações que levam a ele.
 Todo arquivo de refatoração e de padrão tem um exemplo em C# 9.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (inglês e português).
@@ -33,17 +33,20 @@ skills/fowler-refactoring/
 ├── SKILL.md # fluxo smell → refatoração → arquivo, índice dos 24 smells, tabelas das 66
 └── references/ # smells.md, discipline.md, uma pasta por capítulo
 skills/kerievsky-refactoring-to-patterns/
-├── SKILL.md # fluxo smell → refatoração → arquivo, índice dos 12 smells, tabelas das 27, os 23 padrões
-└── references/ # smells.md, discipline.md, uma pasta por capítulo; gof/ (catalog.md, principles.md, uma pasta por categoria)
+├── SKILL.md # fluxo smell → refatoração → arquivo, índice dos 12 smells, tabelas das 27
+└── references/ # smells.md, discipline.md, uma pasta por capítulo
+skills/gof-design-patterns/
+├── SKILL.md # consulta: os 23 padrões e as refatorações que levam a cada um
+└── references/ # catalog.md, principles.md, uma pasta por categoria
 ```
 
 Só a descrição de cada skill fica no contexto do agente. O corpo é carregado quando a skill é
 usada, e o arquivo de cada refatoração só quando o agente o abre. As refatorações de Kerievsky
-apontam para as de Fowler que usam como passos, então instale as duas skills lado a lado.
+apontam para as de Fowler que usam como passos, então instale as skills lado a lado.
 
 ## Agentes
 
-Dois subagentes que usam as duas skills:
+Dois subagentes que usam as três skills:
 
 - `refactoring-analyst` lê o código indicado na chamada, nomeia os smells e devolve um plano
   curto: onde, qual smell, qual refatoração, se há testes cobrindo e o risco. Nunca
@@ -57,7 +60,7 @@ vêm da chamada ou das instruções do próprio projeto, não deste pacote.
 ## Como usar
 
 - **Qualquer cliente de Agent Skills** (Claude Code, Codex, OpenCode): crie um link de cada pasta
-  de `skills/` (`fowler-refactoring` e `kerievsky-refactoring-to-patterns`) na pasta de skills do
+  de `skills/` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` e `gof-design-patterns`) na pasta de skills do
   projeto (no Windows, uma junção: `New-Item -ItemType Junction`).
 - **Plugin do Claude Code**: `claude --plugin-dir <caminho-deste-repositório>`. As skills e os agentes
   ficam então com o prefixo `refactoring-kit:<name>`.
