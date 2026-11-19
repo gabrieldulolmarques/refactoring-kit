@@ -29,7 +29,8 @@ to a specific project, framework, engine or team workflow.
 Three skills, one per book: `fowler-refactoring`, `kerievsky-refactoring-to-patterns` and
 `gof-design-patterns`, the last one for lookup only, since the patterns are where Kerievsky's
 refactorings lead but do not teach refactoring. Splitting by book means the loaded skill tells
-which catalog each applied thing came from. Only each one's `description` stays in the agent's context; the
+which catalog each applied thing came from. A fourth skill, `refactoring`, has no catalog: it is only the entry point
+(`/refactoring <target>`), which diagnoses, picks the skill and applies step by step. Only each one's `description` stays in the agent's context; the
 `SKILL.md` body loads when the skill is used, and each reference file only when the agent opens it.
 The agent starts from a problem (a smell), not from a refactoring's name, so one entry point per
 book that routes smell → refactoring → file works better than 116 competing descriptions.
@@ -38,6 +39,7 @@ Kerievsky's refactorings link to the Fowler refactorings they use as steps, thro
 
 | File | Source | Content |
 |---|---|---|
+| `refactoring/SKILL.md` | this spec | the `/refactoring <target>` entry point: SOLID diagnosis, skill choice, step-by-step application and source-ID recording; no catalog of its own |
 | `fowler-refactoring/SKILL.md` | this spec | the flow smell → refactoring → file, a quick index of the 24 smells and a table of the 66 refactorings (name, when, file), grouped by chapter (section 4.1) |
 | `kerievsky-refactoring-to-patterns/SKILL.md` | this spec | the same for the 12 smells and the 27 refactorings to patterns |
 | `gof-design-patterns/SKILL.md` | this spec | the lookup flow and the table linking each GoF pattern to the refactorings that reach it |
@@ -60,6 +62,8 @@ instead: `https://refactoring.com/catalog/extractFunction.html`.
 
 ```
 skills/
+├── refactoring/
+│   └── SKILL.md
 ├── fowler-refactoring/
 │   ├── SKILL.md
 │   └── references/

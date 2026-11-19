@@ -6,7 +6,7 @@ Patterns* (2004) and the 23 patterns of Gamma et al.'s *Design Patterns* (GoF, 1
 skills, one per book, so you can tell which catalog each applied thing came from:
 `fowler-refactoring` maps 24 code smells to the 66 refactorings that fix them,
 `kerievsky-refactoring-to-patterns` maps 12 code smells to the 27 refactorings to patterns, and
-`gof-design-patterns` is the lookup for the 23 patterns, linking each pattern to the refactorings that reach it. Every refactoring and pattern file has a C# 9 example.
+`gof-design-patterns` is the lookup for the 23 patterns, linking each pattern to the refactorings that reach it. A fourth one, `refactoring`, is the entry point: `/refactoring <target>` drives the whole flow and routes to the other three. Every refactoring and pattern file has a C# 9 example.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (English and Portuguese).
 
@@ -27,6 +27,8 @@ agents/
 rules/
 ├── solid.md # SOLID as a design criterion, with the path to both skills' refactorings
 └── source-ids.md # F:, K:, GoF: and SOLID: IDs in commits and plans, to track the source of each change
+skills/refactoring/
+└── SKILL.md # entry point: /refactoring <target> diagnoses, picks the skill and applies step by step
 skills/fowler-refactoring/
 ├── SKILL.md # flow smell → refactoring → file, index of the 24 smells, tables of the 66
 └── references/ # smells.md, discipline.md, a folder per chapter
@@ -58,10 +60,10 @@ from the call or from the project's own instructions, not from this package.
 ## Using it
 
 - **Any Agent Skills client** (Claude Code, Codex, OpenCode): link each folder
-  in `skills/` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` and `gof-design-patterns`) into the project's skills folder (on Windows, a junction:
+  in `skills/` (`refactoring`, `fowler-refactoring`, `kerievsky-refactoring-to-patterns` and `gof-design-patterns`) into the project's skills folder (on Windows, a junction:
   `New-Item -ItemType Junction`).
 - **Claude Code plugin**: `claude --plugin-dir <path-to-this-repo>`. The skills and agents are
-  then namespaced as `refactoring-kit:<name>`.
+  then namespaced as `refactoring-kit:<name>`; the entry command is `/refactoring-kit:refactoring`.
 
 - **Rules** (`rules/solid.md` and `rules/source-ids.md`): copy them into the project's rules folder
   (in Claude Code, `.claude/rules/`) or reference them from `AGENTS.md`. Rules are not part of the
