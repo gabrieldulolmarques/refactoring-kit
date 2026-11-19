@@ -137,7 +137,7 @@ que repete os campos.
 - Esta refatoração é idiomática em JavaScript. Em C#, a transformação costuma ser uma função que
   devolve um `record` enriquecido novo (construído com um construtor, ou com um construtor de cópia
   quando deriva do record de origem; `with` só serve quando o tipo enriquecido é o mesmo tipo),
-  então o original nunca é mutado e não é preciso cópia profunda (C# 9+; em alvos mais antigos, um `record`
+  então o original nunca é mutado e não é preciso cópia profunda (em alvos mais antigos, um `record`
   posicional precisa de um shim de `IsExternalInit`).
 - Records são rasos: se a origem guarda coleções ou objetos mutáveis, copie-os também.
 - Se os dados de fato forem mutados, ou se as derivações precisarem do comportamento do objeto, prefira

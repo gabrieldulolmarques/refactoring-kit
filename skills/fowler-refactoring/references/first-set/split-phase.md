@@ -198,8 +198,8 @@ Mesma saída de antes, inclusive para um carrinho vazio (o frete continua sendo 
 
 ## Notas (C#)
 
-- A estrutura de dados intermediária costuma ser um `record` (`record` é C# 9; `record struct` e `readonly record struct`, para dados pequenos e
-  muito usados, são C# 10; em alvos mais antigos, `record` precisa de um shim de `IsExternalInit`). A imutabilidade impede que as fases
+- A estrutura de dados intermediária costuma ser um `record` (`record struct` ou `readonly record struct` para dados pequenos e
+  muito usados; em alvos mais antigos, `record` precisa de um shim de `IsExternalInit`). A imutabilidade impede que as fases
   alcancem o estado uma da outra.
 
 ## Verificação

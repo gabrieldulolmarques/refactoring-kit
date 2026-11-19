@@ -94,7 +94,7 @@ atribuição, e não descoberto mais tarde. A assinatura sempre é criada com um
 
 ## Notas (C#)
 - Um `string` ou `int` com significado vira um tipo próprio: um `record`, ou um `readonly record struct` para
-  valores pequenos (C# 9+ para `record`, C# 10 para `readonly record struct`; em alvos mais antigos precisa de um shim de
+  valores pequenos (em alvos mais antigos precisa de um shim de
   `IsExternalInit`). Se os valores legais forem um conjunto fechado fixo, sem comportamento extra, um `enum`
   pode bastar.
 - Um `record` oferece igualdade por valor de graça; mantenha o estado imutável.

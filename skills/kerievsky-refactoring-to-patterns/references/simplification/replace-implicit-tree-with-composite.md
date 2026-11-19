@@ -136,7 +136,7 @@ string text = ReconciliationReport.Render(new IReconciliationNode[] { morning })
 ```
 
 ## Notas (C#)
-- Um `record` é uma folha conveniente (C# 9+; em alvos mais antigos ele precisa de um shim de `IsExternalInit`). Uma interface basta para o tipo comum, a menos que folhas e pais compartilhem código.
+- Um `record` é uma folha conveniente (em alvos mais antigos ele precisa de um shim de `IsExternalInit`). Uma interface basta para o tipo comum, a menos que folhas e pais compartilhem código.
 - Se a árvore precisar ser imutável, receba os filhos apenas no construtor e exponha-os como `IReadOnlyList<T>`; remova `Add`.
 
 ## Verificação
