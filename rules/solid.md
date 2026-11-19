@@ -51,3 +51,9 @@ infrastructure (network, engine, files) implements it.
 - A principle is not a goal: refactor only when the violation has a real cost (frequent change, a
   bug, hard extension). Stable code that violates a principle can stay.
 - If the path leads to a pattern, first read the GoF pattern in the `gof-design-patterns` skill.
+
+## Source
+
+MARTIN, R. C. *Agile Software Development: Principles, Patterns, and Practices*. Prentice Hall, 2002
+(ch. 8–12), and *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Pearson,
+2017 (ch. 7, the SRP). Paraphrased; the books' text is not reproduced.

@@ -96,6 +96,12 @@ package **and** the books it is based on:
 >
 > Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides. *Design Patterns: Elements of
 > Reusable Object-Oriented Software*. Reading: Addison-Wesley, 1995. ISBN 978-0-201-63361-0.
+>
+> Robert C. Martin. *Agile Software Development: Principles, Patterns, and Practices*. Prentice Hall,
+> 2002. ISBN 978-0-13-597444-5.
+>
+> Robert C. Martin. *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Pearson,
+> 2017. ISBN 978-0-13-449416-6.
 
 The license covers only this package's own content, not the books (see [NOTICE](NOTICE)).
 The motivation and mechanics in the skills are paraphrased, with the chapter cited;
