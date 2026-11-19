@@ -22,9 +22,9 @@ design, na rule `solid.md`. Se o pedido não trouxer um alvo, pergunte qual é.
    escreva primeiro um teste que fixe o comportamento atual.
 4. **Aplicar uma refatoração por vez**, pela mecânica do arquivo dela, com build e testes a cada
    passo. Se o subagente `refactoring-implementer` (no Codex, `refactoring_implementer`) existir, entregue cada item a ele.
-5. **Registrar.** Um commit por refatoração, com o ID da fonte no
-   fim da descrição: `[F:<slug>]`, `[K:<slug>]`, `[GoF:<padrão>]` ou `[SOLID:<sigla>]` (a regra completa está em
-   `rules/source-ids.md`, se instalada).
+5. **Registrar.** Um commit por refatoração, com o ID da refatoração
+   no fim da descrição, `[F:<slug>]` ou `[K:<slug>]`, mais `[GoF:<padrão>]` e `[SOLID:<sigla>]` quando
+   justificarem a mudança (a regra completa está em `rules/source-ids.md`, se instalada).
 6. **Conferir o resultado** com os mesmos cheques do SOLID (sem a rule, confira SRP, OCP, LSP, ISP e
    DIP pelo nome) e relatar o que mudou, os IDs usados e o
    que foi encontrado mas não tocado.
