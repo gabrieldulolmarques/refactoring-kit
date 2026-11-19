@@ -29,7 +29,8 @@ a um projeto, framework, engine ou fluxo de trabalho de equipe específico.
 Três skills, uma por livro: `fowler-refactoring`, `kerievsky-refactoring-to-patterns` e
 `gof-design-patterns`, esta só de consulta, porque os padrões são o destino das refatorações de
 Kerievsky mas não ensinam a refatorar. A divisão por livro permite saber, pela skill carregada, de
-qual catálogo veio cada coisa aplicada. Só a `description` de cada uma fica no contexto do
+qual catálogo veio cada coisa aplicada. Uma quarta skill, `refactoring`, não tem catálogo: é só a porta de entrada
+(`/refactoring <alvo>`), que diagnostica, escolhe a skill e aplica passo a passo. Só a `description` de cada uma fica no contexto do
 agente; o corpo de `SKILL.md` é carregado quando a skill é usada, e cada arquivo de referência só
 quando o agente o abre. O agente parte de um problema (um smell), não do nome de uma refatoração,
 então um ponto de entrada por livro, que roteia smell → refatoração → arquivo, funciona melhor que
@@ -38,6 +39,7 @@ passos, com links para `../fowler-refactoring/`: as três skills ficam instalada
 
 | Arquivo | Fonte | Conteúdo |
 |---|---|---|
+| `refactoring/SKILL.md` | esta especificação | a porta de entrada `/refactoring <alvo>`: diagnóstico com o SOLID, escolha da skill, aplicação passo a passo e registro dos IDs de fonte; sem catálogo próprio |
 | `fowler-refactoring/SKILL.md` | esta especificação | o fluxo smell → refatoração → arquivo, um índice rápido dos 24 smells e uma tabela das 66 refatorações (nome, quando, arquivo), agrupadas por capítulo (seção 4.1) |
 | `kerievsky-refactoring-to-patterns/SKILL.md` | esta especificação | o mesmo para os 12 smells e as 27 refatorações para padrões |
 | `gof-design-patterns/SKILL.md` | esta especificação | o fluxo de consulta e a tabela que liga cada padrão do GoF às refatorações que levam a ele |
@@ -60,6 +62,8 @@ no capítulo sob o qual a seção 2 a lista. A página do refactoring.com usa o 
 
 ```
 skills/
+├── refactoring/
+│   └── SKILL.md
 ├── fowler-refactoring/
 │   ├── SKILL.md
 │   └── references/

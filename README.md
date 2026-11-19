@@ -6,7 +6,7 @@ Dois catálogos de refatoração e um catálogo de padrões de projeto empacotad
 Gamma et al. (GoF, 1995). São três skills, uma por livro, para que se saiba de qual catálogo veio cada coisa
 aplicada: `fowler-refactoring` relaciona 24 code smells às 66 refatorações que os corrigem,
 `kerievsky-refactoring-to-patterns` relaciona 12 code smells às 27 refatorações para padrões, e
-`gof-design-patterns` é a consulta aos 23 padrões, ligando cada padrão às refatorações que levam a ele.
+`gof-design-patterns` é a consulta aos 23 padrões, ligando cada padrão às refatorações que levam a ele. Uma quarta, `refactoring`, é a porta de entrada: `/refactoring <alvo>` conduz o fluxo completo e encaminha para as outras três.
 Todo arquivo de refatoração e de padrão tem um exemplo em C# 9.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (inglês e português).
@@ -29,6 +29,8 @@ agents/
 rules/
 ├── solid.md # SOLID como critério de design, com o caminho para as refatorações das duas skills
 └── source-ids.md # IDs F:, K:, GoF: e SOLID: nos commits e planos, para rastrear a fonte de cada mudança
+skills/refactoring/
+└── SKILL.md # porta de entrada: /refactoring <alvo> diagnostica, escolhe a skill e aplica passo a passo
 skills/fowler-refactoring/
 ├── SKILL.md # fluxo smell → refatoração → arquivo, índice dos 24 smells, tabelas das 66
 └── references/ # smells.md, discipline.md, uma pasta por capítulo
@@ -60,10 +62,10 @@ vêm da chamada ou das instruções do próprio projeto, não deste pacote.
 ## Como usar
 
 - **Qualquer cliente de Agent Skills** (Claude Code, Codex, OpenCode): crie um link de cada pasta
-  de `skills/` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` e `gof-design-patterns`) na pasta de skills do
+  de `skills/` (`refactoring`, `fowler-refactoring`, `kerievsky-refactoring-to-patterns` e `gof-design-patterns`) na pasta de skills do
   projeto (no Windows, uma junção: `New-Item -ItemType Junction`).
 - **Plugin do Claude Code**: `claude --plugin-dir <caminho-deste-repositório>`. As skills e os agentes
-  ficam então com o prefixo `refactoring-kit:<name>`.
+  ficam então com o prefixo `refactoring-kit:<name>`; o comando de entrada é `/refactoring-kit:refactoring`.
 
 - **Rules** (`rules/solid.md` e `rules/source-ids.md`): copie para a pasta de rules do projeto (no
   Claude Code, `.claude/rules/`) ou cite-as no `AGENTS.md`. Rules não fazem parte do formato Agent

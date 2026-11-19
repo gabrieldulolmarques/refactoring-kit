@@ -54,6 +54,7 @@ markdown_extensions:
   - pymdownx.superfences
 nav:
   - Início: index.md
+  - Fluxo completo: skills/refactoring/SKILL.md
   - Catálogo:
       - "Fowler (2018)":
           - Skill: skills/fowler-refactoring/SKILL.md
