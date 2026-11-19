@@ -78,6 +78,7 @@ public static class Program
 A forma parametrizada usa um único método de criação com uma chave, então não é necessária uma subclasse por produto. O conjunto de produtos fica fixo em um único `switch`, e uma chave desconhecida falha imediatamente.
 
 ```csharp
+// fragment
 public static class NotificationFactory
 {
     public static INotification Create(string channel) => channel switch

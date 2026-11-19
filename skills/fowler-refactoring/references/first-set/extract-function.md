@@ -109,6 +109,7 @@ de que o resto do método precisa, então a nova função a devolve. O trecho de
 depósito pelo objeto que recebe, então não devolve nada.
 
 ```csharp
+// fragment
 public class CheckoutService
 {
     public void Checkout(Cart cart, Warehouse warehouse)
