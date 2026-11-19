@@ -16,6 +16,12 @@ coloque o link deste repositório e dê o crédito a Gabriel R. Marques
 ([gabrieldulolmarques](https://github.com/gabrieldulolmarques) no GitHub). Também gostaria de saber como
 foi, então fique à vontade para abrir uma issue.
 
+## Como as peças se encaixam
+
+![Fluxo do princípio violado ao padrão de projeto: SOLID, smell, refatoração de Fowler, refatoração para padrão de Kerievsky e padrão do GoF](docs/flow.svg)
+
+O desenho é editável: abra [`docs/flow.excalidraw`](docs/flow.excalidraw) em [excalidraw.com](https://excalidraw.com).
+
 ## Estrutura
 
 ```
