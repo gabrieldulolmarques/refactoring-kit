@@ -18,7 +18,7 @@ Flow: **smell -> refactoring -> its file in `references/`.**
    `kerievsky-refactoring-to-patterns` skill.
 3. Before changing anything, check the safety net in
    [references/discipline.md](references/discipline.md): passing tests, small steps, a commit
-   after each green refactoring (when the user or the project asks for commits). If the code has no tests, write them first.
+   after each green refactoring. If the code has no tests, write them first.
 4. Follow the mechanics one step at a time. Compile and run the tests after each step; if
    anything fails, undo the step.
 

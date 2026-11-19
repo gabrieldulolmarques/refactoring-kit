@@ -21,7 +21,7 @@ the `solid.md` rule. If the request has no target, ask for one.
    write a test that pins the current behavior.
 4. **Apply one refactoring at a time**, following its file's mechanics, with build and tests after
    each step. If the `refactoring-implementer` (in Codex, `refactoring_implementer`) subagent exists, hand it each item.
-5. **Record.** One commit per refactoring, only if the user asked for commits, with the source ID
+5. **Record.** One commit per refactoring, with the source ID
    at the end of the description: `[F:<slug>]`, `[K:<slug>]`, `[GoF:<pattern>]` or
    `[SOLID:<acronym>]` (the full rule is in
    `rules/source-ids.md`, if installed).
