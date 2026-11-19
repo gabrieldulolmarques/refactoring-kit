@@ -39,4 +39,4 @@ estrutura das skills, os exemplos em C# e os agentes. Ela não cobre os livros, 
 sob copyright de seus autores e da Pearson Education, Inc. Este pacote não contém texto, código
 nem figuras dos livros; os nomes das refatorações, os nomes antigos e as inversas são citados como
 aparecem nos cabeçalhos de seção do livro (e no catálogo online público para as cinco
-refatorações só da web), e os números de página se referem às edições impressas (a 2ª edição, no caso de Fowler).
+refatorações só da web), e as fontes são citadas por capítulo e nome da entrada, nunca por página (Fowler, na 2ª edição).
