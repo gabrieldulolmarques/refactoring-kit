@@ -1,8 +1,8 @@
 # refactoring-kit
 
-The refactoring catalogs of Martin Fowler and Joshua Kerievsky and the 23 GoF design patterns, packaged
+The refactoring catalogs of Martin Fowler and Joshua Kerievsky and GoF design patterns, packaged
 as [Agent Skills](https://agentskills.io) for coding agents (Claude Code and Codex). The package
-also ships two subagents, two rules and a C# 9 example in every refactoring and pattern file.
+also ships two subagents, two rules and a C# example in every refactoring and pattern file.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-kit/> (English and Portuguese).
 
@@ -50,9 +50,10 @@ Review the analyst's plan before handing an item to the implementer.
 
 ## Installation
 
-- **Claude Code, as a plugin:** `claude --plugin-dir <path-to-this-repo>`. The skills and agents get
+- **Claude Code, as a plugin:** clone the repository (`git clone https://github.com/gabrieldulolmarques/refactoring-kit`)
+  and run `claude --plugin-dir <path-to-the-clone>`. The skills and agents get
   the `refactoring-kit:` prefix, and the entry point is `/refactoring-kit:refactoring`.
-- **Codex, as a plugin:** `codex plugin marketplace add <path-or-owner/repo>`, then
+- **Codex, as a plugin:** `codex plugin marketplace add gabrieldulolmarques/refactoring-kit` (or a local path), then
   `codex plugin add refactoring-kit@refactoring-kit`. The router only runs when called, and the plugin prefixes its name: use
   `$refactoring-kit:refactoring`. The subagents do not come with the plugin: copy `codex/agents/*.toml` into the
   project's `.codex/agents/` (or `~/.codex/agents/`). Codex gives a subagent no sandbox of its own:
