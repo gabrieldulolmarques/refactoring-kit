@@ -39,4 +39,4 @@ skill structure, the C# examples and the agents. It does not cover the books, wh
 copyright of their authors and Pearson Education, Inc. This package contains no text, code
 or figures from the books; refactoring names, former names and inverses are cited as they
 appear in the book's section headers (and in the public online catalog for the five
-web-only refactorings), and page numbers refer to the printed editions (Fowler's 2nd edition).
+web-only refactorings), and sources are cited by chapter and entry name, never by page (Fowler, in its 2nd edition).
