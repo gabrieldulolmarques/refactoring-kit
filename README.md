@@ -71,7 +71,7 @@ Use one route per project, or Claude Code sees the skills twice.
 
 | Path | Content |
 |---|---|
-| `skills/` | The four skills; each `SKILL.md` leads from the smell to the refactoring and its file, and `references/` has one file per entry |
+| `skills/` | The four skills. The `SKILL.md` of `refactoring` routes to the others; those of the two refactoring catalogs lead from the smell to the refactoring and its file; the GoF one indexes the patterns. `references/` has one file per entry |
 | `agents/` | The two Claude Code subagents (`.md`) |
 | `codex/agents/` | The same subagents in TOML, for Codex |
 | `rules/` | `solid.md` and `source-ids.md` |
@@ -81,7 +81,8 @@ Use one route per project, or Claude Code sees the skills twice.
 | `LICENSE`, `NOTICE` | CC BY 4.0; credit to Fowler, Kerievsky, the GoF authors and Addison-Wesley, and what the license covers |
 
 Only each skill's description stays in the agent's context. The body loads when the skill is used, and
-each refactoring's file only when the agent opens it.
+each refactoring's file only when the agent opens it. In the Claude Code subagents, the `SKILL.md` of the three
+catalog skills is preloaded.
 
 ## License and credit
 
