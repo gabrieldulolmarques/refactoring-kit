@@ -200,6 +200,9 @@ nav:
               - skills/gof-design-patterns/references/behavioral/strategy.md
               - skills/gof-design-patterns/references/behavioral/template-method.md
               - skills/gof-design-patterns/references/behavioral/visitor.md
+  - Rules:
+      - SOLID: rules/solid.md
+      - IDs de fonte: rules/source-ids.md
   - Agentes:
       - agents/refactoring-analyst.md
       - agents/refactoring-implementer.md
