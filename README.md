@@ -1,13 +1,9 @@
-# refactoring-skill
+# refactoring-kit
 
-Dois catálogos de refatoração e um catálogo de padrões de projeto empacotados como
-[Agent Skills](https://agentskills.io) para agentes de código: o *Refactoring* de Martin Fowler (2ª ed.,
-2018), o *Refactoring to Patterns* de Joshua Kerievsky (2004) e os 23 padrões do *Design Patterns* de
-Gamma et al. (GoF, 1995). São três skills, uma por livro, para que se saiba de qual catálogo veio cada coisa
-aplicada: `fowler-refactoring` relaciona 24 code smells às 66 refatorações que os corrigem,
-`kerievsky-refactoring-to-patterns` relaciona 12 code smells às 27 refatorações para padrões, e
-`gof-design-patterns` é a consulta aos 23 padrões, ligando os padrões às refatorações que levam a eles, quando há. Uma quarta, `refactoring`, é a porta de entrada: `/refactoring <alvo>` conduz o fluxo completo e encaminha para as outras três.
-Todo arquivo de refatoração e de padrão tem um exemplo em C# 9.
+Os catálogos de refatoração de Martin Fowler e de Joshua Kerievsky e os 23 padrões do GoF, empacotados
+como [Agent Skills](https://agentskills.io) para agentes de código (Claude Code, Codex, OpenCode). O
+pacote traz também dois subagentes, duas rules e um exemplo em C# 9 em cada arquivo de refatoração e de
+padrão. O repositório se chama `refactoring-skill`; o plugin, `refactoring-kit`.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (inglês e português).
 
@@ -16,78 +12,77 @@ coloque o link deste repositório e dê o crédito a Gabriel R. Marques
 ([gabrieldulolmarques](https://github.com/gabrieldulolmarques) no GitHub). Também gostaria de saber como
 foi, então fique à vontade para abrir uma issue.
 
+## O que tem
+
+Uma skill por livro, para saber de qual catálogo veio cada coisa aplicada, mais uma de entrada:
+
+| Skill | Fonte | O que traz | ID |
+|---|---|---|---|
+| `refactoring` | | A porta de entrada: `/refactoring <alvo>` (no Codex, `$refactoring <alvo>`) diagnostica, escolhe a skill e aplica passo a passo | |
+| `fowler-refactoring` | Fowler (2018) | 24 code smells e 66 refatorações | `F:<slug>` |
+| `kerievsky-refactoring-to-patterns` | Kerievsky (2004) | 12 code smells e 27 refatorações que levam a um padrão, rumo a ele ou para longe dele | `K:<slug>` |
+| `gof-design-patterns` | Gamma et al. (1995) | Consulta aos 23 padrões, cada um ligado às refatorações que levam a ele, quando há | `GoF:<padrão>` |
+
+Cada refatoração tem quando usar, mecânica passo a passo, exemplo em C# 9 e uma lista de verificação.
+Cada padrão tem intenção, quando compensa, participantes, exemplo e riscos. As fontes são citadas por
+capítulo e nome da entrada, nunca por página.
+
 ## Como as peças se encaixam
 
 ![Fluxo do princípio violado ao padrão de projeto: SOLID, smell, refatoração de Fowler, refatoração para padrão de Kerievsky e padrão do GoF](docs/flow.svg)
 
-O desenho é editável: abra [`docs/flow.excalidraw`](docs/flow.excalidraw) em [excalidraw.com](https://excalidraw.com).
+Um princípio do SOLID violado aponta para um smell, o smell para uma refatoração de Fowler e, se
+compensar, para uma refatoração de Kerievsky que termina num padrão do GoF. O desenho é editável: abra
+[`docs/flow.excalidraw`](docs/flow.excalidraw) em [excalidraw.com](https://excalidraw.com).
+
+## Agentes e rules
+
+- `refactoring-analyst` lê o código indicado, nomeia os smells e devolve um plano curto: onde, qual
+  smell, qual refatoração, se há testes cobrindo e o risco. Nunca edita.
+- `refactoring-implementer` aplica um item do plano (ou uma refatoração nomeada), seguindo a mecânica
+  com um build e uma execução dos testes após cada passo. Faz um commit por refatoração, com o ID da
+  fonte no fim da descrição, e nunca faz push. Os comandos de build e de teste vêm da chamada ou das
+  instruções do projeto, não deste pacote.
+- `rules/solid.md` traz os cheques do SOLID, com o caminho de cada princípio até as refatorações.
+- `rules/source-ids.md` define os IDs `F:`, `K:`, `GoF:` e `SOLID:` nos commits, planos e relatórios, por
+  exemplo `♻️ refactor(units): replace equipment switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`.
+  Com eles, `git log --grep "\[F:"` conta o uso de cada fonte.
+
+Revise o plano do analista antes de entregar um item ao implementador.
+
+## Instalação
+
+- **Claude Code, como plugin:** `claude --plugin-dir <caminho-deste-repositório>`. As skills e os
+  agentes ganham o prefixo `refactoring-kit:`, e a entrada é `/refactoring-kit:refactoring`.
+- **Codex, como plugin:** `codex plugin marketplace add <caminho-ou-owner/repo>` e depois
+  `codex plugin add refactoring-kit@refactoring-kit`. O roteador só roda quando chamado com
+  `$refactoring`. Os subagentes não vêm no plugin: copie `codex/agents/*.toml` para `.codex/agents/` do
+  projeto (ou `~/.codex/agents/`). O Codex não dá sandbox próprio ao subagente: o `refactoring_analyst`
+  recebe a instrução de não editar, mas usa o sandbox da sessão.
+- **Qualquer cliente de Agent Skills:** crie um link de cada pasta de `skills/` na pasta de skills do
+  projeto (`.agents/skills/` para o Codex, `.claude/skills/` para o Claude Code). No Windows, use uma
+  junção (`New-Item -ItemType Junction`). Instale as quatro lado a lado: as refatorações de Kerievsky
+  apontam para as de Fowler.
+- **Rules:** copie `rules/*.md` para `.claude/rules/` ou cite-as no `AGENTS.md`. Plugins e skills não
+  instalam rules.
+
+Use uma só via por projeto, ou o Claude Code verá as skills duas vezes.
 
 ## Estrutura
 
-```
-.claude-plugin/plugin.json # transforma o pacote em um plugin do Claude Code
-.codex-plugin/plugin.json # o mesmo para o Codex
-.agents/plugins/marketplace.json # marketplace local, para `codex plugin marketplace add`
-codex/agents/ # os dois subagentes em TOML, para o Codex (os de agents/ são do Claude Code)
-LICENSE # CC BY 4.0
-NOTICE # crédito a Fowler, Kerievsky, aos autores do GoF e à Addison-Wesley; o que a licença cobre
-CATALOG.md # a especificação: 66 + 27 refatorações, 29 smells, 23 padrões, formato dos arquivos, nível de C#
-agents/
-├── refactoring-analyst.md # somente leitura: encontra smells e devolve um plano curto
-└── refactoring-implementer.md # aplica uma refatoração, testando após cada passo
-rules/
-├── solid.md # SOLID como critério de design, com o caminho para as refatorações das duas skills
-└── source-ids.md # IDs F:, K:, GoF: e SOLID: nos commits e planos, para rastrear a fonte de cada mudança
-skills/refactoring/
-└── SKILL.md # porta de entrada: /refactoring <alvo> diagnostica, escolhe a skill e aplica passo a passo
-skills/fowler-refactoring/
-├── SKILL.md # fluxo smell → refatoração → arquivo, índice dos 24 smells, tabelas das 66
-└── references/ # smells.md, discipline.md, uma pasta por capítulo
-skills/kerievsky-refactoring-to-patterns/
-├── SKILL.md # fluxo smell → refatoração → arquivo, índice dos 12 smells, tabelas das 27
-└── references/ # smells.md, discipline.md, uma pasta por capítulo
-skills/gof-design-patterns/
-├── SKILL.md # consulta: os 23 padrões e as refatorações que levam a cada um
-└── references/ # catalog.md, principles.md, uma pasta por categoria
-```
+| Caminho | Conteúdo |
+|---|---|
+| `skills/` | As quatro skills; cada `SKILL.md` leva do smell à refatoração e ao arquivo, e `references/` tem um arquivo por entrada |
+| `agents/` | Os dois subagentes do Claude Code (`.md`) |
+| `codex/agents/` | Os mesmos subagentes em TOML, para o Codex |
+| `rules/` | `solid.md` e `source-ids.md` |
+| `.claude-plugin/`, `.codex-plugin/`, `.agents/plugins/` | Manifestos dos plugins e a marketplace local do Codex |
+| `docs/` | O diagrama (`flow.svg` e `flow.excalidraw`) |
+| `CATALOG.md` | A especificação: as 66 + 27 refatorações, os 24 + 12 smells, os 23 padrões, o formato dos arquivos e o nível de C# |
+| `LICENSE`, `NOTICE` | CC BY 4.0; crédito a Fowler, Kerievsky, aos autores do GoF e à Addison-Wesley, e o que a licença cobre |
 
-Só a descrição de cada skill fica no contexto do agente. O corpo é carregado quando a skill é
-usada, e o arquivo de cada refatoração só quando o agente o abre. As refatorações de Kerievsky
-apontam para as de Fowler que usam como passos, então instale as skills lado a lado.
-
-## Agentes
-
-Dois subagentes que usam as três skills:
-
-- `refactoring-analyst` lê o código indicado na chamada, nomeia os smells e devolve um plano
-  curto: onde, qual smell, qual refatoração, se há testes cobrindo e o risco. Nunca
-  edita.
-- `refactoring-implementer` aplica um item desse plano (ou uma refatoração nomeada), seguindo
-  a mecânica com um build e uma execução dos testes após cada passo.
-
-Revise o plano antes de entregar um item ao implementador. Os comandos de build e de teste
-vêm da chamada ou das instruções do próprio projeto, não deste pacote.
-
-## Como usar
-
-- **Qualquer cliente de Agent Skills** (Claude Code, Codex, OpenCode): crie um link de cada pasta
-  de `skills/` (`refactoring`, `fowler-refactoring`, `kerievsky-refactoring-to-patterns` e `gof-design-patterns`) na pasta de skills do
-  projeto (no Windows, uma junção: `New-Item -ItemType Junction`).
-- **Plugin do Claude Code**: `claude --plugin-dir <caminho-deste-repositório>`. As skills e os agentes
-  ficam então com o prefixo `refactoring-kit:<name>`; o comando de entrada é `/refactoring-kit:refactoring`.
-
-- **Plugin do Codex**: `codex plugin marketplace add <caminho-ou-owner/repo>` e instale o `refactoring-kit`
-  pelo diretório de plugins do app. Traz as quatro skills; o roteador só roda quando chamado
-  (`$refactoring <alvo>`).
-- **Subagentes do Codex**: o Codex não lê os `agents/*.md` do Claude Code. Copie `codex/agents/*.toml`
-  para `.codex/agents/` do projeto (ou `~/.codex/agents/`). O Codex não deixa um subagente ter
-  sandbox próprio: o `refactoring_analyst` recebe a instrução de não editar, mas o sandbox é o da
-  sessão.
-- **Rules** (`rules/solid.md` e `rules/source-ids.md`): copie para a pasta de rules do projeto (no
-  Claude Code, `.claude/rules/`) ou cite-as no `AGENTS.md`. Rules não fazem parte do formato Agent
-  Skills nem de um plugin, então nenhuma das duas vias acima as instala.
-
-Use uma só via por projeto, ou o Claude Code verá as skills duas vezes.
+Só a descrição de cada skill fica no contexto do agente. O corpo é carregado quando a skill é usada, e
+o arquivo de cada refatoração só quando o agente o abre.
 
 ## Licença e crédito
 
