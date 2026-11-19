@@ -480,8 +480,8 @@ Gamma et al. (1995), ch. 5. Category: object behavioral.
 
 ## 7. C# level of every example
 
-All examples in the package are C# 9, so that they also compile in Unity, whose compiler stops at
-C# 9: no `record` or `init` (they need an `IsExternalInit` shim there), no `required`, no primary
+All examples in the package are C# 9, so that they also compile where the compiler stops at
+C# 9 and the target is older: no `record` or `init` (they need an `IsExternalInit` shim there), no `required`, no primary
 constructors, no collection expressions, no file-scoped namespaces, no `global using`, no raw
 strings, no list patterns. Pattern matching, switch expressions, `new()`, nullable reference types,
 delegates, events, LINQ and `async` are used freely. Every block is compiled against

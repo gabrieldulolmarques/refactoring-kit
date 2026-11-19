@@ -136,7 +136,7 @@ string text = ReconciliationReport.Render(new IReconciliationNode[] { morning })
 ```
 
 ## C# notes
-- A `record` is a convenient leaf (C# 9+; on Unity it needs an `IsExternalInit` shim). An interface is enough for the common type unless leaves and parents share code.
+- A `record` is a convenient leaf (C# 9+; on older targets it needs an `IsExternalInit` shim). An interface is enough for the common type unless leaves and parents share code.
 - If the tree needs to be immutable, take the children in the constructor only and expose them as `IReadOnlyList<T>`; drop `Add`.
 ## Verification
 - Compiles and the tests pass after every step; one commit per refactoring.

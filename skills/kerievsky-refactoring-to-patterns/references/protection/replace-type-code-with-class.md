@@ -64,7 +64,7 @@ Persisted values (the old strings) map back to an instance through `Name` when t
 
 ## C# notes
 - A C# `enum` is only an integer underneath: `(Theme)42` compiles and runs. If the set must be closed and the type must carry behavior, use a sealed class with a private constructor. If neither matters, an enum is fine and this refactoring is not needed.
-- With a private constructor the instances are unique, so `==` on references is enough. Without it, override `Equals` and `GetHashCode` (or use a record, C# 9+; on Unity it needs an `IsExternalInit` shim).
+- With a private constructor the instances are unique, so `==` on references is enough. Without it, override `Equals` and `GetHashCode` (or use a record, C# 9+; on older targets it needs an `IsExternalInit` shim).
 ## Verification
 - Compiles and the tests pass after every step; one commit per refactoring.
 - No `string` or `int` constant for the family remains, and no public way to create a value outside the family if the family is meant to be closed.

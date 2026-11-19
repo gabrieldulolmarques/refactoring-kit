@@ -65,7 +65,7 @@ public static class Program
 ```
 
 ## C# notes
-- Use `{ get; }` for a value set only in the constructor, or `{ get; init; }` (C# 9+; on Unity it needs an `IsExternalInit` shim) when callers may still set it in an object initializer (`new Recipient { Id = "R-1001" }`) but not afterwards.
+- Use `{ get; }` for a value set only in the constructor, or `{ get; init; }` (C# 9+; on older targets it needs an `IsExternalInit` shim) when callers may still set it in an object initializer (`new Recipient { Id = "R-1001" }`) but not afterwards.
 - `init` (same shim caveat) is a lighter first step when many creation sites use initializers: it blocks later assignment without forcing a constructor change at once. Prefer `{ get; }` plus a constructor when the value is mandatory, so the compiler rejects objects built without it.
 
 ## Verification
