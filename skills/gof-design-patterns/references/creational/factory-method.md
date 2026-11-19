@@ -78,6 +78,7 @@ public static class Program
 The parameterized form uses one creation method with a key, so no subclass is needed per product. The set of products is fixed in one switch, and an unknown key fails fast.
 
 ```csharp
+// fragment
 public static class NotificationFactory
 {
     public static INotification Create(string channel) => channel switch

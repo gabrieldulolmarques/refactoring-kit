@@ -109,6 +109,7 @@ the rest of the method needs, so the new function returns it. The stock fragment
 warehouse through the object it receives, so it returns nothing.
 
 ```csharp
+// fragment
 public class CheckoutService
 {
     public void Checkout(Cart cart, Warehouse warehouse)
