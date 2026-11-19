@@ -32,7 +32,7 @@ Mostly opportunistically, as part of other work (ch. 2):
 1. **Green baseline.** Run the tests. Do not begin or carry on while any test fails. If a failure shows up mid-way, go back to the last passing version.
 2. **One small step** from the refactoring's mechanics.
 3. **Compile and run the tests.**
-4. **Commit** after each refactoring that is done and green. Commit more often if a step is risky. Keeping refactoring commits apart from feature commits is a default, not a law: the book leaves it to the team. The default has a practical payoff, since each refactoring commit becomes a safe point to revert to.
+4. **Commit** after each refactoring that is done and green. Commit more often if a step is risky. Keeping refactoring commits apart from feature commits is a default, not a law: the book leaves it to the team. The default has a practical payoff, since each refactoring commit becomes a safe point to revert to. The agents in this package keep each refactoring in its own commit, apart from feature work, and never push.
 5. **Repeat** with the next smell.
 
 Small steps feel slower but are faster in total: you almost never debug, because the last change is the only suspect.

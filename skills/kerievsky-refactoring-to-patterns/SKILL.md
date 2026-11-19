@@ -22,7 +22,8 @@ Flow: **smell -> refactoring -> its file in `references/`.**
    end are not; the refactoring's own file describes them).
 3. Before changing anything, check the safety net in
    [Fowler's discipline.md](../fowler-refactoring/references/discipline.md): passing tests,
-   small steps, a commit after each green refactoring. Also read
+   small steps, a commit after each green refactoring, with the source ID
+   (`[K:<slug>]`) and no push. Also read
    [references/discipline.md](references/discipline.md): when a pattern pays off, and when to stop.
 4. Follow the mechanics one step at a time. When a step names one of Fowler's refactorings, open
    its file through the link. Compile and run the tests after each step; if anything fails, undo
