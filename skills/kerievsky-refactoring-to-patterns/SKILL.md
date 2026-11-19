@@ -18,10 +18,12 @@ Fluxo: **smell -> refatoração -> seu arquivo em `references/`.**
 2. Escolha uma refatoração para esse smell e abra o arquivo dela nas tabelas mais adiante. Só
    recorra a uma refatoração para padrão quando o smell pedir, e pare assim que o smell sumir:
    ir *rumo a* um padrão muitas vezes basta. Antes, leia o padrão na skill
-   `gof-design-patterns`.
+   `gof-design-patterns`, se ele for do GoF (os cinco padrões da tabela no fim não são; o arquivo da
+   própria refatoração os descreve).
 3. Antes de alterar qualquer coisa, confira a rede de segurança em
    [discipline.md de Fowler](../fowler-refactoring/references/discipline.md): testes passando,
-   passos pequenos, um commit após cada refatoração verde. Leia também
+   passos pequenos, um commit após cada refatoração verde, se commits forem
+   pedidos. Leia também
    [references/discipline.md](references/discipline.md): quando um padrão compensa e quando parar.
 4. Siga a mecânica um passo de cada vez. Quando um passo citar uma refatoração de Fowler, abra o
    arquivo dela pelo link. Compile e execute os testes após cada passo; se algo falhar, desfaça

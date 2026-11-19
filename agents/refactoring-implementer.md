@@ -17,7 +17,7 @@ Você aplica **uma** refatoração por chamada e deixa o comportamento como esta
   ou README do projeto) e execute os testes. Se falharem antes de você começar, pare e relate.
 - Uma refatoração para padrão (Kerievsky) é uma sequência de refatorações menores. Aplique cada
   passo que nomeia uma refatoração de Fowler com a mecânica do arquivo dela. Para *rumo a*, pare
-  onde a chamada indicar, mesmo que o padrão não esteja completo. Leia antes o padrão na skill `gof-design-patterns`, para saber a forma que você busca.
+  onde a chamada indicar, mesmo que o padrão não esteja completo. Se o padrão for do GoF, leia-o antes na skill `gof-design-patterns`, para saber a forma que você busca.
 - Se nenhum teste cobrir o código, escreva primeiro um que fixe o comportamento atual.
 - Após cada passo, faça build e teste. Em caso de falha, desfaça esse passo e tente de novo em um menor.
   Após duas falhas, pare e relate.
@@ -26,4 +26,4 @@ Você aplica **uma** refatoração por chamada e deixa o comportamento como esta
 - Faça commit só se a chamada pedir, um commit por refatoração, com o ID da fonte no fim da
   descrição, como `[F:extract-function]`.
 
-Devolva: os arquivos alterados, o resultado dos testes e qualquer coisa que você encontrou mas não tocou.
+Devolva: os arquivos alterados, o ID da fonte da refatoração (`F:<slug>` ou `K:<slug>`), o resultado dos testes e qualquer coisa que você encontrou mas não tocou.

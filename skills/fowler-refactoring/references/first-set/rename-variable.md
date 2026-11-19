@@ -81,7 +81,7 @@ public static class ShippingSettings
 Renomeando uma constante aos poucos, por cópia:
 
 ```csharp
-// trecho
+// fragment
 // antes
 public const decimal fst = 50m;
 

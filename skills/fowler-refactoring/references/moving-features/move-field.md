@@ -75,7 +75,7 @@ public class DeliveryPlan
 Passo 1, encapsule o campo. O construtor agora passa pelo setter:
 
 ```csharp
-// trecho
+// fragment
 public Shipment(string trackingCode, int maxAttempts)
 {
     TrackingCode = trackingCode;
@@ -111,7 +111,7 @@ public class DeliveryPlan
 Passo 4, primeira tentativa: redirecione os acessores enquanto o construtor ainda está na ordem antiga.
 
 ```csharp
-// trecho
+// fragment
 public int MaxAttempts => _plan.MaxAttempts;
 private void SetMaxAttempts(int value) => _plan.MaxAttempts = value;
 // o construtor chama SetMaxAttempts antes de _plan ser atribuído:
@@ -121,7 +121,7 @@ private void SetMaxAttempts(int value) => _plan.MaxAttempts = value;
 Reverta os acessores e reordene o construtor para que `_plan` exista antes de o setter rodar. Teste:
 
 ```csharp
-// trecho
+// fragment
 public Shipment(string trackingCode, int maxAttempts)
 {
     TrackingCode = trackingCode;
@@ -133,7 +133,7 @@ public Shipment(string trackingCode, int maxAttempts)
 Redirecione os acessores de novo. Teste:
 
 ```csharp
-// trecho
+// fragment
 public int MaxAttempts => _plan.MaxAttempts;
 private void SetMaxAttempts(int value) => _plan.MaxAttempts = value;
 ```
@@ -143,7 +143,7 @@ Passo 5: apague `_maxAttempts`. Teste.
 Limpeza opcional, como passo separado: o construtor pode entregar o limite inicial diretamente a `DeliveryPlan`, e o valor padrão temporário do novo parâmetro some. `SetMaxAttempts` continua para `Escalate`:
 
 ```csharp
-// trecho
+// fragment
 public Shipment(string trackingCode, int maxAttempts)
 {
     TrackingCode = trackingCode;

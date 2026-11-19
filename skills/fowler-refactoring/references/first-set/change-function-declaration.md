@@ -64,7 +64,7 @@ public static class Shipping
 Passo 1, extraia o corpo para uma nova função com um nome temporário e o parâmetro desejado:
 
 ```csharp
-// trecho
+// fragment
 public static bool QualifiesForFreeShipping(Cart cart) =>
     QualifiesForFreeShipping_new(cart.Subtotal);
 
@@ -75,14 +75,14 @@ public static bool QualifiesForFreeShipping_new(decimal subtotal) =>
 Passo 2, internalize `QualifiesForFreeShipping` em cada chamador (teste após cada um) e depois apague-a:
 
 ```csharp
-// trecho
+// fragment
 // var eligible = carts.Where(c => Shipping.QualifiesForFreeShipping_new(c.Subtotal));
 ```
 
 Passo 3, renomeie `QualifiesForFreeShipping_new` de volta para `QualifiesForFreeShipping`:
 
 ```csharp
-// trecho
+// fragment
 public static bool QualifiesForFreeShipping(decimal subtotal) =>
     subtotal >= 50m;
 

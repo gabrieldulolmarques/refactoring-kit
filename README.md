@@ -6,7 +6,7 @@ Dois catálogos de refatoração e um catálogo de padrões de projeto empacotad
 Gamma et al. (GoF, 1995). São três skills, uma por livro, para que se saiba de qual catálogo veio cada coisa
 aplicada: `fowler-refactoring` relaciona 24 code smells às 66 refatorações que os corrigem,
 `kerievsky-refactoring-to-patterns` relaciona 12 code smells às 27 refatorações para padrões, e
-`gof-design-patterns` é a consulta aos 23 padrões, ligando cada padrão às refatorações que levam a ele. Uma quarta, `refactoring`, é a porta de entrada: `/refactoring <alvo>` conduz o fluxo completo e encaminha para as outras três.
+`gof-design-patterns` é a consulta aos 23 padrões, ligando os padrões às refatorações que levam a eles, quando há. Uma quarta, `refactoring`, é a porta de entrada: `/refactoring <alvo>` conduz o fluxo completo e encaminha para as outras três.
 Todo arquivo de refatoração e de padrão tem um exemplo em C# 9.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (inglês e português).

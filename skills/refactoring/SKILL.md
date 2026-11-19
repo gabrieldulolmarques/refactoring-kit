@@ -16,16 +16,17 @@ design, na rule `solid.md`. Se o pedido não trouxer um alvo, pergunte qual é.
    - uma refatoração simples resolve o smell: skill `fowler-refactoring`;
    - o smell pede um padrão (condicionais que escolhem variantes, notificações fixas no código,
      criação de objetos espalhada): skill `kerievsky-refactoring-to-patterns`, lendo antes o padrão
-     na skill `gof-design-patterns`;
+     na skill `gof-design-patterns`, quando ele for do GoF;
    - só há dúvida sobre um padrão: skill `gof-design-patterns`.
 3. **Armar a rede de segurança.** Testes passando antes de começar. Se nada cobrir o código,
    escreva primeiro um teste que fixe o comportamento atual.
 4. **Aplicar uma refatoração por vez**, pela mecânica do arquivo dela, com build e testes a cada
    passo. Se o subagente `refactoring-implementer` existir, entregue cada item a ele.
 5. **Registrar.** Um commit por refatoração, só se o usuário pediu commit, com o ID da fonte no
-   fim da descrição: `[F:<slug>]`, `[K:<slug>]`, `[GoF:<padrão>]` ou `[SOLID:<sigla>]` (veja
-   `rules/source-ids.md`).
-6. **Conferir o resultado** com os mesmos cheques do SOLID e relatar o que mudou, os IDs usados e o
+   fim da descrição: `[F:<slug>]`, `[K:<slug>]`, `[GoF:<padrão>]` ou `[SOLID:<sigla>]` (a regra completa está em
+   `rules/source-ids.md`, se instalada).
+6. **Conferir o resultado** com os mesmos cheques do SOLID (sem a rule, confira SRP, OCP, LSP, ISP e
+   DIP pelo nome) e relatar o que mudou, os IDs usados e o
    que foi encontrado mas não tocado.
 
 Pare assim que o smell sumir: ir *rumo a* um padrão muitas vezes basta.
