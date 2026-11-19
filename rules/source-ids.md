@@ -23,4 +23,4 @@ O slug é o nome do arquivo de referência sem `.md`; o padrão do GoF vai em mi
   acompanham quando justificam a mudança.
 - Commit que não aplica nada dos catálogos (docs, configuração) não leva ID.
 - Nos planos e nos relatórios dos agentes, a coluna da refatoração traz o mesmo ID.
-- Para contar o uso de uma fonte: `git log --grep "\[F:"` (ou `\[K:`, `\[GoF:`, `\[SOLID:`).
+- Para contar o uso de uma fonte: `git rev-list --count --grep='\[F:' HEAD` (ou `\[K:`, `\[GoF:`, `\[SOLID:`).

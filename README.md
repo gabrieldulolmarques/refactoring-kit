@@ -46,7 +46,7 @@ compensar, para uma refatoração de Kerievsky que termina num padrão do GoF. O
 - `rules/solid.md` traz os cheques do SOLID, com o caminho de cada princípio até as refatorações.
 - `rules/source-ids.md` define os IDs `F:`, `K:`, `GoF:` e `SOLID:` nos commits, planos e relatórios, por
   exemplo `♻️ refactor(billing): replace payment type switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`.
-  Com eles, `git log --grep "\[F:"` conta o uso de cada fonte.
+  Com eles, `git rev-list --count --grep='\[F:' HEAD` conta o uso de cada fonte.
 
 Revise o plano do analista antes de entregar um item ao implementador.
 
