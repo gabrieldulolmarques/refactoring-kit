@@ -58,7 +58,7 @@ from the call or from the project's own instructions, not from this package.
   in `skills/` (`fowler-refactoring` and `kerievsky-refactoring-to-patterns`) into the project's skills folder (on Windows, a junction:
   `New-Item -ItemType Junction`).
 - **Claude Code plugin**: `claude --plugin-dir <path-to-this-repo>`. The skills and agents are
-  then namespaced as `refactoring:<name>`.
+  then namespaced as `refactoring-kit:<name>`.
 
 - **Rules** (`rules/solid.md` and `rules/source-ids.md`): copy them into the project's rules folder
   (in Claude Code, `.claude/rules/`) or reference them from `AGENTS.md`. Rules are not part of the
