@@ -14,6 +14,12 @@ skills, one per book, so you can tell which catalog each applied thing came from
 this repository and credit Gabriel R. Marques ([gabrieldulolmarques](https://github.com/gabrieldulolmarques)
 on GitHub). I'd also like to hear how it went, so feel free to open an issue.
 
+## How the pieces fit together
+
+![Flow from the violated principle to the design pattern: SOLID, smell, Fowler refactoring, Kerievsky refactoring to a pattern and GoF pattern](docs/flow.svg)
+
+The drawing is editable: open [`docs/flow.excalidraw`](docs/flow.excalidraw) in [excalidraw.com](https://excalidraw.com).
+
 ## Layout
 
 ```
