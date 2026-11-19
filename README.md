@@ -2,13 +2,15 @@
 
 Two refactoring catalogs and a design patterns catalog packaged as [Agent Skills](https://agentskills.io)
 for coding agents: Martin Fowler's *Refactoring* (2nd ed., 2018), Joshua Kerievsky's *Refactoring to
-Patterns* (2004) and the 23 patterns of Gamma et al.'s *Design Patterns* (GoF, 1995). One skill,
-`refactoring`, maps 29 code smells to the 66 refactorings and 27 refactorings to patterns that fix
-them, and links each pattern to the refactorings that reach it. Every refactoring and pattern file has a C# 9 example.
+Patterns* (2004) and the 23 patterns of Gamma et al.'s *Design Patterns* (GoF, 1995). There are two
+skills, one per refactoring book, so you can tell which catalog each applied refactoring came from:
+`fowler-refactoring` maps 24 code smells to the 66 refactorings that fix them, and
+`kerievsky-refactoring-to-patterns` maps 12 code smells to the 27 refactorings to patterns and carries
+the GoF as reference, linking each pattern to the refactorings that reach it. Every refactoring and pattern file has a C# 9 example.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (English and Portuguese).
 
-**Using it?** If this skill helps you in a project, a paper or a post, please mention it: link
+**Using it?** If these skills help you in a project, a paper or a post, please mention it: link
 this repository and credit Gabriel R. Marques ([gabrieldulolmarques](https://github.com/gabrieldulolmarques)
 on GitHub). I'd also like to hear how it went, so feel free to open an issue.
 
@@ -22,17 +24,21 @@ CATALOG.md # the spec: 66 + 27 refactorings, 29 smells, 23 patterns, file format
 agents/
 ├── refactoring-analyst.md # read-only: finds smells and returns a short plan
 └── refactoring-implementer.md # applies one refactoring, testing after each step
-skills/refactoring/
-├── SKILL.md # flow smell → refactoring → file, smell index, tables of the 66 + 27
-└── references/ # fowler/ and kerievsky/ (smells.md, discipline.md, a folder per chapter); gof/ (catalog.md, principles.md, a folder per category)
+skills/fowler-refactoring/
+├── SKILL.md # flow smell → refactoring → file, index of the 24 smells, tables of the 66
+└── references/ # smells.md, discipline.md, a folder per chapter
+skills/kerievsky-refactoring-to-patterns/
+├── SKILL.md # flow smell → refactoring → file, index of the 12 smells, tables of the 27, the 23 patterns
+└── references/ # smells.md, discipline.md, a folder per chapter; gof/ (catalog.md, principles.md, a folder per category)
 ```
 
-Only the skill's description stays in the agent's context. The body loads when the skill is
-used, and each refactoring's file only when the agent opens it.
+Only each skill's description stays in the agent's context. The body loads when the skill is
+used, and each refactoring's file only when the agent opens it. Kerievsky's refactorings link to
+the Fowler refactorings they use as steps, so install both skills side by side.
 
 ## Agents
 
-Two subagents that use the skill:
+Two subagents that use both skills:
 
 - `refactoring-analyst` reads the code it is pointed at, names the smells and returns a short
   plan: where, which smell, which refactoring, whether tests cover it, and the risk. It never
@@ -45,13 +51,13 @@ from the call or from the project's own instructions, not from this package.
 
 ## Using it
 
-- **Any Agent Skills client** (Claude Code, Codex, OpenCode): link the
-  `skills/refactoring` folder into the project's skills folder (on Windows, a junction:
+- **Any Agent Skills client** (Claude Code, Codex, OpenCode): link each folder
+  in `skills/` (`fowler-refactoring` and `kerievsky-refactoring-to-patterns`) into the project's skills folder (on Windows, a junction:
   `New-Item -ItemType Junction`).
-- **Claude Code plugin**: `claude --plugin-dir <path-to-this-repo>`. The skill and agents are
+- **Claude Code plugin**: `claude --plugin-dir <path-to-this-repo>`. The skills and agents are
   then namespaced as `refactoring:<name>`.
 
-Use one route per project, or Claude Code sees the skill twice.
+Use one route per project, or Claude Code sees the skills twice.
 
 ## License and credit
 
@@ -68,7 +74,7 @@ package **and** the books it is based on:
 > Reusable Object-Oriented Software*. Reading: Addison-Wesley, 1995. ISBN 978-0-201-63361-0.
 
 The license covers only this package's own content, not the books (see [NOTICE](NOTICE)).
-The motivation and mechanics in the skill are paraphrased, with the chapter cited;
+The motivation and mechanics in the skills are paraphrased, with the chapter cited;
 nothing is copied from the books, refactoring.com or industriallogic.com. Refactoring names, former
 names and inverses come from the book's section headers, and from the book's web edition for the five web-only
 refactorings. The C# examples are original.
