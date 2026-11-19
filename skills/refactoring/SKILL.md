@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: "Porta de entrada para refatorar um alvo (arquivo, pasta ou classe) do início ao fim: diagnostica com os cheques do SOLID, escolhe entre as skills fowler-refactoring, kerievsky-refactoring-to-patterns e gof-design-patterns, aplica uma refatoração por vez com build e testes e registra o ID da fonte. Use somente quando o usuário rodar /refactoring (Claude Code) ou $refactoring (Codex), ou pedir esse fluxo completo; para uma refatoração ou um padrão específico, use direto a skill do catálogo."
+description: "Porta de entrada para refatorar um alvo (arquivo, pasta ou classe) do início ao fim: diagnostica com os cheques do SOLID, escolhe entre as skills fowler-refactoring, kerievsky-refactoring-to-patterns e gof-design-patterns, aplica uma refatoração por vez com build e testes e registra o ID da fonte. Use somente quando o usuário rodar /refactoring (Claude Code) ou $refactoring (Codex), ou, no Claude Code, pedir esse fluxo completo; para uma refatoração ou um padrão específico, use direto a skill do catálogo."
 ---
 
 # /refactoring <alvo> (no Codex, `$refactoring <alvo>`)
