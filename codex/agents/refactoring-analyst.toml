@@ -27,5 +27,8 @@ for the `fowler-refactoring` skill, `K:<slug>` for `kerievsky-refactoring-to-pat
 
 ```
 | # | Where (file:lines) | Smell | Refactoring | Tests? | Risk |
-|
+|---|---|---|---|---|---|
+```
+
+Then at most three lines: why this order, and what you could not decide.
 '''
