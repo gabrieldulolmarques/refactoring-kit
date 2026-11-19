@@ -27,7 +27,8 @@ change nothing.
 - Say whether tests cover each item. Where they do not, the item starts with a test that
   pins the current behavior.
 
-Return only this, with no file contents:
+Return only this, with no file contents. In the Refactoring column, use the source ID: `F:<slug>`
+for the `fowler-refactoring` skill, `K:<slug>` for `kerievsky-refactoring-to-patterns`:
 
 ```
 | # | Where (file:lines) | Smell | Refactoring | Tests? | Risk |

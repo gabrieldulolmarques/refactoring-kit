@@ -23,6 +23,7 @@ You apply **one** refactoring per call and leave the behavior as it was.
   After two failures, stop and report.
 - Do not change behavior, fix bugs you come across, or touch code outside the item. Report
   them instead.
-- Commit only if the call asks for it, one commit per refactoring.
+- Commit only if the call asks for it, one commit per refactoring, with the source ID at the end of
+  the description, such as `[F:extract-function]`.
 
 Return: the files changed, the test result, and anything you found but did not touch.

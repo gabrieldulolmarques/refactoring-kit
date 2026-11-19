@@ -25,7 +25,8 @@ agents/
 ├── refactoring-analyst.md # read-only: finds smells and returns a short plan
 └── refactoring-implementer.md # applies one refactoring, testing after each step
 rules/
-└── solid.md # SOLID as a design criterion, with the path to both skills' refactorings
+├── solid.md # SOLID as a design criterion, with the path to both skills' refactorings
+└── source-ids.md # F:, K:, GoF: and SOLID: IDs in commits and plans, to track the source of each change
 skills/fowler-refactoring/
 ├── SKILL.md # flow smell → refactoring → file, index of the 24 smells, tables of the 66
 └── references/ # smells.md, discipline.md, a folder per chapter
@@ -59,9 +60,9 @@ from the call or from the project's own instructions, not from this package.
 - **Claude Code plugin**: `claude --plugin-dir <path-to-this-repo>`. The skills and agents are
   then namespaced as `refactoring:<name>`.
 
-- **SOLID rule**: copy `rules/solid.md` into the project's rules folder (in Claude Code,
-  `.claude/rules/`) or reference it from `AGENTS.md`. Rules are not part of the Agent Skills format or
-  of a plugin, so neither route above installs it.
+- **Rules** (`rules/solid.md` and `rules/source-ids.md`): copy them into the project's rules folder
+  (in Claude Code, `.claude/rules/`) or reference them from `AGENTS.md`. Rules are not part of the
+  Agent Skills format or of a plugin, so neither route above installs them.
 
 Use one route per project, or Claude Code sees the skills twice.
 
