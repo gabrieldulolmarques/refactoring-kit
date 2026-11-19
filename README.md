@@ -26,6 +26,8 @@ CATALOG.md # a especificação: 66 + 27 refatorações, 29 smells, 23 padrões, 
 agents/
 ├── refactoring-analyst.md # somente leitura: encontra smells e devolve um plano curto
 └── refactoring-implementer.md # aplica uma refatoração, testando após cada passo
+rules/
+└── solid.md # SOLID como critério de design, com o caminho para as refatorações das duas skills
 skills/fowler-refactoring/
 ├── SKILL.md # fluxo smell → refatoração → arquivo, índice dos 24 smells, tabelas das 66
 └── references/ # smells.md, discipline.md, uma pasta por capítulo
@@ -58,6 +60,10 @@ vêm da chamada ou das instruções do próprio projeto, não deste pacote.
   projeto (no Windows, uma junção: `New-Item -ItemType Junction`).
 - **Plugin do Claude Code**: `claude --plugin-dir <caminho-deste-repositório>`. As skills e os agentes
   ficam então com o prefixo `refactoring:<name>`.
+
+- **Rule de SOLID**: copie `rules/solid.md` para a pasta de rules do projeto (no Claude Code,
+  `.claude/rules/`) ou cite-a no `AGENTS.md`. Rules não fazem parte do formato Agent Skills nem de um
+  plugin, então nenhuma das duas vias acima a instala.
 
 Use uma só via por projeto, ou o Claude Code verá as skills duas vezes.
 
