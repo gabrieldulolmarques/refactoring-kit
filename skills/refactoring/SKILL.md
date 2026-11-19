@@ -1,9 +1,9 @@
 ---
 name: refactoring
-description: "Entry point to refactor a target (file, folder or class) end to end: diagnoses with the SOLID checks, chooses among the fowler-refactoring, kerievsky-refactoring-to-patterns and gof-design-patterns skills, applies one refactoring at a time with build and tests, and records the source ID. Use only when the user runs /refactoring (Claude Code) or $refactoring (Codex), or, in Claude Code, asks for this full flow; for one specific refactoring or pattern, use the catalog skill directly."
+description: "Entry point to refactor a target (file, folder or class) end to end: diagnoses with the SOLID checks, chooses among the fowler-refactoring, kerievsky-refactoring-to-patterns and gof-design-patterns skills, applies one refactoring at a time with build and tests, and records the source ID. Use only when the user runs /refactoring (Claude Code) or $refactoring (Codex; $refactoring-kit:refactoring through the plugin), or, in Claude Code, asks for this full flow; for one specific refactoring or pattern, use the catalog skill directly."
 ---
 
-# /refactoring <target> (in Codex, `$refactoring <target>`)
+# /refactoring <target> (in Codex, `$refactoring <target>`; through the plugin, `$refactoring-kit:refactoring`)
 
 The full refactoring flow. This skill only routes: the content is in the `fowler-refactoring`,
 `kerievsky-refactoring-to-patterns` and `gof-design-patterns` skills, and the design criterion is in
