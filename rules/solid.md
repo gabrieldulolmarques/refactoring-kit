@@ -50,3 +50,9 @@ interface de que precisa, e a infraestrutura (rede, motor, arquivos) a implement
 - Princípio não é meta: só refatore quando a violação causar um custo real (mudança frequente,
   bug, extensão difícil). Código estável que viola um princípio pode ficar.
 - Se o caminho levar a um padrão, leia antes o padrão do GoF na skill `gof-design-patterns`.
+
+## Fonte
+
+MARTIN, R. C. *Agile Software Development: Principles, Patterns, and Practices*. Prentice Hall, 2002
+(caps. 8–12), e *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Pearson,
+2017 (cap. 7, o SRP). Paráfrase; o texto dos livros não é reproduzido.
