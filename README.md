@@ -26,6 +26,9 @@ O desenho é editável: abra [`docs/flow.excalidraw`](docs/flow.excalidraw) em [
 
 ```
 .claude-plugin/plugin.json # transforma o pacote em um plugin do Claude Code
+.codex-plugin/plugin.json # o mesmo para o Codex
+.agents/plugins/marketplace.json # marketplace local, para `codex plugin marketplace add`
+codex/agents/ # os dois subagentes em TOML, para o Codex (os de agents/ são do Claude Code)
 LICENSE # CC BY 4.0
 NOTICE # crédito a Fowler, Kerievsky, aos autores do GoF e à Addison-Wesley; o que a licença cobre
 CATALOG.md # a especificação: 66 + 27 refatorações, 29 smells, 23 padrões, formato dos arquivos, nível de C#
@@ -73,6 +76,13 @@ vêm da chamada ou das instruções do próprio projeto, não deste pacote.
 - **Plugin do Claude Code**: `claude --plugin-dir <caminho-deste-repositório>`. As skills e os agentes
   ficam então com o prefixo `refactoring-kit:<name>`; o comando de entrada é `/refactoring-kit:refactoring`.
 
+- **Plugin do Codex**: `codex plugin marketplace add <caminho-ou-owner/repo>` e instale o `refactoring-kit`
+  pelo diretório de plugins do app. Traz as quatro skills; o roteador só roda quando chamado
+  (`$refactoring <alvo>`).
+- **Subagentes do Codex**: o Codex não lê os `agents/*.md` do Claude Code. Copie `codex/agents/*.toml`
+  para `.codex/agents/` do projeto (ou `~/.codex/agents/`). O Codex não deixa um subagente ter
+  sandbox próprio: o `refactoring_analyst` recebe a instrução de não editar, mas o sandbox é o da
+  sessão.
 - **Rules** (`rules/solid.md` e `rules/source-ids.md`): copie para a pasta de rules do projeto (no
   Claude Code, `.claude/rules/`) ou cite-as no `AGENTS.md`. Rules não fazem parte do formato Agent
   Skills nem de um plugin, então nenhuma das duas vias acima as instala.
