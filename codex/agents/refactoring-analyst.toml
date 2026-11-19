@@ -27,5 +27,8 @@ para a skill `fowler-refactoring`, `K:<slug>` para a `kerievsky-refactoring-to-p
 
 ```
 | # | Onde (arquivo:linhas) | Smell | Refatoração | Testes? | Risco |
-|
+|---|---|---|---|---|---|
+```
+
+Depois, no máximo três linhas: por que essa ordem e o que você não conseguiu decidir.
 '''
