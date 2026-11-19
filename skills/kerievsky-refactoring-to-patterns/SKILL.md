@@ -1,13 +1,13 @@
 ---
 name: kerievsky-refactoring-to-patterns
-description: "Refatorações para padrões de Joshua Kerievsky (Refactoring to Patterns): 12 code smells e 27 refatorações que levam o código até um padrão de projeto, rumo a ele ou para longe dele (Strategy, State, Command, Observer, Composite, Factory, Template Method...), cada uma com mecânica, exemplo em C# e verificação. Use quando condicionais ou switches não param de crescer, quando a criação de objetos está espalhada ou quando uma refatoração de Kerievsky for citada. Usa a skill fowler-refactoring para os passos menores e a gof-design-patterns para descrever o padrão de destino."
+description: "Refatorações para padrões de Joshua Kerievsky (Refactoring to Patterns): 12 code smells e 27 refatorações que levam o código até um padrão de projeto, rumo a ele ou para longe dele (Strategy, State, Command, Observer, Composite, Factory, Template Method...), cada uma com mecânica, exemplo em C# e verificação. Use quando condicionais ou switches não param de crescer, quando a criação de objetos está espalhada ou quando uma refatoração de Kerievsky for citada. Usa a skill fowler-refactoring para os passos menores e a gof-design-patterns para descrever o padrão de destino, quando ele for do GoF."
 ---
 
 # Refatoração para padrões: Kerievsky
 
 Kerievsky (2004), cap. 4 (smells) e cap. 6-11 (refatorações para padrões). Cada refatoração é
 uma sequência de refatorações menores, muitas delas de Fowler, da skill `fowler-refactoring`, que
-fica instalada ao lado desta (os links apontam para `../fowler-refactoring/`). Os padrões de destino
+fica instalada ao lado desta (os links apontam para `../fowler-refactoring/`). Os padrões de destino do GoF
 estão na skill `gof-design-patterns` (Gamma et al., 1995), também instalada ao lado desta (os links
 apontam para `../gof-design-patterns/`).
 
