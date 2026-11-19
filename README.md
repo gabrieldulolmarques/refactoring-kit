@@ -1,7 +1,7 @@
 # refactoring-kit
 
 Os catálogos de refatoração de Martin Fowler e de Joshua Kerievsky e os 23 padrões do GoF, empacotados
-como [Agent Skills](https://agentskills.io) para agentes de código (Claude Code, Codex, OpenCode). O
+como [Agent Skills](https://agentskills.io) para agentes de código (Claude Code e Codex). O
 pacote traz também dois subagentes, duas rules e um exemplo em C# 9 em cada arquivo de refatoração e de
 padrão. O repositório se chama `refactoring-skill`; o plugin, `refactoring-kit`.
 
