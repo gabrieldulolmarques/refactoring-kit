@@ -72,7 +72,7 @@ Use uma só via por projeto, ou o Claude Code verá as skills duas vezes.
 
 | Caminho | Conteúdo |
 |---|---|
-| `skills/` | As quatro skills; cada `SKILL.md` leva do smell à refatoração e ao arquivo, e `references/` tem um arquivo por entrada |
+| `skills/` | As quatro skills. O `SKILL.md` do `refactoring` encaminha às outras; os dos dois catálogos de refatoração levam do smell à refatoração e ao arquivo; o do GoF indexa os padrões. `references/` tem um arquivo por entrada |
 | `agents/` | Os dois subagentes do Claude Code (`.md`) |
 | `codex/agents/` | Os mesmos subagentes em TOML, para o Codex |
 | `rules/` | `solid.md` e `source-ids.md` |
@@ -82,7 +82,8 @@ Use uma só via por projeto, ou o Claude Code verá as skills duas vezes.
 | `LICENSE`, `NOTICE` | CC BY 4.0; crédito a Fowler, Kerievsky, aos autores do GoF e à Addison-Wesley, e o que a licença cobre |
 
 Só a descrição de cada skill fica no contexto do agente. O corpo é carregado quando a skill é usada, e
-o arquivo de cada refatoração só quando o agente o abre.
+o arquivo de cada refatoração só quando o agente o abre. Nos subagentes do Claude Code, o `SKILL.md` das três
+skills de catálogo é pré-carregado.
 
 ## Licença e crédito
 
