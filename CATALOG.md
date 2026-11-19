@@ -18,7 +18,7 @@ muda com a edição e o formato (impresso, PDF, O'Reilly, EPUB); o capítulo e o
 padrão vale para as três fontes: `Fowler (2018), cap. 6`, `Kerievsky (2004), cap. 7`,
 `Gamma et al. (1995), §1.6` ou `cap. 5`, sempre com o nome da refatoração ou do padrão.
 
-A skill é genérica: ela ensina as refatorações, não o processo de nenhum projeto. Os exemplos
+As skills são genéricas: ensinam as refatorações e os padrões, não o processo de nenhum projeto. Os exemplos
 são C# 9 simples com temas atuais e neutros (seção 7), e nada faz referência
 a um projeto, framework, engine ou fluxo de trabalho de equipe específico.
 
