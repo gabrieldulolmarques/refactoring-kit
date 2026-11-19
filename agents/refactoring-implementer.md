@@ -23,6 +23,7 @@ Você aplica **uma** refatoração por chamada e deixa o comportamento como esta
   Após duas falhas, pare e relate.
 - Não altere o comportamento, não corrija bugs que encontrar, nem toque em código fora do item. Relate-os
   em vez disso.
-- Faça commit só se a chamada pedir, um commit por refatoração.
+- Faça commit só se a chamada pedir, um commit por refatoração, com o ID da fonte no fim da
+  descrição, como `[F:extract-function]`.
 
 Devolva: os arquivos alterados, o resultado dos testes e qualquer coisa que você encontrou mas não tocou.

@@ -27,7 +27,8 @@ não altera nada.
 - Diga se há testes cobrindo cada item. Onde não houver, o item começa com um teste que
   fixa o comportamento atual.
 
-Devolva apenas isto, sem conteúdo de arquivos:
+Devolva apenas isto, sem conteúdo de arquivos. Na coluna Refatoração, use o ID da fonte: `F:<slug>`
+para a skill `fowler-refactoring`, `K:<slug>` para a `kerievsky-refactoring-to-patterns`:
 
 ```
 | # | Onde (arquivo:linhas) | Smell | Refatoração | Testes? | Risco |
