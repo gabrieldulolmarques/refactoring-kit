@@ -1,26 +1,26 @@
 # Flyweight
 
-Gamma et al. (1995), ch. 4. Category: object structural.
+Gamma et al. (1995), cap. 4. Categoria: estrutural de objeto.
 
-## Intent
-Share objects so that a very large number of small, fine-grained objects becomes affordable. The shared part stays inside the object, and the part that varies is handed in by the caller.
+## Intenção
+Compartilhar objetos para que um número muito grande de objetos pequenos, de granularidade fina, se torne viável. A parte compartilhada fica dentro do objeto, e a parte que varia é passada pelo chamador.
 
-## When it pays off
-- All of these hold: the program has a huge number of similar objects, they cost too much memory, most of their state can be moved outside, and after that a few shared objects can stand for many of the old ones.
-- The code does not depend on the identity of the objects (two logical objects can be the same instance).
-- Benefit: memory falls as sharing rises, most of all when the external data can be computed or stored in a compact structure.
-- Liability: callers must supply external state on each call, and there is a lookup or computation cost for it. The code gets harder to follow.
-- Skip it when the count is small, when memory is not a measured problem, or when the state cannot be separated. Measure first.
+## Quando compensa
+- Todas estas condições valem: o programa tem uma quantidade enorme de objetos parecidos, eles custam memória demais, a maior parte do estado pode ser movida para fora, e depois disso poucos objetos compartilhados podem representar muitos dos antigos.
+- O código não depende da identidade dos objetos (dois objetos lógicos podem ser a mesma instância).
+- Benefício: a memória cai conforme o compartilhamento aumenta, sobretudo quando os dados externos podem ser calculados ou guardados em uma estrutura compacta.
+- Custo: quem chama precisa fornecer o estado externo a cada chamada, e há um custo de busca ou de cálculo para isso. O código fica mais difícil de acompanhar.
+- Não vale a pena quando a quantidade é pequena, quando a memória não é um problema medido, ou quando o estado não pode ser separado. Meça antes.
 
-## Participants in C#
-- **Flyweight** (`VehicleKind`): the shared object, with only intrinsic state (the same for every user of it). Its operations take extrinsic state as parameters. In C# this is an immutable class, since shared objects must not change.
-- **ConcreteFlyweight** (`VehicleKind` itself): the flyweight is a single class here. Several concrete classes behind an interface also work.
-- **UnsharedConcreteFlyweight** (not needed in the example): a variant of the interface that is not shared, for example a vehicle with unique state.
-- **FlyweightFactory** (`VehicleKinds`): creates flyweights, stores them by key, and returns the existing one when asked again.
-- **Client** (`Vehicle`, `Main`): stores or computes the extrinsic state (position, driver, status) and passes it in.
+## Participantes em C#
+- **Flyweight** (`VehicleKind`): o objeto compartilhado, com apenas estado intrínseco (o mesmo para todos que o usam). Suas operações recebem o estado extrínseco como parâmetros. Em C# é uma classe imutável, já que objetos compartilhados não podem mudar.
+- **ConcreteFlyweight** (o próprio `VehicleKind`): aqui o flyweight é uma única classe. Várias classes concretas atrás de uma interface também funcionam.
+- **UnsharedConcreteFlyweight** (não necessário no exemplo): uma variante da interface que não é compartilhada, por exemplo, um veículo com estado único.
+- **FlyweightFactory** (`VehicleKinds`): cria flyweights, guarda-os por chave e devolve o existente quando pedido de novo.
+- **Client** (`Vehicle`, `Main`): guarda ou calcula o estado extrínseco (posição, motorista, status) e o passa adiante.
 
-## Example (C#)
-A ride-sharing map tracks hundreds of thousands of vehicles. The kind of vehicle (icon, seats, fare rates) is the same for thousands of them, so it is shared. Each vehicle keeps only its id and position.
+## Exemplo (C#)
+Um mapa de corridas compartilhadas acompanha centenas de milhares de veículos. O tipo de veículo (ícone, lugares, tarifas) é o mesmo para milhares deles, então é compartilhado. Cada veículo guarda apenas seu identificador e sua posição.
 
 ```csharp
 using System;
@@ -41,7 +41,7 @@ public sealed class VehicleKind
         PricePerKm = pricePerKm;
     }
 
-    // Extrinsic state (the distance) comes from the caller.
+    // O estado extrínseco (a distância) vem do chamador.
     public decimal Estimate(double distanceKm) => PricePerKm * (decimal)distanceKm;
 
     public string Describe(string id, double lat, double lon) =>
@@ -103,26 +103,26 @@ public static class Program
 }
 ```
 
-## Variations
-- **Where extrinsic state lives**: in the client object (as `Vehicle` does), in a separate compact structure (for example ranges of items that share a style), or computed from context when needed. The more it is computed rather than stored, the bigger the saving.
-- **Sharing only some classes**: share the many small leaves, and leave composite or rare objects unshared. The flyweight interface allows sharing without forcing it.
-- **Lifetime of the pool**: if the set of flyweights is small and fixed, keep them forever. If it can grow without bound, the factory needs an eviction policy or weak references to let unused ones go.
-- **Combined with a tree**: shared leaves in a hierarchy cannot store their parent. Pass the parent in as extrinsic state.
+## Variações
+- **Onde o estado extrínseco vive**: no objeto cliente (como o `Vehicle` faz), em uma estrutura separada e compacta (por exemplo, intervalos de itens que compartilham um estilo), ou calculado a partir do contexto quando preciso. Quanto mais ele é calculado em vez de guardado, maior a economia.
+- **Compartilhar apenas algumas classes**: compartilhe as muitas folhas pequenas e deixe sem compartilhamento os compostos ou os objetos raros. A interface do flyweight permite compartilhar sem obrigar a isso.
+- **Tempo de vida do pool**: se o conjunto de flyweights é pequeno e fixo, mantenha-os para sempre. Se pode crescer sem limite, a fábrica precisa de uma política de remoção ou de referências fracas para descartar os que não são usados.
+- **Combinado com uma árvore**: folhas compartilhadas em uma hierarquia não podem guardar o seu pai. Passe o pai como estado extrínseco.
 
-## Risks and C# alternatives
-- Flyweights must be immutable. A mutable shared object changes for every user at once. Use get-only properties, a sealed class and no public collections.
-- Thread safety: a `Dictionary` is not safe for concurrent writes. Use `ConcurrentDictionary<TKey, TValue>` with `GetOrAdd`, or build the pool at startup.
-- C# already shares some things for you: string interning (`string.Intern`), enum values, and cached `static readonly` instances. A closed set of kinds can be a `static readonly` field per kind, with no factory.
-- A `struct` for the small varying part (here a coordinate pair) cuts allocations further, which can matter more than sharing. Consider arrays of structs or pooling (`ArrayPool<T>`) before building a flyweight factory.
-- Do not compare shared objects with reference equality to mean "the same vehicle". Use ids.
+## Riscos e alternativas em C#
+- Os flyweights precisam ser imutáveis. Um objeto compartilhado mutável muda para todos os usuários ao mesmo tempo. Use propriedades somente leitura, uma classe `sealed` e nenhuma coleção pública.
+- Segurança para threads: um `Dictionary` não é seguro para escritas concorrentes. Use `ConcurrentDictionary<TKey, TValue>` com `GetOrAdd`, ou monte o pool na inicialização.
+- O C# já compartilha algumas coisas para você: internação de strings (`string.Intern`), valores de enum e instâncias `static readonly` em cache. Um conjunto fechado de tipos pode ser um campo `static readonly` por tipo, sem fábrica.
+- Um `struct` para a parte pequena que varia (aqui, um par de coordenadas) reduz ainda mais as alocações, o que pode importar mais do que o compartilhamento. Considere arrays de structs ou pooling (`ArrayPool<T>`) antes de construir uma fábrica de flyweights.
+- Não compare objetos compartilhados por igualdade de referência para significar "o mesmo veículo". Use identificadores.
 
-## Related patterns
-- [composite.md](composite.md): often combined with flyweight, giving a tree with shared leaves.
-- [state.md](../behavioral/state.md): state objects are usually best shared as flyweights when they hold no data of their own.
-- [strategy.md](../behavioral/strategy.md): strategy objects are also good flyweights, since they hold behavior and take their data as arguments.
+## Padrões relacionados
+- [composite.md](composite.md): costuma ser combinado com o flyweight, formando uma árvore com folhas compartilhadas.
+- [state.md](../behavioral/state.md): objetos de estado costumam ser mais bem compartilhados como flyweights quando não guardam dados próprios.
+- [strategy.md](../behavioral/strategy.md): objetos de estratégia também são bons flyweights, já que guardam comportamento e recebem seus dados como argumentos.
 
-## Verification
-- The number of instances of the shared class stays small as the data grows (the example prints two kinds for 100000 vehicles).
-- Memory or allocation numbers from a profiler show a real drop. Without that measurement, the pattern is a guess.
-- Nothing mutates a flyweight after it is created; every field is get-only.
-- Clients get flyweights only from the factory, never with `new`.
+## Verificação
+- O número de instâncias da classe compartilhada permanece pequeno conforme os dados crescem (o exemplo imprime dois tipos para 100000 veículos).
+- Números de memória ou de alocação de um profiler mostram uma queda real. Sem essa medição, o padrão é um palpite.
+- Nada altera um flyweight depois de criado; todo campo é somente leitura.
+- Os clientes obtêm flyweights apenas da fábrica, nunca com `new`.

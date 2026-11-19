@@ -1,30 +1,30 @@
-# Replace Type Code with Class
+# Substituir Código de Tipo por Classe (Replace Type Code with Class)
 
-Kerievsky (2004), ch. 9. Pattern: —. Direction: —.
+Kerievsky (2004), cap. 9. Padrão: —. Direção: —.
 
-## When to use
-Smells: Primitive Obsession.
+## Quando usar
+Smells: Obsessão por Primitivos (Primitive Obsession).
 
-- A field holds a string or an int that is assigned from, and compared with, a fixed family of constants (order status, permission state). Nothing stops a misspelled string or a stray number from being assigned, and the object can end up in a state it can never leave.
-- Giving the field a class as its type means every assignment and every comparison goes through a closed set of constants that cannot be impersonated by other values.
-- A language enum does not make this obsolete. The class can later grow behavior, and that is what the next steps often need. This refactoring is the first step of the mechanics of [replace-state-altering-conditionals-with-state.md](../simplification/replace-state-altering-conditionals-with-state.md), which builds on this class and could not build on a plain enum.
-- Cost: more code than a primitive.
-- Relation to Fowler: this is [replace-primitive-with-object.md](../../../fowler-refactoring/references/encapsulation/replace-primitive-with-object.md) applied to a type code. Fowler's version wraps any primitive; Kerievsky's is specifically about a closed family of constants.
+- Um campo guarda uma string ou um int que é atribuído e comparado com uma família fixa de constantes (status de pedido, estado de permissão). Nada impede que uma string com erro de digitação ou um número qualquer seja atribuído, e o objeto pode acabar em um estado do qual nunca consegue sair.
+- Dar ao campo uma classe como tipo faz com que toda atribuição e toda comparação passem por um conjunto fechado de constantes, que não pode ser imitado por outros valores.
+- Um enum da linguagem não torna isso obsoleto. A classe pode ganhar comportamento depois, e é isso que os próximos passos costumam exigir. Esta refatoração é o primeiro passo da mecânica de [replace-state-altering-conditionals-with-state.md](../simplification/replace-state-altering-conditionals-with-state.md), que se apoia nesta classe e não conseguiria se apoiar em um enum simples.
+- Custo: mais código do que um primitivo.
+- Relação com Fowler: isto é [replace-primitive-with-object.md](../../../fowler-refactoring/references/encapsulation/replace-primitive-with-object.md) aplicado a um código de tipo. A versão de Fowler envolve qualquer primitivo; a de Kerievsky trata especificamente de uma família fechada de constantes.
 
-## Mechanics
-Follow [replace-primitive-with-object.md](../../../fowler-refactoring/references/encapsulation/replace-primitive-with-object.md). What Kerievsky adds or orders differently:
+## Mecânica
+Siga [replace-primitive-with-object.md](../../../fowler-refactoring/references/encapsulation/replace-primitive-with-object.md). O que Kerievsky acrescenta ou ordena de outro modo:
 
-1. Encapsulate the type-unsafe field first with Encapsulate Variable ([encapsulate-variable.md](../../../fowler-refactoring/references/first-set/encapsulate-variable.md)). Compile and test.
-2. Create the new class, named after the kind of value it holds, with no public constructor yet.
-3. For each constant the field is assigned or compared with, add a static instance of the new class. Compile. If the family must stay closed, make the constructor private and the class sealed.
-4. Add a type-safe field of the new class next to the old field, with a setter for it, and mirror every assignment to the old field with an assignment to the new one. Compile.
-5. Make the new class able to produce the old value (a name or code), and make the old getter read from the new field. Compile and test.
-6. Delete the old field, its setter and its assignments. Compile and test.
-7. Replace every use of the old constants with the new ones, change the getter's return type to the new class, and fix the callers. Compare with `==` on the shared instances, or give the class equality if it can be created from outside. Compile and test.
-8. Delete the old constants.
+1. Encapsule primeiro o campo sem segurança de tipo com Encapsular Variável (Encapsulate Variable) ([encapsulate-variable.md](../../../fowler-refactoring/references/first-set/encapsulate-variable.md)). Compile e teste.
+2. Crie a nova classe, com nome derivado do tipo de valor que guarda, ainda sem construtor público.
+3. Para cada constante com a qual o campo é atribuído ou comparado, adicione uma instância estática da nova classe. Compile. Se a família precisar continuar fechada, torne o construtor privado e a classe sealed.
+4. Adicione um campo com segurança de tipo da nova classe ao lado do campo antigo, com um setter para ele, e espelhe cada atribuição ao campo antigo com uma atribuição ao novo. Compile.
+5. Faça a nova classe capaz de produzir o valor antigo (um nome ou código), e faça o getter antigo ler do novo campo. Compile e teste.
+6. Apague o campo antigo, seu setter e suas atribuições. Compile e teste.
+7. Substitua cada uso das constantes antigas pelas novas, altere o tipo de retorno do getter para a nova classe, e corrija os chamadores. Compare com `==` nas instâncias compartilhadas, ou dê à classe igualdade se ela puder ser criada de fora. Compile e teste.
+8. Apague as constantes antigas.
 
-## Example
-Before: a theme feature flag keeps its choice in a string, so a misspelled value compiles and silently matches nothing.
+## Exemplo
+Antes: uma feature flag de tema guarda a escolha em uma string, então um valor com erro de digitação compila e não casa silenciosamente com nada.
 
 ```csharp
 public class ThemeFlag
@@ -35,7 +35,7 @@ public class ThemeFlag
 }
 ```
 
-After: `Theme` is a sealed class with a private constructor, so the three static instances are the only values that can exist.
+Depois: `Theme` é uma classe sealed com construtor privado, então as três instâncias estáticas são os únicos valores que podem existir.
 
 ```csharp
 public sealed class Theme
@@ -60,11 +60,11 @@ public class ThemeFlag
 }
 ```
 
-Persisted values (the old strings) map back to an instance through `Name` when the flag is loaded.
+Os valores persistidos (as strings antigas) voltam a uma instância por meio de `Name` quando a flag é carregada.
 
-## C# notes
-- A C# `enum` is only an integer underneath: `(Theme)42` compiles and runs. If the set must be closed and the type must carry behavior, use a sealed class with a private constructor. If neither matters, an enum is fine and this refactoring is not needed.
-- With a private constructor the instances are unique, so `==` on references is enough. Without it, override `Equals` and `GetHashCode` (or use a record; on older targets it needs an `IsExternalInit` shim).
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- No `string` or `int` constant for the family remains, and no public way to create a value outside the family if the family is meant to be closed.
+## Notas (C#)
+- Um `enum` em C# é apenas um inteiro por baixo: `(Theme)42` compila e executa. Se o conjunto precisar ser fechado e o tipo precisar carregar comportamento, use uma classe sealed com construtor privado. Se nenhuma dessas coisas importar, um enum serve e esta refatoração não é necessária.
+- Com construtor privado as instâncias são únicas, então `==` sobre referências basta. Sem ele, sobrescreva `Equals` e `GetHashCode` (ou use um record; em alvos mais antigos ele exige um shim de `IsExternalInit`).
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Nenhuma constante `string` ou `int` da família permanece, e não há forma pública de criar um valor fora da família se ela deve ser fechada.

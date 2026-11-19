@@ -1,24 +1,24 @@
 # Facade
 
-Gamma et al. (1995), ch. 4. Category: object structural.
+Gamma et al. (1995), cap. 4. Categoria: estrutural de objeto.
 
-## Intent
-Give a set of classes in a subsystem one simple entry point, so that most clients do not have to know how the parts fit together.
+## Intenção
+Dar a um conjunto de classes de um subsistema um único ponto de entrada simples, para que a maioria dos clientes não precise saber como as partes se encaixam.
 
-## When it pays off
-- A subsystem is made of many small classes that must be called in the right order, and most callers want a common case ("store this file") and not the details.
-- Clients depend on many subsystem classes directly, and you want to cut those dependencies or define a clear entry point for each layer.
-- Benefits: fewer objects for clients to know, weaker coupling to the subsystem (you can change its parts), and the lower-level classes stay public for the few clients that need them.
-- Liabilities: the facade can grow into a god class that holds business rules, and if it hides everything it blocks customization.
-- Skip it when there is a single class to call, or when the facade would only forward each call one to one.
+## Quando compensa
+- Um subsistema é formado por muitas classes pequenas que precisam ser chamadas na ordem certa, e a maioria dos chamadores quer um caso comum ("armazenar este arquivo") e não os detalhes.
+- Os clientes dependem diretamente de muitas classes do subsistema, e você quer cortar essas dependências ou definir um ponto de entrada claro para cada camada.
+- Benefícios: menos objetos que os clientes precisam conhecer, acoplamento mais fraco com o subsistema (você pode trocar suas partes) e as classes de nível mais baixo continuam públicas para os poucos clientes que precisam delas.
+- Custos: a fachada pode crescer até virar uma classe-deus que guarda regras de negócio, e, se ocultar tudo, impede a personalização.
+- Não vale a pena quando há uma única classe a chamar, ou quando a fachada apenas repassa cada chamada uma a uma.
 
-## Participants in C#
-- **Facade** (`UploadService`): a class that knows which subsystem classes handle each request and calls them in order. It adds no new rules of its own.
-- **Subsystem classes** (`IVirusScanner`, `IImageCompressor`, `IBlobStorage`, `IMetadataIndex`): do the real work. They do not know about the facade.
-- **Client** (`Main`): calls the facade for the common case.
+## Participantes em C#
+- **Facade** (`UploadService`): classe que sabe quais classes do subsistema tratam cada requisição e as chama em ordem. Não acrescenta regras novas.
+- **Subsystem classes** (`IVirusScanner`, `IImageCompressor`, `IBlobStorage`, `IMetadataIndex`): fazem o trabalho real. Não conhecem a fachada.
+- **Client** (`Main`): chama a fachada no caso comum.
 
-## Example (C#)
-A file upload involves scanning, compression, storage and indexing. The facade exposes one method for the common case and takes its subsystem parts from the constructor.
+## Exemplo (C#)
+O envio de um arquivo envolve verificação de vírus, compressão, armazenamento e indexação. A fachada expõe um método para o caso comum e recebe suas partes do subsistema pelo construtor.
 
 ```csharp
 using System;
@@ -70,7 +70,7 @@ public class UploadService
     }
 }
 
-// Small fakes so the example runs.
+// Pequenas implementações falsas para o exemplo rodar.
 public class AlwaysCleanScanner : IVirusScanner
 {
     public Task<bool> IsCleanAsync(byte[] content) => Task.FromResult(true);
@@ -106,26 +106,26 @@ public static class Program
 }
 ```
 
-## Variations
-- **Abstract facade**: make the facade an interface (`IUploadService`) so that clients do not know which subsystem implementation sits behind it, and tests can replace it. An alternative to having several facade classes is to configure one facade with different subsystem objects.
-- **Public and private subsystem classes**: the facade is part of the public face, but not the only part. Use `internal` for classes that only the subsystem needs, and leave public the ones that extenders and advanced clients use.
-- **Parameterizing the facade**: letting callers pass the scanner or the storage gives flexibility, but each added option takes away from the facade's goal of making the common case simple. Keep the default path short, and offer a second overload or the raw parts for the rare case.
-- **One per subsystem layer**: each layer exposes one facade, and layers talk to each other only through facades.
+## Variações
+- **Fachada abstrata**: torne a fachada uma interface (`IUploadService`) para que os clientes não saibam qual implementação do subsistema fica por trás, e os testes possam trocá-la por uma versão falsa. Uma alternativa a ter várias classes de fachada é configurar uma única fachada com objetos diferentes do subsistema.
+- **Classes públicas e privadas do subsistema**: a fachada faz parte da face pública, mas não é a única parte. Use `internal` para classes que só o subsistema precisa, e deixe públicas as que extensores e clientes avançados usam.
+- **Parametrizar a fachada**: deixar os chamadores passarem o verificador ou o armazenamento dá flexibilidade, mas cada opção acrescentada afasta a fachada da meta de tornar o caso comum simples. Mantenha o caminho padrão curto e ofereça uma segunda sobrecarga, ou as partes cruas, para o caso raro.
+- **Uma por camada do subsistema**: cada camada expõe uma fachada, e as camadas conversam entre si apenas por meio de fachadas.
 
-## Risks and C# alternatives
-- Keep decisions out of the facade. If it starts choosing storage by customer plan or deciding the retry policy, move that to its own class and let the facade only sequence the calls.
-- Watch for a facade that mirrors every method of the subsystem. That is just a renamed API. Offer fewer, task-shaped operations.
-- Usually one instance is enough. Register it as a singleton lifetime in the DI container, but do not make it a static global: the container gives the same effect and keeps it replaceable in tests.
-- If the operations have no shared state, a static class of helpers is tempting. It makes the subsystem impossible to replace in tests, so prefer an injected instance.
+## Riscos e alternativas em C#
+- Mantenha decisões fora da fachada. Se ela começar a escolher o armazenamento pelo plano do cliente ou a decidir a política de novas tentativas, mova isso para uma classe própria e deixe a fachada apenas sequenciar as chamadas.
+- Cuidado com uma fachada que espelha cada método do subsistema. Isso é apenas uma API com outro nome. Ofereça menos operações, moldadas pela tarefa.
+- Normalmente uma instância basta. Registre-a com tempo de vida singleton no contêiner de DI, mas não a transforme em um global estático: o contêiner produz o mesmo efeito e a mantém substituível nos testes.
+- Se as operações não têm estado compartilhado, uma classe estática de funções auxiliares é tentadora. Ela torna o subsistema impossível de substituir nos testes, então prefira uma instância injetada.
 
-## Related patterns
-- [abstract-factory.md](../creational/abstract-factory.md): can create the subsystem objects without naming their concrete classes, or hide platform-specific classes as an alternative to a facade.
-- [mediator.md](../behavioral/mediator.md): also abstracts existing classes, but it centralizes communication between peers that know about it, and may add behavior. A facade only simplifies access; the subsystem does not know it exists.
-- [singleton.md](../creational/singleton.md): a facade is usually needed only once.
-- [adapter.md](adapter.md): an adapter reuses an existing interface, while a facade defines a new one.
+## Padrões relacionados
+- [abstract-factory.md](../creational/abstract-factory.md): pode criar os objetos do subsistema sem citar suas classes concretas, ou ocultar classes específicas de plataforma como alternativa a uma fachada.
+- [mediator.md](../behavioral/mediator.md): também abstrai classes existentes, mas centraliza a comunicação entre colegas que o conhecem, e pode acrescentar comportamento. Uma fachada apenas simplifica o acesso; o subsistema não sabe que ela existe.
+- [singleton.md](../creational/singleton.md): uma fachada costuma ser necessária uma única vez.
+- [adapter.md](adapter.md): um adaptador reutiliza uma interface existente, enquanto uma fachada define uma nova.
 
-## Verification
-- A typical client call needs one object and one method, and the client no longer references most subsystem classes.
-- Subsystem classes have no reference to the facade.
-- Removing the facade would not remove any capability, since advanced clients can still use the parts.
-- The facade has tests with fakes that check the order of calls and the failure paths (for example that a failed scan stores nothing).
+## Verificação
+- Uma chamada típica do cliente precisa de um objeto e de um método, e o cliente não referencia mais a maioria das classes do subsistema.
+- As classes do subsistema não têm referência à fachada.
+- Remover a fachada não removeria nenhuma capacidade, já que os clientes avançados ainda podem usar as partes.
+- A fachada tem testes com implementações falsas que verificam a ordem das chamadas e os caminhos de falha (por exemplo, que uma verificação de vírus reprovada não armazena nada).

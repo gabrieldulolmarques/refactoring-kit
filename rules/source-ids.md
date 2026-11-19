@@ -1,27 +1,26 @@
-# Source IDs
+# IDs de fonte
 
-How to identify which catalog each applied refactoring, pattern or principle came from, so the use
-of each source can be tracked and measured later. It applies to plans, commit messages and agent
-reports.
+Como identificar de qual catálogo veio cada refatoração, padrão ou princípio aplicado, para rastrear
+o uso de cada fonte e medi-lo depois. Vale para planos, mensagens de commit e relatórios dos agentes.
 
-| ID | Source | Example |
+| ID | Fonte | Exemplo |
 |---|---|---|
-| `F:<slug>` | refactoring from the `fowler-refactoring` skill | `[F:extract-function]` |
-| `K:<slug>` | refactoring from the `kerievsky-refactoring-to-patterns` skill | `[K:replace-conditional-logic-with-strategy]` |
-| `GoF:<pattern>` | pattern from the `gof-design-patterns` skill (Gamma et al., 1995) | `[GoF:strategy]` |
-| `SOLID:<acronym>` | principle from the `solid.md` rule | `[SOLID:OCP]` |
+| `F:<slug>` | refatoração da skill `fowler-refactoring` | `[F:extract-function]` |
+| `K:<slug>` | refatoração da skill `kerievsky-refactoring-to-patterns` | `[K:replace-conditional-logic-with-strategy]` |
+| `GoF:<padrão>` | padrão da skill `gof-design-patterns` (Gamma et al., 1995) | `[GoF:strategy]` |
+| `SOLID:<sigla>` | princípio da rule `solid.md` | `[SOLID:OCP]` |
 
-The slug is the reference file's name without `.md`; the GoF pattern is lowercase and hyphenated
+O slug é o nome do arquivo de referência sem `.md`; o padrão do GoF vai em minúsculas e com hífen
 (`abstract-factory`).
 
-## Rules
+## Regras
 
-- In a commit, the ID goes at the end of the description, in square brackets, on the same line;
-  several IDs are separated by a space. The brackets do not count as description, so `SOLID:OCP` can
-  be uppercase:
+- No commit, o ID vai no fim da descrição, entre colchetes, na mesma linha; vários IDs ficam
+  separados por espaço. Os colchetes não contam como descrição, então `SOLID:OCP` pode ter
+  maiúsculas:
   `♻️ refactor(billing): replace payment type switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`
-- One commit per refactoring, so each commit has a single `F:` or `K:` ID. `SOLID:` and `GoF:` come
-  along when they justify the change.
-- A commit that applies nothing from the catalogs (docs, configuration) carries no ID.
-- In plans and agent reports, the refactoring column carries the same ID.
-- To count the use of a source: `git rev-list --count --grep='\[F:' HEAD` (or `\[K:`, `\[GoF:`, `\[SOLID:`).
+- Um commit por refatoração, então cada commit tem um só ID `F:` ou `K:`. `SOLID:` e `GoF:`
+  acompanham quando justificam a mudança.
+- Commit que não aplica nada dos catálogos (docs, configuração) não leva ID.
+- Nos planos e nos relatórios dos agentes, a coluna da refatoração traz o mesmo ID.
+- Para contar o uso de uma fonte: `git rev-list --count --grep='\[F:' HEAD` (ou `\[K:`, `\[GoF:`, `\[SOLID:`).

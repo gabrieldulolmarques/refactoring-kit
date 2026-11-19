@@ -1,64 +1,64 @@
-# Catalog spec
+# Especificação do catálogo
 
-The spec the skills were written from and are checked against: three skills,
-`fowler-refactoring`, `kerievsky-refactoring-to-patterns` and `gof-design-patterns`, with one reference file per refactoring, the smells and the discipline,
-and the file format. Sections 1–4 cover Fowler's catalog; section 5 covers Kerievsky's
-refactorings to patterns, added in 0.4.0; section 6 the GoF patterns and section 7 the C# level of
-every example (0.5.0). In 0.6.0 the single `refactoring` skill was split in two, one per
-refactoring book, with the GoF inside the second. In 0.7.0 the GoF became the third
+A especificação a partir da qual as skills foram escritas e contra a qual são conferidas: três
+skills, `fowler-refactoring`, `kerievsky-refactoring-to-patterns` e `gof-design-patterns`, com um arquivo de referência por refatoração, os code smells e a disciplina,
+e o formato dos arquivos. As seções 1–4 tratam do catálogo de Fowler; a seção 5 trata das
+refatorações para padrões de Kerievsky, acrescentadas na 0.4.0; a seção 6, os padrões do GoF, e a
+seção 7, o nível de C# de todos os exemplos (0.5.0). Na 0.6.0, a skill única `refactoring` foi
+dividida em duas, uma por livro de refatoração, com o GoF dentro da segunda. Na 0.7.0, o GoF virou a terceira
 skill, `gof-design-patterns`.
 
-Sources: Fowler, *Refactoring*, 2nd ed. (2018), chapters 2–4 and 6–12, and the online catalog
-([refactoring.com/catalog](https://refactoring.com/catalog/), checked on 2026-10-31), which
-lists **66 refactorings**: the **61 from the book** plus **5 that only exist in the web
-edition** (marked "(web)" after the name).
+Fontes: Fowler, *Refactoring*, 2ª ed. (2018), capítulos 2–4 e 6–12, e o catálogo online
+([refactoring.com/catalog](https://refactoring.com/catalog/), conferido em 2026-10-31), que
+lista **66 refatorações**: as **61 do livro** mais **5 que só existem na edição
+web** (marcadas com "(web)" depois do nome).
 
-**How sources are cited:** by chapter, section and entry name, never by page. The page changes
-with the edition and format (print, PDF, O'Reilly, EPUB); the chapter and the name do not. The
-same pattern holds for all three sources: `Fowler (2018), ch. 6`, `Kerievsky (2004), ch. 7`,
-`Gamma et al. (1995), §1.6` or `ch. 5`, always with the name of the refactoring or pattern.
+**Como as fontes são citadas:** por capítulo, seção e nome da entrada, nunca por página. A página
+muda com a edição e o formato (impresso, PDF, O'Reilly, EPUB); o capítulo e o nome não. O mesmo
+padrão vale para as três fontes: `Fowler (2018), cap. 6`, `Kerievsky (2004), cap. 7`,
+`Gamma et al. (1995), §1.6` ou `cap. 5`, sempre com o nome da refatoração ou do padrão.
 
-The skills are generic: they teach the refactorings and the patterns, not any project's process. The examples
-are plain C# with current, neutral themes (section 7), and nothing refers
-to a specific project, framework, engine or team workflow.
+As skills são genéricas: ensinam as refatorações e os padrões, não o processo de nenhum projeto. Os exemplos
+são C# simples com temas atuais e neutros (seção 7), e nada faz referência
+a um projeto, framework, engine ou fluxo de trabalho de equipe específico.
 
 ---
 
-## 1. The skills
+## 1. As skills
 
-Three skills, one per book: `fowler-refactoring`, `kerievsky-refactoring-to-patterns` and
-`gof-design-patterns`, the last one for lookup only, since the patterns are where Kerievsky's
-refactorings lead but do not teach refactoring. Splitting by book means the loaded skill tells
-which catalog each applied thing came from. A fourth skill, `refactoring`, has no catalog: it is only the entry point
-(`/refactoring <target>`), which diagnoses, picks the skill and applies step by step. Only each one's `description` stays in the agent's context; the
-`SKILL.md` body loads when the skill is used, and each reference file only when the agent opens it.
-The agent starts from a problem (a smell), not from a refactoring's name, so one entry point per
-book that routes smell → refactoring → file works better than 116 competing descriptions.
-Kerievsky's refactorings link to the Fowler refactorings they use as steps, through
-`../fowler-refactoring/`: the three skills are installed side by side.
+Três skills, uma por livro: `fowler-refactoring`, `kerievsky-refactoring-to-patterns` e
+`gof-design-patterns`, esta só de consulta, porque os padrões são o destino das refatorações de
+Kerievsky mas não ensinam a refatorar. A divisão por livro permite saber, pela skill carregada, de
+qual catálogo veio cada coisa aplicada. Uma quarta skill, `refactoring`, não tem catálogo: é só a porta de entrada
+(`/refactoring <alvo>`), que diagnostica, escolhe a skill e aplica passo a passo. Só a `description` de cada uma fica no contexto do
+agente; o corpo de `SKILL.md` é carregado quando a skill é usada, e cada arquivo de referência só
+quando o agente o abre. O agente parte de um problema (um smell), não do nome de uma refatoração,
+então um ponto de entrada por livro, que roteia smell → refatoração → arquivo, funciona melhor que
+116 descrições concorrentes. As refatorações de Kerievsky apontam para as de Fowler que usam como
+passos, com links para `../fowler-refactoring/`: as três skills ficam instaladas lado a lado.
 
-| File | Source | Content |
+| Arquivo | Fonte | Conteúdo |
 |---|---|---|
-| `refactoring/SKILL.md` | this spec | the `/refactoring <target>` entry point: SOLID diagnosis, skill choice, step-by-step application and source-ID recording; no catalog of its own |
-| `fowler-refactoring/SKILL.md` | this spec | the flow smell → refactoring → file, a quick index of the 24 smells and a table of the 66 refactorings (name, when, file), grouped by chapter (section 4.1) |
-| `kerievsky-refactoring-to-patterns/SKILL.md` | this spec | the same for the 12 smells and the 27 refactorings to patterns |
-| `gof-design-patterns/SKILL.md` | this spec | the lookup flow and the table linking each GoF pattern to the refactorings that reach it |
-| `fowler-refactoring/references/smells.md` | ch. 3 | the 24 smells, symptoms and suggested refactorings (section 3) |
-| `fowler-refactoring/references/discipline.md` | ch. 2 and 4 | tests first, small steps, commit after each green refactoring |
-| `fowler-refactoring/references/<chapter>/<slug>.md` (66 files) | ch. 6–12, or the web edition for the web-only ones | one refactoring each: when to use, mechanics, C# example, verification (section 4.2) |
-| `kerievsky-refactoring-to-patterns/references/<chapter>/<slug>.md` (27 files) | Kerievsky ch. 6–11 | one refactoring to a pattern each, same format plus pattern and direction (section 5) |
-| `kerievsky-refactoring-to-patterns/references/smells.md` | Kerievsky ch. 4 | the 12 smells and the refactorings to patterns they point to (section 5.2) |
-| `kerievsky-refactoring-to-patterns/references/discipline.md` | Kerievsky ch. 1-3 | when a pattern pays off, composite and test-driven refactorings, to/towards/away, design debt |
-| `gof-design-patterns/references/catalog.md` | GoF ch. 1, 3-5 | the 23 intents, purpose and scope, causes of redesign, what each pattern lets vary, comparisons (section 6) |
-| `gof-design-patterns/references/principles.md` | GoF ch. 1 and 6 | design principles, how to select and use a pattern (section 6) |
-| `gof-design-patterns/references/<category>/<slug>.md` (23 files) | GoF ch. 3-5 | one pattern each: intent, when it pays off, participants, C# example, variations, risks (section 6) |
+| `refactoring/SKILL.md` | esta especificação | a porta de entrada `/refactoring <alvo>`: diagnóstico com o SOLID, escolha da skill, aplicação passo a passo e registro dos IDs de fonte; sem catálogo próprio |
+| `fowler-refactoring/SKILL.md` | esta especificação | o fluxo smell → refatoração → arquivo, um índice rápido dos 24 smells e uma tabela das 66 refatorações (nome, quando, arquivo), agrupadas por capítulo (seção 4.1) |
+| `kerievsky-refactoring-to-patterns/SKILL.md` | esta especificação | o mesmo para os 12 smells e as 27 refatorações para padrões |
+| `gof-design-patterns/SKILL.md` | esta especificação | o fluxo de consulta e a tabela que liga cada padrão do GoF às refatorações que levam a ele |
+| `fowler-refactoring/references/smells.md` | cap. 3 | os 24 smells, sintomas e refatorações sugeridas (seção 3) |
+| `fowler-refactoring/references/discipline.md` | cap. 2 e 4 | testes primeiro, passos pequenos, commit após cada refatoração verde |
+| `fowler-refactoring/references/<chapter>/<slug>.md` (66 arquivos) | cap. 6–12, ou a edição web para as exclusivas da web | uma refatoração em cada: quando usar, mecânica, exemplo em C#, verificação (seção 4.2) |
+| `kerievsky-refactoring-to-patterns/references/<chapter>/<slug>.md` (27 arquivos) | Kerievsky, cap. 6–11 | uma refatoração para padrão em cada, no mesmo formato, mais padrão e direção (seção 5) |
+| `kerievsky-refactoring-to-patterns/references/smells.md` | Kerievsky, cap. 4 | os 12 smells e as refatorações para padrões a que levam (seção 5.2) |
+| `kerievsky-refactoring-to-patterns/references/discipline.md` | Kerievsky, cap. 1-3 | quando um padrão compensa, refatorações compostas e guiadas por testes, até/rumo a/longe, dívida de design |
+| `gof-design-patterns/references/catalog.md` | GoF, cap. 1, 3-5 | as 23 intenções, propósito e escopo, causas de reprojeto, o que cada padrão deixa variar, comparações (seção 6) |
+| `gof-design-patterns/references/principles.md` | GoF, cap. 1 e 6 | princípios de design, como escolher e usar um padrão (seção 6) |
+| `gof-design-patterns/references/<category>/<slug>.md` (23 arquivos) | GoF, cap. 3-5 | um padrão em cada: intenção, quando compensa, participantes, exemplo em C#, variações, riscos (seção 6) |
 
-The slug is the refactoring's name in kebab-case. Example: Extract Function →
-`fowler-refactoring/references/first-set/extract-function.md`. The files are grouped by skill (one per book) and then in one folder per chapter. Fowler's:
-`first-set` (ch. 6), `encapsulation` (7), `moving-features` (8), `organizing-data` (9),
-`conditional-logic` (10), `refactoring-apis` (11) and `inheritance` (12); a web-only refactoring goes
-in the chapter section 2 lists it under. The refactoring.com page uses the name in camelCase
-instead: `https://refactoring.com/catalog/extractFunction.html`.
+O slug é o nome da refatoração em kebab-case. Exemplo: Extrair Função (Extract Function) →
+`fowler-refactoring/references/first-set/extract-function.md`. Os arquivos são agrupados por skill (uma por livro) e, dentro dela, em uma pasta por capítulo. Os de Fowler:
+`first-set` (cap. 6), `encapsulation` (7), `moving-features` (8), `organizing-data` (9),
+`conditional-logic` (10), `refactoring-apis` (11) e `inheritance` (12); uma refatoração exclusiva da web fica
+no capítulo sob o qual a seção 2 a lista. A página do refactoring.com usa o nome em camelCase:
+`https://refactoring.com/catalog/extractFunction.html`.
 
 ```
 skills/
@@ -72,369 +72,371 @@ skills/
 │       ├── first-set/
 │       │   ├── extract-function.md
 │       │   └── ...
-│       └── ... # 7 chapter folders, 66 files
+│       └── ... # 7 pastas de capítulo, 66 arquivos
 ├── kerievsky-refactoring-to-patterns/
 │   ├── SKILL.md
 │   └── references/
 │       ├── smells.md
 │       ├── discipline.md
 │       ├── creation/
-│       └── ... # 6 chapter folders, 27 files
+│       └── ... # 6 pastas de capítulo, 27 arquivos
 └── gof-design-patterns/
     ├── SKILL.md
     └── references/
         ├── catalog.md
         ├── principles.md
         ├── creational/
-        └── ... # 3 category folders, 23 files
+        └── ... # 3 pastas de categoria, 23 arquivos
 ```
 
 ---
 
-## 2. The 66 refactorings
+## 2. As 66 refatorações
 
-Checked against the book on 2026-10-31, mechanically from the PDF's text: each of the 61 book
-refactorings is in the chapter shown, the **Formerly / aka** and
-**Inverse** columns are the book's own section header (`formerly:`, `aka:`, `subsumes:`,
-`inverse of:`), and all 575 "Name (page)" cross-references in ch. 3–12 point to the right
-refactoring. For the 5 web-only refactorings, names, aliases and mechanics come from the book's web edition (checked on 2026-11-11).
+Conferido com o livro em 2026-10-31, de forma mecânica a partir do texto do PDF: cada uma das 61 refatorações
+do livro está no capítulo indicado, as colunas **Nome anterior / outro nome** e
+**Inversa** são o próprio cabeçalho de seção do livro (`formerly:`, `aka:`, `subsumes:`,
+`inverse of:`), e todas as 575 referências cruzadas "Nome (página)" nos cap. 3–12 apontam para a refatoração
+certa. Para as 5 refatorações exclusivas da web, nomes, apelidos e mecânica vêm da edição web do livro (conferida em 2026-11-11).
 
-**C# note** is what the reference file must add because the book's examples are JavaScript:
-only generic C# points. Where it says "—", the file has no C# notes section.
+**Nota de C#** é o que o arquivo de referência deve acrescentar porque os exemplos do livro são em JavaScript:
+somente pontos genéricos de C#. Onde consta "—", o arquivo não tem seção de notas de C#.
 
-### Chapter 6: A First Set of Refactorings
+### Capítulo 6: Um primeiro conjunto de refatorações
 
-| # | Refactoring | Formerly / aka | Inverse | C# note |
+| # | Refatoração | Nome anterior / outro nome | Inversa | Nota de C# |
 |---|---|---|---|---|
-| 1 | Extract Function | formerly Extract Method | Inline Function | in C#, local functions are an option for helpers used in one place |
-| 2 | Inline Function | formerly Inline Method | Extract Function | do not inline a `virtual`/`override` method or an interface implementation without checking the other implementations |
-| 3 | Extract Variable | formerly Introduce Explaining Variable | Inline Variable | — |
-| 4 | Inline Variable | formerly Inline Temp | Extract Variable | — |
-| 5 | Change Function Declaration | aka Rename Function, Change Signature; formerly Rename Method, Add Parameter, Remove Parameter | — | the compiler finds direct callers, not reflection, string-based lookups or serialized names; on a public API, keep the old signature as an `[Obsolete]` forwarder during migration |
-| 6 | Encapsulate Variable | formerly Encapsulate Field, Self-Encapsulate Field | — | public field → private field + property; a static field → static property |
-| 7 | Rename Variable | — | — | — |
-| 8 | Introduce Parameter Object | — | — | a class, `record` or `record struct` |
-| 9 | Combine Functions into Class | — | — | — |
-| 10 | Combine Functions into Transform | — | — | idiomatic in JavaScript; in C# it is usually a function that returns a new enriched `record` (`with` expressions), or it becomes Combine Functions into Class |
-| 11 | Split Phase | — | — | the intermediate data structure is usually a `record` |
+| 1 | Extrair Função (Extract Function) | antes Extract Method | Internalizar Função | em C#, funções locais são uma opção para auxiliares usados em um só lugar |
+| 2 | Internalizar Função (Inline Function) | antes Inline Method | Extrair Função | não internalize um método `virtual`/`override` nem uma implementação de interface sem verificar as outras implementações |
+| 3 | Extrair Variável (Extract Variable) | antes Introduce Explaining Variable | Internalizar Variável | — |
+| 4 | Internalizar Variável (Inline Variable) | antes Inline Temp | Extrair Variável | — |
+| 5 | Mudar Declaração de Função (Change Function Declaration) | também Rename Function, Change Signature; antes Rename Method, Add Parameter, Remove Parameter | — | o compilador encontra chamadores diretos, não reflexão, buscas baseadas em string nem nomes serializados; em uma API pública, mantenha a assinatura antiga como um encaminhador `[Obsolete]` durante a migração |
+| 6 | Encapsular Variável (Encapsulate Variable) | antes Encapsulate Field, Self-Encapsulate Field | — | campo público → campo privado + propriedade; um campo estático → propriedade estática |
+| 7 | Renomear Variável (Rename Variable) | — | — | — |
+| 8 | Introduzir Objeto de Parâmetros (Introduce Parameter Object) | — | — | uma classe, `record` ou `record struct` |
+| 9 | Combinar Funções em Classe (Combine Functions into Class) | — | — | — |
+| 10 | Combinar Funções em Transformação (Combine Functions into Transform) | — | — | idiomático em JavaScript; em C# costuma ser uma função que devolve um novo `record` enriquecido (expressões `with`), ou vira Combinar Funções em Classe |
+| 11 | Dividir em Fases (Split Phase) | — | — | a estrutura de dados intermediária costuma ser um `record` |
 
-### Chapter 7: Encapsulation
+### Capítulo 7: Encapsulamento
 
-| # | Refactoring | Formerly / aka | Inverse | C# note |
+| # | Refatoração | Nome anterior / outro nome | Inversa | Nota de C# |
 |---|---|---|---|---|
-| 12 | Encapsulate Record | formerly Replace Record with Data Class | — | dictionary, tuple, anonymous or `dynamic` data → a class or `record` with properties |
-| 13 | Encapsulate Collection | — | — | expose `IReadOnlyList<T>` / `IReadOnlyCollection<T>`, with `Add`/`Remove` methods; a read-only interface does not stop a caller from casting back, so return a copy where that matters |
-| 14 | Replace Primitive with Object | formerly Replace Data Value with Object, Replace Type Code with Class | — | meaningful `string`/`int` → own type (`record`, `readonly record struct`) or `enum` |
-| 15 | Replace Temp with Query | — | — | a read-only property or a method; keep expensive queries as methods |
-| 16 | Extract Class | — | Inline Class | — |
-| 17 | Inline Class | — | Extract Class | — |
-| 18 | Hide Delegate | — | Remove Middle Man | — |
-| 19 | Remove Middle Man | — | Hide Delegate | — |
-| 20 | Substitute Algorithm | — | — | — |
+| 12 | Encapsular Registro (Encapsulate Record) | antes Replace Record with Data Class | — | dados em dicionário, tupla, anônimos ou `dynamic` → uma classe ou `record` com propriedades |
+| 13 | Encapsular Coleção (Encapsulate Collection) | — | — | exponha `IReadOnlyList<T>` / `IReadOnlyCollection<T>`, com métodos `Add`/`Remove`; uma interface somente leitura não impede o chamador de fazer cast de volta, então devolva uma cópia onde isso importar |
+| 14 | Substituir Primitivo por Objeto (Replace Primitive with Object) | antes Replace Data Value with Object, Replace Type Code with Class | — | `string`/`int` com significado → tipo próprio (`record`, `readonly record struct`) ou `enum` |
+| 15 | Substituir Variável Temporária por Consulta (Replace Temp with Query) | — | — | uma propriedade somente leitura ou um método; mantenha consultas caras como métodos |
+| 16 | Extrair Classe (Extract Class) | — | Internalizar Classe | — |
+| 17 | Internalizar Classe (Inline Class) | — | Extrair Classe | — |
+| 18 | Ocultar Delegação (Hide Delegate) | — | Remover Intermediário | — |
+| 19 | Remover Intermediário (Remove Middle Man) | — | Ocultar Delegação | — |
+| 20 | Substituir Algoritmo (Substitute Algorithm) | — | — | — |
 
-### Chapter 8: Moving Features
+### Capítulo 8: Movendo recursos
 
-| # | Refactoring | Formerly / aka | Inverse | C# note |
+| # | Refatoração | Nome anterior / outro nome | Inversa | Nota de C# |
 |---|---|---|---|---|
-| 21 | Move Function | formerly Move Method | — | the target may be another class, a static class, or an extension method |
-| 22 | Move Field | — | — | a field that is persisted or serialized keeps its stored name only if the mapping is updated too |
-| 23 | Move Statements into Function | — | Move Statements to Callers | — |
-| 24 | Move Statements to Callers | — | Move Statements into Function | — |
-| 25 | Replace Inline Code with Function Call | — | — | — |
-| 26 | Slide Statements | formerly Consolidate Duplicate Conditional Fragments | — | — |
-| 27 | Split Loop | — | — | — |
-| 28 | Replace Loop with Pipeline | — | — | LINQ; mind deferred execution (enumerate once) and allocation on hot paths |
-| 29 | Remove Dead Code | — | — | code with no static callers may still be reached by reflection, dependency injection or serialization |
+| 21 | Mover Função (Move Function) | antes Move Method | — | o destino pode ser outra classe, uma classe estática ou um método de extensão |
+| 22 | Mover Campo (Move Field) | — | — | um campo persistido ou serializado só mantém o nome armazenado se o mapeamento também for atualizado |
+| 23 | Mover Instruções para Função (Move Statements into Function) | — | Mover Instruções para os Chamadores | — |
+| 24 | Mover Instruções para os Chamadores (Move Statements to Callers) | — | Mover Instruções para Função | — |
+| 25 | Substituir Código Internalizado por Chamada de Função (Replace Inline Code with Function Call) | — | — | — |
+| 26 | Deslocar Instruções (Slide Statements) | antes Consolidate Duplicate Conditional Fragments | — | — |
+| 27 | Dividir Laço (Split Loop) | — | — | — |
+| 28 | Substituir Laço por Pipeline (Replace Loop with Pipeline) | — | — | LINQ; atenção à execução adiada (enumere uma vez) e à alocação em caminhos críticos |
+| 29 | Remover Código Morto (Remove Dead Code) | — | — | código sem chamadores estáticos ainda pode ser alcançado por reflexão, injeção de dependência ou serialização |
 
-### Chapter 9: Organizing Data
+### Capítulo 9: Organizando dados
 
-| # | Refactoring | Formerly / aka | Inverse | C# note |
+| # | Refatoração | Nome anterior / outro nome | Inversa | Nota de C# |
 |---|---|---|---|---|
-| 30 | Split Variable | formerly Remove Assignments to Parameters, Split Temp | — | no immutable locals (`const` only fits compile-time constants), so keep each new variable assigned once; renaming a parameter breaks callers that use named arguments |
-| 31 | Rename Field | — | — | a serialized or persisted field keeps its wire name only with a mapping attribute (e.g. `[JsonPropertyName("oldName")]`) or a migration |
-| 32 | Replace Derived Variable with Query | — | — | a computed read-only property |
-| 33 | Change Reference to Value | — | Change Value to Reference | `record`, `readonly record struct` or an immutable class with value equality (`Equals`/`GetHashCode`) |
-| 34 | Change Value to Reference | — | Change Reference to Value | a repository or registry that hands out the shared instance |
-| 35 | Replace Magic Literal (web) | Replace Magic Number with Symbolic Constant | — | `const` for compile-time values, `static readonly` for the rest |
+| 30 | Dividir Variável (Split Variable) | antes Remove Assignments to Parameters, Split Temp | — | não há locais imutáveis (`const` só serve para constantes de tempo de compilação), então atribua cada nova variável uma única vez; renomear um parâmetro quebra chamadores que usam argumentos nomeados |
+| 31 | Renomear Campo (Rename Field) | — | — | um campo serializado ou persistido só mantém o nome de transmissão com um atributo de mapeamento (p. ex. `[JsonPropertyName("oldName")]`) ou uma migração |
+| 32 | Substituir Variável Derivada por Consulta (Replace Derived Variable with Query) | — | — | uma propriedade calculada somente leitura |
+| 33 | Mudar Referência para Valor (Change Reference to Value) | — | Mudar Valor para Referência | `record`, `readonly record struct` ou uma classe imutável com igualdade por valor (`Equals`/`GetHashCode`) |
+| 34 | Mudar Valor para Referência (Change Value to Reference) | — | Mudar Referência para Valor | um repositório ou registro que entrega a instância compartilhada |
+| 35 | Substituir Literal Mágico (Replace Magic Literal) (web) | Replace Magic Number with Symbolic Constant | — | `const` para valores de tempo de compilação, `static readonly` para o resto |
 
-### Chapter 10: Simplifying Conditional Logic
+### Capítulo 10: Simplificando a lógica condicional
 
-| # | Refactoring | Formerly / aka | Inverse | C# note |
+| # | Refatoração | Nome anterior / outro nome | Inversa | Nota de C# |
 |---|---|---|---|---|
-| 36 | Decompose Conditional | — | — | — |
-| 37 | Consolidate Conditional Expression | — | — | — |
-| 38 | Replace Nested Conditional with Guard Clauses | — | — | — |
-| 39 | Replace Conditional with Polymorphism | — | — | a `switch` on a type code → `abstract`/`virtual` members or an interface |
-| 40 | Introduce Special Case | formerly Introduce Null Object | — | with nullable reference types enabled, the special case removes `?`/null checks at the call sites |
-| 41 | Introduce Assertion | — | — | `Debug.Assert` (removed from Release builds) |
-| 42 | Replace Control Flag with Break (web) | Remove Control Flag | — | — |
+| 36 | Decompor Condicional (Decompose Conditional) | — | — | — |
+| 37 | Consolidar Expressão Condicional (Consolidate Conditional Expression) | — | — | — |
+| 38 | Substituir Condicional Aninhada por Cláusulas de Guarda (Replace Nested Conditional with Guard Clauses) | — | — | — |
+| 39 | Substituir Condicional por Polimorfismo (Replace Conditional with Polymorphism) | — | — | um `switch` sobre um código de tipo → membros `abstract`/`virtual` ou uma interface |
+| 40 | Introduzir Caso Especial (Introduce Special Case) | antes Introduce Null Object | — | com tipos de referência anuláveis habilitados, o caso especial elimina as verificações de `?`/null nos pontos de chamada |
+| 41 | Introduzir Asserção (Introduce Assertion) | — | — | `Debug.Assert` (removido dos builds de Release) |
+| 42 | Substituir Flag de Controle por Break (Replace Control Flag with Break) (web) | Remove Control Flag | — | — |
 
-### Chapter 11: Refactoring APIs
+### Capítulo 11: Refatorando APIs
 
-| # | Refactoring | Formerly / aka | Inverse | C# note |
+| # | Refatoração | Nome anterior / outro nome | Inversa | Nota de C# |
 |---|---|---|---|---|
-| 43 | Separate Query from Modifier | — | — | — |
-| 44 | Parameterize Function | formerly Parameterize Method | — | — |
-| 45 | Remove Flag Argument | formerly Replace Parameter with Explicit Methods | — | — |
-| 46 | Preserve Whole Object | — | — | — |
-| 47 | Replace Parameter with Query | formerly Replace Parameter with Method | Replace Query with Parameter | — |
-| 48 | Replace Query with Parameter | — | Replace Parameter with Query | useful to remove a dependency on a static or singleton and make the code testable |
-| 49 | Remove Setting Method | — | — | `{ get; }` or `{ get; init; }` |
-| 50 | Replace Constructor with Factory Function | formerly Replace Constructor with Factory Method | — | a static factory method; make the constructor `private` or `protected` |
-| 51 | Replace Function with Command | formerly Replace Method with Method Object | Replace Command with Function | — |
-| 52 | Replace Command with Function | — | Replace Function with Command | — |
-| 53 | Return Modified Value (web) | — | — | — |
-| 54 | Replace Error Code with Exception (web) | — | — | do not use exceptions for expected control flow |
-| 55 | Replace Exception with Precheck (web) | Replace Exception with Test | — | the `TryParse`/`TryGetValue` pattern |
+| 43 | Separar Consulta de Modificador (Separate Query from Modifier) | — | — | — |
+| 44 | Parametrizar Função (Parameterize Function) | antes Parameterize Method | — | — |
+| 45 | Remover Argumento de Flag (Remove Flag Argument) | antes Replace Parameter with Explicit Methods | — | — |
+| 46 | Preservar Objeto Inteiro (Preserve Whole Object) | — | — | — |
+| 47 | Substituir Parâmetro por Consulta (Replace Parameter with Query) | antes Replace Parameter with Method | Substituir Consulta por Parâmetro | — |
+| 48 | Substituir Consulta por Parâmetro (Replace Query with Parameter) | — | Substituir Parâmetro por Consulta | útil para remover a dependência de um estático ou singleton e tornar o código testável |
+| 49 | Remover Método de Escrita (Remove Setting Method) | — | — | `{ get; }` ou `{ get; init; }` |
+| 50 | Substituir Construtor por Função de Fábrica (Replace Constructor with Factory Function) | antes Replace Constructor with Factory Method | — | um método de fábrica estático; torne o construtor `private` ou `protected` |
+| 51 | Substituir Função por Comando (Replace Function with Command) | antes Replace Method with Method Object | Substituir Comando por Função | — |
+| 52 | Substituir Comando por Função (Replace Command with Function) | — | Substituir Função por Comando | — |
+| 53 | Retornar Valor Modificado (Return Modified Value) (web) | — | — | — |
+| 54 | Substituir Código de Erro por Exceção (Replace Error Code with Exception) (web) | — | — | não use exceções para fluxo de controle esperado |
+| 55 | Substituir Exceção por Verificação Prévia (Replace Exception with Precheck) (web) | Replace Exception with Test | — | o padrão `TryParse`/`TryGetValue` |
 
-### Chapter 12: Dealing with Inheritance
+### Capítulo 12: Lidando com herança
 
-| # | Refactoring | Formerly / aka | Inverse | C# note |
+| # | Refatoração | Nome anterior / outro nome | Inversa | Nota de C# |
 |---|---|---|---|---|
-| 56 | Pull Up Method | — | Push Down Method | — |
-| 57 | Pull Up Field | — | Push Down Field | — |
-| 58 | Pull Up Constructor Body | — | — | `: base(...)` constructor chaining |
-| 59 | Push Down Method | — | Pull Up Method | — |
-| 60 | Push Down Field | — | Pull Up Field | — |
-| 61 | Replace Type Code with Subclasses | subsumes Replace Type Code with State/Strategy, Extract Subclass | Remove Subclass | — |
-| 62 | Remove Subclass | formerly Replace Subclass with Fields | Replace Type Code with Subclasses | — |
-| 63 | Extract Superclass | — | — | an `abstract` base class, or an interface if only the signatures are shared |
-| 64 | Collapse Hierarchy | — | — | — |
-| 65 | Replace Subclass with Delegate | — | — | — |
-| 66 | Replace Superclass with Delegate | formerly Replace Inheritance with Delegation | — | — |
+| 56 | Subir Método (Pull Up Method) | — | Descer Método | — |
+| 57 | Subir Campo (Pull Up Field) | — | Descer Campo | — |
+| 58 | Subir Corpo do Construtor (Pull Up Constructor Body) | — | — | encadeamento de construtores com `: base(...)` |
+| 59 | Descer Método (Push Down Method) | — | Subir Método | — |
+| 60 | Descer Campo (Push Down Field) | — | Subir Campo | — |
+| 61 | Substituir Código de Tipo por Subclasses (Replace Type Code with Subclasses) | engloba Replace Type Code with State/Strategy, Extract Subclass | Remover Subclasse | — |
+| 62 | Remover Subclasse (Remove Subclass) | antes Replace Subclass with Fields | Substituir Código de Tipo por Subclasses | — |
+| 63 | Extrair Superclasse (Extract Superclass) | — | — | uma classe base `abstract`, ou uma interface se só as assinaturas forem compartilhadas |
+| 64 | Colapsar Hierarquia (Collapse Hierarchy) | — | — | — |
+| 65 | Substituir Subclasse por Delegação (Replace Subclass with Delegate) | — | — | — |
+| 66 | Substituir Superclasse por Delegação (Replace Superclass with Delegate) | antes Replace Inheritance with Delegation | — | — |
 
 ---
 
-## 3. `fowler-refactoring/references/smells.md`: the 24 smells and where they lead
+## 3. `fowler-refactoring/references/smells.md`: os 24 smells e para onde levam
 
-Summary of ch. 3: the index the agent checks before picking a refactoring. Each refactoring
-named here is the file `fowler-refactoring/references/<chapter>/<slug>.md`.
+Resumo do cap. 3: o índice que o agente consulta antes de escolher uma refatoração. Cada refatoração
+citada aqui é o arquivo `fowler-refactoring/references/<chapter>/<slug>.md`.
 
-| Smell | Suggested refactorings |
+| Smell | Refatorações sugeridas |
 |---|---|
-| Mysterious Name | Change Function Declaration, Rename Variable, Rename Field |
-| Duplicated Code | Extract Function, Slide Statements, Pull Up Method |
-| Long Function | Extract Function, Replace Temp with Query, Introduce Parameter Object, Preserve Whole Object, Replace Function with Command, Decompose Conditional, Replace Conditional with Polymorphism, Split Loop |
-| Long Parameter List | Replace Parameter with Query, Preserve Whole Object, Introduce Parameter Object, Remove Flag Argument, Combine Functions into Class |
-| Global Data | Encapsulate Variable |
-| Mutable Data | Encapsulate Variable, Split Variable, Slide Statements, Extract Function, Separate Query from Modifier, Remove Setting Method, Replace Derived Variable with Query, Combine Functions into Class, Combine Functions into Transform, Change Reference to Value |
-| Divergent Change | Split Phase, Move Function, Extract Function, Extract Class |
-| Shotgun Surgery | Move Function, Move Field, Combine Functions into Class, Combine Functions into Transform, Split Phase, Inline Function, Inline Class |
-| Feature Envy | Move Function, Extract Function |
-| Data Clumps | Extract Class, Introduce Parameter Object, Preserve Whole Object |
-| Primitive Obsession | Replace Primitive with Object, Replace Type Code with Subclasses, Replace Conditional with Polymorphism, Extract Class, Introduce Parameter Object |
-| Repeated Switches | Replace Conditional with Polymorphism |
-| Loops | Replace Loop with Pipeline |
-| Lazy Element | Inline Function, Inline Class, Collapse Hierarchy |
-| Speculative Generality | Collapse Hierarchy, Inline Function, Inline Class, Change Function Declaration, Remove Dead Code |
-| Temporary Field | Extract Class, Move Function, Introduce Special Case |
-| Message Chains | Hide Delegate, Extract Function, Move Function |
-| Middle Man | Remove Middle Man, Inline Function, Replace Superclass with Delegate, Replace Subclass with Delegate |
-| Insider Trading | Move Function, Move Field, Hide Delegate, Replace Subclass with Delegate, Replace Superclass with Delegate |
-| Large Class | Extract Class, Extract Superclass, Replace Type Code with Subclasses |
-| Alternative Classes with Different Interfaces | Change Function Declaration, Move Function, Extract Superclass |
-| Data Class | Encapsulate Record, Remove Setting Method, Move Function, Extract Function |
-| Refused Bequest | Push Down Method, Push Down Field, Replace Subclass with Delegate, Replace Superclass with Delegate |
-| Comments | Extract Function, Change Function Declaration, Introduce Assertion |
+| Nome Misterioso (Mysterious Name) | Mudar Declaração de Função, Renomear Variável, Renomear Campo |
+| Código Duplicado (Duplicated Code) | Extrair Função, Deslocar Instruções, Subir Método |
+| Função Longa (Long Function) | Extrair Função, Substituir Variável Temporária por Consulta, Introduzir Objeto de Parâmetros, Preservar Objeto Inteiro, Substituir Função por Comando, Decompor Condicional, Substituir Condicional por Polimorfismo, Dividir Laço |
+| Lista Longa de Parâmetros (Long Parameter List) | Substituir Parâmetro por Consulta, Preservar Objeto Inteiro, Introduzir Objeto de Parâmetros, Remover Argumento de Flag, Combinar Funções em Classe |
+| Dados Globais (Global Data) | Encapsular Variável |
+| Dados Mutáveis (Mutable Data) | Encapsular Variável, Dividir Variável, Deslocar Instruções, Extrair Função, Separar Consulta de Modificador, Remover Método de Escrita, Substituir Variável Derivada por Consulta, Combinar Funções em Classe, Combinar Funções em Transformação, Mudar Referência para Valor |
+| Alteração Divergente (Divergent Change) | Dividir em Fases, Mover Função, Extrair Função, Extrair Classe |
+| Cirurgia com Espingarda (Shotgun Surgery) | Mover Função, Mover Campo, Combinar Funções em Classe, Combinar Funções em Transformação, Dividir em Fases, Internalizar Função, Internalizar Classe |
+| Inveja de Recursos (Feature Envy) | Mover Função, Extrair Função |
+| Agrupamentos de Dados (Data Clumps) | Extrair Classe, Introduzir Objeto de Parâmetros, Preservar Objeto Inteiro |
+| Obsessão por Primitivos (Primitive Obsession) | Substituir Primitivo por Objeto, Substituir Código de Tipo por Subclasses, Substituir Condicional por Polimorfismo, Extrair Classe, Introduzir Objeto de Parâmetros |
+| Switches Repetidos (Repeated Switches) | Substituir Condicional por Polimorfismo |
+| Laços (Loops) | Substituir Laço por Pipeline |
+| Elemento Ocioso (Lazy Element) | Internalizar Função, Internalizar Classe, Colapsar Hierarquia |
+| Generalidade Especulativa (Speculative Generality) | Colapsar Hierarquia, Internalizar Função, Internalizar Classe, Mudar Declaração de Função, Remover Código Morto |
+| Campo Temporário (Temporary Field) | Extrair Classe, Mover Função, Introduzir Caso Especial |
+| Cadeias de Mensagens (Message Chains) | Ocultar Delegação, Extrair Função, Mover Função |
+| Intermediário (Middle Man) | Remover Intermediário, Internalizar Função, Substituir Superclasse por Delegação, Substituir Subclasse por Delegação |
+| Troca de Informações Privilegiadas (Insider Trading) | Mover Função, Mover Campo, Ocultar Delegação, Substituir Subclasse por Delegação, Substituir Superclasse por Delegação |
+| Classe Grande (Large Class) | Extrair Classe, Extrair Superclasse, Substituir Código de Tipo por Subclasses |
+| Classes Alternativas com Interfaces Diferentes (Alternative Classes with Different Interfaces) | Mudar Declaração de Função, Mover Função, Extrair Superclasse |
+| Classe de Dados (Data Class) | Encapsular Registro, Remover Método de Escrita, Mover Função, Extrair Função |
+| Herança Recusada (Refused Bequest) | Descer Método, Descer Campo, Substituir Subclasse por Delegação, Substituir Superclasse por Delegação |
+| Comentários (Comments) | Extrair Função, Mudar Declaração de Função, Introduzir Asserção |
 
-Checked against ch. 3 on 2026-10-31: every refactoring the chapter cites as "Name (page)" under
-each smell is in its row. Data Class lists Split Phase with a caveat: the book's smell table names it, but the chapter
-text mentions it as the example of an exception (an immutable result record), not as a fix.
+Conferido com o cap. 3 em 2026-10-31: toda refatoração que o capítulo cita como "Nome (página)" sob
+cada smell está em sua linha. Classe de Dados lista Dividir em Fases com uma ressalva: a tabela de smells do livro a cita, mas o
+texto do capítulo a menciona como exemplo de exceção (um registro de resultado imutável), não como
+correção.
 
 ---
 
-## 4. How each piece becomes a file
+## 4. Como cada peça vira um arquivo
 
 ### 4.1 `SKILL.md`
 
-Frontmatter `name` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` or `gof-design-patterns`) and a `description`
-(at most 1024 characters) that names the catalog, the common symptoms and the most used refactorings, so the agent finds the skill
-both by problem ("this class does too much") and by name ("do an Extract Class"). The body has
-the flow (smell → refactoring → file, with the discipline before the first step), the smell
-quick index, and one table per chapter with every refactoring, a one-line "when" and a link to
-its file. It ends with the Source line:
+Frontmatter `name` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` ou `gof-design-patterns`) e uma `description`
+(no máximo 1024 caracteres) que nomeia o catálogo, os sintomas comuns e as refatorações mais usadas, de modo que o agente encontre a skill
+tanto pelo problema ("esta classe faz coisas demais") quanto pelo nome ("faça um Extrair Classe"). O corpo tem
+o fluxo (smell → refatoração → arquivo, com a disciplina antes do primeiro passo), o índice rápido
+de smells e uma tabela por capítulo com cada refatoração, um "quando" de uma linha e um link para
+o seu arquivo. Termina com a linha de Fonte:
 
 ```markdown
-Sources: Martin Fowler, *Refactoring: Improving the Design of Existing Code*, 2nd ed., ...;
-Joshua Kerievsky, *Refactoring to Patterns*, ...; Erich Gamma, Richard Helm, Ralph Johnson and
-John Vlissides, *Design Patterns*, ... Paraphrased; see the package NOTICE.
+Fontes: Martin Fowler, *Refactoring: Improving the Design of Existing Code*, 2nd ed., ...;
+Joshua Kerievsky, *Refactoring to Patterns*, ...; Erich Gamma, Richard Helm, Ralph Johnson e
+John Vlissides, *Design Patterns*, ... Parafraseado; veja o NOTICE do pacote.
 ```
 
-When a reference file is added, renamed or removed, its row in its skill's `SKILL.md` table
-changes with it.
+Quando um arquivo de referência é adicionado, renomeado ou removido, sua linha na tabela do `SKILL.md` da
+sua skill muda junto.
 
-### 4.2 A refactoring's reference file
+### 4.2 O arquivo de referência de uma refatoração
 
 ```markdown
-# Extract Class
+# Extrair Classe (Extract Class)
 
-Fowler (2018), ch. 7. Formerly / aka: —. Inverse: Inline Class
+Fowler (2018), cap. 7. Nome anterior / outro nome: —. Inversa: Internalizar Classe
 ([inline-class.md](inline-class.md)).
 
-## When to use
-Smells: Large Class, Divergent Change, Data Clumps. (paraphrase, a few bullets, plus when
-not to use it if the book says so)
+## Quando usar
+Smells: Classe Grande, Alteração Divergente, Agrupamentos de Dados. (paráfrase, alguns itens, mais quando
+não usar, se o livro disser)
 
-## Mechanics
-1. ... (paraphrase of the book's steps, numbered, one testable step per item)
+## Mecânica
+1. ... (paráfrase dos passos do livro, numerados, um passo testável por item)
 
-## Example
-Before / after in C#, written for this package (not copied from the book).
+## Exemplo
+Antes / depois em C#, escrito para este pacote (não copiado do livro).
 
-## C# notes
-- Only when section 2 has a C# note.
+## Notas (C#)
+- Somente quando a seção 2 tiver uma nota de C#.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
 ```
 
-No frontmatter and no Source line: the credit is in `SKILL.md` and the NOTICE. A link to
-another refactoring is relative: `[inline-class.md](inline-class.md)` in the same chapter folder,
-`[move-function.md](../moving-features/move-function.md)` in another. For a web-only
-refactoring, the citation line says "web edition only" and links the refactoring.com summary instead of the chapter.
+Sem frontmatter e sem linha de Fonte: o crédito está em `SKILL.md` e no NOTICE. Um link para
+outra refatoração é relativo: `[inline-class.md](inline-class.md)` na mesma pasta de capítulo,
+`[move-function.md](../moving-features/move-function.md)` em outra. Para uma refatoração
+exclusiva da web, a linha de citação diz "só na edição web" e aponta o resumo do refactoring.com em vez do capítulo.
 
-### 4.3 What goes in each part
+### 4.3 O que vai em cada parte
 
-| Part | Comes from | Note |
+| Parte | Vem de | Observação |
 |---|---|---|
-| Name, formerly / aka, inverse | the book's section header (section 2); the web edition for the web-only ones | short: may be literal |
-| When to use, mechanics | the book (its web edition for the web-only ones) | **paraphrase**, with the chapter; nothing copied |
-| Example | written for this package in C# | current, neutral theme per chapter, C# at the level of section 7; not the book's example or domain |
-| C# notes | section 2, "C# note" column | only where there is something to say |
-| Verification | ch. 4 + `fowler-refactoring/references/discipline.md` | the shared check, plus one or two specific to the refactoring |
-| Source line | this spec (4.1) | once, at the end of `SKILL.md`; credits the author and the publisher |
+| Nome, antes / também, inversa | o cabeçalho de seção do livro (seção 2); a edição web para as exclusivas da web | curto: pode ser literal |
+| Quando usar, mecânica | o livro (a edição web para as exclusivas da web) | **paráfrase**, com o capítulo; nada copiado |
+| Exemplo | escrito para este pacote em C# | tema atual e neutro por capítulo, C# no nível da seção 7; não o exemplo nem o domínio do livro |
+| Notas (C#) | seção 2, coluna "Nota de C#" | só onde houver algo a dizer |
+| Verificação | cap. 4 + `fowler-refactoring/references/discipline.md` | a checagem comum, mais uma ou duas próprias da refatoração |
+| Linha de Fonte | esta especificação (4.1) | uma vez, no fim de `SKILL.md`; credita o autor e a editora |
 
-Nothing in the skills names a specific project, framework, engine or team process.
+Nada nas skills nomeia um projeto, framework, engine ou processo de equipe específico.
 
 
 ---
 
-## 5. Kerievsky's refactorings to patterns
+## 5. As refatorações para padrões de Kerievsky
 
-Source: Joshua Kerievsky, *Refactoring to Patterns*, Addison-Wesley (Pearson Education), 2004,
-chapters 4 and 6–11. Each refactoring is a sequence of smaller refactorings, mostly Fowler's,
-that ends at a pattern (*to*), moves partway (*towards*) or removes one (*away*). The online
-catalog at https://www.industriallogic.com/refactoring-to-patterns/catalog/ has only a summary
-and a diagram for each; the mechanics come from the book.
+Fonte: Joshua Kerievsky, *Refactoring to Patterns*, Addison-Wesley (Pearson Education), 2004,
+capítulos 4 e 6–11. Cada refatoração é uma sequência de refatorações menores, em geral de
+Fowler, que termina em um padrão (*até*), avança parte do caminho (*rumo a*) ou remove um
+(*longe*). O catálogo online em https://www.industriallogic.com/refactoring-to-patterns/catalog/
+tem só um resumo e um diagrama de cada uma; a mecânica vem do livro.
 
-### 5.1 The 27 refactorings
+### 5.1 As 27 refatorações
 
-Checked against the book's own list of refactorings (inside front cover); **Direction** comes from its "Refactoring Directions" table. The
-book's mechanics name Fowler's refactorings by their 1st-edition names; the reference files use
-the 2nd-edition names (section 2) and link their files.
+Conferidas com a própria lista de refatorações do livro (segunda capa); **Direção** vem da tabela "Refactoring Directions" dele. A mecânica do livro
+cita as refatorações de Fowler pelos nomes da 1ª edição; os arquivos de referência usam os nomes
+da 2ª edição (seção 2) e apontam para os arquivos delas.
 
-**C# note** is what the reference file must add because the book's examples are Java: only
-generic C# points. Where it says "—", the file has no C# notes section.
+**Nota C#** é o que o arquivo de referência precisa acrescentar porque os exemplos do livro são
+em Java: só pontos genéricos de C#. Onde está "—", o arquivo não tem seção de notas de C#.
 
-#### Chapter 6: Creation (`kerievsky/creation`)
+#### Capítulo 6: Criação (`kerievsky/creation`)
 
-| # | Refactoring | Pattern | Direction | C# note |
+| # | Refatoração | Padrão | Direção | Nota C# |
 |---|---|---|---|---|
-| 1 | Replace Constructors with Creation Methods | Creation Method | to | optional parameters and object initializers do not name the variant; a `record` with a private constructor works the same way |
-| 2 | Move Creation Knowledge to Factory | Factory | to | — |
-| 3 | Encapsulate Classes with Factory | Factory | to | hide the classes with `internal` (or nested `private`) types and constructors; tests can use `InternalsVisibleTo` |
-| 4 | Introduce Polymorphic Creation with Factory Method | Factory Method | to | the factory method is `protected abstract`, or `protected virtual` with a default |
-| 5 | Encapsulate Composite with Builder | Builder | to (Builder); away (Composite) | — |
-| 6 | Inline Singleton | Singleton | away | a `static class` counts as a Singleton here |
+| 1 | Substituir Construtores por Métodos de Criação (Replace Constructors with Creation Methods) | Creation Method | até | parâmetros opcionais e inicializadores de objeto não dão nome à variante; um `record` com construtor privado funciona igual |
+| 2 | Mover Conhecimento de Criação para Factory (Move Creation Knowledge to Factory) | Factory | até | — |
+| 3 | Encapsular Classes com Factory (Encapsulate Classes with Factory) | Factory | até | esconda as classes com tipos e construtores `internal` (ou `private` aninhados); os testes podem usar `InternalsVisibleTo` |
+| 4 | Introduzir Criação Polimórfica com Factory Method (Introduce Polymorphic Creation with Factory Method) | Factory Method | até | o factory method é `protected abstract`, ou `protected virtual` com um padrão |
+| 5 | Encapsular Composite com Builder (Encapsulate Composite with Builder) | Builder | até (Builder); longe (Composite) | — |
+| 6 | Internalizar Singleton (Inline Singleton) | Singleton | longe | uma `static class` conta como Singleton aqui |
 
-#### Chapter 7: Simplification (`kerievsky/simplification`)
+#### Capítulo 7: Simplificação (`kerievsky/simplification`)
 
-| # | Refactoring | Pattern | Direction | C# note |
+| # | Refatoração | Padrão | Direção | Nota C# |
 |---|---|---|---|---|
-| 7 | Compose Method | Composed Method | to | expression-bodied members and local functions keep the pieces short |
-| 8 | Replace Conditional Logic with Strategy | Strategy | to, towards | an interface, or an abstract class if the strategies share code; stateless strategies can be `static readonly` |
-| 9 | Move Embellishment to Decorator | Decorator | to, towards | — |
-| 10 | Replace State-Altering Conditionals with State | State | to, towards | shared `static readonly` state instances, nested `private sealed` subclasses; persist a stable code, not the object |
-| 11 | Replace Implicit Tree with Composite | Composite | to | a `record` leaf; expose children as `IReadOnlyList<T>` |
-| 12 | Replace Conditional Dispatcher with Command | Command | to, towards | a `Dictionary<string, Func<...>>` is a lighter command type for tiny handlers |
+| 7 | Compor Método (Compose Method) | Composed Method | até | membros com corpo de expressão e funções locais mantêm as partes curtas |
+| 8 | Substituir Lógica Condicional por Strategy (Replace Conditional Logic with Strategy) | Strategy | até, rumo a | uma interface, ou uma classe abstrata se as estratégias compartilham código; estratégias sem estado podem ser `static readonly` |
+| 9 | Mover Embelezamento para Decorator (Move Embellishment to Decorator) | Decorator | até, rumo a | — |
+| 10 | Substituir Condicionais que Alteram Estado por State (Replace State-Altering Conditionals with State) | State | até, rumo a | instâncias de estado `static readonly` compartilhadas, subclasses `private sealed` aninhadas; persista um código estável, não o objeto |
+| 11 | Substituir Árvore Implícita por Composite (Replace Implicit Tree with Composite) | Composite | até | uma folha `record`; exponha os filhos como `IReadOnlyList<T>` |
+| 12 | Substituir Despachante Condicional por Command (Replace Conditional Dispatcher with Command) | Command | até, rumo a | um `Dictionary<string, Func<...>>` é um tipo de comando mais leve para handlers pequenos |
 
-#### Chapter 8: Generalization (`kerievsky/generalization`)
+#### Capítulo 8: Generalização (`kerievsky/generalization`)
 
-| # | Refactoring | Pattern | Direction | C# note |
+| # | Refatoração | Padrão | Direção | Nota C# |
 |---|---|---|---|---|
-| 13 | Form Template Method | Template Method | to | a non-`virtual` template method is the C# `final`; `abstract` and `virtual` `protected` steps |
-| 14 | Extract Composite | Composite | to | expose children as `IReadOnlyList<T>` |
-| 15 | Replace One/Many Distinctions with Composite | Composite | to | a `params`/`IEnumerable<T>` overload may be enough |
-| 16 | Replace Hard-Coded Notifications with Observer | Observer | to, towards | `event EventHandler<T>`; every `+=` needs its `-=` |
-| 17 | Unify Interfaces with Adapter | Adapter | to, towards | — |
-| 18 | Extract Adapter | Adapter | to | — |
-| 19 | Replace Implicit Language with Interpreter | Interpreter | to | `Func<T, bool>` or LINQ may be enough; `Expression<Func<T, bool>>` when a provider translates the criteria |
+| 13 | Formar Template Method (Form Template Method) | Template Method | até | um template method não `virtual` é o `final` do C#; passos `protected` `abstract` e `virtual` |
+| 14 | Extrair Composite (Extract Composite) | Composite | até | exponha os filhos como `IReadOnlyList<T>` |
+| 15 | Substituir Distinções Um/Muitos por Composite (Replace One/Many Distinctions with Composite) | Composite | até | uma sobrecarga com `params`/`IEnumerable<T>` pode bastar |
+| 16 | Substituir Notificações Fixas no Código por Observer (Replace Hard-Coded Notifications with Observer) | Observer | até, rumo a | `event EventHandler<T>`; todo `+=` precisa do seu `-=` |
+| 17 | Unificar Interfaces com Adapter (Unify Interfaces with Adapter) | Adapter | até, rumo a | — |
+| 18 | Extrair Adapter (Extract Adapter) | Adapter | até | — |
+| 19 | Substituir Linguagem Implícita por Interpreter (Replace Implicit Language with Interpreter) | Interpreter | até | `Func<T, bool>` ou LINQ podem bastar; `Expression<Func<T, bool>>` quando um provedor traduz os critérios |
 
-#### Chapter 9: Protection (`kerievsky/protection`)
+#### Capítulo 9: Proteção (`kerievsky/protection`)
 
-| # | Refactoring | Pattern | Direction | C# note |
+| # | Refatoração | Padrão | Direção | Nota C# |
 |---|---|---|---|---|
-| 20 | Replace Type Code with Class | — | — | an `enum` accepts any integer; use a sealed class with a private constructor for a closed set |
-| 21 | Limit Instantiation with Singleton | Singleton | to | `static readonly` or `Lazy<T>`; a DI singleton lifetime often replaces the pattern |
-| 22 | Introduce Null Object | Null Object | to | with nullable reference types the field is no longer nullable; a shared static instance |
+| 20 | Substituir Código de Tipo por Classe (Replace Type Code with Class) | — | — | um `enum` aceita qualquer inteiro; use uma classe selada com construtor privado para um conjunto fechado |
+| 21 | Limitar Instanciação com Singleton (Limit Instantiation with Singleton) | Singleton | até | `static readonly` ou `Lazy<T>`; o tempo de vida singleton de um contêiner de DI muitas vezes substitui o padrão |
+| 22 | Introduzir Null Object (Introduce Null Object) | Null Object | até | com tipos de referência anuláveis o campo deixa de ser anulável; uma instância estática compartilhada |
 
-#### Chapter 10: Accumulation (`kerievsky/accumulation`)
+#### Capítulo 10: Acumulação (`kerievsky/accumulation`)
 
-| # | Refactoring | Pattern | Direction | C# note |
+| # | Refatoração | Padrão | Direção | Nota C# |
 |---|---|---|---|---|
-| 23 | Move Accumulation to Collecting Parameter | Collecting Parameter | to | `StringBuilder`, or a `TextWriter` parameter |
-| 24 | Move Accumulation to Visitor | Visitor | to, towards (Visitor); away (Iterator) | a `switch` expression with type patterns often suffices; a generic visitor returns values |
+| 23 | Mover Acumulação para Collecting Parameter (Move Accumulation to Collecting Parameter) | Collecting Parameter | até | `StringBuilder`, ou um parâmetro `TextWriter` |
+| 24 | Mover Acumulação para Visitor (Move Accumulation to Visitor) | Visitor | até, rumo a (Visitor); longe (Iterator) | uma expressão `switch` com padrões de tipo muitas vezes basta; um visitor genérico devolve valores |
 
-#### Chapter 11: Utilities (`kerievsky/utilities`)
+#### Capítulo 11: Utilitários (`kerievsky/utilities`)
 
-| # | Refactoring | Pattern | Direction | C# note |
+| # | Refatoração | Padrão | Direção | Nota C# |
 |---|---|---|---|---|
-| 25 | Chain Constructors | — | — | `: this(...)`; optional parameters as an alternative; primary constructors |
-| 26 | Unify Interfaces | — | — | `virtual`/`override`, not hiding; default interface methods |
-| 27 | Extract Parameter | — | — | `ArgumentNullException.ThrowIfNull` |
+| 25 | Encadear Construtores (Chain Constructors) | — | — | `: this(...)`; parâmetros opcionais como alternativa; construtores primários |
+| 26 | Unificar Interfaces (Unify Interfaces) | — | — | `virtual`/`override`, sem ocultar; implementações padrão de interface |
+| 27 | Extrair Parâmetro (Extract Parameter) | — | — | `ArgumentNullException.ThrowIfNull` |
 
-Overlaps with Fowler's 2nd edition, kept short and pointing to the Fowler file: Compose Method
-(Extract Function, Slide Statements), Replace Type Code with Class (Replace Primitive with
-Object, which subsumes it) and Introduce Null Object (Introduce Special Case, its new name).
+Sobreposições com a 2ª edição de Fowler, mantidas curtas e apontando para o arquivo de Fowler:
+Compor Método (Extrair Função, Deslocar Instruções), Substituir Código de Tipo por Classe
+(Substituir Primitivo por Objeto, que a engloba) e Introduzir Null Object (Introduzir Caso
+Especial, seu novo nome).
 
-### 5.2 The 12 smells
+### 5.2 Os 12 smells
 
-From ch. 4 and the inside back cover, in `kerievsky-refactoring-to-patterns/references/smells.md`. The "Fowler's smell"
-column is the bridge that the quick index in `SKILL.md` uses; the two `smells.md` files do not
-refer to each other.
+Do cap. 4 e da terceira capa, em `kerievsky-refactoring-to-patterns/references/smells.md`. A coluna "Smell de Fowler" é a
+ponte que o índice rápido do `SKILL.md` usa; os dois `smells.md` não citam um ao outro.
 
-| Smell | Fowler's smell | Refactorings |
+| Smell | Smell de Fowler | Refatorações |
 |---|---|---|
-| Duplicated Code | Duplicated Code | Form Template Method, Introduce Polymorphic Creation with Factory Method, Chain Constructors, Replace One/Many Distinctions with Composite, Extract Composite, Unify Interfaces with Adapter, Introduce Null Object |
-| Long Method | Long Function | Compose Method, Move Accumulation to Collecting Parameter, Replace Conditional Dispatcher with Command, Move Accumulation to Visitor, Replace Conditional Logic with Strategy |
-| Conditional Complexity | new | Replace Conditional Logic with Strategy, Move Embellishment to Decorator, Replace State-Altering Conditionals with State, Introduce Null Object |
-| Primitive Obsession | Primitive Obsession | Replace Type Code with Class, Replace State-Altering Conditionals with State, Replace Conditional Logic with Strategy, Replace Implicit Tree with Composite, Replace Implicit Language with Interpreter, Move Embellishment to Decorator, Encapsulate Composite with Builder |
-| Indecent Exposure | new | Encapsulate Classes with Factory |
-| Solution Sprawl | new (the book calls it the twin of Shotgun Surgery) | Move Creation Knowledge to Factory |
-| Alternative Classes with Different Interfaces | same | Unify Interfaces with Adapter |
-| Lazy Class | Lazy Element | Inline Singleton |
-| Large Class | Large Class | Replace Conditional Dispatcher with Command, Replace State-Altering Conditionals with State, Replace Implicit Language with Interpreter |
-| Switch Statements | Repeated Switches | Replace Conditional Dispatcher with Command, Move Accumulation to Visitor |
-| Combinatorial Explosion | new | Replace Implicit Language with Interpreter |
-| Oddball Solution | new | Substitute Algorithm, Unify Interfaces with Adapter |
+| Código Duplicado (Duplicated Code) | Código Duplicado | Formar Template Method, Introduzir Criação Polimórfica com Factory Method, Encadear Construtores, Substituir Distinções Um/Muitos por Composite, Extrair Composite, Unificar Interfaces com Adapter, Introduzir Null Object |
+| Método Longo (Long Method) | Função Longa | Compor Método, Mover Acumulação para Collecting Parameter, Substituir Despachante Condicional por Command, Mover Acumulação para Visitor, Substituir Lógica Condicional por Strategy |
+| Complexidade Condicional (Conditional Complexity) | novo | Substituir Lógica Condicional por Strategy, Mover Embelezamento para Decorator, Substituir Condicionais que Alteram Estado por State, Introduzir Null Object |
+| Obsessão por Primitivos (Primitive Obsession) | Obsessão por Primitivos | Substituir Código de Tipo por Classe, Substituir Condicionais que Alteram Estado por State, Substituir Lógica Condicional por Strategy, Substituir Árvore Implícita por Composite, Substituir Linguagem Implícita por Interpreter, Mover Embelezamento para Decorator, Encapsular Composite com Builder |
+| Exposição Indecente (Indecent Exposure) | novo | Encapsular Classes com Factory |
+| Solução Espalhada (Solution Sprawl) | novo (o livro o chama de gêmeo da Cirurgia com Espingarda) | Mover Conhecimento de Criação para Factory |
+| Classes Alternativas com Interfaces Diferentes (Alternative Classes with Different Interfaces) | o mesmo | Unificar Interfaces com Adapter |
+| Classe Preguiçosa (Lazy Class) | Elemento Ocioso | Internalizar Singleton |
+| Classe Grande (Large Class) | Classe Grande | Substituir Despachante Condicional por Command, Substituir Condicionais que Alteram Estado por State, Substituir Linguagem Implícita por Interpreter |
+| Instruções Switch (Switch Statements) | Switches Repetidos | Substituir Despachante Condicional por Command, Mover Acumulação para Visitor |
+| Explosão Combinatória (Combinatorial Explosion) | novo | Substituir Linguagem Implícita por Interpreter |
+| Solução Destoante (Oddball Solution) | novo | Substituir Algoritmo, Unificar Interfaces com Adapter |
 
-### 5.3 File format
+### 5.3 Formato dos arquivos
 
-Same as section 4.2, with a different citation line:
+O mesmo da seção 4.2, com outra linha de citação:
 
 ```markdown
-# Replace State-Altering Conditionals with State
+# Substituir Condicionais que Alteram Estado por State (Replace State-Altering Conditionals with State)
 
-Kerievsky (2004), ch. 7. Pattern: State. Direction: to, towards.
+Kerievsky (2004), cap. 7. Padrão: State. Direção: até, rumo a.
 ```
 
-A mechanics step that is a Fowler refactoring names it by its 2nd-edition name and links its
-file; a refactoring with no 2nd-edition counterpart (such as Extract Interface) is described in
-plain words and marked "(1st ed. only)". "When to use" includes the book's liabilities, so the
-agent knows when the pattern is not worth it. Examples are original C#, as in section 4.3.
+Um passo da mecânica que é uma refatoração de Fowler a cita pelo nome da 2ª edição e aponta
+para o arquivo dela; uma refatoração sem equivalente na 2ª edição (como Extrair Interface) é
+descrita em palavras e marcada "(só na 1ª ed.)". "Quando usar" inclui as desvantagens que o
+livro aponta, para o agente saber quando o padrão não compensa. Os exemplos são em C# original,
+como na seção 4.3.
 
 ---
 
-## 6. The GoF design patterns
+## 6. Os padrões de projeto do GoF
 
-Source: Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides, *Design Patterns: Elements of
-Reusable Object-Oriented Software*, Addison-Wesley, 1995. Covered: ch. 1 (except §1.2), ch. 3-5,
-the comparisons that close each of them, and §6.1. Left out: §1.2 (MVC in Smalltalk), ch. 2 (a
-long case study in its own domain), §6.2-6.5 (history and community) and the appendices. The
-`gof-design-patterns/references/` files are self-contained: they do not mention the refactoring
-catalogs, and the table in `SKILL.md` links each pattern to the refactorings that reach it.
+Fonte: Erich Gamma, Richard Helm, Ralph Johnson e John Vlissides, *Design Patterns: Elements of
+Reusable Object-Oriented Software*, Addison-Wesley, 1995. Coberto: cap. 1 (menos o §1.2), cap. 3-5,
+as comparações que fecham cada um deles, e o §6.1. Fora: §1.2 (MVC em Smalltalk), cap. 2 (um estudo
+de caso longo num domínio próprio), §6.2-6.5 (história e comunidade) e os apêndices. Os arquivos de
+`gof-design-patterns/references/` são autocontidos: não citam os catálogos de refatoração, e a tabela
+do `SKILL.md` liga cada padrão às refatorações que levam a ele.
 
-| Pattern | Folder | Ch. |
+| Padrão | Pasta | Cap. |
 |---|---|---|
 | Abstract Factory | `creational` | 3 |
 | Builder | `creational` | 3 |
@@ -461,30 +463,31 @@ catalogs, and the table in `SKILL.md` links each pattern to the refactorings tha
 | Visitor | `behavioral` | 5 |
 
 
-File format:
+Formato dos arquivos:
 
 ```markdown
 # State
 
-Gamma et al. (1995), ch. 5. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
-## Intent
-## When it pays off
-## Participants in C#
-## Example (C#)
-## Variations
-## Risks and C# alternatives
-## Related patterns
-## Verification
+## Intenção
+## Quando compensa
+## Participantes em C#
+## Exemplo (C#)
+## Variações
+## Riscos e alternativas em C#
+## Padrões relacionados
+## Verificação
 ```
 
-## 7. C# level of every example
+## 7. Nível de C# de todos os exemplos
 
-All examples in the package use a conservative subset of C#, so that they also compile with older
-compilers and targets: no `record` or `init` (they need an `IsExternalInit` shim there), no `required`, no primary
-constructors, no collection expressions, no file-scoped namespaces, no `global using`, no raw
-strings, no list patterns. Pattern matching, switch expressions, `new()`, nullable reference types,
-delegates, events, LINQ and `async` are used freely. Every block is compiled against
-`netstandard2.1`; a deliberately partial block starts with `// fragment`.
-Examples use current, neutral themes (checkout, billing, payments, HTTP clients, an AI assistant,
-IoT, feature flags, report export, cloud storage...), never the books' own examples.
+Todos os exemplos do pacote usam um subconjunto conservador de C#, para compilarem também com
+compiladores e alvos mais antigos: sem `record` nem `init` (lá exigem a classe auxiliar `IsExternalInit`), sem `required`, sem
+construtores primários, sem collection expressions, sem namespace por arquivo, sem `global using`,
+sem raw strings e sem list patterns. Pattern matching, switch expressions, `new()`, tipos de
+referência anuláveis, delegates, events, LINQ e `async` são usados à vontade. Todo bloco é compilado
+contra `netstandard2.1`; um bloco de propósito parcial começa com `// fragment`.
+Os exemplos usam temas atuais e neutros (checkout, cobrança, pagamentos, clientes HTTP, um assistente
+de IA, IoT, feature flags, exportação de relatórios, armazenamento em nuvem...), nunca os exemplos
+dos próprios livros.

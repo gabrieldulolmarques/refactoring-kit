@@ -1,25 +1,25 @@
 # Mediator
 
-Gamma et al. (1995), ch. 5. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
-## Intent
-Put the rules for how a group of objects interact into one object, so the group's members do not refer to each other. The interaction can then change without touching the members.
+## Intenção
+Colocar as regras de interação de um grupo de objetos em um único objeto, para que os membros do grupo não se refiram uns aos outros. A interação pode então mudar sem tocar nos membros.
 
-## When it pays off
-- The way a group of objects talk to each other is clear enough in each case but has grown into a tangle of references that is hard to follow.
-- An object is hard to reuse because it knows and talks to many others.
-- Behavior spread across several classes should be customizable without a pile of subclasses.
-- Benefits: colleagues become reusable on their own, many-to-many links become one-to-many, and the cooperation rules sit in one named place. Changing the rules means changing or replacing the mediator only.
-- Liability: the complexity moves into the mediator, which can grow into a monolith. Watch its size.
-- Not worth it for two objects, or when a simple event subscription is enough.
+## Quando compensa
+- A forma como um grupo de objetos conversa entre si é clara o bastante em cada caso, mas virou um emaranhado de referências difícil de acompanhar.
+- Um objeto é difícil de reutilizar porque conhece e fala com muitos outros.
+- Um comportamento espalhado por várias classes deveria ser personalizável sem uma pilha de subclasses.
+- Benefícios: os colaboradores se tornam reutilizáveis por conta própria, as ligações muitos-para-muitos viram um-para-muitos, e as regras de cooperação ficam em um único lugar com nome. Mudar as regras significa mudar ou trocar apenas o mediador.
+- Custo: a complexidade migra para o mediador, que pode crescer até virar um monólito. Fique de olho no tamanho dele.
+- Não vale a pena para dois objetos, ou quando uma simples inscrição em evento basta.
 
-## Participants in C#
-- **Mediator** (`ISignupMediator`): interface that colleagues use to report changes.
-- **ConcreteMediator** (`SignupForm`): knows its colleagues and implements the coordination.
-- **Colleague** (`PlanSelector`, `CouponField`, `PayButton`): each knows only the mediator and reports to it instead of calling other colleagues.
+## Participantes em C#
+- **Mediator** (`ISignupMediator`): interface que os colaboradores usam para informar mudanças.
+- **ConcreteMediator** (`SignupForm`): conhece seus colaboradores e implementa a coordenação.
+- **Colleague** (`PlanSelector`, `CouponField`, `PayButton`): cada um conhece apenas o mediador e informa a ele, em vez de chamar outros colaboradores.
 
-## Example (C#)
-A SaaS sign-up screen: the choice of plan decides whether a coupon is allowed, and the pay button is enabled only when the form is valid. The widgets do not know each other. One class holds the rules.
+## Exemplo (C#)
+Uma tela de cadastro de SaaS: a escolha do plano decide se um cupom é permitido, e o botão de pagamento só fica habilitado quando o formulário é válido. Os widgets não se conhecem. Uma única classe guarda as regras.
 
 ```csharp
 using System;
@@ -88,12 +88,12 @@ public class SignupForm : ISignupMediator
 
     public void Changed(object colleague) => Refresh();
 
-    // All cooperation rules live here.
+    // Todas as regras de cooperação ficam aqui.
     private void Refresh()
     {
         bool paid = Plan.Plan != "free";
         Coupon.Enabled = paid;
-        if (!paid && Coupon.Code != "") Coupon.Code = "";   // reports back, so guard against looping
+        if (!paid && Coupon.Code != "") Coupon.Code = "";   // informa de volta, então proteja contra laços
         bool couponOk = Coupon.Code == "" || Coupon.Code.StartsWith("PROMO", StringComparison.Ordinal);
         Pay.Enabled = couponOk;
     }
@@ -113,24 +113,24 @@ public static class Program
 }
 ```
 
-## Variations
-- **Omit the abstract mediator.** If colleagues only ever work with one mediator, the interface adds nothing. Keep it when colleagues must be reused with different mediators.
-- **How colleagues talk to the mediator.** Either the mediator subscribes to colleague events (the observer way, with C# `event`), or colleagues call a specific method on the mediator and pass themselves, so the mediator knows who changed. Passing the sender is direct and easy to debug. Events keep colleagues free of any mediator reference.
-- **Mediator for coordinating updates.** A mediator can sit between a set of sources and a set of listeners to batch notifications and avoid redundant work.
+## Variações
+- **Omitir o mediador abstrato.** Se os colaboradores só trabalham com um mediador, a interface não acrescenta nada. Mantenha-a quando os colaboradores precisarem ser reutilizados com mediadores diferentes.
+- **Como os colaboradores falam com o mediador.** Ou o mediador se inscreve nos eventos dos colaboradores (ao estilo Observer, com `event` do C#), ou os colaboradores chamam um método específico do mediador e passam a si mesmos, de modo que o mediador sabe quem mudou. Passar o remetente é direto e fácil de depurar. Os eventos mantêm os colaboradores livres de qualquer referência ao mediador.
+- **Mediador para coordenar atualizações.** Um mediador pode ficar entre um conjunto de fontes e um conjunto de ouvintes para agrupar notificações e evitar trabalho redundante.
 
-## Risks and C# alternatives
-- A mediator that knows everything becomes a god class. Split it by concern (one per screen, per workflow) and keep decisions, not data, in it.
-- Re-entrancy: a colleague changed by the mediator may report back and trigger the mediator again. Make the refresh idempotent or guard against loops, as the example does.
-- A message bus or event aggregator is a mediator with a generic interface. It decouples more but makes the flow harder to trace. Use it when the participants are many and unknown in advance.
-- For simple one-way coupling (a value changes, others react), plain `event`s are lighter than a mediator.
-- With dependency injection, give colleagues the mediator interface by constructor, as above.
+## Riscos e alternativas em C#
+- Um mediador que conhece tudo vira uma classe deus. Divida-o por responsabilidade (um por tela, um por fluxo de trabalho) e mantenha nele decisões, não dados.
+- Reentrância: um colaborador alterado pelo mediador pode informar de volta e disparar o mediador de novo. Torne a atualização idempotente ou proteja contra laços, como o exemplo faz.
+- Um barramento de mensagens ou um agregador de eventos é um mediador com interface genérica. Ele desacopla mais, mas torna o fluxo mais difícil de rastrear. Use-o quando os participantes forem muitos e desconhecidos de antemão.
+- Para um acoplamento simples de mão única (um valor muda, os outros reagem), `event` simples é mais leve do que um mediador.
+- Com injeção de dependência, passe aos colaboradores a interface do mediador pelo construtor, como acima.
 
-## Related patterns
-- [Facade](../structural/facade.md): also simplifies a group of objects, but its protocol is one-way (clients call the subsystem), while a mediator is multi-directional and colleagues know it.
-- [Observer](observer.md): colleagues can notify the mediator through observer notifications.
+## Padrões relacionados
+- [Facade](../structural/facade.md): também simplifica um grupo de objetos, mas seu protocolo é de mão única (os clientes chamam o subsistema), enquanto um mediador é multidirecional e os colaboradores o conhecem.
+- [Observer](observer.md): colaboradores podem notificar o mediador por meio de notificações de observer.
 
-## Verification
-- No colleague class refers to another colleague class, only to the mediator.
-- A colleague works in a test with a fake mediator.
-- A rule change (a new dependency between widgets) is made in the mediator only.
-- The mediator is still a manageable size and does not hold data that belongs to a colleague.
+## Verificação
+- Nenhuma classe colaboradora se refere a outra classe colaboradora, apenas ao mediador.
+- Um colaborador funciona em um teste com um mediador falso.
+- Uma mudança de regra (uma nova dependência entre widgets) é feita apenas no mediador.
+- O mediador continua de tamanho gerenciável e não guarda dados que pertencem a um colaborador.

@@ -1,24 +1,24 @@
 # Proxy
 
-Gamma et al. (1995), ch. 4. Also known as: Surrogate. Category: object structural.
+Gamma et al. (1995), cap. 4. Também conhecido como: Surrogate. Categoria: estrutural de objeto.
 
-## Intent
-Put a stand-in with the same interface in front of another object, to control access to it: delay its creation, check permissions, reach it across a boundary, or do bookkeeping on each use.
+## Intenção
+Colocar na frente de outro objeto um substituto com a mesma interface, para controlar o acesso a ele: adiar sua criação, verificar permissões, alcançá-lo através de uma fronteira ou fazer contabilidade a cada uso.
 
-## When it pays off
-- A **virtual proxy** delays an expensive creation until the first real use. A **protection proxy** checks that the caller may do the operation. A **remote proxy** represents an object that lives elsewhere (a generated HTTP or RPC client is one). A **smart reference** adds work on access: counting, locking, loading on first touch, logging.
-- Callers keep using the subject's interface and do not know a proxy is there.
-- Copy-on-write is another use: copies share one subject until someone changes it.
-- Liability: one more layer, and sometimes a hidden cost or failure (a network call that looks like a local call).
-- Skip it when callers can create the object lazily themselves with `Lazy<T>`, or when a simple check in one place is enough.
+## Quando compensa
+- Um **proxy virtual** adia uma criação cara até o primeiro uso real. Um **proxy de proteção** verifica se quem chama pode executar a operação. Um **proxy remoto** representa um objeto que vive em outro lugar (um cliente HTTP ou RPC gerado é um exemplo). Uma **referência inteligente** acrescenta trabalho no acesso: contagem, bloqueio, carregamento no primeiro toque, log.
+- Os chamadores continuam usando a interface do sujeito e não sabem que há um proxy.
+- Copy-on-write é outro uso: as cópias compartilham um mesmo sujeito até que alguém o altere.
+- Custo: mais uma camada, e às vezes um custo ou uma falha oculta (uma chamada de rede que parece local).
+- Não vale a pena quando os chamadores podem criar o objeto de forma preguiçosa com `Lazy<T>`, ou quando uma verificação simples em um único lugar basta.
 
-## Participants in C#
-- **Subject** (`IAssistantTool`): the interface shared by the real object and the proxy.
-- **RealSubject** (`SearchTool`): the real object, possibly expensive to create.
-- **Proxy** (`AuthorizedToolProxy`, `LazyToolProxy`): implements the subject interface, holds a reference or the means to get the real subject (a factory delegate), and decides whether and when to forward each call.
+## Participantes em C#
+- **Subject** (`IAssistantTool`): a interface compartilhada pelo objeto real e pelo proxy.
+- **RealSubject** (`SearchTool`): o objeto real, possivelmente caro de criar.
+- **Proxy** (`AuthorizedToolProxy`, `LazyToolProxy`): implementa a interface do sujeito, guarda uma referência ou os meios de obter o sujeito real (um delegate de fábrica), e decide se e quando repassa cada chamada.
 
-## Example (C#)
-An AI chat assistant calls tools. A search tool is costly to initialize, so a virtual proxy creates it on first use. Another tool is restricted, so a protection proxy checks the caller's scopes before forwarding.
+## Exemplo (C#)
+Um assistente de chat com IA chama ferramentas. Uma ferramenta de busca é cara para inicializar, então um proxy virtual a cria no primeiro uso. Outra ferramenta é restrita, então um proxy de proteção verifica os escopos de quem chama antes de repassar.
 
 ```csharp
 using System;
@@ -50,7 +50,7 @@ public class FileDeleteTool : IAssistantTool
     public Task<string> RunAsync(string input) => Task.FromResult($"deleted {input}");
 }
 
-// Virtual proxy: creates the real tool on first use.
+// Proxy virtual: cria a ferramenta real no primeiro uso.
 public class LazyToolProxy : IAssistantTool
 {
     private readonly Lazy<IAssistantTool> _real;
@@ -66,7 +66,7 @@ public class LazyToolProxy : IAssistantTool
     public Task<string> RunAsync(string input) => _real.Value.RunAsync(input);
 }
 
-// Protection proxy: checks the caller's scopes before forwarding.
+// Proxy de proteção: verifica os escopos de quem chama antes de repassar.
 public class AuthorizedToolProxy : IAssistantTool
 {
     private readonly IAssistantTool _real;
@@ -108,26 +108,26 @@ public static class Program
 }
 ```
 
-## Variations
-- **Proxy that knows only the interface**: when the proxy reaches the subject through the interface alone, one proxy class serves all subjects (the protection proxy above). A virtual proxy needs to construct the subject, so it takes a factory delegate or a concrete type.
-- **Reference before creation**: until the subject exists, the proxy keeps an indirect reference to it (an id, a file name, a URL) and may cache cheap facts (a size) to answer without loading.
-- **Automatic forwarding**: in C# you can build proxies without writing every forwarding method by using a runtime proxy generator (`DispatchProxy` or a library), where one handler sees every call. That suits cross-cutting checks, at the cost of speed and weaker compile-time checking.
-- **Copy-on-write**: copies share one subject. The proxy copies it only at the first write.
+## Variações
+- **Proxy que conhece apenas a interface**: quando o proxy alcança o sujeito somente pela interface, uma única classe de proxy serve a todos os sujeitos (o proxy de proteção acima). Um proxy virtual precisa construir o sujeito, então recebe um delegate de fábrica ou um tipo concreto.
+- **Referência antes da criação**: enquanto o sujeito não existe, o proxy guarda uma referência indireta a ele (um identificador, um nome de arquivo, uma URL) e pode guardar em cache fatos baratos (um tamanho) para responder sem carregar.
+- **Repasse automático**: em C# é possível construir proxies sem escrever cada método de repasse, usando um gerador de proxy em tempo de execução (`DispatchProxy` ou uma biblioteca), em que um único handler vê todas as chamadas. Isso serve a verificações transversais, ao custo de velocidade e de menos verificação em tempo de compilação.
+- **Copy-on-write**: as cópias compartilham um sujeito. O proxy só copia na primeira escrita.
 
-## Risks and C# alternatives
-- `Lazy<T>` covers most virtual proxies without a new class. Use a proxy class only when callers need the subject's interface and must not know about laziness.
-- Make remote proxies honest: the interface should be asynchronous (`Task`) and callers should expect failures and timeouts. A remote call dressed as a local one hides cost.
-- A protection proxy is not the only line of defense. Enforce the same checks on the server side for anything a client can bypass.
-- `DispatchProxy` and similar tools use reflection, so they are slower and are not friendly to ahead-of-time compilation or trimming.
-- Do not let the proxy accumulate unrelated duties. Several responsibilities (access control, caching, logging) are cleaner as separate wrappers; see the decorator.
-- Compare identities carefully: the proxy and the subject are different objects.
+## Riscos e alternativas em C#
+- `Lazy<T>` cobre a maioria dos proxies virtuais sem uma classe nova. Use uma classe de proxy apenas quando os chamadores precisam da interface do sujeito e não podem saber da preguiça.
+- Torne os proxies remotos honestos: a interface deve ser assíncrona (`Task`) e os chamadores devem esperar falhas e timeouts. Uma chamada remota disfarçada de local esconde o custo.
+- Um proxy de proteção não é a única linha de defesa. Aplique as mesmas verificações no servidor para tudo o que o cliente possa contornar.
+- `DispatchProxy` e ferramentas semelhantes usam reflexão, então são mais lentos e não funcionam bem com compilação antecipada (AOT) nem com trimming.
+- Não deixe o proxy acumular deveres sem relação entre si. Várias responsabilidades (controle de acesso, cache, log) ficam mais limpas como invólucros (wrappers) separados; veja o decorator.
+- Compare identidades com cuidado: o proxy e o sujeito são objetos diferentes.
 
-## Related patterns
-- [adapter.md](adapter.md): gives the adapted object a different interface. A proxy keeps the same one (a protection proxy may refuse some operations, so it can be effectively a subset).
-- [decorator.md](decorator.md): can be built the same way, but a decorator adds responsibilities and stacks, while a proxy controls access to its subject. A protection proxy may look just like a decorator. A remote or virtual proxy may hold only an indirect reference at first.
+## Padrões relacionados
+- [adapter.md](adapter.md): dá ao objeto adaptado uma interface diferente. Um proxy mantém a mesma (um proxy de proteção pode recusar algumas operações, então pode ser efetivamente um subconjunto).
+- [decorator.md](decorator.md): pode ser construído da mesma forma, mas um decorador acrescenta responsabilidades e se empilha, enquanto um proxy controla o acesso ao seu sujeito. Um proxy de proteção pode parecer exatamente um decorador. Um proxy remoto ou virtual pode guardar, no início, apenas uma referência indireta.
 
-## Verification
-- Client code uses only the subject interface and does not change when a proxy is put in or taken out.
-- With a virtual proxy, creating the proxy does no expensive work, and the first call triggers creation exactly once (also under concurrent calls).
-- Tests show that a refused call never reaches the real subject.
-- Failure and timeout paths of a remote proxy are tested, not just the successful call.
+## Verificação
+- O código cliente usa apenas a interface do sujeito e não muda quando um proxy é colocado ou retirado.
+- Com um proxy virtual, criar o proxy não faz nenhum trabalho caro, e a primeira chamada dispara a criação exatamente uma vez (também sob chamadas concorrentes).
+- Testes mostram que uma chamada recusada nunca chega ao sujeito real.
+- Os caminhos de falha e de timeout de um proxy remoto são testados, não apenas a chamada bem-sucedida.

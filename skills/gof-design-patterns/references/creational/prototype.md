@@ -1,27 +1,27 @@
 # Prototype
 
-Gamma et al. (1995), ch. 3. Category: object creational.
+Gamma et al. (1995), cap. 3. Categoria: criacional de objeto.
 
-## Intent
-Create new objects by copying a configured instance (the prototype), so a client can produce objects without knowing their classes or how they are set up.
+## Intenção
+Obter objetos novos clonando uma instância já configurada (o protótipo), o que também define os tipos disponíveis, para que um cliente possa produzir objetos sem conhecer suas classes nem como foram configurados.
 
-## When it pays off
-- Precondition: the system should not depend on how its products are created, composed or represented. On top of that, at least one of the next three situations holds.
-- The classes to create are only known at runtime (loaded dynamically, for instance).
-- You want to avoid a hierarchy of factories that mirrors the hierarchy of products.
-- Instances of a class differ only in a few combinations of state, so it is easier to keep a few ready-made instances and clone them than to build each from scratch.
-- New kinds of object can be defined by registering a configured instance, adding and removing them at runtime, with no new class.
-- It reduces subclassing, and users can define "new kinds" by varying values or structure.
-- Liability: every prototype class must implement a correct clone, which can be hard when the object holds shared resources or circular references.
-- Not worth it when constructing the object is cheap and obvious, or when objects are immutable (share the same instance instead).
+## Quando compensa
+- Pré-condição: o sistema não deve depender de como seus produtos são criados, compostos ou representados. Além disso, vale pelo menos uma das três situações a seguir.
+- As classes a criar só são conhecidas em tempo de execução (carregadas dinamicamente, por exemplo).
+- Você quer evitar uma hierarquia de fábricas que espelha a hierarquia de produtos.
+- As instâncias de uma classe diferem apenas em algumas combinações de estado, então é mais fácil manter algumas instâncias prontas e clonar do que construir cada uma do zero.
+- Novos tipos de objeto podem ser definidos registrando uma instância configurada, incluindo e removendo em tempo de execução, sem nenhuma classe nova.
+- Reduz a herança, e os usuários podem definir "novos tipos" variando valores ou estrutura.
+- Custo: toda classe protótipo precisa implementar uma clonagem correta, o que pode ser difícil quando o objeto mantém recursos compartilhados ou referências circulares.
+- Não vale a pena quando construir o objeto é barato e óbvio, ou quando os objetos são imutáveis (compartilhe a mesma instância).
 
-## Participants in C#
-- **Prototype** (`IPrototype<T>`): interface declaring `Clone()`. `ICloneable` exists but returns `object`, so a typed interface is better.
-- **ConcretePrototype** (`BillingPlan`): implements `Clone()`.
-- **Client** (`PlanCatalog`): stores prototypes under keys and creates new objects by cloning them.
+## Participantes em C#
+- **Prototype** (`IPrototype<T>`): interface que declara `Clone()`. `ICloneable` existe, mas devolve `object`, então uma interface tipada é melhor.
+- **ConcretePrototype** (`BillingPlan`): implementa `Clone()`.
+- **Client** (`PlanCatalog`): guarda protótipos sob chaves e cria objetos novos clonando-os.
 
-## Example (C#)
-A SaaS billing system offers a few base plans. Sales creates customer-specific plans as copies of a base plan with a changed price, and the catalog never needs to know more than the plan type.
+## Exemplo (C#)
+Um sistema de cobrança SaaS oferece alguns planos base. O comercial cria planos personalizados para clientes como cópias de um plano base com preço alterado, e o catálogo nunca precisa conhecer mais do que o tipo do plano.
 
 ```csharp
 using System;
@@ -45,7 +45,7 @@ public class BillingPlan : IPrototype<BillingPlan>
         Features = new List<string>(features);
     }
 
-    // deep copy: the clone owns its own feature list
+    // cópia profunda: o clone possui sua própria lista de recursos
     public BillingPlan Clone() => new BillingPlan(Name, MonthlyPrice, Features);
 }
 
@@ -78,32 +78,32 @@ public static class Program
         custom.MonthlyPrice = 39m;
         custom.Features.Add("Priority support");
 
-        Console.WriteLine(catalog.Create("team").Features.Count); // 2: the prototype is untouched
+        Console.WriteLine(catalog.Create("team").Features.Count); // 2: o protótipo permanece intacto
     }
 }
 ```
 
-## Variations
-- **Prototype manager.** When prototypes come and go at runtime, keep a registry (`PlanCatalog`) that registers, removes and looks them up by key, so clients do not manage prototypes themselves.
-- **Shallow versus deep copy.** Decide what is shared and what is copied. `MemberwiseClone()` is a shallow copy: reference fields (like `Features`) would be shared. Copy every mutable reference the clone must own.
-- **Initializing the clone.** The clone often needs values (a customer name, an id). Parameters on `Clone()` break the uniform interface, so set properties after cloning, or add an `Initialize(...)` method on the concrete class.
-- **Serialization copy.** If the object can already be serialized and deserialized, a round trip produces a deep copy for free, at a performance cost.
-- **Prototype-based factory.** A factory that holds one prototype per product and clones it (see [abstract-factory.md](abstract-factory.md)).
+## Variações
+- **Gerenciador de protótipos.** Quando os protótipos entram e saem em tempo de execução, mantenha um registro (`PlanCatalog`) que cadastra, remove e busca por chave, para que os clientes não gerenciem os protótipos diretamente.
+- **Cópia rasa versus cópia profunda.** Decida o que é compartilhado e o que é copiado. `MemberwiseClone()` faz uma cópia rasa: campos de referência (como `Features`) ficariam compartilhados. Copie toda referência mutável que o clone precisa possuir.
+- **Inicializando o clone.** O clone muitas vezes precisa de valores (nome do cliente, um identificador). Parâmetros em `Clone()` quebram a interface uniforme, então defina propriedades depois de clonar, ou adicione um método `Initialize(...)` na classe concreta.
+- **Cópia por serialização.** Se o objeto já pode ser serializado e desserializado, um ciclo de ida e volta produz uma cópia profunda de graça, ao custo de desempenho.
+- **Fábrica baseada em protótipos.** Uma fábrica que mantém um protótipo por produto e o clona (veja [abstract-factory.md](abstract-factory.md)).
 
-## Risks and C# alternatives
-- Forgetting to deep-copy a mutable field gives two objects that silently change each other. Test that mutating the clone leaves the prototype intact (see Verification).
-- A copy constructor (`new BillingPlan(other)`) is a common and explicit alternative to a `Clone()` method, and needs no cloning interface.
-- For immutable objects there is nothing to protect: share one instance and create variations with a method that returns a new object (`plan.WithPrice(39m)`).
-- Avoid `ICloneable`: its contract does not say shallow or deep, and it returns `object`.
-- Value types (`struct`) are copied on assignment already; a prototype is only needed for reference types.
+## Riscos e alternativas em C#
+- Esquecer de copiar em profundidade um campo mutável gera dois objetos que se alteram mutuamente, sem aviso. Teste se mudar o clone deixa o protótipo intacto (veja Verificação).
+- Um construtor de cópia (`new BillingPlan(other)`) é uma alternativa comum e explícita a um método `Clone()`, e não precisa de interface de clonagem.
+- Para objetos imutáveis não há o que proteger: compartilhe uma instância e crie variações com um método que devolve um objeto novo (`plan.WithPrice(39m)`).
+- Evite `ICloneable`: seu contrato não diz se a cópia é rasa ou profunda, e ele devolve `object`.
+- Tipos por valor (`struct`) já são copiados na atribuição; um protótipo só é necessário para tipos de referência.
 
-## Related patterns
-- [Abstract Factory](abstract-factory.md): a competitor and a partner; a factory can store prototypes and return clones.
-- [Factory Method](factory-method.md): a different way to vary created classes, through subclassing of the creator.
-- [Composite](../structural/composite.md) and [Decorator](../structural/decorator.md): designs heavy in these often benefit from Prototype, since copying a whole structure is handy.
+## Padrões relacionados
+- [Abstract Factory](abstract-factory.md): concorrente e parceiro; uma fábrica pode guardar protótipos e devolver clones.
+- [Factory Method](factory-method.md): outra forma de variar as classes criadas, por meio de subclasses do criador.
+- [Composite](../structural/composite.md) e [Decorator](../structural/decorator.md): designs que usam muito esses padrões costumam se beneficiar do Prototype, já que copiar uma estrutura inteira é útil.
 
-## Verification
-- Cloning returns an independent object: changing the clone does not change the prototype, including nested collections.
-- Adding a new variant of the product needs a registration, not a new class or factory.
-- Every concrete prototype overrides `Clone()` so that the clone has the same runtime type.
-- If the clones are never customized and the objects never change, check that sharing one immutable instance would not be enough.
+## Verificação
+- Clonar devolve um objeto independente: alterar o clone não altera o protótipo, incluindo coleções aninhadas.
+- Adicionar uma nova variante do produto exige um cadastro, não uma nova classe ou fábrica.
+- Todo protótipo concreto sobrescreve `Clone()` de modo que o clone tenha o mesmo tipo em tempo de execução.
+- Se os clones nunca são personalizados e os objetos nunca mudam, verifique se compartilhar uma única instância imutável não bastaria.

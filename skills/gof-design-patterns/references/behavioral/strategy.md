@@ -1,26 +1,26 @@
 # Strategy
 
-Gamma et al. (1995), ch. 5. Also known as: Policy. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Também conhecido como: Policy. Categoria: comportamental de objeto.
 
-## Intent
-Put each algorithm of a family in its own object behind a common interface, so the code that uses the algorithm can switch between them and the algorithm can change without touching that code.
+## Intenção
+Colocar cada algoritmo de uma família em seu próprio objeto, atrás de uma interface comum, para que o código que usa o algoritmo possa alternar entre eles e o algoritmo possa mudar sem tocar nesse código.
 
-## When it pays off
-- Several classes differ only in how they do one thing, or one class picks among behaviors with a chain of conditionals.
-- You need variants of the same algorithm, such as a fast one that uses more memory and a slow one that uses less.
-- An algorithm needs data or helper structures that its callers should not see.
-- Benefits: families of interchangeable algorithms; an alternative to subclassing the context; the conditionals go away; the choice can be made at run time.
-- Liabilities: the client must know the strategies well enough to pick one; the shared interface may pass data some strategies ignore; more objects.
-- Skip it when there is one algorithm, or the variation never matters to the caller. A `switch` that has two arms and never grows is fine.
+## Quando compensa
+- Várias classes diferem apenas na forma como fazem uma mesma coisa, ou uma classe escolhe entre comportamentos com uma cadeia de condicionais.
+- Você precisa de variantes do mesmo algoritmo, como uma versão rápida que usa mais memória e uma versão lenta que usa menos.
+- Um algoritmo precisa de dados ou estruturas auxiliares que quem chama não deveria ver.
+- Benefícios: famílias de algoritmos intercambiáveis; uma alternativa à herança do contexto; os condicionais desaparecem; a escolha pode ser feita em tempo de execução.
+- Custos: quem chama precisa conhecer as estratégias bem o suficiente para escolher uma; a interface comum pode passar dados que algumas estratégias ignoram; há mais objetos.
+- Não vale a pena quando há um único algoritmo, ou quando a variação nunca importa para quem chama. Um `switch` com dois ramos que nunca crescem está bem.
 
-## Participants in C#
-- **Strategy** (`IRetryPolicy`): interface (or a delegate type) that all algorithms implement.
-- **ConcreteStrategy** (`NoRetry`, `FixedDelay`, `ExponentialBackoff`): one algorithm each.
-- **Context** (`ApiCaller`): holds a strategy, forwards the decision to it, and passes the data it needs.
-- **Client** (`Program`): chooses the strategy and gives it to the context, usually once.
+## Participantes em C#
+- **Strategy** (`IRetryPolicy`): interface (ou tipo delegate) que todos os algoritmos implementam.
+- **ConcreteStrategy** (`NoRetry`, `FixedDelay`, `ExponentialBackoff`): um algoritmo cada.
+- **Context** (`ApiCaller`): guarda uma estratégia, repassa a decisão a ela e entrega os dados de que ela precisa.
+- **Client** (`Program`): escolhe a estratégia e a entrega ao contexto, geralmente uma única vez.
 
-## Example (C#)
-An HTTP API client decides how long to wait between retries of a failed call. The retry policy is a strategy: the caller loops and runs the operation, the policy answers "wait this long, or stop".
+## Exemplo (C#)
+Um cliente de API HTTP decide quanto tempo esperar entre novas tentativas de uma chamada que falhou. A política de retentativa é uma estratégia: quem chama faz o laço e executa a operação, e a política responde "espere este tempo, ou pare".
 
 ```csharp
 using System;
@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 public interface IRetryPolicy
 {
-    // Delay before retry number `attempt` (1 for the first retry), or null to stop.
+    // Espera antes da nova tentativa de número `attempt` (1 para a primeira), ou null para parar.
     TimeSpan? NextDelay(int attempt);
 }
 
@@ -89,7 +89,7 @@ public class ApiCaller
             catch (TimeoutException)
             {
                 var delay = _policy.NextDelay(attempt);
-                if (delay is null) throw;      // policy says stop
+                if (delay is null) throw;      // a política manda parar
                 await Task.Delay(delay.Value);
             }
         }
@@ -111,32 +111,32 @@ public static class Program
         var caller = new ApiCaller(new ExponentialBackoff(
             TimeSpan.FromMilliseconds(10), TimeSpan.FromSeconds(1), maxRetries: 5));
 
-        Console.WriteLine(await caller.CallAsync(Flaky));   // ok, after two waits
+        Console.WriteLine(await caller.CallAsync(Flaky));   // ok, após duas esperas
     }
 }
 ```
 
-## Variations
-- **How data reaches the strategy.** Pass what it needs as arguments (the example passes the attempt number): the pair stays decoupled, but the context may pass values some strategies ignore. Or pass the context itself, or let the strategy hold a reference to it: the strategy can ask for exactly what it needs, but the context must expose more of itself and the two are coupled.
-- **Compile-time selection with generics.** When the strategy is fixed at build time and never changes, a generic parameter with an interface constraint (`ApiCaller<TPolicy> where TPolicy : IRetryPolicy`) binds it statically and, with structs, can avoid a virtual call.
-- **Optional strategy.** Let the context have a default when none is supplied, so most clients never see the pattern. In the example, a missing policy could mean `NoRetry`.
-- **Stateless and shared.** Strategies without fields can be shared by many contexts. Anything that varies per call stays in the context and travels in the arguments.
+## Variações
+- **Como os dados chegam à estratégia.** Passe o que ela precisa como argumentos (o exemplo passa o número da tentativa): o par continua desacoplado, mas o contexto pode passar valores que algumas estratégias ignoram. Ou passe o próprio contexto, ou deixe a estratégia guardar uma referência a ele: a estratégia pode pedir exatamente o que precisa, mas o contexto precisa expor mais de si mesmo e os dois ficam acoplados.
+- **Seleção em tempo de compilação com genéricos.** Quando a estratégia é fixa na compilação e nunca muda, um parâmetro genérico com restrição de interface (`ApiCaller<TPolicy> where TPolicy : IRetryPolicy`) a vincula estaticamente e, com structs, pode evitar uma chamada virtual.
+- **Estratégia opcional.** Deixe o contexto ter uma estratégia padrão para quando nenhuma for fornecida, de modo que a maioria dos clientes nunca precise vê-la. No exemplo, uma política ausente poderia significar `NoRetry`.
+- **Sem estado e compartilhadas.** Estratégias sem campos podem ser compartilhadas por vários contextos. Tudo o que varia por chamada fica no contexto e viaja nos argumentos.
 
-## Risks and C# alternatives
-- When the interface has one method, a delegate is the strategy: `Func<int, TimeSpan?>` replaces `IRetryPolicy`, and a lambda replaces each class. Keep the interface when strategies have configuration, a name, several methods or need to be registered in a container.
-- With dependency injection, register the implementations and inject the one you want (or an `IEnumerable<IRetryPolicy>` plus a selector). The choice of strategy becomes configuration.
-- A strategy that keeps state between calls (a counter, a circuit-breaker window) is not safe to share across callers or threads. Either keep it per context or guard the state.
-- Strategies for randomness or time (jitter, `DateTime.Now`) are hard to test. Take a clock or random source as a dependency.
-- A strategy interface shaped for the most complex algorithm forces the simple ones to accept parameters they never use. Review the interface when a new strategy needs data it does not carry.
+## Riscos e alternativas em C#
+- Quando a interface tem um único método, um delegate é a estratégia: `Func<int, TimeSpan?>` substitui `IRetryPolicy`, e uma lambda substitui cada classe. Mantenha a interface quando as estratégias têm configuração, nome, vários métodos ou precisam ser registradas em um contêiner.
+- Com injeção de dependência, registre as implementações e injete a desejada (ou um `IEnumerable<IRetryPolicy>` mais um seletor). A escolha da estratégia vira configuração.
+- Uma estratégia que mantém estado entre chamadas (um contador, uma janela de circuit breaker) não é segura para compartilhar entre chamadores ou threads. Ou mantenha-a por contexto, ou proteja o estado.
+- Estratégias que dependem de aleatoriedade ou de tempo (jitter, `DateTime.Now`) são difíceis de testar. Receba um relógio ou uma fonte aleatória como dependência.
+- Uma interface de estratégia pensada para o algoritmo mais complexo força os simples a aceitar parâmetros que nunca usam. Revise a interface quando uma nova estratégia precisar de dados que ela não carrega.
 
-## Related patterns
-- [Flyweight](../structural/flyweight.md): strategy objects without state make good flyweights.
-- [Template Method](template-method.md): varies part of an algorithm by inheritance, where Strategy varies the whole algorithm by delegation.
+## Padrões relacionados
+- [Flyweight](../structural/flyweight.md): objetos de estratégia sem estado são bons flyweights.
+- [Template Method](template-method.md): varia parte de um algoritmo por herança, enquanto Strategy varia o algoritmo inteiro por delegação.
 
-**Beyond the book:** [State](state.md) has the same structure, but a state is replaced by the object as it moves through its life, and a strategy is chosen from outside.
+**Além do livro:** o [State](state.md) tem a mesma estrutura, mas um estado é substituído pelo próprio objeto à medida que ele avança em sua vida, e uma estratégia é escolhida de fora.
 
-## Verification
-- The context contains no branching on which algorithm is in use, and names no concrete strategy.
-- Adding a variant means adding one class (or one lambda) and no change to the context.
-- Each strategy can be tested alone, without the context.
-- The strategy interface carries only data that every strategy really needs, or the extra data is justified.
+## Verificação
+- O contexto não contém nenhuma ramificação sobre qual algoritmo está em uso, e não cita nenhuma estratégia concreta.
+- Adicionar uma variante significa adicionar uma classe (ou uma lambda) e nenhuma mudança no contexto.
+- Cada estratégia pode ser testada sozinha, sem o contexto.
+- A interface da estratégia carrega apenas os dados que todas as estratégias realmente precisam, ou o dado extra se justifica.

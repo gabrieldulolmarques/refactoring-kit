@@ -1,24 +1,24 @@
 # Memento
 
-Gamma et al. (1995), ch. 5. Also known as: Token. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Também conhecido como: Token. Categoria: comportamental de objeto.
 
-## Intent
-Capture an object's internal state in a separate object, without breaking encapsulation, so the object can go back to that state later.
+## Intenção
+Capturar o estado interno de um objeto em um objeto separado, sem quebrar o encapsulamento, para que o objeto possa voltar a esse estado depois.
 
-## When it pays off
-- You must save a snapshot of an object's state to restore it later (undo, checkpoints, rollback of a tentative change), and
-- reading the state through a public interface would expose implementation details.
-- Benefits: the originator's internals stay private, and the originator does not have to manage a list of versions itself because the caller keeps the snapshots.
-- Liabilities: snapshots can be expensive in memory or copy time. The caretaker cannot tell how big a memento is, so a history may grow unnoticed. In some languages it is hard to let only the originator read the memento.
-- Not worth it when the state is a couple of public values (just copy them) or when the undo can be an exact inverse operation.
+## Quando compensa
+- Você precisa guardar um snapshot do estado de um objeto para restaurá-lo depois (desfazer, checkpoints, reversão de uma mudança provisória), e
+- ler o estado por uma interface pública exporia detalhes de implementação.
+- Benefícios: os detalhes internos do originador permanecem privados, e o originador não precisa gerenciar uma lista de versões, porque quem chama guarda os snapshots.
+- Custos: snapshots podem ser caros em memória ou em tempo de cópia. Quem guarda os mementos não consegue saber o tamanho de cada um, então um histórico pode crescer sem ser notado. Em algumas linguagens, é difícil permitir que só o originador leia o memento.
+- Não vale a pena quando o estado é meia dúzia de valores públicos (basta copiá-los) ou quando o desfazer pode ser uma operação inversa exata.
 
-## Participants in C#
-- **Memento** (`ChatSettings.Snapshot`, exposed as `IChatSettingsMemento`): holds the saved state. A private nested class gives the originator the wide interface. The empty public interface gives everyone else the narrow one.
-- **Originator** (`ChatSettings`): creates a memento of its state and restores from one.
-- **Caretaker** (`SettingsHistory`): stores mementos and hands them back, never looking inside.
+## Participantes em C#
+- **Memento** (`ChatSettings.Snapshot`, exposto como `IChatSettingsMemento`): guarda o estado salvo. Uma classe aninhada privada dá ao originador a interface ampla. A interface pública vazia dá a todos os demais a interface estreita.
+- **Originator** (`ChatSettings`): cria um memento do seu estado e restaura a partir de um.
+- **Caretaker** (`SettingsHistory`): guarda os mementos e os devolve, sem nunca olhar por dentro.
 
-## Example (C#)
-An AI chat assistant has settings (system prompt, temperature, enabled tools). The user can try a change and go back. The snapshot class is private and nested, so only `ChatSettings` can read it; the history sees only an opaque interface.
+## Exemplo (C#)
+Um assistente de chat com IA tem configurações (prompt de sistema, temperatura, ferramentas habilitadas). O usuário pode tentar uma mudança e voltar atrás. A classe do snapshot é privada e aninhada, então só `ChatSettings` pode lê-la; o histórico enxerga apenas uma interface opaca.
 
 ```csharp
 using System;
@@ -26,7 +26,7 @@ using System.Collections.Generic;
 
 public interface IChatSettingsMemento
 {
-    // Narrow interface: nothing to read. Only the originator can see inside.
+    // Interface estreita: nada para ler. Só o originator enxerga o conteúdo.
 }
 
 public class ChatSettings
@@ -43,18 +43,18 @@ public class ChatSettings
         $"{_systemPrompt} | t={_temperature} | tools=[{string.Join(", ", _enabledTools)}]";
 
     public IChatSettingsMemento Save() =>
-        new Snapshot(_systemPrompt, _temperature, _enabledTools.ToArray());   // copies the list
+        new Snapshot(_systemPrompt, _temperature, _enabledTools.ToArray());   // copia a lista
 
     public void Restore(IChatSettingsMemento memento)
     {
-        var snapshot = (Snapshot)memento;   // throws for a foreign memento
+        var snapshot = (Snapshot)memento;   // lança exceção para um memento de outra origem
         _systemPrompt = snapshot.SystemPrompt;
         _temperature = snapshot.Temperature;
         _enabledTools.Clear();
         _enabledTools.AddRange(snapshot.EnabledTools);
     }
 
-    // Wide interface, visible only inside ChatSettings.
+    // Interface ampla, visível apenas dentro de ChatSettings.
     private sealed class Snapshot : IChatSettingsMemento
     {
         public Snapshot(string systemPrompt, double temperature, string[] enabledTools)
@@ -95,31 +95,31 @@ public static class Program
         Console.WriteLine(settings.Describe());
 
         history.Undo(settings);
-        Console.WriteLine(settings.Describe());   // back to the first state
+        Console.WriteLine(settings.Describe());   // de volta ao primeiro estado
     }
 }
 ```
 
-## Variations
-- **Language support for the two interfaces.** C++ uses friend classes. In C#, a private nested class that implements a public marker interface gives the same split. `internal` visibility works when the caretaker lives in another assembly.
-- **Incremental mementos.** If mementos are always restored in a known order (an undo stack), each can store only what changed since the previous one, which saves space.
-- **Value snapshots.** If the state is immutable or a small value, the memento can simply be a copy of it, and the caretaker can read it freely when encapsulation is not a concern.
-- **Cursor as a memento.** A position marker in a collection traversal is a memento of the iteration state.
+## Variações
+- **Suporte da linguagem para as duas interfaces.** C++ usa classes amigas. Em C#, uma classe aninhada privada que implementa uma interface marcadora pública oferece a mesma divisão. A visibilidade `internal` funciona quando o caretaker está em outro assembly.
+- **Mementos incrementais.** Se os mementos são sempre restaurados em uma ordem conhecida (uma pilha de desfazer), cada um pode guardar apenas o que mudou desde o anterior, o que economiza espaço.
+- **Snapshots por valor.** Se o estado é imutável ou um valor pequeno, o memento pode ser simplesmente uma cópia dele, e o caretaker pode lê-lo livremente quando o encapsulamento não for uma preocupação.
+- **Cursor como memento.** Um marcador de posição em um percurso de coleção é um memento do estado da iteração.
 
-## Risks and C# alternatives
-- Copy mutable members (lists, dictionaries) when saving, or later changes will alter the snapshot. The example copies the list.
-- Unbounded histories leak memory. Cap the stack or drop old entries.
-- Mementos that hold references to other live objects can restore an inconsistent graph. Snapshot values, not references, or restore the related objects too.
-- If an exact inverse operation exists and is cheap, a [Command](command.md) with its own `Undo` is simpler than snapshots.
-- For persistence across runs, serialize the memento (JSON) but keep the format owned by the originator, so the layout can change in one place.
-- Immutable types make snapshots trivial: keep the old instance and replace the reference.
+## Riscos e alternativas em C#
+- Copie membros mutáveis (listas, dicionários) ao salvar, ou mudanças posteriores alterarão o snapshot. O exemplo copia a lista.
+- Históricos sem limite vazam memória. Limite a pilha ou descarte entradas antigas.
+- Mementos que guardam referências a outros objetos vivos podem restaurar um grafo inconsistente. Guarde valores, não referências, ou restaure também os objetos relacionados.
+- Se existe uma operação inversa exata e barata, um [Command](command.md) com seu próprio `Undo` é mais simples do que snapshots.
+- Para persistência entre execuções, serialize o memento (JSON), mas mantenha o formato sob responsabilidade do originador, para que o layout possa mudar em um único lugar.
+- Tipos imutáveis tornam os snapshots triviais: mantenha a instância antiga e substitua a referência.
 
-## Related patterns
-- [Command](command.md): commands use mementos to hold the state needed to undo.
-- [Iterator](iterator.md): a memento can store the state of an iteration.
+## Padrões relacionados
+- [Command](command.md): comandos usam mementos para guardar o estado necessário para desfazer.
+- [Iterator](iterator.md): um memento pode guardar o estado de uma iteração.
 
-## Verification
-- After `Save`, change, `Restore`, every observable part of the originator equals what it was, including collections.
-- Changing the originator after a save does not alter the stored memento.
-- The caretaker compiles without reading any field of the memento.
-- The history size is bounded, or the unbounded case is a documented decision.
+## Verificação
+- Depois de `Save`, uma mudança e `Restore`, cada parte observável do originador é igual ao que era, incluindo as coleções.
+- Mudar o originador após um save não altera o memento guardado.
+- O caretaker compila sem ler nenhum campo do memento.
+- O tamanho do histórico é limitado, ou o caso sem limite é uma decisão documentada.

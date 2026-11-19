@@ -1,59 +1,58 @@
 # SOLID
 
-A criterion for judging any design change, before and after refactoring. Source: Martin (2002),
-ch. 8–12; the SRP follows Martin's revised version (2017), ch. 7. This rule says what to check; the
-how is in the `fowler-refactoring` and `kerievsky-refactoring-to-patterns` skills.
+Critério para julgar qualquer mudança de design, antes e depois de refatorar. Fonte: Martin (2002),
+caps. 8–12; o SRP segue a versão revista de Martin (2017), cap. 7. Esta rule diz o que checar; o
+como está nas skills `fowler-refactoring` e `kerievsky-refactoring-to-patterns`.
 
-## The principles
+## Os princípios
 
-**SRP: Single Responsibility Principle.** A module should answer to a single actor, that is, to one
-group of people who ask for the same kind of change (Martin, 2017, ch. 7). In the 2002 wording, a
-class should have only one reason to change (Martin, 2002, ch. 8). When two responsibilities share
-a class, a change one actor asks for can break what the other one uses.
+**SRP: Princípio da Responsabilidade Única.** Um módulo deve responder a um único ator, isto é, a um
+grupo de pessoas que pede o mesmo tipo de mudança (Martin, 2017, cap. 7). Na formulação de 2002, uma
+classe deve ter um só motivo para mudar (Martin, 2002, cap. 8). Quando duas responsabilidades
+dividem a mesma classe, uma mudança pedida por um ator pode quebrar o que o outro usa.
 
-**OCP: Open-Closed Principle.** Classes, modules and functions should be open for extension and
-closed for modification (Martin, 2002, ch. 9): new behavior comes in as new code, without editing
-what already works. The sign of a violation is rigidity: a change that cascades through dependent
-modules. The way out is to isolate what varies behind an abstraction.
+**OCP: Princípio Aberto-Fechado.** Classes, módulos e funções devem estar abertos para extensão e
+fechados para modificação (Martin, 2002, cap. 9): um comportamento novo entra com código novo, sem
+editar o que já funciona. O sinal de violação é a rigidez: uma mudança que se espalha em cascata por
+módulos dependentes. O caminho é isolar o que varia atrás de uma abstração.
 
-**LSP: Liskov Substitution Principle.** A subtype must be able to replace its base type without the
-caller noticing (Martin, 2002, ch. 10). Inheritance is about behavior, not structure: a subclass
-that needs a type check, ignores a method or throws where the base does not breaks the contract,
-and the client code ends up depending on the concrete subclasses.
+**LSP: Princípio da Substituição de Liskov.** Um subtipo deve poder substituir seu tipo base sem
+que quem o usa perceba (Martin, 2002, cap. 10). A herança vale pelo comportamento, não pela
+estrutura: uma subclasse que exige checagem de tipo, ignora um método ou lança exceção onde a base
+não lança quebra o contrato, e o código cliente passa a depender das subclasses concretas.
 
-**ISP: Interface Segregation Principle.** A client should not be forced to depend on methods it
-does not use (Martin, 2002, ch. 12). A large interface couples all its clients: a change one of
-them asks for forces the others to recompile or adapt. The way out is to give each kind of client
-the interface it needs.
+**ISP: Princípio da Segregação de Interfaces.** Um cliente não deve ser obrigado a depender de
+métodos que não usa (Martin, 2002, cap. 12). Uma interface grande acopla todos os seus clientes: a
+mudança pedida por um deles obriga os outros a recompilar ou a se adaptar. O caminho é dar a cada
+tipo de cliente a interface de que ele precisa.
 
-**DIP: Dependency Inversion Principle.** High-level modules should not depend on low-level modules;
-both should depend on abstractions. And abstractions should not depend on details; details depend
-on them (Martin, 2002, ch. 11). The business rule defines the interface it needs, and the
-infrastructure (network, engine, files) implements it.
+**DIP: Princípio da Inversão de Dependência.** Módulos de alto nível não devem depender de módulos
+de baixo nível; os dois devem depender de abstrações. E as abstrações não devem depender de
+detalhes; os detalhes é que dependem delas (Martin, 2002, cap. 11). A regra de negócio define a
+interface de que precisa, e a infraestrutura (rede, motor, arquivos) a implementa.
 
-## Checks
+## Cheques
 
-| Principle | Check | Sign of a violation | Path |
+| Princípio | Cheque | Sinal de violação | Caminho |
 |---|---|---|---|
-| SRP | Does the class answer to a single actor? | Requests from different areas touch the same file; Divergent Change | `F:extract-class`, `F:split-phase`, `F:move-function` |
-| OCP | Does a new case come in without editing existing code? | A `switch`/`if` on type that grows with each case; Repeated Switches | `F:replace-conditional-with-polymorphism`, `K:replace-conditional-logic-with-strategy`, `K:replace-state-altering-conditionals-with-state` |
-| LSP | Does every subclass work where the base is expected? | A type check before use; an empty override or one that throws; Refused Bequest | `F:replace-subclass-with-delegate`, `F:replace-superclass-with-delegate`, `F:push-down-method` |
-| ISP | Does each client depend only on what it uses? | A large interface with methods some implementers leave empty | Split the interface per client; `F:extract-class`, `K:unify-interfaces-with-adapter` |
-| DIP | Does the high-level rule depend on an abstraction? | Domain code calling an API, the network, files or the engine directly; `new` of a concrete class | `K:extract-adapter`, `K:encapsulate-classes-with-factory`, `K:move-creation-knowledge-to-factory` |
+| SRP | A classe responde a um só ator? | Pedidos de áreas diferentes mexem no mesmo arquivo; Divergent Change | `F:extract-class`, `F:split-phase`, `F:move-function` |
+| OCP | Um caso novo entra sem editar o código existente? | `switch`/`if` sobre tipo que cresce a cada caso; Repeated Switches | `F:replace-conditional-with-polymorphism`, `K:replace-conditional-logic-with-strategy`, `K:replace-state-altering-conditionals-with-state` |
+| LSP | Qualquer subclasse funciona onde a base é esperada? | Checagem de tipo antes de usar; override vazio ou que lança exceção; Refused Bequest | `F:replace-subclass-with-delegate`, `F:replace-superclass-with-delegate`, `F:push-down-method` |
+| ISP | Cada cliente depende só do que usa? | Interface grande com métodos que alguns implementadores deixam vazios | Separar a interface por cliente; `F:extract-class`, `K:unify-interfaces-with-adapter` |
+| DIP | A regra de alto nível depende de abstração? | Domínio chamando direto API, rede, arquivos ou engine; `new` de classe concreta | `K:extract-adapter`, `K:encapsulate-classes-with-factory`, `K:move-creation-knowledge-to-factory` |
 
-`F:` is a refactoring from the `fowler-refactoring` skill; `K:`, from the
-`kerievsky-refactoring-to-patterns` skill.
+`F:` é uma refatoração da skill `fowler-refactoring`; `K:`, da skill
+`kerievsky-refactoring-to-patterns`.
 
-## Rules
+## Regras
 
-- When you propose or justify a change by a principle, cite it in the plan and in the commit
-  (`SOLID:OCP`).
-- A principle is not a goal: refactor only when the violation has a real cost (frequent change, a
-  bug, hard extension). Stable code that violates a principle can stay.
-- If the path leads to a GoF pattern, first read it in the `gof-design-patterns` skill.
+- Ao propor ou justificar uma mudança por um princípio, cite-o no plano e no commit (`SOLID:OCP`).
+- Princípio não é meta: só refatore quando a violação causar um custo real (mudança frequente,
+  bug, extensão difícil). Código estável que viola um princípio pode ficar.
+- Se o caminho levar a um padrão do GoF, leia antes o padrão na skill `gof-design-patterns`.
 
-## Source
+## Fonte
 
 MARTIN, R. C. *Agile Software Development: Principles, Patterns, and Practices*. Prentice Hall, 2002
-(ch. 8–12), and *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Pearson,
-2017 (ch. 7, the SRP). Paraphrased; the books' text is not reproduced.
+(caps. 8–12), e *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Pearson,
+2017 (cap. 7, o SRP). Paráfrase; o texto dos livros não é reproduzido.

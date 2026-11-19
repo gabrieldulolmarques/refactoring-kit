@@ -1,106 +1,104 @@
-# Design principles and how to use a pattern
+# Princípios de design e como usar um padrão
 
-Gamma et al. (1995), ch. 1 and ch. 6, §6.1. Paraphrased. The catalog of patterns is in
+Gamma et al. (1995), cap. 1 e cap. 6, §6.1. Paráfrase. O catálogo de padrões está em
 [catalog.md](catalog.md).
 
-## What a pattern is (§1.1, §1.3)
+## O que é um padrão (§1.1, §1.3)
 
-A design pattern names a recurring design problem and the core of a solution that can be reused
-without ever being implemented the same way twice. Each pattern has four essential parts:
+Um padrão de design nomeia um problema de design recorrente e o núcleo de uma solução que pode ser
+reutilizado sem nunca ser implementado da mesma forma duas vezes. Cada padrão tem quatro partes
+essenciais:
 
-- a **name**, which becomes part of the team's vocabulary;
-- the **problem**, which says when to apply it;
-- the **solution**, which describes the elements, their responsibilities and collaborations, as a
-  template rather than a concrete design;
-- the **consequences**, the benefits and costs of applying it, which decide whether it is worth it.
+- um **nome**, que passa a fazer parte do vocabulário da equipe;
+- o **problema**, que diz quando aplicá-lo;
+- a **solução**, que descreve os elementos, suas responsabilidades e colaborações, como um modelo e não como um design concreto;
+- as **consequências**, os benefícios e custos de aplicá-lo, que decidem se vale a pena.
 
-The pattern files in this folder follow that order: intent, when it pays off, participants, example,
-variations, risks.
+Os arquivos de padrão nesta pasta seguem essa ordem: intenção, quando compensa, participantes, exemplo,
+variações, riscos.
 
-## Principles of reusable object-oriented design (§1.6)
+## Princípios de design orientado a objetos reutilizável (§1.6)
 
-- **Program to an interface, not an implementation**. Declare variables, parameters and
-  fields with interfaces or abstract types. Clients then do not depend on concrete classes, only on
-  the operations they use, and any object that implements the interface can take part. The
-  creational patterns exist largely so that concrete classes are named in as few places as possible.
-- **Favor object composition over class inheritance**. Inheritance is reuse decided at
-  compile time, and it exposes the parent's internals to the subclass, so a change in the parent can
-  break subclasses. Composition is decided at run time, through interfaces, keeps each class
-  encapsulated and focused, and lets you change behavior by plugging in another object. Use
-  inheritance where it is the simplest fit, but do not reach for it first.
-- **Delegation**. An object hands part of a request to another object it holds, instead
-  of inheriting the behavior. It makes composition as powerful as inheritance (State, Strategy and
-  Visitor rely on it), at the cost of designs that are more dynamic and harder to follow.
-- **Inheritance versus parameterized types**. Generics are a third way to vary behavior,
-  by the types an operation works with, fixed at compile time.
-- **Run-time structure is not the code structure**. The classes show what objects may
-  hold or know (aggregation, acquaintance); the actual network of objects at run time is only
-  visible when the program runs. Many patterns, such as Observer, Composite and Chain of
-  Responsibility, are easier to understand from the run-time structure.
-- **Design for change**. Most redesign has a few known causes: naming concrete classes,
-  hard-coding requests, platform dependence, exposing representations, algorithm dependence, tight
-  coupling, extending only by subclassing, and classes that cannot be changed. Each pattern lets one
-  aspect vary on its own; [catalog.md](catalog.md) maps each cause to the patterns that prevent it.
-- **Applications, toolkits and frameworks**. Application code values internal reuse and
-  easy change; libraries and toolkits must avoid assumptions about their users; frameworks fix the
-  architecture and call your code, so their patterns must be chosen with the most care.
+- **Programe para uma interface, não para uma implementação**. Declare variáveis, parâmetros e
+  campos com interfaces ou tipos abstratos. Assim, os clientes não dependem de classes concretas, apenas das
+  operações que usam, e qualquer objeto que implemente a interface pode participar. Os padrões criacionais
+  existem em grande parte para que classes concretas sejam nomeadas no menor número possível de lugares.
+- **Prefira composição de objetos a herança de classes**. Herança é reúso decidido em tempo de
+  compilação, e expõe os detalhes internos da superclasse à subclasse, então uma mudança na superclasse pode quebrar as
+  subclasses. A composição é decidida em tempo de execução, por meio de interfaces, mantém cada classe
+  encapsulada e focada, e permite mudar o comportamento plugando outro objeto. Use herança onde ela for o
+  encaixe mais simples, mas não a escolha primeiro.
+- **Delegação**. Um objeto repassa parte de uma requisição a outro objeto que ele contém, em vez de
+  herdar o comportamento. Isso torna a composição tão poderosa quanto a herança (State, Strategy e Visitor
+  dependem dela), ao custo de designs mais dinâmicos e mais difíceis de acompanhar.
+- **Herança versus tipos parametrizados**. Os genéricos são uma terceira forma de variar o comportamento,
+  pelos tipos com que uma operação trabalha, fixados em tempo de compilação.
+- **A estrutura em tempo de execução não é a estrutura do código**. As classes mostram o que os
+  objetos podem conter ou conhecer (agregação, conhecimento mútuo ou acquaintance); a rede real de objetos em tempo de execução só é
+  visível quando o programa roda. Muitos padrões, como Observer, Composite e Chain of Responsibility, são mais
+  fáceis de entender pela estrutura em tempo de execução.
+- **Projetar para a mudança**. A maior parte dos reprojetos tem algumas causas conhecidas: nomear classes
+  concretas, codificar requisições de forma fixa, dependência de plataforma, expor representações, dependência de
+  algoritmo, acoplamento forte, estender apenas por subclasses e classes que não podem ser alteradas. Cada padrão
+  permite que um aspecto varie de forma independente; [catalog.md](catalog.md) relaciona cada causa aos padrões
+  que a evitam.
+- **Aplicações, toolkits e frameworks**. O código de aplicação valoriza o reúso interno e a facilidade de
+  alteração; bibliotecas e toolkits devem evitar suposições sobre seus usuários; frameworks fixam a arquitetura
+  e chamam o seu código, então seus padrões devem ser escolhidos com mais cuidado.
 
-## How to select a pattern (§1.7)
+## Como escolher um padrão (§1.7)
 
-The book gives six alternative approaches to finding the pattern for a problem. They are not steps;
-use whichever suits the situation, or combine them.
+O livro apresenta seis abordagens alternativas para encontrar o padrão de um problema. Elas não são
+passos; use a que servir à situação, ou combine-as.
 
-- **How patterns solve design problems.** §1.6 of the book covers finding objects, object
-  granularity, specifying interfaces and the other points of that section. The list above
-  summarizes only the principles that matter most for the code here, so go to the book for the rest.
-- **Scan the intents.** Read the intents in [catalog.md](catalog.md) and narrow the list by purpose
-  and scope (Table 1.1).
-- **Study how the patterns relate.** Figure 1.1 of the book draws the relationships between
-  patterns; it is not reproduced here.
-- **Study patterns of like purpose.** The comparison that closes each category in
-  [catalog.md](catalog.md) shows what separates similar patterns.
-- **Examine a cause of redesign.** Check whether the problem matches one of the causes, and look at
-  the patterns that prevent it ([catalog.md](catalog.md)).
-- **Consider what should be variable.** The reverse of the previous approach: decide what you want
-  to be able to change without redesign, and pick the pattern that lets that aspect vary.
-  Isolating whatever varies is the idea behind many of the patterns.
+- **Como os padrões resolvem problemas de design.** O §1.6 do livro trata de encontrar objetos, da
+  granularidade dos objetos, da especificação de interfaces e dos demais pontos dessa seção. A lista
+  acima resume só os princípios que mais importam para o código daqui; para o resto, consulte o livro.
+- **Percorrer as intenções.** Leia as intenções em [catalog.md](catalog.md) e restrinja a lista por
+  propósito e escopo (Tabela 1.1).
+- **Estudar como os padrões se relacionam.** A Figura 1.1 do livro desenha as relações entre os
+  padrões; ela não está reproduzida aqui.
+- **Estudar padrões de propósito parecido.** A comparação que fecha cada categoria em
+  [catalog.md](catalog.md) mostra o que separa padrões semelhantes.
+- **Examinar uma causa de reprojeto.** Verifique se o problema corresponde a uma das causas e veja os
+  padrões que a evitam ([catalog.md](catalog.md)).
+- **Considerar o que deve ser variável.** O inverso da abordagem anterior: decida o que você quer poder
+  mudar sem reprojetar e escolha o padrão que permite variar esse aspecto. Isolar o que varia é a ideia
+  por trás de muitos dos padrões.
 
-## How to use a pattern (§1.8)
+## Como usar um padrão (§1.8)
 
-1. Read the whole pattern once, paying most attention to when it pays off and its consequences.
-2. Study the participants and how they collaborate.
-3. Look at the example to see the pattern in code.
-4. Name the participants after the application, keeping a hint of the role when it helps
+1. Leia o padrão inteiro uma vez, prestando mais atenção a quando ele compensa e às suas consequências.
+2. Estude os participantes e como eles colaboram.
+3. Observe o exemplo para ver o padrão em código.
+4. Nomeie os participantes de acordo com a aplicação, mantendo uma pista do papel quando ajudar
    (`ShippingStrategy`, `OrderBuilder`).
-5. Declare the types: interfaces, inheritance, fields and references. Identify the existing classes
-   the pattern touches and change them.
-6. Name the operations after their responsibilities, consistently (for example, always `Create...`
-   for factory methods).
-7. Implement the operations, using the variations as a guide.
+5. Declare os tipos: interfaces, herança, campos e referências. Identifique as classes existentes que o padrão
+   toca e altere-as.
+6. Nomeie as operações de acordo com suas responsabilidades, de forma consistente (por exemplo, sempre `Create...`
+   para factory methods).
+7. Implemente as operações, usando as variações como guia.
 
-**When not to use a pattern** (§1.8). Patterns buy flexibility with extra indirection, which can
-make a design more complicated and slower. Apply a pattern only when the flexibility it gives is
-actually needed; its consequences say what it costs.
+**Quando não usar um padrão** (§1.8). Padrões compram flexibilidade com indireção extra, o que pode tornar um
+design mais complicado e mais lento. Aplique um padrão somente quando a flexibilidade que ele oferece for de fato
+necessária; suas consequências dizem o que ele custa.
 
-## What to expect from patterns (§6.1)
+## O que esperar dos padrões (§6.1)
 
-- **A common vocabulary**: "use an Observer here" says in three words what would take a
-  paragraph, and makes designs easier to discuss and review.
-- **Documentation and learning:** naming the patterns a system uses makes it much easier to
-  understand.
-- **A complement to design methods:** patterns show how to use objects, inheritance and
-  polymorphism well, and help move from a model of the problem to working code.
-- **A target for refactoring**: software grows in phases, from prototyping to expanding
-  to consolidating. In the consolidating phase it is reorganized, and many patterns are the
-  structures that this reorganization arrives at. Knowing them helps you see where to take a design,
-  even when the pattern only becomes visible after the system is built.
+- **Um vocabulário comum**: "use um Observer aqui" diz em três palavras o que levaria um parágrafo, e
+  torna os designs mais fáceis de discutir e revisar.
+- **Documentação e aprendizado:** nomear os padrões que um sistema usa torna muito mais fácil entendê-lo.
+- **Um complemento aos métodos de design:** os padrões mostram como usar bem objetos, herança e polimorfismo, e
+  ajudam a passar de um modelo do problema para código funcionando.
+- **Um alvo para refatoração**: o software cresce em fases, de prototipagem a expansão e consolidação.
+  Na fase de consolidação ele é reorganizado, e muitos padrões são as estruturas a que essa reorganização chega.
+  Conhecê-los ajuda a ver para onde levar um design, mesmo quando o padrão só fica visível depois que o sistema
+  está construído.
 
-## Verification checklist (same for every pattern)
+## Checklist de verificação (igual para todo padrão)
 
-- The problem the pattern solves is present in the code, not expected some day.
-- The participants have names from the domain, and clients depend on interfaces, not on the
-  concrete classes the pattern introduced.
-- The design is simpler to change in the way the pattern promises, and the extra indirection is
-  worth it.
-- Compiles and the tests pass; behavior is unchanged where the pattern was introduced by
-  refactoring.
+- O problema que o padrão resolve está presente no código, não é previsto para algum dia.
+- Os participantes têm nomes do domínio, e os clientes dependem de interfaces, não das classes concretas que o
+  padrão introduziu.
+- O design fica mais simples de mudar do jeito que o padrão promete, e a indireção extra vale a pena.
+- Compila e os testes passam; o comportamento não muda quando o padrão foi introduzido por refatoração.

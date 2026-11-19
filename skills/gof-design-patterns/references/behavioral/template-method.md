@@ -1,24 +1,24 @@
 # Template Method
 
-Gamma et al. (1995), ch. 5. Category: class behavioral.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de classe.
 
-## Intent
-Write the skeleton of an algorithm once in a base class and leave some steps to subclasses. Subclasses fill in the steps without being able to change the order or structure of the whole.
+## Intenção
+Escrever o esqueleto de um algoritmo uma única vez em uma classe base e deixar algumas etapas para as subclasses. As subclasses preenchem as etapas sem poder mudar a ordem nem a estrutura do todo.
 
-## When it pays off
-- The fixed part of an algorithm should live in one place, and only the varying parts should be written by subclasses.
-- Subclasses repeat the same sequence of steps with different details. Find the differences, move each into its own method, and replace the duplicated sequence with one template method that calls them.
-- You want to allow extension only at chosen points (hooks) and keep the rest closed.
-- Benefits: reuse of the invariant part; the base class controls the flow ("don't call us, we'll call you"); a small, documented set of extension points.
-- Liabilities: subclass authors must learn which methods to override; the design is tied to inheritance, so it is fixed at compile time and one base class per subclass; too many abstract steps make subclassing tedious.
-- Skip it when the variation can be passed in as an object or delegate, or when there is only one implementation.
+## Quando compensa
+- A parte fixa de um algoritmo deve morar em um só lugar, e só as partes que variam devem ser escritas pelas subclasses.
+- As subclasses repetem a mesma sequência de etapas com detalhes diferentes. Encontre as diferenças, mova cada uma para o seu próprio método e substitua a sequência duplicada por um único template method que chama esses métodos.
+- Você quer permitir extensão apenas em pontos escolhidos (hooks) e manter o restante fechado.
+- Benefícios: reuso da parte invariante; a classe base controla o fluxo ("não nos chame, nós chamaremos você"); um conjunto pequeno e documentado de pontos de extensão.
+- Custos: quem escreve subclasses precisa aprender quais métodos sobrescrever; o design fica preso à herança, então é fixado em tempo de compilação e cada subclasse tem uma única classe base; etapas abstratas demais tornam a subclasse trabalhosa.
+- Não vale a pena quando a variação pode ser passada como objeto ou delegate, ou quando há apenas uma implementação.
 
-## Participants in C#
-- **AbstractClass** (`ReportExporter`): defines the template method (`Export`, non-virtual) and the steps it calls. Abstract members are the steps a subclass must supply; virtual members with an empty or default body are the hooks.
-- **ConcreteClass** (`CsvExporter`, `JsonExporter`): overrides the abstract steps and any hooks it needs.
+## Participantes em C#
+- **AbstractClass** (`ReportExporter`): define o template method (`Export`, não virtual) e as etapas que ele chama. Membros abstratos são as etapas que uma subclasse deve fornecer; membros virtuais com corpo vazio ou padrão são os hooks.
+- **ConcreteClass** (`CsvExporter`, `JsonExporter`): sobrescreve as etapas abstratas e os hooks de que precisa.
 
-## Example (C#)
-A report export writes a list of sales rows as CSV or JSON. The order is always: header, rows with separators, footer. The format decides what each piece looks like.
+## Exemplo (C#)
+A exportação de um relatório grava uma lista de linhas de vendas em CSV ou JSON. A ordem é sempre: cabeçalho, linhas com separadores, rodapé. O formato decide como cada parte se parece.
 
 ```csharp
 using System;
@@ -42,7 +42,7 @@ public class SaleRow
 
 public abstract class ReportExporter
 {
-    // Template method: fixed order, not overridable.
+    // Template method: ordem fixa, não sobrescrevível.
     public string Export(IReadOnlyList<SaleRow> rows)
     {
         if (rows is null) throw new ArgumentNullException(nameof(rows));
@@ -58,10 +58,10 @@ public abstract class ReportExporter
         return sb.ToString();
     }
 
-    // Primitive operation: every format must supply it.
+    // Operação primitiva: todo formato precisa fornecê-la.
     protected abstract void WriteRow(StringBuilder sb, SaleRow row);
 
-    // Hooks: defaults that a format may replace.
+    // Hooks: implementações padrão que um formato pode substituir.
     protected virtual string Separator => "";
     protected virtual void WriteHeader(StringBuilder sb) { }
     protected virtual void WriteFooter(StringBuilder sb) { }
@@ -107,26 +107,26 @@ public static class Program
 }
 ```
 
-## Variations
-- **Kinds of steps.** A template method may call concrete operations of its own class, helpers meant for subclasses (`Money`), abstract steps that must be overridden (`WriteRow`), factory methods that create parts, and hooks that may be overridden (`WriteHeader`).
-- **Mark the difference.** Make clear which members must be overridden (abstract) and which may be (virtual, usually with an empty body). A naming prefix such as `Do` or `On` helps readers.
-- **Few primitives.** Keep the number of abstract steps small. Every extra one is one more thing each subclass must write.
-- **Protect the skeleton.** Leave the template method non-virtual, and make the steps `protected` so only the template calls them. This is how a base class enforces an invariant, such as "acquire a resource, run the step, always release it".
-- **Turning an override into a hook.** If subclasses must call the base version of an override to be correct, change it into a template method with a hook, so the base class keeps control and subclasses cannot forget the call.
+## Variações
+- **Tipos de etapa.** Um template method pode chamar operações concretas da própria classe, auxiliares destinados às subclasses (`Money`), etapas abstratas que precisam ser sobrescritas (`WriteRow`), métodos de fábrica que criam partes, e hooks que podem ser sobrescritos (`WriteHeader`).
+- **Deixe clara a diferença.** Deixe claro quais membros devem ser sobrescritos (abstract) e quais podem ser (virtual, geralmente com corpo vazio). Um prefixo de nome como `Do` ou `On` ajuda quem lê.
+- **Poucas primitivas.** Mantenha pequeno o número de etapas abstratas. Cada etapa extra é mais uma coisa que cada subclasse precisa escrever.
+- **Proteja o esqueleto.** Deixe o template method não virtual e torne as etapas `protected`, para que só o template as chame. É assim que uma classe base garante um invariante, como "adquirir um recurso, executar a etapa, sempre liberar".
+- **Transformar uma sobrescrita em hook.** Se as subclasses precisam chamar a versão base de um método sobrescrito para estar corretas, transforme-o em um template method com hook, para que a classe base mantenha o controle e as subclasses não possam esquecer a chamada.
 
-## Risks and C# alternatives
-- If the variable steps are few, pass them as delegates or a small interface into one class (for example `Func<SaleRow, string>` for the row format, plus header and footer strings). That is Strategy: it can change at run time and needs no hierarchy.
-- Inheritance couples subclasses to the base class's internals. Changing the order of steps or adding a call in the template can break subclasses that relied on the old order. Document the contract of each step.
-- `virtual` members called from a base constructor run before the subclass constructor finishes. Do not call overridable steps from constructors.
-- Async steps: make the steps return `Task` and the template `async`. A hook that is `async void` hides failures; return `Task`.
-- Do not declare the template `virtual`. A subclass that overrides the template removes the guarantee the pattern gives. C# methods are non-virtual by default; use `sealed override` if an intermediate class inherits a template from above.
+## Riscos e alternativas em C#
+- Se as etapas variáveis são poucas, passe-as como delegates ou uma pequena interface para uma única classe (por exemplo, `Func<SaleRow, string>` para o formato da linha, mais as strings de cabeçalho e rodapé). Isso é Strategy: pode mudar em tempo de execução e não exige hierarquia.
+- Herança acopla as subclasses aos detalhes internos da classe base. Mudar a ordem das etapas ou adicionar uma chamada no template pode quebrar subclasses que dependiam da ordem antiga. Documente o contrato de cada etapa.
+- Membros `virtual` chamados a partir de um construtor base rodam antes de o construtor da subclasse terminar. Não chame etapas sobrescrevíveis a partir de construtores.
+- Etapas assíncronas: faça as etapas retornarem `Task` e o template ser `async`. Um hook `async void` esconde falhas; retorne `Task`.
+- Não declare o template como `virtual`. Uma subclasse que sobrescreve o template remove a garantia que o padrão oferece. Métodos em C# já são não virtuais por padrão; use `sealed override` se uma classe intermediária herdar um template de cima.
 
-## Related patterns
-- [Factory Method](../creational/factory-method.md): often called by template methods, as one of the steps.
-- [Strategy](strategy.md): delegation instead of inheritance. A strategy replaces the whole algorithm; a template method replaces parts of it.
+## Padrões relacionados
+- [Factory Method](../creational/factory-method.md): frequentemente chamado por template methods, como uma das etapas.
+- [Strategy](strategy.md): delegação em vez de herança. Uma estratégia substitui o algoritmo inteiro; um template method substitui partes dele.
 
-## Verification
-- The order of steps appears in exactly one place, the template method, and no subclass reimplements it.
-- Each subclass overrides only the abstract steps and the hooks it needs, and the file reads as "what is different about this format".
-- Adding a new variant needs no change to the base class.
-- Calling a step directly from outside is not possible (steps are `protected`), so the invariant cannot be skipped.
+## Verificação
+- A ordem das etapas aparece em exatamente um lugar, o template method, e nenhuma subclasse a reimplementa.
+- Cada subclasse sobrescreve apenas as etapas abstratas e os hooks de que precisa, e o arquivo se lê como "o que é diferente neste formato".
+- Adicionar uma nova variante não exige mudança na classe base.
+- Chamar uma etapa diretamente de fora não é possível (as etapas são `protected`), então o invariante não pode ser pulado.

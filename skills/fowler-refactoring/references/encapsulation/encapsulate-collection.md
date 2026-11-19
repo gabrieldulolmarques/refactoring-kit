@@ -1,43 +1,44 @@
-# Encapsulate Collection
+# Encapsular Coleção (Encapsulate Collection)
 
-Fowler (2018), ch. 7. Formerly / aka: —. Inverse: —.
+Fowler (2018), cap. 7. Nome anterior / outro nome: —. Inversa: —.
 
-## When to use
-Smell: none specific in the book (related: Mutable Data). The motivation is encapsulating
-mutable data, so the collection cannot be changed from anywhere.
+## Quando usar
+Smell: nenhum específico no livro (relacionado: Dados Mutáveis (Mutable Data)). A motivação é encapsular
+dados mutáveis, para que a coleção não possa ser alterada de qualquer lugar.
 
-- A class has a property that returns its internal collection, so any caller can add, remove
-  or reorder items and the owner never finds out.
-- The owner has rules about membership (limits, totals, validation, change notifications)
-  that callers can bypass today.
-- A setter lets callers replace the whole collection, and they keep a reference to it.
+- Uma classe tem uma propriedade que retorna sua coleção interna, então qualquer chamador pode adicionar, remover
+  ou reordenar itens e o dono nunca fica sabendo.
+- O dono tem regras sobre os membros da coleção (limites, totais, validação, notificações de mudança)
+  que os chamadores podem contornar hoje.
+- Um setter permite que os chamadores substituam a coleção inteira, e eles guardam uma referência a ela.
 
-A property over the field guards who owns the list, not who edits it.
+Uma propriedade sobre o campo protege quem é o dono da lista, não quem a edita.
 
-Avoid hiding collections entirely (`CountOfLines`, `LineAt(i)`): callers lose LINQ. Return a
-safe collection, and pick one protection (copy or read-only view) for every getter.
+Evite esconder as coleções por completo (`CountOfLines`, `LineAt(i)`): os chamadores perdem o LINQ. Retorne uma
+coleção segura e escolha uma única proteção (cópia ou visão somente leitura) para todos os getters.
 
-## Mechanics
-1. If the field is not yet behind a property or accessor, apply Encapsulate Variable first
+## Mecânica
+1. Se o campo ainda não estiver atrás de uma propriedade ou de um acessor, aplique antes Encapsular Variável (Encapsulate Variable)
    ([encapsulate-variable.md](../first-set/encapsulate-variable.md)).
-2. Add methods on the owner to add and remove single items. Decide what removal of a missing
-   item does (ignore it, throw, or let the caller choose) and write that down in the method.
-3. If there is a setter for the whole collection, remove it when possible
-   ([remove-setting-method.md](../refactoring-apis/remove-setting-method.md)). If it must stay, make it copy the incoming collection
-   into the field instead of keeping the caller's reference.
-4. Build and run the tests.
-5. Find every use of the collection property. Change each call that modifies it (`Add`,
-   `Remove`, `Clear`, indexer assignment, `Sort` in place) to use the new methods. Test after
-   each change.
-6. Search for any remaining `Add`/`Remove` on the getter, then change it to return a
-   protected view: a copy, or a read-only wrapper. With a copy, a stray write is lost
-   silently, which is why the search comes first.
-7. Run the tests. With a read-only wrapper, anything that still tried to modify the collection
-   now fails visibly. With a copy, the write is lost silently, so only a test that checks the
-   resulting contents catches it.
+2. Adicione métodos no dono para adicionar e remover itens individuais. Decida o que a remoção de um item
+   inexistente faz (ignorar, lançar exceção ou deixar o chamador escolher) e registre isso no método.
+3. Se houver um setter para a coleção inteira, remova-o quando possível
+   ([remove-setting-method.md](../refactoring-apis/remove-setting-method.md)). Se ele precisar ficar, faça-o copiar a coleção recebida
+   para o campo em vez de guardar a referência do chamador.
+4. Faça o build e execute os testes.
+5. Encontre todos os usos da propriedade da coleção. Altere cada chamada que a modifica (`Add`,
+   `Remove`, `Clear`, atribuição por indexador, `Sort` no lugar) para usar os novos métodos. Teste após
+   cada alteração.
+6. Procure qualquer `Add`/`Remove` restante no getter e então altere-o para retornar uma
+   visão protegida: uma cópia ou um invólucro (wrapper) somente leitura. Com uma cópia, uma escrita perdida some
+   em silêncio, e é por isso que a busca vem primeiro.
+7. Execute os testes. Com um invólucro somente leitura, qualquer código que ainda tentava modificar a coleção
+   agora falha de forma visível. Com uma cópia, a escrita se perde em silêncio, então só um teste que confira
+   o conteúdo resultante a detecta.
 
-## Example
-Before:
+## Exemplo
+
+Antes:
 
 ```csharp
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ public static class Client
 }
 ```
 
-After:
+Depois:
 
 ```csharp
 using System;
@@ -100,27 +101,25 @@ public static class Client
     public static void Run(Subscription subscription, List<Coupon> loaded)
     {
         subscription.AddCoupon(new Coupon("WELCOME10", 10m));
-        subscription.ReplaceCoupons(loaded); // the setter is gone
+        subscription.ReplaceCoupons(loaded); // o setter foi removido
         var totalOff = subscription.Coupons.Sum(c => c.PercentOff);
     }
 }
 ```
 
-Reads keep working with LINQ. Writes now go through `Subscription`, so a rule such as "no more
-than 3 coupons per subscription" has one place to live.
+As leituras continuam funcionando com LINQ. As escritas agora passam por `Subscription`, então uma regra
+como "no máximo 3 cupons por assinatura" tem um único lugar para morar.
 
-## C# notes
-- Expose `IReadOnlyList<T>` or `IReadOnlyCollection<T>`, with `Add`/`Remove` methods on the
-  owner.
-- A read-only interface does not stop a caller from casting back to `List<T>` and modifying
-  it. Where that matters, return a copy (`ToArray()`, `ToList()`) or a wrapper such as
-  `AsReadOnly()`.
-- A copy is a snapshot: later changes to the owner are not visible in it. A wrapper is a live
-  view. Pick one and be consistent. For large collections that are read often, a wrapper
-  avoids the copy cost.
-- Mutating operations on a collection you do not own can still bite: `List<T>.Sort()` and
-  `Reverse()` change the list in place, so copy first when sorting what a getter returned.
+## Notas (C#)
+- Exponha `IReadOnlyList<T>` ou `IReadOnlyCollection<T>`, com métodos `Add`/`Remove` no dono.
+- Uma interface somente leitura não impede o chamador de converter de volta para `List<T>` e modificá-la.
+  Quando isso importa, devolva uma cópia (`ToArray()`, `ToList()`) ou um invólucro como `AsReadOnly()`.
+- Uma cópia é um instantâneo: mudanças posteriores no dono não aparecem nela. Um invólucro é uma visão
+  ao vivo. Escolha um e seja consistente. Para coleções grandes que são lidas com frequência, um invólucro
+  evita o custo da cópia.
+- Operações de mutação em uma coleção que você não possui ainda podem causar problemas: `List<T>.Sort()` e
+  `Reverse()` alteram a lista no lugar, então copie antes de ordenar o que um getter devolveu.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- No caller modifies the collection except through the owner's methods.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Nenhum chamador modifica a coleção, exceto pelos métodos do dono.

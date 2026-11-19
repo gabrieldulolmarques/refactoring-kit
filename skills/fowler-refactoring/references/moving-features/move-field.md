@@ -1,46 +1,46 @@
-# Move Field
+# Mover Campo (Move Field)
 
-Fowler (2018), ch. 8. Formerly / aka: —. Inverse: —.
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: —.
 
-## When to use
-Smells: Shotgun Surgery, Insider Trading.
+## Quando usar
+Smells: Cirurgia com Espingarda (Shotgun Surgery), Troca de Informações Privilegiadas (Insider Trading).
 
-- Signs the field is in the wrong place: it travels with another object in every call, editing
-  one object forces an edit to a field of another, or one value is kept in several structures
-  and must be updated in each.
-- Do it as soon as the mismatch is clear; a misplaced field gets more expensive as code grows
-  around it.
-- Preconditions: reads and writes go through accessors (otherwise encapsulate first), and the
-  source can reach the target. With a bare record, consider
-  [encapsulate-record.md](../encapsulation/encapsulate-record.md) first.
-- Usually part of a bigger change. Callers can move to the new owner afterwards, or the move
-  may need to wait until usage is reshaped.
+- Sinais de que o campo está no lugar errado: ele viaja com outro objeto em toda chamada, editar
+  um objeto força a edição de um campo de outro, ou um valor é mantido em várias estruturas
+  e precisa ser atualizado em cada uma.
+- Faça isso assim que o descompasso estiver claro; um campo fora do lugar fica mais caro conforme o código cresce
+  ao redor dele.
+- Pré-condições: leituras e escritas passam por acessores (caso contrário, encapsule antes), e a
+  origem consegue alcançar o destino. Com um registro simples, considere
+  [encapsulate-record.md](../encapsulation/encapsulate-record.md) antes.
+- Geralmente faz parte de uma mudança maior. Os chamadores podem passar para o novo dono depois, ou a movimentação
+  pode precisar esperar até que o uso seja remodelado.
 
-## Mechanics
-1. Make sure the source field is encapsulated: all reads and writes go through accessors
-   ([encapsulate-variable.md](../first-set/encapsulate-variable.md)). Test.
-2. Add the field, with accessors, to the target class. Build and run static checks.
-3. Make sure the source can get hold of the target: through something it already has, through a
-   new lookup method, or, as a last resort, through a new field (perhaps temporary).
-4. Point the source accessors at the target's field. Test.
-   - If several source objects share one target, first make the setter write both the old and
-     the new field and add an assertion ([introduce-assertion.md](../conditional-logic/introduce-assertion.md))
-     that they agree. When it holds in practice, switch the accessors fully.
-5. Remove the source field. Test.
+## Mecânica
+1. Garanta que o campo de origem esteja encapsulado: todas as leituras e escritas passam por acessores
+   ([encapsulate-variable.md](../first-set/encapsulate-variable.md)). Teste.
+2. Adicione o campo, com acessores, à classe de destino. Faça o build e execute as verificações estáticas.
+3. Garanta que a origem consiga alcançar o destino: por algo que já tem, por um
+   novo método de busca ou, como último recurso, por um novo campo (talvez temporário).
+4. Aponte os acessores da origem para o campo do destino. Teste.
+   - Se vários objetos de origem compartilham um destino, faça primeiro o setter escrever tanto no campo antigo quanto
+     no novo e adicione uma asserção ([introduce-assertion.md](../conditional-logic/introduce-assertion.md))
+     de que eles concordam. Quando ela se sustentar na prática, mude os acessores por completo.
+5. Remova o campo de origem. Teste.
 
-### Watch out
-- Construction order: a constructor that sets the field before the target object exists will
-  break once the setter points at the target. Undo the redirect, reorder with
-  [slide-statements.md](slide-statements.md), test, and redirect again.
-- When several source objects point at one target, they may currently hold different values for
-  the field. Check that they all agree with the target's value first; if they do not, moving
-  the field changes behavior and is not a refactoring.
-- Plain data records have no accessors to redirect. Introduce accessor functions, route every
-  use through them, and for an immutable field write to both copies on set while reads migrate
-  one by one.
+### Atenção
+- Ordem de construção: um construtor que define o campo antes de o objeto de destino existir
+  vai quebrar assim que o setter apontar para o destino. Desfaça o redirecionamento, reordene com
+  [slide-statements.md](slide-statements.md), teste e redirecione de novo.
+- Quando vários objetos de origem apontam para um destino, eles podem hoje guardar valores diferentes para
+  o campo. Verifique primeiro se todos concordam com o valor do destino; se não concordarem, mover
+  o campo muda o comportamento e deixa de ser uma refatoração.
+- Registros de dados simples não têm acessores para redirecionar. Introduza funções de acesso, encaminhe todo
+  uso por elas e, para um campo imutável, escreva nas duas cópias ao definir enquanto as leituras migram
+  uma a uma.
 
-## Example
-Before: the retry limit lives on the shipment, though it is really a term of its delivery plan.
+## Exemplo
+Antes: o limite de tentativas fica em `Shipment`, embora na verdade seja um termo do plano de entrega.
 
 ```csharp
 using System;
@@ -72,7 +72,7 @@ public class DeliveryPlan
 }
 ```
 
-Step 1, encapsulate the field. The constructor now goes through the setter:
+Passo 1, encapsule o campo. O construtor agora passa pelo setter:
 
 ```csharp
 // fragment
@@ -90,8 +90,7 @@ public void Escalate() => SetMaxAttempts(MaxAttempts + 1);
 public bool CanRetry(int attemptsMade) => attemptsMade < MaxAttempts;
 ```
 
-Step 2, add the field and accessors to `DeliveryPlan`. The new parameter is optional for now, so
-`Shipment` still compiles unchanged:
+Passo 2, adicione o campo e os acessores em `DeliveryPlan`. O novo parâmetro é opcional por enquanto, então `Shipment` continua compilando sem mudanças:
 
 ```csharp
 using System;
@@ -109,18 +108,17 @@ public class DeliveryPlan
 }
 ```
 
-Step 4, first attempt: redirect the accessors while the constructor is still in its old order.
+Passo 4, primeira tentativa: redirecione os acessores enquanto o construtor ainda está na ordem antiga.
 
 ```csharp
 // fragment
 public int MaxAttempts => _plan.MaxAttempts;
 private void SetMaxAttempts(int value) => _plan.MaxAttempts = value;
-// the constructor calls SetMaxAttempts before _plan is assigned:
-// NullReferenceException on construction
+// o construtor chama SetMaxAttempts antes de _plan ser atribuído:
+// NullReferenceException na construção
 ```
 
-Revert the accessors and reorder the constructor so `_plan` exists before the setter
-runs. Test:
+Reverta os acessores e reordene o construtor para que `_plan` exista antes de o setter rodar. Teste:
 
 ```csharp
 // fragment
@@ -132,7 +130,7 @@ public Shipment(string trackingCode, int maxAttempts)
 }
 ```
 
-Redirect the accessors again. Test:
+Redirecione os acessores de novo. Teste:
 
 ```csharp
 // fragment
@@ -140,11 +138,9 @@ public int MaxAttempts => _plan.MaxAttempts;
 private void SetMaxAttempts(int value) => _plan.MaxAttempts = value;
 ```
 
-Step 5: delete `_maxAttempts`. Test.
+Passo 5: apague `_maxAttempts`. Teste.
 
-Optional cleanup, as a separate step: the constructor can hand the initial limit straight to
-`DeliveryPlan`, and the temporary default on the new parameter goes away. `SetMaxAttempts` stays
-for `Escalate`:
+Limpeza opcional, como passo separado: o construtor pode entregar o limite inicial diretamente a `DeliveryPlan`, e o valor padrão temporário do novo parâmetro some. `SetMaxAttempts` continua para `Escalate`:
 
 ```csharp
 // fragment
@@ -155,8 +151,7 @@ public Shipment(string trackingCode, int maxAttempts)
 }
 ```
 
-Moving to a shared object: a parcel's insurance percentage becomes its service level's percentage.
-During the transition the parcel still stores the value but asserts it matches:
+Movendo para um objeto compartilhado: o percentual de seguro de uma encomenda passa a ser o percentual do seu nível de serviço. Durante a transição, a encomenda ainda guarda o valor, mas afirma que ele é igual ao do nível:
 
 ```csharp
 using System.Diagnostics;
@@ -191,16 +186,11 @@ public class Parcel
 }
 ```
 
-Once the assertion has held, drop the constructor parameter and the field and return
-`_level.InsurancePercent`.
+Quando a asserção tiver se mantido, remova o parâmetro e o campo do construtor, e retorne `_level.InsurancePercent`.
 
-## C# notes
-- A field that is persisted or serialized keeps its stored name only if the mapping is updated
-  too (column, JSON property name, serializer attributes). Moving it to another class changes
-  the stored shape, so migrate or map the data.
+## Notas (C#)
+- Um campo persistido ou serializado mantém o nome armazenado só se o mapeamento também for atualizado (coluna, nome da propriedade JSON, atributos do serializador). Movê-lo para outra classe muda o formato armazenado, então migre ou mapeie os dados.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- For the shared-object case, query the stored data for rows whose value differs from the
-  target's, or run with the assertion enabled (or a log line in its place) and confirm that
-  nothing fires before removing the old field.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- No caso do objeto compartilhado, consulte os dados armazenados por linhas cujo valor difere do valor do alvo, ou execute com a asserção habilitada (ou com uma linha de log no lugar dela) e confirme que nada dispara antes de remover o campo antigo.

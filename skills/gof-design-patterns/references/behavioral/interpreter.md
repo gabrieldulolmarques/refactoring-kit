@@ -1,27 +1,27 @@
 # Interpreter
 
-Gamma et al. (1995), ch. 5. Category: class behavioral.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de classe.
 
-## Intent
-For a small language, represent its grammar as a set of classes and write an interpreter that evaluates sentences of the language, held as trees of those classes.
+## Intenção
+Para uma linguagem pequena, representar sua gramática como um conjunto de classes e escrever um interpretador que avalia sentenças da linguagem, mantidas como árvores dessas classes.
 
-## When it pays off
-- The language's sentences can be represented as abstract syntax trees.
-- A problem recurs often enough that expressing instances as sentences of a small language is worth it (matching rules, filters, pricing rules, feature-flag targeting).
-- The grammar is simple and performance is not critical. Each grammar rule becomes a class, so the pattern scales badly to large grammars.
-- Benefits: the grammar is easy to change and extend by adding or editing classes, and each node class is short and similar to the others.
-- Liabilities: many rules mean many classes that are hard to maintain, and walking a tree is not the fastest way to evaluate. For large or hot languages, use a parser generator or compile the tree to another form.
-- Not worth it when a few `if` statements or a lookup table covers the cases, or when a real expression library already exists.
+## Quando compensa
+- As sentenças da linguagem podem ser representadas como árvores de sintaxe abstrata.
+- Um problema se repete com frequência suficiente para que expressar as instâncias como sentenças de uma linguagem pequena valha a pena (regras de correspondência, filtros, regras de preço, segmentação de feature flags).
+- A gramática é simples e o desempenho não é crítico. Cada regra da gramática vira uma classe, então o padrão escala mal para gramáticas grandes.
+- Benefícios: a gramática é fácil de mudar e estender, adicionando ou editando classes, e cada classe de nó é curta e parecida com as outras.
+- Custos: muitas regras significam muitas classes difíceis de manter, e percorrer uma árvore não é a forma mais rápida de avaliar. Para linguagens grandes ou muito usadas, use um gerador de parsers ou compile a árvore para outra forma.
+- Não vale a pena quando alguns `if` ou uma tabela de consulta cobrem os casos, ou quando já existe uma biblioteca de expressões pronta.
 
-## Participants in C#
-- **AbstractExpression** (`IFlagRule`): interface with the `Evaluate` operation shared by every node.
-- **TerminalExpression** (`AttributeEquals`): a leaf. Implements the base case of the recursion.
-- **NonterminalExpression** (`AndRule`, `OrRule`, `NotRule`): one class per composite grammar rule. Holds sub-expressions and evaluates them recursively.
-- **Context** (`UserContext`): global information the evaluation reads (here, user attributes).
-- **Client** (`Program`): builds the tree, or receives it from a parser, then calls `Evaluate`.
+## Participantes em C#
+- **AbstractExpression** (`IFlagRule`): interface com a operação `Evaluate` compartilhada por todos os nós.
+- **TerminalExpression** (`AttributeEquals`): uma folha. Implementa o caso base da recursão.
+- **NonterminalExpression** (`AndRule`, `OrRule`, `NotRule`): uma classe por regra composta da gramática. Guarda subexpressões e as avalia recursivamente.
+- **Context** (`UserContext`): informações globais que a avaliação lê (aqui, os atributos do usuário).
+- **Client** (`Program`): monta a árvore, ou a recebe de um parser, e então chama `Evaluate`.
 
-## Example (C#)
-A feature flag is enabled for users matching a targeting rule. The mini grammar is `rule := attribute = value | rule AND rule | rule OR rule | NOT rule`. The client assembles the tree by hand; a parser would produce the same tree from text.
+## Exemplo (C#)
+Uma feature flag fica habilitada para usuários que correspondem a uma regra de segmentação. A minigramática é `regra := atributo = valor | regra AND regra | regra OR regra | NOT regra`. O cliente monta a árvore manualmente; um parser produziria a mesma árvore a partir de texto.
 
 ```csharp
 using System;
@@ -115,27 +115,27 @@ public static class Program
 }
 ```
 
-## Variations
-- **Building the tree.** The pattern does not say how the tree is created. Use a hand-written recursive-descent parser, a table-driven one, or build the tree in code as above.
-- **Where `Evaluate` lives.** If the language will get many operations (evaluate, print, validate, optimize), put them in a visitor ([visitor.md](visitor.md)) so the node classes stay unchanged. If there is a single operation, keep it in the nodes.
-- **Sharing terminals.** If the same terminal appears many times, a single instance can be shared, as long as position-specific data is passed in through the context and not stored in the node. See [Flyweight](../structural/flyweight.md).
-- **Mutable context.** The context can also carry results or state that nodes update, for example variable bindings, when evaluation has side effects.
+## Variações
+- **Construir a árvore.** O padrão não diz como a árvore é criada. Use um parser recursivo descendente escrito à mão, um dirigido por tabela, ou monte a árvore em código como acima.
+- **Onde fica o `Evaluate`.** Se a linguagem vai receber muitas operações (avaliar, imprimir, validar, otimizar), coloque-as em um visitor ([visitor.md](visitor.md)) para que as classes de nó não mudem. Se há uma única operação, mantenha-a nos nós.
+- **Compartilhar terminais.** Se o mesmo terminal aparece muitas vezes, uma única instância pode ser compartilhada, desde que os dados específicos da posição sejam passados pelo contexto e não guardados no nó. Veja [Flyweight](../structural/flyweight.md).
+- **Contexto mutável.** O contexto também pode carregar resultados ou estado que os nós atualizam, por exemplo associações de variáveis, quando a avaliação tem efeitos colaterais.
 
-## Risks and C# alternatives
-- Do not grow the grammar by habit. Past a handful of rules, a parser library or generator is a better fit than one class per rule.
-- In C#, a lambda tree can replace the class hierarchy. `Func<UserContext, bool>` combinators (`And(a, b)` returning a new lambda) express the same rules with less ceremony when you do not need to inspect or print the tree.
-- `System.Linq.Expressions` already offers an expression tree that can be compiled to a delegate, which is the compile-to-another-form route for hot paths.
-- Pattern matching and `switch` expressions over a closed set of node types are an alternative to virtual `Evaluate`, and they keep the operation outside the nodes.
-- Rules that come from users are untrusted input. Validate the sentence and bound recursion depth and cost.
+## Riscos e alternativas em C#
+- Não aumente a gramática por hábito. Passando de meia dúzia de regras, uma biblioteca ou gerador de parsers se encaixa melhor do que uma classe por regra.
+- Em C#, uma árvore de lambdas pode substituir a hierarquia de classes. Combinadores `Func<UserContext, bool>` (`And(a, b)` retornando uma nova lambda) expressam as mesmas regras com menos cerimônia, quando você não precisa inspecionar nem imprimir a árvore.
+- `System.Linq.Expressions` já oferece uma árvore de expressões que pode ser compilada para um delegate, que é o caminho de compilar para outra forma em caminhos quentes.
+- Pattern matching e expressões `switch` sobre um conjunto fechado de tipos de nó são uma alternativa ao `Evaluate` virtual, e mantêm a operação fora dos nós.
+- Regras vindas de usuários são entrada não confiável. Valide a sentença e limite a profundidade e o custo da recursão.
 
-## Related patterns
-- [Composite](../structural/composite.md): the syntax tree is a composite.
-- [Flyweight](../structural/flyweight.md): shares terminal symbols in the tree.
-- [Iterator](iterator.md): can traverse the structure.
-- [Visitor](visitor.md): keeps each operation on the nodes in one class instead of spread across node classes.
+## Padrões relacionados
+- [Composite](../structural/composite.md): a árvore sintática é um composite.
+- [Flyweight](../structural/flyweight.md): compartilha símbolos terminais na árvore.
+- [Iterator](iterator.md): pode percorrer a estrutura.
+- [Visitor](visitor.md): mantém cada operação sobre os nós em uma única classe, em vez de espalhada pelas classes de nó.
 
-## Verification
-- Each node class has a test, and a few whole sentences are tested end to end, including negation and nesting.
-- The evaluation reads only the context and the tree, with no hidden global state.
-- Adding a new rule type means adding one class, not editing the others.
-- The number of node classes is still small. If it keeps growing, reconsider a parser generator.
+## Verificação
+- Cada classe de nó tem um teste, e algumas sentenças completas são testadas de ponta a ponta, incluindo negação e aninhamento.
+- A avaliação lê apenas o contexto e a árvore, sem estado global oculto.
+- Adicionar um novo tipo de regra significa adicionar uma classe, sem editar as outras.
+- O número de classes de nó continua pequeno. Se ele não para de crescer, reconsidere um gerador de parsers.

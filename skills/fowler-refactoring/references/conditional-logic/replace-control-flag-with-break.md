@@ -1,27 +1,27 @@
-# Replace Control Flag with Break
+# Substituir Flag de Controle por Break (Replace Control Flag with Break)
 
-Fowler (2018), web edition only (not in the print book); summary at https://refactoring.com/catalog/replaceControlFlagWithBreak.html. Formerly / aka: Remove Control Flag. Inverse: —.
+Fowler (2018), só na edição web (não está no livro impresso); resumo em https://refactoring.com/catalog/replaceControlFlagWithBreak.html. Nome anterior / outro nome: Remove Control Flag. Inversa: —.
 
-## When to use
-A boolean variable exists only to steer the loop: it is set when something happens, and then
-the loop condition or an `if` around the body reads it to skip the remaining work. The reader
-has to track the flag across iterations to see when the loop really ends.
+## Quando usar
+Uma variável booleana existe apenas para conduzir o laço: ela é definida quando algo acontece e depois
+a condição do laço ou um `if` em torno do corpo a lê para pular o trabalho restante. O leitor
+precisa acompanhar a flag ao longo das iterações para ver quando o laço realmente termina.
 
-Smell: none specific (web edition only).
+Smell: nenhum específico (só na edição web).
 
-Replace the flag with a direct exit: `break` to leave the loop. Use `return` when the loop is
-at the end of a function (often after Extract Function). `continue` fits only when the flag
-guards the rest of a single iteration and not the later ones.
-Do not use it when the flag is read after the loop for a real purpose; then it is a result,
-not a control flag, and may be better kept or returned from an extracted function.
+Substitua a flag por uma saída direta: `break` para sair do laço. Use `return` quando o laço
+estiver no fim de uma função (muitas vezes depois de Extrair Função (Extract Function)). `continue` só serve quando a flag
+protege o restante de uma única iteração e não as seguintes.
+Não use quando a flag for lida depois do laço para um propósito real; então ela é um resultado,
+não uma flag de controle, e talvez seja melhor mantida ou retornada por uma função extraída.
 
-## Mechanics
-1. Consider extracting the code that uses the flag into its own function ([extract-function.md](../first-set/extract-function.md)), so that `return` becomes available as an exit.
-2. For each place that sets the flag, replace the assignment with the matching control statement: usually `return` or `break`, and `continue` only when the flag guarded just the rest of one iteration. Before each change, check that nothing between the assignment and the end of the iteration, and nothing after the loop, needs to run once the flag is set. Compile and test after each.
-3. When no place sets the flag any more, remove it from the loop condition or the guarding `if`, and delete its declaration. Compile and test.
+## Mecânica
+1. Considere extrair o código que usa a flag para uma função própria ([extract-function.md](../first-set/extract-function.md)), para que `return` fique disponível como saída.
+2. Para cada lugar que define a flag, substitua a atribuição pela instrução de controle correspondente: em geral `return` ou `break`, e `continue` só quando a flag protegia apenas o restante de uma iteração. Antes de cada mudança, verifique que nada entre a atribuição e o fim da iteração, e nada depois do laço, precisa rodar depois que a flag é definida. Compile e teste após cada uma.
+3. Quando nenhum lugar definir mais a flag, tire-a da condição do laço ou do `if` que a protegia, e apague a sua declaração. Compile e teste.
 
-## Example
-Before:
+## Exemplo
+Antes:
 
 ```csharp
 using System.Collections.Generic;
@@ -63,7 +63,7 @@ public class PromotionApplier
 }
 ```
 
-After:
+Depois:
 
 ```csharp
 public class PromotionApplier
@@ -82,6 +82,6 @@ public class PromotionApplier
 }
 ```
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Behavior is unchanged: the loop still stops at the same element and nothing after the exit point used to run.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- O comportamento não muda: o laço continua parando no mesmo elemento, e nada após o ponto de saída executava antes.

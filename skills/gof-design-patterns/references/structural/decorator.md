@@ -1,26 +1,26 @@
 # Decorator
 
-Gamma et al. (1995), ch. 4. Also known as: Wrapper. Category: object structural.
+Gamma et al. (1995), cap. 4. Também conhecido como: Wrapper. Categoria: estrutural de objeto.
 
-## Intent
-Add responsibilities to an individual object at runtime by wrapping it in another object that has the same interface. It is a flexible alternative to subclassing for each combination of features.
+## Intenção
+Acrescentar responsabilidades a um objeto individual em tempo de execução, envolvendo-o em outro objeto com a mesma interface. É uma alternativa flexível à herança para cada combinação de funcionalidades.
 
-## When it pays off
-- You want to add behavior (retries, caching, logging, compression) to some objects and not others, transparently to the callers, and possibly to remove it again.
-- Subclassing would need one class per combination of features, or the class cannot be subclassed.
-- Benefits: features are small, stackable pieces. You pay only for the ones you attach, and you can attach the same one twice.
-- Liabilities: a decorated object is not the same object as the original (do not rely on identity or on type checks), and a stack of many look-alike small objects is harder to read and debug.
-- Skip it when you need only one extra behavior in one place (a plain subclass or a direct call is enough), or when the component is so heavy and so full of members that every wrapper would have to forward dozens of them.
+## Quando compensa
+- Você quer acrescentar comportamento (novas tentativas, cache, log, compressão) a alguns objetos e não a outros, de forma transparente para quem chama, e possivelmente removê-lo depois.
+- Usar herança exigiria uma classe por combinação de funcionalidades, ou a classe não pode ser herdada.
+- Benefícios: as funcionalidades são peças pequenas e empilháveis. Você paga apenas pelas que acopla, e pode acoplar a mesma duas vezes.
+- Custos: um objeto decorado não é o mesmo objeto que o original (não dependa de identidade nem de verificação de tipo), e uma pilha de muitos objetos pequenos parecidos é mais difícil de ler e depurar.
+- Não vale a pena quando você precisa de apenas um comportamento extra em um único lugar (uma subclasse simples ou uma chamada direta bastam), ou quando o componente é tão pesado e tem tantos membros que cada invólucro (wrapper) teria de repassar dezenas deles.
 
-## Participants in C#
-- **Component** (`IApiClient`): the interface shared by the real object and the wrappers. Keep it small.
-- **ConcreteComponent** (`HttpApiClient`): the object that does the real work.
-- **Decorator**: a base class that implements the component interface, holds another component and forwards calls to it. It is optional; with a single-method interface it is not worth having, and the example has none.
-- **ConcreteDecorator** (`RetryingClient`, `CachingClient`, `LoggingClient`): implements the component interface, holds another component, forwards calls to it and adds behavior before or after.
-- **Client** (code in `Main`): composes the stack and uses it through the component interface.
+## Participantes em C#
+- **Component** (`IApiClient`): a interface compartilhada pelo objeto real e pelos invólucros. Mantenha-a pequena.
+- **ConcreteComponent** (`HttpApiClient`): o objeto que faz o trabalho real.
+- **Decorator**: uma classe base que implementa a interface do componente, guarda outro componente e repassa as chamadas a ele. É opcional; com uma interface de um único método não compensa tê-la, e o exemplo não tem nenhuma.
+- **ConcreteDecorator** (`RetryingClient`, `CachingClient`, `LoggingClient`): implementa a interface do componente, guarda outro componente, repassa as chamadas a ele e acrescenta comportamento antes ou depois.
+- **Client** (código em `Main`): compõe a pilha e a usa pela interface do componente.
 
-## Example (C#)
-An HTTP API client gets retries and a response cache, and both are optional. The stack is built at one place.
+## Exemplo (C#)
+Um cliente de API HTTP ganha novas tentativas e um cache de respostas, e ambos são opcionais. A pilha é montada em um único lugar.
 
 ```csharp
 using System;
@@ -110,33 +110,33 @@ public static class Program
     {
         IApiClient client = new LoggingClient(new CachingClient(new RetryingClient(new HttpApiClient(), 3)));
         await client.GetAsync("/orders/7");
-        await client.GetAsync("/orders/7"); // served from the cache
+        await client.GetAsync("/orders/7"); // atendido pelo cache
     }
 }
 ```
 
-## Variations
-- **Order matters**: in the example the cache wraps the retries, so a cached hit never retries. Swapping them changes behavior. Document the intended order where the stack is built.
-- **Single decorator without a base class**: with one responsibility to add, skip the abstract decorator and write the wrapper directly, as above.
-- **Decorators with extra members**: a decorator may add an operation of its own (a method to clear the cache). Callers that use it must hold the concrete decorator, and then the transparency is lost for them.
-- **Light component**: keep the shared interface to behavior, not data. A heavy component makes every wrapper expensive. When the component is heavy, give it a replaceable helper object (a strategy) for the part that varies instead.
-- **Strategy instead of wrapping**: the component itself holds a replaceable behavior object. This changes the object's insides and lets the strategy have its own narrow interface, but the component must know about the extension point.
+## Variações
+- **A ordem importa**: no exemplo, o cache envolve as tentativas, então um acerto no cache nunca tenta de novo. Trocá-los muda o comportamento. Documente a ordem pretendida no ponto onde a pilha é montada.
+- **Decorador único sem classe base**: com uma só responsabilidade a acrescentar, dispense o decorador abstrato e escreva o invólucro diretamente, como acima.
+- **Decoradores com membros extras**: um decorador pode acrescentar uma operação própria (um método para limpar o cache). Quem usa essa operação precisa manter o decorador concreto, e então perde a transparência.
+- **Componente leve**: mantenha a interface compartilhada restrita a comportamento, não a dados. Um componente pesado torna cada invólucro caro. Quando o componente é pesado, dê a ele um objeto auxiliar substituível (uma estratégia) para a parte que varia.
+- **Estratégia em vez de envolver**: o próprio componente guarda um objeto de comportamento substituível. Isso muda o interior do objeto e permite que a estratégia tenha uma interface própria e estreita, mas o componente precisa conhecer o ponto de extensão.
 
-## Risks and C# alternatives
-- For HTTP specifically, .NET already has this pattern: `DelegatingHandler` stacked on `HttpClient`. Use it instead of writing a new decorator chain when you use `HttpClient`.
-- A cross-cutting decorator on a large interface means writing every member by hand. Source generators, a dynamic proxy library or middleware pipelines (delegates of the form `Func<Request, Func<Request, Task>, Task>`) reduce that repetition.
-- In a DI container, register decorators by wrapping the registration of the inner service, so that no consumer builds the stack itself.
-- Dispose chains correctly: if the inner object is `IDisposable`, the decorator that owns it must dispose it (or leave that to the container, but only one place should do it).
-- Caching state inside a decorator needs a bound on size and a lifetime. The dictionary above grows forever and is not thread-safe, which is fine only for an illustration.
+## Riscos e alternativas em C#
+- Para HTTP, o .NET já tem esse padrão: `DelegatingHandler` empilhado sobre `HttpClient`. Use-o, em vez de escrever uma nova cadeia de decoradores, quando você usa `HttpClient`.
+- Um decorador transversal sobre uma interface grande obriga a escrever cada membro à mão. Source generators, uma biblioteca de proxy dinâmico ou pipelines de middleware (delegates da forma `Func<Request, Func<Request, Task>, Task>`) reduzem essa repetição.
+- Em um contêiner de DI, registre os decoradores envolvendo o registro do serviço interno, para que nenhum consumidor monte a pilha por conta própria.
+- Descarte as cadeias corretamente: se o objeto interno é `IDisposable`, o decorador que o possui deve descartá-lo (ou deixar isso para o contêiner, mas apenas um lugar deve fazê-lo).
+- Cache dentro de um decorador precisa de um limite de tamanho e de um tempo de vida. O dicionário acima cresce para sempre e não é seguro para threads; ele serve apenas para ilustrar.
 
-## Related patterns
-- [adapter.md](adapter.md): changes the interface; a decorator keeps it and adds responsibilities.
-- [composite.md](composite.md): same recursive shape, different purpose. A decorator can be seen as a composite with one child that adds behavior rather than aggregating. They are often used together.
-- [strategy.md](../behavioral/strategy.md): changes the object's insides instead of wrapping its skin. Prefer it when the component is heavy.
-- [proxy.md](proxy.md): similar in implementation, but a proxy controls access to its subject, while a decorator adds responsibilities and can be stacked.
+## Padrões relacionados
+- [adapter.md](adapter.md): muda a interface; um decorador mantém a interface e acrescenta responsabilidades.
+- [composite.md](composite.md): a mesma forma recursiva, com propósito diferente. Um decorador pode ser visto como um composite com um único filho que acrescenta comportamento em vez de agregar. Muitas vezes são usados juntos.
+- [strategy.md](../behavioral/strategy.md): muda o interior do objeto em vez de envolver sua casca. Prefira-o quando o componente é pesado.
+- [proxy.md](proxy.md): semelhante na implementação, mas um proxy controla o acesso ao seu sujeito, enquanto um decorador acrescenta responsabilidades e pode ser empilhado.
 
-## Verification
-- Each decorator has one reason to exist and can be removed from the stack without breaking the others.
-- Callers depend only on the component interface and never on a decorator type.
-- A test per decorator uses a fake inner component. One test checks the combined order (for example that a cache hit makes no inner call).
-- Disposal and exceptions pass through correctly: an exception from the inner call is either handled on purpose or propagates unchanged.
+## Verificação
+- Cada decorador tem uma razão de existir e pode ser removido da pilha sem quebrar os outros.
+- Os chamadores dependem apenas da interface do componente e nunca de um tipo decorador.
+- Um teste por decorador usa um componente interno falso. Um teste verifica a ordem combinada (por exemplo, que um acerto no cache não faz nenhuma chamada interna).
+- Descarte e exceções passam corretamente: uma exceção da chamada interna é tratada de propósito ou se propaga sem alterações.

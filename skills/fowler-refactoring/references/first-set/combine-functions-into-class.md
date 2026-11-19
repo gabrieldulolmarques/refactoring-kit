@@ -1,40 +1,41 @@
-# Combine Functions into Class
+# Combinar Funções em Classe (Combine Functions into Class)
 
-Fowler (2018), ch. 6. Formerly / aka: —. Inverse: —. Alternative:
-Combine Functions into Transform ([combine-functions-into-transform.md](combine-functions-into-transform.md)).
+Fowler (2018), cap. 6. Nome anterior / outro nome: —. Inversa: —. Alternativa:
+Combinar Funções em Transformação (Combine Functions into Transform) ([combine-functions-into-transform.md](combine-functions-into-transform.md)).
 
-## When to use
-Smells: Long Parameter List, Mutable Data, Shotgun Surgery.
+## Quando usar
+Smells: Lista Longa de Parâmetros (Long Parameter List), Dados Mutáveis (Mutable Data), Cirurgia com Espingarda (Shotgun Surgery).
 
-- Several functions receive the same record (or the same few values) and compute things
-  from it. A class makes that shared environment explicit and lets the calls drop the
-  repeated arguments.
-- The same derived value is calculated inline in several clients, or a helper exists but
-  nobody finds it because it is a free function far from the data.
-- The source data can change after it is read. Methods compute derived values on demand,
-  so they stay consistent with the data. A transform that copies derived values into a new
-  record goes stale when the source changes; prefer the class in that case.
-- Prefer a class over a function nested in another function: it is easier to test, and it
-  is needed when more than one of the functions must be visible to other code.
+- Várias funções recebem o mesmo registro (ou os mesmos poucos valores) e calculam coisas
+  a partir dele. Uma classe torna explícito esse ambiente compartilhado e permite que as chamadas dispensem
+  os argumentos repetidos.
+- O mesmo valor derivado é calculado diretamente em vários clientes, ou existe um auxiliar mas
+  ninguém o encontra porque é uma função livre longe dos dados.
+- Os dados de origem podem mudar depois de lidos. Os métodos calculam valores derivados sob demanda,
+  então permanecem consistentes com os dados. Uma transformação que copia valores derivados para um novo
+  registro fica desatualizada quando a origem muda; prefira a classe nesse caso.
+- Prefira uma classe a uma função aninhada em outra função: é mais fácil de testar, e
+  é necessária quando mais de uma das funções precisa ficar visível para outro código.
 
-Do not use it for a single function (just move it) or when the functions share no data.
+Não use para uma única função (basta movê-la) nem quando as funções não compartilham dados.
 
-## Mechanics
-1. Make sure the shared data is one structure. If it is a loose record, dictionary or tuple,
-   wrap it in a class ([encapsulate-record.md](../encapsulation/encapsulate-record.md)). If it is only a group of separate
-   arguments, first bundle them ([introduce-parameter-object.md](introduce-parameter-object.md)).
-2. Build the new instance where the data is first obtained, so clients hold the object
-   instead of the raw data.
-3. Move one function at a time into the class ([move-function.md](../moving-features/move-function.md)). Parameters that are
-   now members of the class disappear from the signature. Update the callers and test.
-4. Rename each moved function if its name repeated the data type or reads badly as a
-   method or property.
-5. Replace each duplicated inline calculation in the clients with a call to the new method.
-6. Look for logic in the clients that works on the data. Extract it
-   ([extract-function.md](extract-function.md)), then move it into the class too. Test after each one.
+## Mecânica
+1. Garanta que os dados compartilhados sejam uma única estrutura. Se for um registro solto, dicionário ou tupla,
+   envolva-o em uma classe ([encapsulate-record.md](../encapsulation/encapsulate-record.md)). Se for apenas um grupo de argumentos
+   separados, agrupe-os primeiro ([introduce-parameter-object.md](introduce-parameter-object.md)).
+2. Crie a nova instância onde os dados são obtidos pela primeira vez, para que os clientes guardem o objeto
+   em vez dos dados brutos.
+3. Mova uma função de cada vez para a classe ([move-function.md](../moving-features/move-function.md)). Os parâmetros que
+   agora são membros da classe somem da assinatura. Atualize os chamadores e teste.
+4. Renomeie cada função movida se o nome dela repetia o tipo dos dados ou fica ruim como
+   método ou propriedade.
+5. Substitua cada cálculo duplicado, escrito diretamente nos clientes, por uma chamada ao novo método.
+6. Procure lógica nos clientes que trabalhe sobre os dados. Extraia-a
+   ([extract-function.md](extract-function.md)) e mova-a também para a classe. Teste após cada uma.
 
-## Example
-Before: free functions that all take the same mutable record.
+## Exemplo
+
+Antes: funções livres que recebem o mesmo registro mutável.
 
 ```csharp
 public class CartData
@@ -56,13 +57,13 @@ public static class CartPricing
         Subtotal(cart) * (1 - MemberDiscountRate(cart.IsMember));
 }
 
-// clients
+// clientes
 // var data = LoadCart();
-// decimal subtotal = data.Quantity * data.UnitPrice;         // duplicated formula
+// decimal subtotal = data.Quantity * data.UnitPrice;         // fórmula duplicada
 // decimal payable = CartPricing.Payable(data);
 ```
 
-After: the record becomes the state of a class and the functions become members.
+Depois: o registro se torna o estado de uma classe, e as funções se tornam membros.
 
 ```csharp
 public class Cart
@@ -83,14 +84,14 @@ public class Cart
     public decimal Payable => Subtotal * (1 - MemberDiscountRate);
 }
 
-// clients
+// clientes
 // var cart = new Cart(LoadCart());
 // decimal subtotal = cart.Subtotal;
 // decimal payable = cart.Payable;
 ```
 
-Every derived value is computed on demand, so if `Quantity` changes later, `Subtotal` and
-`Payable` still agree with it. Callers cannot tell a stored value from a derived one.
+Cada valor derivado é calculado sob demanda, então, se `Quantity` mudar depois, `Subtotal` e
+`Payable` continuam coerentes com ele. Os chamadores não conseguem distinguir um valor armazenado de um derivado.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.

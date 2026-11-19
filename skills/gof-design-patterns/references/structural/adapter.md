@@ -1,25 +1,25 @@
 # Adapter
 
-Gamma et al. (1995), ch. 4. Also known as: Wrapper. Category: class, object structural.
+Gamma et al. (1995), cap. 4. Também conhecido como: Wrapper. Categoria: estrutural de classe e de objeto.
 
-## Intent
-Make a class whose interface does not match what the client expects usable through the interface the client wants. The adapter translates calls, and the existing class stays unchanged.
+## Intenção
+Tornar utilizável, pela interface que o cliente espera, uma classe cuja interface não corresponde a essa expectativa. O adaptador traduz as chamadas, e a classe existente permanece inalterada.
 
-## When it pays off
-- You must reuse an existing class (a vendor SDK, a legacy service) whose members, units or data shapes differ from the interface your code is written against.
-- You are writing a reusable component that should work with classes you cannot predict, and you would rather accept a narrow interface than force a base class on everyone.
-- One object adapter can serve the adaptee and all its subclasses. It can also add behavior the adaptee lacks.
-- Liability: the adapted object no longer is the adaptee type, so code that expects the original type cannot receive the adapter. A two-way adapter (implements both interfaces) solves that, at the cost of more code.
-- Skip it when you own the adaptee and can simply change it, or when the translation is a single call site (a lambda or local function is enough).
+## Quando compensa
+- Você precisa reutilizar uma classe existente (um SDK de fornecedor, um serviço legado) cujos membros, unidades ou formatos de dados diferem da interface em que o seu código foi escrito.
+- Você escreve um componente reutilizável que deve funcionar com classes que não podem ser previstas, e prefere aceitar uma interface enxuta a impor uma classe base a todos.
+- Um único adaptador de objeto pode atender ao adaptado e a todas as suas subclasses. Ele também pode acrescentar um comportamento que o adaptado não tem.
+- Custo: o objeto adaptado deixa de ser do tipo adaptado, então o código que espera o tipo original não pode receber o adaptador. Um adaptador de duas vias (que implementa as duas interfaces) resolve isso, ao custo de mais código.
+- Não vale a pena quando você controla o adaptado e pode simplesmente alterá-lo, ou quando a tradução é um único ponto de chamada (um lambda ou uma função local bastam).
 
-## Participants in C#
-- **Target** (`IPaymentProcessor`): the interface the client code is written against, a C# interface.
-- **Client** (`CheckoutService`): uses only the target.
-- **Adaptee** (`LegacyGatewayClient`): the existing class with an incompatible interface. It stays untouched.
-- **Adapter** (`LegacyGatewayAdapter`): a class that implements the target and holds the adaptee in a field (object adapter). C# has no multiple class inheritance, so the class form is rare.
+## Participantes em C#
+- **Target** (`IPaymentProcessor`): a interface em que o código cliente é escrito, uma interface C#.
+- **Client** (`CheckoutService`): usa apenas o target.
+- **Adaptee** (`LegacyGatewayClient`): a classe existente com interface incompatível. Ela permanece intacta.
+- **Adapter** (`LegacyGatewayAdapter`): classe que implementa o target e guarda o adaptado em um campo (adaptador de objeto). C# não tem herança múltipla de classes, então a forma de classe é rara.
 
-## Example (C#)
-A checkout charges through `IPaymentProcessor`, with decimal amounts and a result object. A legacy gateway takes integer cents and returns a status string. The adapter converts both ways.
+## Exemplo (C#)
+Um checkout cobra por meio de `IPaymentProcessor`, com valores em decimal e um objeto de resultado. Um gateway legado recebe centavos inteiros e devolve uma string de status. O adaptador converte nos dois sentidos.
 
 ```csharp
 using System;
@@ -41,7 +41,7 @@ public interface IPaymentProcessor
     PaymentResult Charge(string customerId, decimal amount, string currency);
 }
 
-// Existing class we do not control.
+// Classe existente que não controlamos.
 public class LegacyGatewayClient
 {
     public string SubmitTransaction(string account, long amountInCents, string currencyCode)
@@ -91,26 +91,26 @@ public static class Program
 }
 ```
 
-## Variations
-- **Class adapter**: inherit from the adaptee and implement the target. It can override adaptee behavior, but it binds to one concrete adaptee and does not cover its subclasses. In C# it works when the adaptee is not sealed, and the adapter then implements the target interface on top of the base class.
-- **Amount of adaptation**: from renaming methods, to converting data, to supplying whole operations the adaptee has no equivalent for (the adapter then implements them itself).
-- **Pluggable adapter**: a reusable component finds the narrowest interface it needs from the thing it works on (for example "give me a node's label and its children") and gets it by one of three routes: abstract members that subclasses fill in, a delegate object that implements a small interface, or delegates (`Func<>`) passed to the constructor.
-- **Two-way adapter**: implements both interfaces, so the adapted object can be used where either type is expected.
+## Variações
+- **Adaptador de classe**: herda do adaptado e implementa o target. Pode sobrescrever o comportamento do adaptado, mas fica preso a uma classe concreta e não cobre as suas subclasses. Em C# funciona quando o adaptado não é `sealed`, e o adaptador então implementa a interface target sobre a classe base.
+- **Quantidade de adaptação**: desde renomear métodos, passando por converter dados, até fornecer operações inteiras que o adaptado não tem (o adaptador então as implementa por conta própria).
+- **Adaptador plugável**: um componente reutilizável identifica a interface mais estreita de que precisa a partir do objeto com que trabalha (por exemplo, "dê-me o rótulo de um nó e os seus filhos") e a obtém por uma de três rotas: membros abstratos que as subclasses preenchem, um objeto delegado que implementa uma interface pequena, ou delegates (`Func<>`) passados ao construtor.
+- **Adaptador de duas vias**: implementa as duas interfaces, para que o objeto adaptado possa ser usado onde qualquer um dos tipos for esperado.
 
-## Risks and C# alternatives
-- When the adaptation is one or two members, pass `Func<>` delegates to the consumer instead of defining an interface and a class. This is the parameterized form of the pluggable adapter.
-- Put the adapter at the boundary and register it in the dependency injection container as the implementation of the target interface. Do not let the adaptee type leak into the rest of the code, or the adapter protects nothing.
-- Convert units, null conventions and error styles (status strings, error codes) inside the adapter, and turn them into the exceptions or result types the rest of the code uses.
-- Do not let the adapter grow business rules. Once it decides things, it is a service with a translation inside.
+## Riscos e alternativas em C#
+- Quando a adaptação envolve um ou dois membros, passe delegates `Func<>` ao consumidor em vez de definir uma interface e uma classe. Esta é a forma parametrizada do adaptador plugável.
+- Coloque o adaptador na fronteira e registre-o no contêiner de injeção de dependência como implementação da interface target. Não deixe o tipo adaptado vazar para o restante do código, ou o adaptador não protege nada.
+- Converta unidades, convenções de nulo e estilos de erro (strings de status, códigos de erro) dentro do adaptador, e transforme-os nas exceções ou tipos de resultado que o restante do código usa.
+- Não deixe o adaptador crescer com regras de negócio. Quando ele passa a decidir coisas, vira um serviço com uma tradução dentro.
 
-## Related patterns
-- [bridge.md](bridge.md): similar structure, but a bridge is planned up front so that an abstraction and its implementations vary independently. An adapter fixes a mismatch after the fact between existing parts.
-- [decorator.md](decorator.md): keeps the interface and adds behavior, so it is transparent and can be stacked. An adapter changes the interface.
-- [proxy.md](proxy.md): offers the same interface as its subject and controls access to it. An adapter offers a different one.
-- [facade.md](facade.md): defines a new, simpler interface over a group of objects. An adapter reuses an interface that already exists on the client side.
+## Padrões relacionados
+- [bridge.md](bridge.md): estrutura parecida, mas a Bridge é planejada desde o início para que uma abstração e suas implementações variem de forma independente. O adaptador corrige, depois do fato, uma incompatibilidade entre partes já existentes.
+- [decorator.md](decorator.md): mantém a interface e acrescenta comportamento, então é transparente e pode ser empilhado. O adaptador muda a interface.
+- [proxy.md](proxy.md): oferece a mesma interface do seu sujeito e controla o acesso a ele. O adaptador oferece uma interface diferente.
+- [facade.md](facade.md): define uma interface nova e mais simples sobre um grupo de objetos. O adaptador reutiliza uma interface que já existe do lado do cliente.
 
-## Verification
-- Client code compiles against the target interface only and no longer mentions the adaptee type.
-- A test feeds edge values (zero, rounding, a declined response) through the adapter and checks the converted result, not just the happy path.
-- The adaptee class has no changes in its source.
-- If you also inject a fake target in tests, the client tests need no adapter at all.
+## Verificação
+- O código cliente compila apenas contra a interface target e não menciona mais o tipo adaptado.
+- Um teste alimenta valores de borda (zero, arredondamento, uma resposta de recusa) pelo adaptador e verifica o resultado convertido, não só o caminho feliz.
+- A classe adaptada não tem nenhuma mudança no seu código-fonte.
+- Se você também injeta um target falso nos testes, os testes do cliente não precisam de adaptador algum.

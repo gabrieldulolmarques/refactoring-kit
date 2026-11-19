@@ -1,27 +1,27 @@
 # Command
 
-Gamma et al. (1995), ch. 5. Also known as: Action, Transaction. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Também conhecido como: Action, Transaction. Categoria: comportamental de objeto.
 
-## Intent
-Turn a request into an object. That lets you pass requests around as values, parameterize callers with them, queue or log them, and undo them.
+## Intenção
+Transformar uma requisição em um objeto. Isso permite passar requisições como valores, parametrizar quem chama com elas, enfileirá-las ou registrá-las em log, e desfazê-las.
 
-## When it pays off
-- An object must trigger an action without knowing what it does or on whom (buttons, menu items, schedulers, job queues). A command object replaces the callback.
-- Requests must be queued, run later, logged, replayed after a crash, or sent to another process.
-- You need undo and redo: the command keeps what it needs to reverse itself, and a history list gives multiple levels.
-- The system is organized around high-level operations built from primitive ones, as in transaction-based information systems: a command encapsulates a set of changes to data, and all commands share one interface.
-- Benefits: the invoker is decoupled from the receiver, commands are first-class objects, they compose into macros, and new commands need no change to existing classes.
-- Liability: one class per action can be heavy. For a simple callback that needs no undo or data, a delegate is enough.
+## Quando compensa
+- Um objeto precisa disparar uma ação sem saber o que ela faz nem sobre quem atua (botões, itens de menu, agendadores, filas de trabalho). Um objeto de comando substitui o callback.
+- Requisições precisam ser enfileiradas, executadas depois, registradas em log, reexecutadas após uma falha ou enviadas a outro processo.
+- Você precisa de desfazer e refazer: o comando guarda o que precisa para se reverter, e uma lista de histórico dá vários níveis.
+- O sistema é organizado em torno de operações de alto nível construídas a partir de operações primitivas, como nos sistemas de informação baseados em transações: um comando encapsula um conjunto de alterações nos dados, e todos os comandos compartilham uma única interface.
+- Benefícios: o invocador fica desacoplado do receptor, os comandos são objetos de primeira classe, eles se compõem em macros, e novos comandos não exigem mudança nas classes existentes.
+- Custo: uma classe por ação pode ser pesada. Para um callback simples, que não precisa de desfazer nem de dados, um delegate basta.
 
-## Participants in C#
-- **Command** (`ICartCommand`): interface with `Execute` and, if undo is supported, `Undo`.
-- **ConcreteCommand** (`AddItemCommand`, `ApplyCouponCommand`, `MacroCommand`): binds a receiver to an action, stores the arguments and the data needed to undo.
-- **Receiver** (`Cart`): knows how to do the real work.
-- **Invoker** (`CartHistory`): runs commands and keeps the history for undo and redo.
-- **Client** (`Program`): creates the concrete commands and hands them to the invoker.
+## Participantes em C#
+- **Command** (`ICartCommand`): interface com `Execute` e, se houver suporte a desfazer, `Undo`.
+- **ConcreteCommand** (`AddItemCommand`, `ApplyCouponCommand`, `MacroCommand`): liga um receptor a uma ação, guarda os argumentos e os dados necessários para desfazer.
+- **Receiver** (`Cart`): sabe executar o trabalho real.
+- **Invoker** (`CartHistory`): executa os comandos e mantém o histórico para desfazer e refazer.
+- **Client** (`Program`): cria os comandos concretos e os entrega ao invocador.
 
-## Example (C#)
-An online checkout cart whose changes can be undone. The invoker stores executed commands on a stack; each command captures what it needs to reverse itself.
+## Exemplo (C#)
+Um carrinho de compras online cujas alterações podem ser desfeitas. O invocador guarda os comandos executados em uma pilha; cada comando captura o que precisa para se reverter.
 
 ```csharp
 using System;
@@ -64,7 +64,7 @@ public class AddItemCommand : ICartCommand
 
     public void Execute()
     {
-        _previous = _cart.QuantityOf(_sku);   // state needed to reverse exactly
+        _previous = _cart.QuantityOf(_sku);   // estado necessário para reverter com exatidão
         _cart.SetQuantity(_sku, _previous + _amount);
     }
 
@@ -105,7 +105,7 @@ public class MacroCommand : ICartCommand
 
     public void Undo()
     {
-        for (int i = _commands.Count - 1; i >= 0; i--) _commands[i].Undo(); // reverse order
+        for (int i = _commands.Count - 1; i >= 0; i--) _commands[i].Undo(); // ordem inversa
     }
 }
 
@@ -118,7 +118,7 @@ public class CartHistory
     {
         command.Execute();
         _done.Push(command);
-        _undone.Clear();   // a new action invalidates the redo branch
+        _undone.Clear();   // uma nova ação invalida o ramo de refazer
     }
 
     public void Undo()
@@ -152,35 +152,35 @@ public static class Program
             new ApplyCouponCommand(cart, "WELCOME10"),
         }));
 
-        history.Undo();   // removes sku-2 and the coupon together
+        history.Undo();   // remove sku-2 e o cupom juntos
         Console.WriteLine($"{cart.QuantityOf("sku-1")} {cart.QuantityOf("sku-2")} {cart.Coupon ?? "none"}");
     }
 }
 ```
 
-## Variations
-- **How smart the command is.** At one end it only binds a receiver to a call. At the other it does the whole job itself, with no receiver, which suits actions that fit no existing class.
-- **Undo and redo.** The command stores the receiver, the arguments and the receiver's previous values. One level needs only the last command; several levels need a history list whose maximum length is the number of levels.
-- **Copy before storing.** If one command object is reused for many invocations and its state differs each time, store a copy in the history, not the shared object. If its state never changes after execution, keep the reference.
-- **Avoiding drift.** Repeated undo and redo can accumulate small errors. Store the exact previous state (a snapshot) instead of recomputing a reverse operation when exactness matters.
-- **Macro commands.** A composite of commands. Its undo must run the parts in reverse order.
-- **Logging for recovery.** Commands that can be serialized can be written to a log and re-executed after a failure.
+## Variações
+- **Quão inteligente é o comando.** Em uma ponta, ele apenas liga um receptor a uma chamada. Na outra, faz todo o trabalho sozinho, sem receptor, o que serve a ações que não se encaixam em nenhuma classe existente.
+- **Desfazer e refazer.** O comando guarda o receptor, os argumentos e os valores anteriores do receptor. Um nível precisa apenas do último comando; vários níveis exigem uma lista de histórico cujo tamanho máximo é o número de níveis.
+- **Copiar antes de guardar.** Se um mesmo objeto de comando é reutilizado em muitas invocações e seu estado muda a cada vez, guarde uma cópia no histórico, e não o objeto compartilhado. Se o estado nunca muda após a execução, mantenha a referência.
+- **Evitar desvio.** Desfazer e refazer repetidamente pode acumular pequenos erros. Guarde o estado anterior exato (um snapshot), em vez de recalcular uma operação inversa, quando a exatidão importar.
+- **Comandos macro.** Um composto de comandos. Seu desfazer deve executar as partes em ordem inversa.
+- **Registro para recuperação.** Comandos que podem ser serializados podem ser gravados em log e reexecutados após uma falha.
 
-## Risks and C# alternatives
-- If there is no undo and no data to carry, a delegate (`Action`, `Func<Task>`) is the command. Use a class only when you need state, undo, naming or serialization.
-- A command that stores a snapshot rather than a delta uses more memory. Cap the history length.
-- Commands in a queue that run later may see a receiver in a different state. Make them check preconditions in `Execute`.
-- `async` commands: return `Task` from `ExecuteAsync` and decide what undo means if the action already left the process (an e-mail cannot be unsent; model a compensating command).
-- Request/handler libraries that dispatch `IRequest` objects to handlers apply the same idea, with the handler as the receiver.
+## Riscos e alternativas em C#
+- Se não há desfazer nem dados a carregar, um delegate (`Action`, `Func<Task>`) é o comando. Use uma classe apenas quando precisar de estado, desfazer, nome ou serialização.
+- Um comando que guarda um snapshot em vez de um delta usa mais memória. Limite o tamanho do histórico.
+- Comandos em uma fila que rodam depois podem encontrar o receptor em outro estado. Faça-os verificar as pré-condições em `Execute`.
+- Comandos `async`: retorne `Task` de `ExecuteAsync` e decida o que desfazer significa se a ação já saiu do processo (um e-mail não pode ser "desenviado"; modele um comando compensatório).
+- Bibliotecas de requisição/handler que despacham objetos `IRequest` para handlers aplicam a mesma ideia, com o handler no papel de receptor.
 
-## Related patterns
-- [Composite](../structural/composite.md): implements macro commands.
-- [Memento](memento.md): keeps the state a command needs to undo its effect.
-- [Prototype](../creational/prototype.md): a command that must be copied before entering the history list acts as a prototype.
-- [Chain of Responsibility](chain-of-responsibility.md): commands are often the requests that travel along a chain.
+## Padrões relacionados
+- [Composite](../structural/composite.md): implementa comandos macro.
+- [Memento](memento.md): guarda o estado que um comando precisa para desfazer seu efeito.
+- [Prototype](../creational/prototype.md): um comando que precisa ser copiado antes de entrar na lista de histórico atua como protótipo.
+- [Chain of Responsibility](chain-of-responsibility.md): comandos são frequentemente as requisições que percorrem uma cadeia.
 
-## Verification
-- Executing and then undoing a command leaves the receiver exactly as before, for each command and for a macro.
-- The invoker compiles without references to concrete commands or receivers.
-- Undo after redo after undo returns to a consistent state (no drift).
-- Adding a new action means adding one class and no edit to the invoker or the history.
+## Verificação
+- Executar e depois desfazer um comando deixa o receptor exatamente como estava, para cada comando e para uma macro.
+- O invocador compila sem referências a comandos ou receptores concretos.
+- Desfazer, refazer e desfazer de novo leva a um estado consistente (sem desvio).
+- Adicionar uma nova ação significa adicionar uma classe e nenhuma edição no invocador ou no histórico.

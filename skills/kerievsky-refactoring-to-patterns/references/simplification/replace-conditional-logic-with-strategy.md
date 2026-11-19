@@ -1,31 +1,31 @@
-# Replace Conditional Logic with Strategy
+# Substituir Lógica Condicional por Strategy (Replace Conditional Logic with Strategy)
 
-Kerievsky (2004), ch. 7. Pattern: Strategy. Direction: to, towards.
+Kerievsky (2004), cap. 7. Padrão: Strategy. Direção: até, rumo a.
 
-## When to use
-Smells: Conditional Complexity, Long Method, Primitive Obsession.
+## Quando usar
+Smells: Complexidade Condicional (Conditional Complexity), Método Longo (Long Method), Obsessão por Primitivos (Primitive Obsession).
 
-- A calculation method holds a lot of conditional logic that picks one of several variants of an algorithm, and small helper methods that serve only one variant are crowding the class.
-- Prefer a Strategy (composition) over [replace-conditional-with-polymorphism.md](../../../fowler-refactoring/references/conditional-logic/replace-conditional-with-polymorphism.md) (inheritance) when the host class has no subclasses yet, when subclassing would multiply classes (this reason is the skill's, not the book's), or when callers must swap the algorithm at runtime without changing the object's class.
-- If the host already has subclasses that map cleanly to the variants, or one type code drives the conditionals, polymorphism is simpler.
-- Liabilities: it complicates the design if a simpler conditional refactoring was enough, and the strategies now need a way to read the context's data (see step 2).
+- Um método de cálculo tem muita lógica condicional que escolhe uma entre várias variantes de um algoritmo, e pequenos métodos auxiliares que servem a uma única variante estão lotando a classe.
+- Prefira uma Strategy (composição) a [replace-conditional-with-polymorphism.md](../../../fowler-refactoring/references/conditional-logic/replace-conditional-with-polymorphism.md) (herança) quando a classe hospedeira ainda não tem subclasses, quando criar subclasses multiplicaria classes (esta razão é da skill, não do livro), ou quando os chamadores precisam trocar o algoritmo em tempo de execução sem mudar a classe do objeto.
+- Se o hospedeiro já tem subclasses que mapeiam bem para as variantes, ou se um código de tipo dirige os condicionais, o polimorfismo é mais simples.
+- Desvantagens: complica o design quando uma refatoração condicional mais simples bastaria, e as strategies agora precisam de um jeito de ler os dados do contexto (veja o passo 2).
 
-## Mechanics
-Identify the context: the class with the calculation method full of conditionals.
+## Mecânica
+Identifique o contexto: a classe com o método de cálculo cheio de condicionais.
 
-1. Create a concrete class, the strategy, named after what the calculation does (a `Strategy` suffix is fine). It becomes a real concrete strategy by the end.
-2. Apply Move Function ([move-function.md](../../../fowler-refactoring/references/moving-features/move-function.md)) to move the calculation method to the strategy. Keep a method on the context that delegates to it through a new field. Decide how the strategy gets its data:
-   - Pass the context (to the constructor or the method). Fewer parameters, and new context members are available at once, but the context must expose more of itself.
-   - Pass only the data, as parameters. Least coupling, but every strategy receives data it may not need. If the list grows long, apply Introduce Parameter Object ([introduce-parameter-object.md](../../../fowler-refactoring/references/first-set/introduce-parameter-object.md)) or pass the context instead. Data needed by one variant only can go to that variant's constructor later.
+1. Crie uma classe concreta, a strategy, com nome que descreva o que o cálculo faz (um sufixo `Strategy` serve). Ela se torna uma strategy concreta de verdade ao final.
+2. Aplique Mover Função (Move Function) ([move-function.md](../../../fowler-refactoring/references/moving-features/move-function.md)) para mover o método de cálculo para a strategy. Mantenha no contexto um método que delega a ela por meio de um novo campo. Decida como a strategy receberá seus dados:
+   - Passe o contexto (no construtor ou no método). Menos parâmetros, e os novos membros do contexto ficam disponíveis de imediato, mas o contexto precisa expor mais de si mesmo.
+   - Passe apenas os dados, como parâmetros. Menor acoplamento, mas cada strategy recebe dados que pode não usar. Se a lista crescer, aplique Introduzir Objeto de Parâmetros (Introduce Parameter Object) ([introduce-parameter-object.md](../../../fowler-refactoring/references/first-set/introduce-parameter-object.md)) ou passe o contexto. Dados que só uma variante usa podem ir para o construtor dela depois.
 
-   Move helper methods used only by the calculation into the strategy. Compile and test.
-3. Let clients choose the strategy: apply Extract Parameter ([extract-parameter.md](../utilities/extract-parameter.md)) on the context code that creates the strategy and assigns the field. Compile and test.
-4. Apply Replace Conditional with Polymorphism ([replace-conditional-with-polymorphism.md](../../../fowler-refactoring/references/conditional-logic/replace-conditional-with-polymorphism.md)) to the strategy's calculation method. Use Replace Type Code with Subclasses ([replace-type-code-with-subclasses.md](../../../fowler-refactoring/references/inheritance/replace-type-code-with-subclasses.md)) as its first step, even if the variants are only implied by conditions and there is no explicit code. Build one subclass at a time, and make the strategy abstract (or an interface) if you can. Compile and test with every combination of context and concrete strategy.
+   Mova para a strategy os métodos auxiliares usados apenas pelo cálculo. Compile e teste.
+3. Deixe os clientes escolherem a strategy: aplique Extrair Parâmetro (Extract Parameter) ([extract-parameter.md](../utilities/extract-parameter.md)) ao código do contexto que cria a strategy e atribui o campo. Compile e teste.
+4. Aplique Substituir Condicional por Polimorfismo (Replace Conditional with Polymorphism) ([replace-conditional-with-polymorphism.md](../../../fowler-refactoring/references/conditional-logic/replace-conditional-with-polymorphism.md)) ao método de cálculo da strategy. Use Substituir Código de Tipo por Subclasses (Replace Type Code with Subclasses) ([replace-type-code-with-subclasses.md](../../../fowler-refactoring/references/inheritance/replace-type-code-with-subclasses.md)) como primeiro passo, mesmo que as variantes estejam só implícitas nas condições e não exista código explícito. Crie uma subclasse por vez, e torne a strategy abstrata (ou uma interface), se for possível. Compile e teste com todas as combinações de contexto e strategy concreta.
 
-**Beyond the book:** the book's mechanics stop at step 4. Optionally, if the context is built in many places, hide strategy construction behind a creation method ([encapsulate-classes-with-factory.md](../creation/encapsulate-classes-with-factory.md)); the book's Motivation points to Encapsulate Classes with Factory for this.
+**Além do livro:** a mecânica do livro termina no passo 4. Opcionalmente, se o contexto for construído em muitos lugares, esconda a construção da strategy atrás de um método de criação ([encapsulate-classes-with-factory.md](../creation/encapsulate-classes-with-factory.md)); a Motivação do livro aponta Encapsular Classes com Factory para isso.
 
-## Example
-Before: the payment method is guessed from which nullable fields are set, and one combination falls through to zero.
+## Exemplo
+Antes: o método de pagamento é deduzido a partir de quais campos anuláveis estão preenchidos, e uma combinação cai no zero.
 
 ```csharp
 public class Payment
@@ -59,7 +59,7 @@ public class Payment
 }
 ```
 
-After: each method is a strategy and the payment is handed one. The payment passes itself because the strategies read several of its properties. The impossible "both set" case is gone, because the caller now chooses the method explicitly. Swapping is a property assignment.
+Depois: cada método vira uma strategy, e o pagamento recebe uma delas. O pagamento se passa como argumento porque as strategies leem várias de suas propriedades. O caso impossível de "os dois preenchidos" desaparece, porque o chamador agora escolhe o método explicitamente. Trocar é uma atribuição de propriedade.
 
 ```csharp
 public interface IFeeStrategy
@@ -102,10 +102,11 @@ public class Payment
 }
 ```
 
-## C# notes
-- An interface is enough when the strategies share no code. Use an abstract class if they share helpers.
-- Stateless strategies can be shared as `static readonly` instances. Do it when a profiler asks for it, not before.
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- A test per concrete strategy, plus one that swaps the strategy on an existing context and checks the new result.
-- Check that no input the old conditional accepted is now unreachable or priced differently (here, the old zero fall-through).
+## Notas (C#)
+- Uma interface basta quando as strategies não compartilham código. Use uma classe abstrata se elas compartilharem auxiliares.
+- Strategies sem estado podem ser compartilhadas como instâncias `static readonly`. Faça isso quando um profiler pedir, não antes.
+
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Um teste por strategy concreta, mais um que troca a strategy em um contexto existente e verifica o novo resultado.
+- Confira que nenhuma entrada que o condicional antigo aceitava ficou inalcançável ou com preço diferente (aqui, a queda para zero antiga).

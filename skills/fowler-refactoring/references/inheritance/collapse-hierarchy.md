@@ -1,31 +1,31 @@
-# Collapse Hierarchy
+# Colapsar Hierarquia (Collapse Hierarchy)
 
-Fowler (2018), ch. 12. Formerly / aka: —. Inverse: —.
+Fowler (2018), cap. 12. Nome anterior / outro nome: —. Inversa: —.
 
-## When to use
-Smells: Lazy Element, Speculative Generality.
+## Quando usar
+Smells: Elemento Ocioso (Lazy Element), Generalidade Especulativa (Speculative Generality).
 
-- After pulling members up and pushing them down, a class and its parent may end up so
-  similar that the split carries no meaning. Merge them.
-- A base class with a single subclass, where no second subclass is planned, is the usual case.
-- Do not collapse when the two classes still model a real distinction, or when other
-  subclasses depend on the intermediate level.
+- Depois de subir e descer membros, uma classe e a sua superclasse podem acabar tão
+  parecidas que a divisão não carrega significado. Una-as.
+- Uma classe base com uma única subclasse, sem segunda subclasse planejada, é o caso usual.
+- Não colapse quando as duas classes ainda modelam uma distinção real, ou quando outras
+  subclasses dependem do nível intermediário.
 
-## Mechanics
-1. Decide which class survives. Prefer the name that will make the most sense going forward;
-   if both are equally good, pick either.
-2. Move every member of the class being removed into the survivor, one at a time, using the
-   pull up / push down refactorings as needed ([pull-up-method.md](pull-up-method.md),
-   [pull-up-field.md](pull-up-field.md), [push-down-method.md](push-down-method.md), [push-down-field.md](push-down-field.md)). Compile and
-   test after each move.
-3. Update every reference to the class being removed (declarations, casts, `new` calls,
-   generic arguments, type checks) so it points at the survivor. Compile and test.
-4. Delete the now empty class.
-5. Compile and run the tests.
+## Mecânica
+1. Decida qual classe sobrevive. Prefira o nome que fará mais sentido daqui em diante;
+   se ambos forem igualmente bons, escolha qualquer um.
+2. Mova todo membro da classe a ser removida para a sobrevivente, um de cada vez, usando as
+   refatorações de subir / descer conforme necessário ([pull-up-method.md](pull-up-method.md),
+   [pull-up-field.md](pull-up-field.md), [push-down-method.md](push-down-method.md), [push-down-field.md](push-down-field.md)). Compile e
+   teste após cada movimento.
+3. Atualize toda referência à classe removida (declarações, conversões, chamadas `new`,
+   argumentos genéricos, verificações de tipo) para que aponte para a sobrevivente. Compile e teste.
+4. Apague a classe agora vazia.
+5. Compile e rode os testes.
 
-## Example
-Before: `CuratedPlaylist` adds nothing the base needs to keep separate, and is the only
-subclass.
+## Exemplo
+Antes: `CuratedPlaylist` não acrescenta nada que a base precise manter separado, e é a única
+subclasse.
 
 ```csharp
 public class Playlist
@@ -46,14 +46,14 @@ public class CuratedPlaylist : Playlist
     public override string Summary() => Name + " by " + _curator;
 }
 
-// caller
+// chamador
 public class Caller
 {
     public Playlist Build() => new CuratedPlaylist("Morning Focus", "Ana");
 }
 ```
 
-After: `Playlist` survives and absorbs the field, constructor parameter and behavior.
+Depois: `Playlist` sobrevive e absorve o campo, o parâmetro do construtor e o comportamento.
 
 ```csharp
 // fragment
@@ -71,14 +71,14 @@ public class Playlist
     public string Summary() => _name + " by " + _curator;
 }
 
-// caller
+// chamador
 public class Caller
 {
     public Playlist Build() => new Playlist("Morning Focus", "Ana");
 }
 ```
 
-Same behavior: `Summary()` returns "Morning Focus by Ana" for the same inputs.
+Mesmo comportamento: `Summary()` retorna "Morning Focus by Ana" para as mesmas entradas.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.

@@ -1,93 +1,90 @@
-# The 12 smells
+# Os 12 code smells
 
-Kerievsky (2004), ch. 4, and the book's smell table
-(inside back cover). Symptoms are paraphrased; each refactoring links to its file in this folder.
+Kerievsky (2004), cap. 4, e a tabela de smells do livro (na contracapa interna). Os sintomas são parafraseados; cada refatoração aponta para o seu arquivo nesta pasta.
 
-A smell is a hint, not a verdict. Most of these point to a refactoring to a pattern, and the pattern
-is worth it only if it removes the smell more simply than the alternatives (see
-[discipline.md](discipline.md)).
+Um smell é uma pista, não um veredito. A maioria aponta para uma refatoração para um padrão, e o padrão só vale a pena se remover o smell de forma mais simples do que as alternativas (veja [discipline.md](discipline.md)).
 
 ---
 
-## Duplicated Code
-**Symptoms:** the same or nearly the same code in several places, sometimes hidden: similar methods in sibling subclasses, constructors that repeat each other, separate code for one object and for many, the same null check everywhere.
-**Try:**
-- Form Template Method ([form-template-method.md](generalization/form-template-method.md)), for similar methods in sibling subclasses
-- Introduce Polymorphic Creation with Factory Method ([introduce-polymorphic-creation-with-factory-method.md](creation/introduce-polymorphic-creation-with-factory-method.md)), when those methods differ only in the object they create
-- Chain Constructors ([chain-constructors.md](utilities/chain-constructors.md)), for duplicated code across a class's constructors
-- Replace One/Many Distinctions with Composite ([replace-one-many-distinctions-with-composite.md](generalization/replace-one-many-distinctions-with-composite.md)), for separate code that handles one object and a collection of them
-- Extract Composite ([extract-composite.md](generalization/extract-composite.md)), for the same Composite logic in several classes of a hierarchy
-- Unify Interfaces with Adapter ([unify-interfaces-with-adapter.md](generalization/unify-interfaces-with-adapter.md)), when objects are handled differently only because their interfaces differ
-- Introduce Null Object ([introduce-null-object.md](protection/introduce-null-object.md)), for the same null check and fallback repeated across the code
+## Código Duplicado (Duplicated Code)
+**Sintomas:** o mesmo código, ou quase o mesmo, em vários lugares, às vezes escondido: métodos parecidos em subclasses irmãs, construtores que se repetem, código separado para um objeto e para muitos, a mesma checagem de null em todo lugar.
+**Tente:**
+- Formar Template Method (Form Template Method) ([form-template-method.md](generalization/form-template-method.md)), para métodos parecidos em subclasses irmãs
+- Introduzir Criação Polimórfica com Factory Method (Introduce Polymorphic Creation with Factory Method) ([introduce-polymorphic-creation-with-factory-method.md](creation/introduce-polymorphic-creation-with-factory-method.md)), quando esses métodos diferem apenas no objeto que criam
+- Encadear Construtores (Chain Constructors) ([chain-constructors.md](utilities/chain-constructors.md)), para código duplicado entre os construtores de uma classe
+- Substituir Distinções Um/Muitos por Composite (Replace One/Many Distinctions with Composite) ([replace-one-many-distinctions-with-composite.md](generalization/replace-one-many-distinctions-with-composite.md)), para código separado que trata um objeto e uma coleção deles
+- Extrair Composite (Extract Composite) ([extract-composite.md](generalization/extract-composite.md)), para a mesma lógica de Composite em várias classes de uma hierarquia
+- Unificar Interfaces com Adapter (Unify Interfaces with Adapter) ([unify-interfaces-with-adapter.md](generalization/unify-interfaces-with-adapter.md)), quando objetos são tratados de forma diferente só porque suas interfaces diferem
+- Introduzir Null Object (Introduce Null Object) ([introduce-null-object.md](protection/introduce-null-object.md)), para a mesma checagem de null e o mesmo fallback repetidos pelo código
 
-## Long Method
-**Symptoms:** a method too long to understand at a glance; it mixes levels of detail, builds up one result piece by piece, or holds several versions of an algorithm.
-**Try:**
-- Compose Method ([compose-method.md](simplification/compose-method.md)), to turn the method into a few calls at one level of detail
-- Move Accumulation to Collecting Parameter ([move-accumulation-to-collecting-parameter.md](accumulation/move-accumulation-to-collecting-parameter.md)), when the method builds up one result piece by piece
-- Replace Conditional Dispatcher with Command ([replace-conditional-dispatcher-with-command.md](simplification/replace-conditional-dispatcher-with-command.md)), when the method is a large dispatcher on a request name
-- Move Accumulation to Visitor ([move-accumulation-to-visitor.md](accumulation/move-accumulation-to-visitor.md)), when a switch gathers data from classes with different interfaces
-- Replace Conditional Logic with Strategy ([replace-conditional-logic-with-strategy.md](simplification/replace-conditional-logic-with-strategy.md)), when the method holds several variants of an algorithm and picks one at runtime
+## Método Longo (Long Method)
+**Sintomas:** um método longo demais para entender de relance; ele mistura níveis de detalhe, constrói um resultado peça por peça ou guarda várias versões de um algoritmo.
+**Tente:**
+- Compor Método (Compose Method) ([compose-method.md](simplification/compose-method.md)), para transformar o método em algumas chamadas em um único nível de detalhe
+- Mover Acumulação para Collecting Parameter (Move Accumulation to Collecting Parameter) ([move-accumulation-to-collecting-parameter.md](accumulation/move-accumulation-to-collecting-parameter.md)), quando o método constrói um resultado peça por peça
+- Substituir Despachante Condicional por Command (Replace Conditional Dispatcher with Command) ([replace-conditional-dispatcher-with-command.md](simplification/replace-conditional-dispatcher-with-command.md)), quando o método é um grande despachante por nome de requisição
+- Mover Acumulação para Visitor (Move Accumulation to Visitor) ([move-accumulation-to-visitor.md](accumulation/move-accumulation-to-visitor.md)), quando um switch reúne dados de classes com interfaces diferentes
+- Substituir Lógica Condicional por Strategy (Replace Conditional Logic with Strategy) ([replace-conditional-logic-with-strategy.md](simplification/replace-conditional-logic-with-strategy.md)), quando o método guarda várias variantes de um algoritmo e escolhe uma em tempo de execução
 
-## Conditional Complexity
-**Symptoms:** conditional logic that started small and grew with each feature until it is hard to follow.
-**Try:**
-- Replace Conditional Logic with Strategy ([replace-conditional-logic-with-strategy.md](simplification/replace-conditional-logic-with-strategy.md)), when the conditionals pick one of several variants of a calculation
-- Move Embellishment to Decorator ([move-embellishment-to-decorator.md](simplification/move-embellishment-to-decorator.md)), when they switch optional behavior on top of the class's core job
-- Replace State-Altering Conditionals with State ([replace-state-altering-conditionals-with-state.md](simplification/replace-state-altering-conditionals-with-state.md)), when they decide how the object moves between states
-- Introduce Null Object ([introduce-null-object.md](protection/introduce-null-object.md)), when the same null check and fallback is repeated across the code
+## Complexidade Condicional (Conditional Complexity)
+**Sintomas:** lógica condicional que começou pequena e cresceu a cada funcionalidade, até ficar difícil de seguir.
+**Tente:**
+- Substituir Lógica Condicional por Strategy ([replace-conditional-logic-with-strategy.md](simplification/replace-conditional-logic-with-strategy.md)), quando os condicionais escolhem uma entre várias variantes de um cálculo
+- Mover Embelezamento para Decorator (Move Embellishment to Decorator) ([move-embellishment-to-decorator.md](simplification/move-embellishment-to-decorator.md)), quando eles ligam comportamento opcional por cima do trabalho principal da classe
+- Substituir Condicionais que Alteram Estado por State (Replace State-Altering Conditionals with State) ([replace-state-altering-conditionals-with-state.md](simplification/replace-state-altering-conditionals-with-state.md)), quando eles decidem como o objeto passa de um estado a outro
+- Introduzir Null Object ([introduce-null-object.md](protection/introduce-null-object.md)), quando a mesma checagem de null e o mesmo fallback se repetem pelo código
 
-## Primitive Obsession
-**Symptoms:** numbers, strings and other primitives where a class would model the idea more simply and attract the code that belongs to it.
-**Try:**
-- Replace Type Code with Class ([replace-type-code-with-class.md](protection/replace-type-code-with-class.md)), when a primitive type code drives logic and can take invalid values
-- Replace State-Altering Conditionals with State ([replace-state-altering-conditionals-with-state.md](simplification/replace-state-altering-conditionals-with-state.md)), when primitive fields and conditionals control state transitions
-- Replace Conditional Logic with Strategy ([replace-conditional-logic-with-strategy.md](simplification/replace-conditional-logic-with-strategy.md)), when primitives choose which algorithm runs
-- Replace Implicit Tree with Composite ([replace-implicit-tree-with-composite.md](simplification/replace-implicit-tree-with-composite.md)), when a tree is built implicitly in strings or other primitives
-- Replace Implicit Language with Interpreter ([replace-implicit-language-with-interpreter.md](generalization/replace-implicit-language-with-interpreter.md)), when many methods exist for combinations of primitive values
-- Move Embellishment to Decorator ([move-embellishment-to-decorator.md](simplification/move-embellishment-to-decorator.md)), when primitives exist only to switch embellishments on and off
-- Encapsulate Composite with Builder ([encapsulate-composite-with-builder.md](creation/encapsulate-composite-with-builder.md)), when a Composite is too tricky for clients to build
+## Obsessão por Primitivos (Primitive Obsession)
+**Sintomas:** números, strings e outros primitivos onde uma classe modelaria a ideia de forma mais simples e atrairia o código que lhe pertence.
+**Tente:**
+- Substituir Código de Tipo por Classe (Replace Type Code with Class) ([replace-type-code-with-class.md](protection/replace-type-code-with-class.md)), quando um código de tipo primitivo dirige a lógica e pode assumir valores inválidos
+- Substituir Condicionais que Alteram Estado por State ([replace-state-altering-conditionals-with-state.md](simplification/replace-state-altering-conditionals-with-state.md)), quando campos primitivos e condicionais controlam as transições de estado
+- Substituir Lógica Condicional por Strategy ([replace-conditional-logic-with-strategy.md](simplification/replace-conditional-logic-with-strategy.md)), quando primitivos escolhem qual algoritmo roda
+- Substituir Árvore Implícita por Composite (Replace Implicit Tree with Composite) ([replace-implicit-tree-with-composite.md](simplification/replace-implicit-tree-with-composite.md)), quando uma árvore é montada implicitamente em strings ou outros primitivos
+- Substituir Linguagem Implícita por Interpreter (Replace Implicit Language with Interpreter) ([replace-implicit-language-with-interpreter.md](generalization/replace-implicit-language-with-interpreter.md)), quando existem muitos métodos para combinações de valores primitivos
+- Mover Embelezamento para Decorator ([move-embellishment-to-decorator.md](simplification/move-embellishment-to-decorator.md)), quando primitivos existem só para ligar e desligar embelezamentos
+- Encapsular Composite com Builder (Encapsulate Composite with Builder) ([encapsulate-composite-with-builder.md](creation/encapsulate-composite-with-builder.md)), quando um Composite é complicado demais para os clientes montarem
 
-## Indecent Exposure
-**Symptoms:** classes or methods that clients do not need are public, so clients depend on details (a lack of information hiding).
-**Try:**
-- Encapsulate Classes with Factory ([encapsulate-classes-with-factory.md](creation/encapsulate-classes-with-factory.md)), when clients should reach a set of classes only through their common interface
+## Exposição Indecente (Indecent Exposure)
+**Sintomas:** classes ou métodos que os clientes não precisam são públicos, então os clientes dependem de detalhes (falta de ocultação de informação).
+**Tente:**
+- Encapsular Classes com Factory (Encapsulate Classes with Factory) ([encapsulate-classes-with-factory.md](creation/encapsulate-classes-with-factory.md)), quando os clientes devem alcançar um conjunto de classes só pela interface comum
 
-## Solution Sprawl
-**Symptoms:** the code and data for one responsibility are spread over many classes, usually after a feature was added in a hurry. You notice it by reading the code, before a change forces edits in all those places.
-**Try:**
-- Move Creation Knowledge to Factory ([move-creation-knowledge-to-factory.md](creation/move-creation-knowledge-to-factory.md)), when the sprawling responsibility is object creation
+## Solução Espalhada (Solution Sprawl)
+**Sintomas:** o código e os dados de uma responsabilidade estão espalhados por muitas classes, geralmente depois que uma funcionalidade foi adicionada às pressas. Você percebe lendo o código, antes que uma mudança obrigue a editar todos esses lugares.
+**Tente:**
+- Mover Conhecimento de Criação para Factory (Move Creation Knowledge to Factory) ([move-creation-knowledge-to-factory.md](creation/move-creation-knowledge-to-factory.md)), quando a responsabilidade espalhada é a criação de objetos
 
-## Alternative Classes with Different Interfaces
-**Symptoms:** two classes do the same job through different interfaces, and one of them cannot be changed (third-party code).
-**Try:**
-- Unify Interfaces with Adapter ([unify-interfaces-with-adapter.md](generalization/unify-interfaces-with-adapter.md))
+## Classes Alternativas com Interfaces Diferentes (Alternative Classes with Different Interfaces)
+**Sintomas:** duas classes fazem o mesmo trabalho por meio de interfaces diferentes, e uma delas não pode ser alterada (código de terceiros).
+**Tente:**
+- Unificar Interfaces com Adapter ([unify-interfaces-with-adapter.md](generalization/unify-interfaces-with-adapter.md))
 
-## Lazy Class
-**Symptoms:** a class that does not do enough to pay for itself; often a Singleton that only adds global access.
-**Try:**
-- Inline Singleton ([inline-singleton.md](creation/inline-singleton.md))
+## Classe Preguiçosa (Lazy Class)
+**Sintomas:** uma classe que não faz o bastante para se justificar; muitas vezes um Singleton que só acrescenta acesso global.
+**Tente:**
+- Internalizar Singleton (Inline Singleton) ([inline-singleton.md](creation/inline-singleton.md))
 
-## Large Class
-**Symptoms:** a class with too many responsibilities, often because it holds a large dispatcher, a state machine or an implicit language.
-**Try:**
-- Replace Conditional Dispatcher with Command ([replace-conditional-dispatcher-with-command.md](simplification/replace-conditional-dispatcher-with-command.md)), when much of the class is dispatch logic
-- Replace State-Altering Conditionals with State ([replace-state-altering-conditionals-with-state.md](simplification/replace-state-altering-conditionals-with-state.md)), when much of the class is state-transition logic
-- Replace Implicit Language with Interpreter ([replace-implicit-language-with-interpreter.md](generalization/replace-implicit-language-with-interpreter.md)), when the class has a method for each combination of an implicit language
+## Classe Grande (Large Class)
+**Sintomas:** uma classe com responsabilidades demais, muitas vezes porque guarda um grande despachante, uma máquina de estados ou uma linguagem implícita.
+**Tente:**
+- Substituir Despachante Condicional por Command ([replace-conditional-dispatcher-with-command.md](simplification/replace-conditional-dispatcher-with-command.md)), quando grande parte da classe é lógica de despacho
+- Substituir Condicionais que Alteram Estado por State ([replace-state-altering-conditionals-with-state.md](simplification/replace-state-altering-conditionals-with-state.md)), quando grande parte da classe é lógica de transição de estado
+- Substituir Linguagem Implícita por Interpreter ([replace-implicit-language-with-interpreter.md](generalization/replace-implicit-language-with-interpreter.md)), quando a classe tem um método para cada combinação de uma linguagem implícita
 
-## Switch Statements
-**Symptoms:** a switch (or `if`/`else if` chain) that makes the design more complicated or rigid than it needs to be. A switch is not bad in itself.
-**Try:**
-- Replace Conditional Dispatcher with Command ([replace-conditional-dispatcher-with-command.md](simplification/replace-conditional-dispatcher-with-command.md)), to break a large switch into Command objects looked up by key
-- Move Accumulation to Visitor ([move-accumulation-to-visitor.md](accumulation/move-accumulation-to-visitor.md)), when a switch exists only to read data from classes with different interfaces
+## Instruções Switch (Switch Statements)
+**Sintomas:** um switch (ou uma cadeia de `if`/`else if`) que torna o design mais complicado ou rígido do que precisa. Um switch não é ruim em si.
+**Tente:**
+- Substituir Despachante Condicional por Command ([replace-conditional-dispatcher-with-command.md](simplification/replace-conditional-dispatcher-with-command.md)), para quebrar um switch grande em objetos Command buscados por chave
+- Mover Acumulação para Visitor ([move-accumulation-to-visitor.md](accumulation/move-accumulation-to-visitor.md)), quando um switch existe só para ler dados de classes com interfaces diferentes
 
-## Combinatorial Explosion
-**Symptoms:** many pieces of code do the same thing with different kinds or amounts of data, such as one query method per combination of criteria.
-**Try:**
-- Replace Implicit Language with Interpreter ([replace-implicit-language-with-interpreter.md](generalization/replace-implicit-language-with-interpreter.md)), to replace the methods with a small language that combines the criteria
+## Explosão Combinatória (Combinatorial Explosion)
+**Sintomas:** muitos trechos de código fazem a mesma coisa com tipos ou quantidades diferentes de dados, como um método de consulta para cada combinação de critérios.
+**Tente:**
+- Substituir Linguagem Implícita por Interpreter ([replace-implicit-language-with-interpreter.md](generalization/replace-implicit-language-with-interpreter.md)), para substituir os métodos por uma pequena linguagem que combina os critérios
 
-## Oddball Solution
-**Symptoms:** the same problem is solved one way in most of the system and another way somewhere else; usually hidden duplication.
-**Try:**
-- Substitute Algorithm ([substitute-algorithm.md](../../fowler-refactoring/references/encapsulation/substitute-algorithm.md)), to make every place use the preferred solution, then move it to one place
-- Unify Interfaces with Adapter ([unify-interfaces-with-adapter.md](generalization/unify-interfaces-with-adapter.md)), when the classes involved have different interfaces and so cannot be used the same way
+## Solução Destoante (Oddball Solution)
+**Sintomas:** o mesmo problema é resolvido de um jeito na maior parte do sistema e de outro jeito em algum outro lugar; geralmente é uma duplicação escondida.
+**Tente:**
+- Substituir Algoritmo (Substitute Algorithm) ([substitute-algorithm.md](../../fowler-refactoring/references/encapsulation/substitute-algorithm.md)), para que todo lugar use a solução preferida e depois mover essa solução para um único lugar
+- Unificar Interfaces com Adapter ([unify-interfaces-with-adapter.md](generalization/unify-interfaces-with-adapter.md)), quando as classes envolvidas têm interfaces diferentes e por isso não podem ser usadas da mesma forma

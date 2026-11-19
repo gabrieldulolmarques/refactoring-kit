@@ -1,28 +1,28 @@
-# Replace Hard-Coded Notifications with Observer
+# Substituir Notificações Fixas no Código por Observer (Replace Hard-Coded Notifications with Observer)
 
-Kerievsky (2004), ch. 8. Pattern: Observer. Direction: to, towards.
+Kerievsky (2004), cap. 8. Padrão: Observer. Direção: até, rumo a.
 
-## When to use
+## Quando usar
 Smells: —.
 
-- A class (the notifier) holds a direct reference to one other class (the receiver) and calls it whenever something happens. For exactly one receiver that coupling is fine, and it is the right starting point.
-- A second party now needs to hear about the same events, or the receiver should be a different class in some setups. Subclasses that exist only to wire a particular receiver into the base class are the usual symptom.
-- With an observer interface, the subject knows only that something is listening, never what. Any class that implements the interface can subscribe.
-- Do not introduce it early. A plain hard-coded call is simpler and you can evolve to Observer when the second listener really arrives.
-- Watch for two problems. Cascading notifications (an observer that is also a subject, which notifies others, and so on) are hard to debug; consider a Mediator instead. Leaks happen when a long-lived subject keeps a reference to an observer that should be gone, so every subscribe needs a matching unsubscribe.
+- Uma classe (o notificador) mantém uma referência direta a outra classe (o receptor) e a chama sempre que algo acontece. Para exatamente um receptor esse acoplamento é aceitável, e é o ponto de partida certo.
+- Agora uma segunda parte precisa saber dos mesmos eventos, ou o receptor deveria ser outra classe em algumas configurações. Subclasses que existem só para conectar um receptor específico à classe base são o sintoma típico.
+- Com uma interface de observador, o sujeito sabe apenas que há algo escutando, nunca quem é. Qualquer classe que implemente a interface pode se inscrever.
+- Não introduza isso cedo. Uma chamada direta simples é mais simples, e você pode evoluir para Observer quando o segundo ouvinte realmente chegar.
+- Atente para dois problemas. Notificações em cascata (um observador que também é sujeito, notificando outros, e assim por diante) são difíceis de depurar; considere um Mediator. Vazamentos acontecem quando um sujeito de vida longa mantém a referência a um observador que já deveria ter saído, então cada inscrição precisa de um cancelamento de inscrição correspondente.
 
-## Mechanics
-Terms: the notifier is the class that calls the receiver; the receiver is the class being called. After the refactoring the notifier's superclass is the subject, and each receiver is an observer.
+## Mecânica
+Termos: o notificador é a classe que chama o receptor; o receptor é a classe que está sendo chamada. Depois da refatoração, a superclasse do notificador é o sujeito, e cada receptor é um observador.
 
-1. If the notifier does custom work on behalf of its receiver (formatting, deciding, translating) instead of only notifying, move that work into the receiver with Move Function ([move-function.md](../../../fowler-refactoring/references/moving-features/move-function.md)). Afterward the notifier's methods only pass the event on. Do this for every notifier. Compile and test.
-2. Create the observer interface by extracting an interface from a receiver, keeping only the methods its notifier calls (Extract Interface, 1st ed. only). If other notifiers call receiver methods missing from the interface, add them so one interface fits all receivers. Compile.
-3. Make every receiver implement the interface, and make every notifier talk to its receiver only through it. Each receiver is now an observer. Compile and test.
-4. For one notifier, move its notification methods up to its superclass with Pull Up Method ([pull-up-method.md](../../../fowler-refactoring/references/inheritance/pull-up-method.md)), including the field that holds the observer and the code that sets it. The superclass is now the subject. Repeat for every notifier. Compile.
-5. Change each observer to register with the subject directly, not with the notifier, then delete the notifier subclass. Compile and test.
-6. Change the subject to hold a collection of observers instead of one: add a subscribe method (and, if observers can leave, an unsubscribe method), and make each notification go to every observer in the collection. Compile and test.
+1. Se o notificador faz trabalho próprio em nome do seu receptor (formatar, decidir, traduzir) em vez de apenas notificar, mova esse trabalho para o receptor com Mover Função (Move Function) ([move-function.md](../../../fowler-refactoring/references/moving-features/move-function.md)). Depois disso, os métodos do notificador apenas repassam o evento. Faça isso para cada notificador. Compile e teste.
+2. Crie a interface de observador extraindo uma interface de um receptor, mantendo apenas os métodos que o seu notificador chama (Extrair Interface (Extract Interface), só na 1ª ed.). Se outros notificadores chamam métodos do receptor que faltam na interface, acrescente-os para que uma única interface sirva a todos os receptores. Compile.
+3. Faça cada receptor implementar a interface, e faça cada notificador falar com o seu receptor apenas por meio dela. Cada receptor agora é um observador. Compile e teste.
+4. Para um notificador, suba os seus métodos de notificação para a superclasse com Subir Método (Pull Up Method) ([pull-up-method.md](../../../fowler-refactoring/references/inheritance/pull-up-method.md)), incluindo o campo que guarda o observador e o código que o define. A superclasse agora é o sujeito. Repita para cada notificador. Compile.
+5. Mude cada observador para se registrar diretamente no sujeito, e não no notificador, e depois apague a subclasse notificadora. Compile e teste.
+6. Mude o sujeito para guardar uma coleção de observadores em vez de um só: acrescente um método de inscrição (e, se observadores puderem sair, um de cancelamento de inscrição), e faça cada notificação chegar a todos os observadores da coleção. Compile e teste.
 
-## Example
-Before: `TokenMeter` measures the token usage of a conversation against its budget. `DashboardTokenMeter` is a subclass whose only job is to report each measurement to one `UsageDashboard`, and it also builds the text line the dashboard shows.
+## Exemplo
+Antes: `TokenMeter` mede o uso de tokens de uma conversa em relação ao seu orçamento. `DashboardTokenMeter` é uma subclasse cujo único trabalho é reportar cada medição a um `UsageDashboard`, e também monta a linha de texto que o painel mostra.
 
 ```csharp
 using System.Collections.Generic;
@@ -71,7 +71,7 @@ public class DashboardTokenMeter : TokenMeter
 }
 ```
 
-After, classic form: the formatting moved to the dashboard (step 1), `IUsageObserver` was extracted (steps 2 and 3), the notification moved up and the subclass was deleted (steps 4 and 5), and the subject now keeps a list (step 6). A second observer, `BudgetAlarm`, subscribes without any change to `TokenMeter`.
+Depois, forma clássica: a formatação foi movida para o painel (passo 1), a interface `IUsageObserver` foi extraída (passos 2 e 3), a notificação foi subida e a subclasse apagada (passos 4 e 5), e o sujeito agora mantém uma lista (passo 6). Um segundo observador, `BudgetAlarm`, se inscreve sem nenhuma mudança em `TokenMeter`.
 
 ```csharp
 using System.Collections.Generic;
@@ -124,7 +124,7 @@ public class BudgetAlarm : IUsageObserver
     public void Recorded(UsageReport r) { if (r.OverBudget) Overruns++; }
 }
 
-// Wiring and teardown, always as a pair:
+// Conexão e desconexão, sempre em par:
 //   var meter = new TokenMeter();
 //   var dashboard = new UsageDashboard();
 //   meter.Subscribe(dashboard);
@@ -132,7 +132,7 @@ public class BudgetAlarm : IUsageObserver
 //   meter.Unsubscribe(dashboard);
 ```
 
-After, idiomatic C#: the same design with an event instead of an interface and two methods. The observer interface becomes the delegate type `EventHandler<UsageReport>`, and the list, `Subscribe` and `Unsubscribe` become `event`, `+=` and `-=`.
+Depois, C# idiomático: o mesmo desenho, com um `event` no lugar da interface e de dois métodos. A interface de observador vira o tipo delegate `EventHandler<UsageReport>`, e a lista, `Subscribe` e `Unsubscribe` viram `event`, `+=` e `-=`.
 
 ```csharp
 using System;
@@ -175,13 +175,13 @@ public class UsageDashboard
 }
 ```
 
-## C# notes
-- The idiomatic form is a C# `event` (`event EventHandler<T>`, or `Action<T>` for simple cases). Use an observer interface only when an observer needs several different callbacks or you want to pass it around as a unit.
-- Every `+=` needs a matching `-=`, and the subject often outlives the subscriber, so an event handler that is never removed keeps the subscriber alive. Unsubscribe in `Dispose`, in a close method, or when the observer is replaced. For a subscriber that implements `IDisposable`, put the `-=` there.
-- If observers can leave, pair every subscription with an unsubscription at the right moment (disposed, closed or replaced), and iterate over a copy of the collection when notifying so an observer that unsubscribes inside its callback does not break the loop. This is not a book step; the book makes the remove method optional.
-- Subscribing a lambda or anonymous method is easy, but `-=` with a new, textually identical lambda does not remove it. Keep the delegate in a field if you will need to unsubscribe.
-- Only the declaring class can raise an `event`; outside code can only `+=` and `-=`. That is usually what you want. Use `?.Invoke` so an event with no subscribers does not throw.
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- A test with two observers checks that both receive each event, in the expected order, and that an observer sees nothing after it unsubscribes.
-- Search for each `Subscribe` or `+=`: every one has a reachable `Unsubscribe` or `-=`. After the last observer is gone, the subject holds no reference to it.
+## Notas (C#)
+- A forma idiomática é um `event` do C# (`event EventHandler<T>`, ou `Action<T>` em casos simples). Use uma interface de observador apenas quando um observador precisar de vários callbacks diferentes ou quando você quiser passá-lo como uma unidade.
+- Se os observadores puderem sair, faça cada inscrição ter um cancelamento de inscrição correspondente no momento certo (quando forem descartados, fechados ou substituídos), e itere sobre uma cópia da coleção ao notificar, para que um observador que cancele a inscrição dentro do seu callback não quebre o laço. Isto não é um passo do livro; o livro torna opcional o método de remoção.
+- Todo `+=` precisa de um `-=` correspondente, e o sujeito costuma sobreviver ao inscrito; assim, um handler que nunca é removido mantém o inscrito vivo. Cancele a inscrição em `Dispose`, em um método de fechamento ou quando o observador for substituído. Para um inscrito que implementa `IDisposable`, coloque o `-=` ali.
+- Inscrever uma lambda ou método anônimo é fácil, mas `-=` com uma lambda nova e textualmente idêntica não a remove. Guarde o delegate em um campo se você precisar cancelar a inscrição.
+- Só a classe que declara um `event` pode dispará-lo; código externo só pode usar `+=` e `-=`. Isso geralmente é o que você quer. Use `?.Invoke` para que um `event` sem inscritos não lance exceção.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Um teste com dois observadores verifica que ambos recebem cada evento, na ordem esperada, e que um observador não vê nada depois de cancelar a inscrição.
+- Procure cada `Subscribe` ou `+=`: cada um deve ter um `Unsubscribe` ou `-=` alcançável. Depois que o último observador sai, o sujeito não guarda mais nenhuma referência a ele.

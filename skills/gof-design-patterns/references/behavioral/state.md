@@ -1,24 +1,24 @@
 # State
 
-Gamma et al. (1995), ch. 5. Also known as: Objects for States. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Também conhecido como: Objects for States. Categoria: comportamental de objeto.
 
-## Intent
-Let an object change its behavior when its internal state changes, by delegating to a separate object per state. To callers, the object seems to change its class.
+## Intenção
+Permitir que um objeto mude seu comportamento quando seu estado interno muda, delegando a um objeto separado por estado. Para quem chama, o objeto parece mudar de classe.
 
-## When it pays off
-- Behavior depends on the current state and must change at run time.
-- Several operations repeat the same large `if` or `switch` on a status field. Each branch becomes a class and the switches disappear.
-- Benefits: the behavior of each state sits in one place; transitions are explicit; a transition is one reference assignment, so the context is never half-changed; stateless state objects can be shared.
-- Liabilities: more classes than one big class. This is worth it with many states or many state-dependent operations, and not worth it with two states and one operation.
-- Skip it when the states and transitions are plain data with no behavior; an enum and a transition table (see Variations) are enough.
+## Quando compensa
+- O comportamento depende do estado atual e precisa mudar em tempo de execução.
+- Várias operações repetem o mesmo `if` ou `switch` grande sobre um campo de status. Cada ramo vira uma classe e os switches desaparecem.
+- Benefícios: o comportamento de cada estado fica em um só lugar; as transições são explícitas; uma transição é uma única atribuição de referência, então o contexto nunca fica pela metade; objetos de estado sem dados podem ser compartilhados.
+- Custos: mais classes do que uma grande classe única. Vale a pena com muitos estados ou muitas operações dependentes de estado, e não com dois estados e uma operação.
+- Não vale a pena quando os estados e as transições são apenas dados, sem comportamento; um enum e uma tabela de transições (veja Variações) bastam.
 
-## Participants in C#
-- **Context** (`Ride`): the type clients use. Holds the current state object and forwards state-dependent calls to it.
-- **State** (`RideState`): abstract class that declares one method per state-dependent operation. Its default implementation rejects the operation, so each concrete state overrides only what it allows. An interface also works when there are no defaults.
-- **ConcreteState** (`RequestedState`, `AcceptedState`, `InProgressState`, `CompletedState`): behavior and outgoing transitions for one state.
+## Participantes em C#
+- **Context** (`Ride`): o tipo que os clientes usam. Guarda o objeto de estado atual e repassa as chamadas dependentes de estado a ele.
+- **State** (`RideState`): classe abstrata que declara um método para cada operação dependente de estado. Sua implementação padrão rejeita a operação, então cada estado concreto sobrescreve apenas o que permite. Uma interface também funciona quando não há implementações padrão.
+- **ConcreteState** (`RequestedState`, `AcceptedState`, `InProgressState`, `CompletedState`): comportamento e transições de saída de um estado.
 
-## Example (C#)
-A ride-sharing trip moves through four states: Requested, then Accepted (a driver took it), then InProgress (the passenger is on board), then Completed (a fare is charged). Each state allows only its own next step; anything else throws. The states hold no data, so each has one shared instance, and each decides its successor.
+## Exemplo (C#)
+Uma corrida de transporte por aplicativo passa por quatro estados: Requested, depois Accepted (um motorista assumiu), depois InProgress (o passageiro embarcou), depois Completed (a tarifa é cobrada). Cada estado permite apenas o próprio próximo passo; qualquer outra coisa lança exceção. Os estados não guardam dados, então cada um tem uma única instância compartilhada, e cada um decide o seu sucessor.
 
 ```csharp
 using System;
@@ -29,12 +29,12 @@ public class Ride
     public string? DriverId { get; private set; }
     public decimal Fare { get; private set; }
 
-    // Operations forwarded to the current state.
+    // Operações repassadas ao estado atual.
     public void Accept(string driverId) => State.Accept(this, driverId);
     public void Start() => State.Start(this);
     public void Complete(decimal fare) => State.Complete(this, fare);
 
-    // Used by the states, to change state and to record data.
+    // Usado pelos estados, para mudar de estado e registrar dados.
     public void TransitionTo(RideState next) => State = next;
     public void AssignDriver(string driverId) => DriverId = driverId;
     public void Charge(decimal fare) => Fare = fare;
@@ -88,7 +88,7 @@ public sealed class CompletedState : RideState
 {
     public static readonly CompletedState Instance = new();
     private CompletedState() { }
-    // Terminal: every operation is rejected by the base class.
+    // Terminal: toda operação é rejeitada pela classe base.
 }
 
 public static class Program
@@ -107,9 +107,9 @@ public static class Program
 }
 ```
 
-The shared instances are static fields only because the states carry no data. If a state needs per-ride data, create a new object per transition and keep that data in it.
+As instâncias compartilhadas são campos estáticos apenas porque os estados não carregam dados. Se um estado precisar de dados por corrida, crie um novo objeto a cada transição e guarde esses dados nele.
 
-A table-driven version of the same machine, for when the transitions are all that varies and there is no per-state behavior:
+Uma versão dirigida por tabela da mesma máquina, para quando só as transições variam e não há comportamento por estado:
 
 ```csharp
 using System.Collections.Generic;
@@ -137,28 +137,28 @@ public class RideMachine
 }
 ```
 
-## Variations
-- **Who decides the next state.** If the rules are fixed, the context can hold them. It is usually more flexible to let each state pick its successor, as above. The cost is that states know about each other.
-- **Table-driven machine.** A table maps (state, event) to the next state. Rules become data and are easy to read as a whole, but a lookup is slower than a virtual call, the logic is less explicit, and attaching actions to transitions takes extra work. State models behavior per state; a table models only the transitions.
-- **Create or reuse state objects.** Creating on demand suits states that carry much data and change rarely. Creating once and reusing suits frequent transitions, but the context must be able to reach every state.
-- **Sharing.** A state with no instance fields, whose meaning is carried entirely by its type, can be shared across all contexts, passing the context as an argument so it can act on it.
-- **Changing class at run time.** Few languages let an object swap its class. Delegating to a replaceable state object gets the same effect in C#.
+## Variações
+- **Quem decide o próximo estado.** Se as regras são fixas, o contexto pode guardá-las. Costuma ser mais flexível deixar cada estado escolher o seu sucessor, como acima. O custo é que os estados passam a conhecer uns aos outros.
+- **Máquina dirigida por tabela.** Uma tabela mapeia (estado, evento) para o próximo estado. As regras viram dados e são fáceis de ler como um todo, mas a consulta é mais lenta do que uma chamada virtual, a lógica fica menos explícita, e associar ações às transições exige trabalho extra. State modela o comportamento por estado; uma tabela modela apenas as transições.
+- **Criar ou reutilizar objetos de estado.** Criar sob demanda serve a estados que carregam muitos dados e mudam pouco. Criar uma vez e reutilizar serve a transições frequentes, mas o contexto precisa conseguir alcançar todos os estados.
+- **Compartilhamento.** Um estado sem campos de instância, cujo significado é dado inteiramente pelo seu tipo, pode ser compartilhado por todos os contextos, passando o contexto como argumento para que ele possa agir sobre ele.
+- **Mudar de classe em tempo de execução.** Poucas linguagens permitem que um objeto troque de classe. Delegar a um objeto de estado substituível produz o mesmo efeito em C#.
 
-## Risks and C# alternatives
-- For a few states and one or two operations, a `switch` expression over an enum is shorter and easier to follow. Move to State when the same `switch` appears in several methods or each branch grows.
-- A static `Instance` on each state is a singleton. That is acceptable for stateless objects, but it hides the dependency. Passing the instances from the context, or from a small registry, is easier to test.
-- State objects that mutate the context through public methods (`TransitionTo`, `AssignDriver`) weaken the context's invariants. Keep those methods `internal` when the types share an assembly, or expose only what the states need.
-- Transitions that need I/O or must be thread-safe need locking or serialization around the state change. A reference assignment is atomic, but the read-then-act sequence is not.
-- Base-class defaults that throw turn a forbidden operation into a run-time error. If callers should be able to ask first, add a `CanStart`-style method or return a result type instead of throwing.
+## Riscos e alternativas em C#
+- Para poucos estados e uma ou duas operações, uma expressão `switch` sobre um enum é mais curta e mais fácil de seguir. Passe para State quando o mesmo `switch` aparecer em vários métodos ou quando cada ramo crescer.
+- Um `Instance` estático em cada estado é um singleton. Isso é aceitável para objetos sem estado, mas esconde a dependência. Passar as instâncias a partir do contexto, ou de um pequeno registro, facilita os testes.
+- Objetos de estado que alteram o contexto por métodos públicos (`TransitionTo`, `AssignDriver`) enfraquecem os invariantes do contexto. Mantenha esses métodos `internal` quando os tipos compartilham um assembly, ou exponha apenas o que os estados precisam.
+- Transições que envolvem I/O ou precisam ser seguras para threads exigem uma trava (lock) ou serialização em volta da mudança de estado. Uma atribuição de referência é atômica, mas a sequência ler-e-agir não é.
+- As implementações padrão da classe base que lançam exceção transformam uma operação proibida em erro de execução. Se quem chama deve poder perguntar antes, adicione um método no estilo `CanStart` ou retorne um tipo de resultado em vez de lançar exceção.
 
-## Related patterns
-- [Flyweight](../structural/flyweight.md): covers the conditions and the technique for sharing state objects.
-- [Singleton](../creational/singleton.md): shared stateless state objects are often singletons.
+## Padrões relacionados
+- [Flyweight](../structural/flyweight.md): trata das condições e da técnica para compartilhar objetos de estado.
+- [Singleton](../creational/singleton.md): objetos de estado compartilhados e sem estado costumam ser singletons.
 
-**Beyond the book:** [Strategy](strategy.md) has the same shape (a context delegating to a replaceable object) but a different intent. A strategy is chosen from outside and rarely changes itself; a state replaces itself as the object moves through its life.
+**Além do livro:** o [Strategy](strategy.md) tem a mesma estrutura (um contexto que delega a um objeto substituível), mas intenção diferente. Uma estratégia é escolhida de fora e raramente muda sozinha; um estado se substitui a si mesmo à medida que o objeto avança em sua vida.
 
-## Verification
-- No method of the context contains a `switch` or `if` on a status value; each state-dependent call is one forward to the state.
-- Adding a state means adding a class and changing only the states that lead into it.
-- Every illegal transition is covered by a test that expects the rejection, and every legal one by a test that checks the next state.
-- The context never ends up with a half-applied transition: the state changes by one assignment, after the state's work is done.
+## Verificação
+- Nenhum método do contexto contém `switch` ou `if` sobre um valor de status; cada chamada dependente de estado é um único repasse ao estado.
+- Adicionar um estado significa adicionar uma classe e alterar apenas os estados que levam até ele.
+- Cada transição ilegal é coberta por um teste que espera a rejeição, e cada transição legal por um teste que verifica o próximo estado.
+- O contexto nunca fica com uma transição aplicada pela metade: o estado muda por uma única atribuição, depois que o trabalho do estado termina.

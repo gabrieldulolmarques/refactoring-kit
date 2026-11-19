@@ -1,25 +1,25 @@
 # Iterator
 
-Gamma et al. (1995), ch. 5. Also known as: Cursor. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Também conhecido como: Cursor. Categoria: comportamental de objeto.
 
-## Intent
-Give sequential access to the elements of a collection without exposing how it is stored.
+## Intenção
+Dar acesso sequencial aos elementos de uma coleção sem expor como ela é armazenada.
 
-## When it pays off
-- Clients need to read the contents of an aggregate without knowing its internal representation.
-- You need several traversals at once over the same aggregate, or several traversal orders (filtered, reversed, depth-first).
-- You want one way to walk different kinds of aggregates.
-- Benefits: traversal variants are easy to add by swapping the iterator, the aggregate interface stays small, and each iterator holds its own position so traversals do not interfere.
-- Not worth it for a plain list or array where `foreach` already does the job. Write a custom iterator only when the data is not in memory (pages, streams) or the order is not the storage order.
+## Quando compensa
+- Clientes precisam ler o conteúdo de um agregado sem conhecer sua representação interna.
+- Você precisa de vários percursos ao mesmo tempo sobre o mesmo agregado, ou de várias ordens de percurso (filtrado, invertido, em profundidade).
+- Você quer uma única forma de percorrer diferentes tipos de agregados.
+- Benefícios: variantes de percurso são fáceis de adicionar trocando o iterador, a interface do agregado continua pequena, e cada iterador guarda a sua própria posição, então os percursos não interferem uns nos outros.
+- Não vale a pena para uma lista ou array simples, onde `foreach` já resolve. Escreva um iterador próprio apenas quando os dados não estiverem em memória (páginas, streams) ou quando a ordem não for a de armazenamento.
 
-## Participants in C#
-- **Iterator** (`IEnumerator<T>`): interface for accessing and advancing through elements. Built into .NET.
-- **ConcreteIterator** (`StoredFileEnumerator` or a method with `yield return`): keeps the current position.
-- **Aggregate** (`IEnumerable<T>`): interface that creates an iterator through `GetEnumerator`.
-- **ConcreteAggregate** (`FileListing`): returns the proper iterator.
+## Participantes em C#
+- **Iterator** (`IEnumerator<T>`): interface para acessar e avançar pelos elementos. Já vem no .NET.
+- **ConcreteIterator** (`StoredFileEnumerator` ou um método com `yield return`): mantém a posição atual.
+- **Aggregate** (`IEnumerable<T>`): interface que cria um iterador por meio de `GetEnumerator`.
+- **ConcreteAggregate** (`FileListing`): retorna o iterador apropriado.
 
-## Example (C#)
-A cloud-storage client lists files in pages. The caller wants one plain sequence and does not care about page tokens. `yield return` makes the compiler write the iterator, and the next page is fetched only when the caller needs it.
+## Exemplo (C#)
+Um cliente de armazenamento em nuvem lista arquivos em páginas. Quem chama quer uma sequência simples e não se importa com tokens de página. `yield return` faz o compilador escrever o iterador, e a próxima página só é buscada quando quem chama precisa dela.
 
 ```csharp
 using System;
@@ -54,7 +54,7 @@ public class FileListing : IEnumerable<string>
         string? token = null;
         do
         {
-            FilePage page = _api.ListPage(token);   // fetched lazily
+            FilePage page = _api.ListPage(token);   // buscada sob demanda
             foreach (string name in page.Names)
                 yield return name;
             token = page.NextToken;
@@ -63,7 +63,7 @@ public class FileListing : IEnumerable<string>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    // Another traversal over the same aggregate, as its own iterator.
+    // Outro percurso sobre o mesmo agregado, como um iterador próprio.
     public IEnumerable<string> WithExtension(string extension)
     {
         foreach (string name in this)
@@ -97,7 +97,7 @@ public static class Program
         foreach (string name in files.WithExtension(".txt"))
             Console.WriteLine(name);
 
-        // Two independent traversals at once: each enumerator has its own state.
+        // Dois percursos independentes ao mesmo tempo: cada enumerador tem o seu próprio estado.
         using var first = files.GetEnumerator();
         using var second = files.GetEnumerator();
         first.MoveNext();
@@ -108,29 +108,29 @@ public static class Program
 }
 ```
 
-## Variations
-- **Who controls the loop.** An external iterator (the client calls `MoveNext`) is flexible: you can walk two collections in step or stop early. An internal iterator (the collection calls your delegate for each element, like `List<T>.ForEach`) is shorter to use but cannot be paused or paired.
-- **Who owns the traversal algorithm.** The iterator can contain it, which makes algorithms reusable across aggregates but may need access to the aggregate's internals. Or the aggregate can own it and hand out a cursor that only marks a position. A cursor is a lightweight snapshot of position, close to a memento ([memento.md](memento.md)).
-- **Robustness.** Changing a collection during a traversal can skip or repeat elements. .NET collections throw `InvalidOperationException` on modification. The alternatives are to traverse a copy or to design the aggregate so that it adjusts live iterators.
-- **Extra operations.** Besides the minimum (`MoveNext`, `Current`) an iterator may offer `Reset`, `Previous`, skip or peek, if a use needs them.
-- **Composite structures.** Walking a tree through an external iterator needs a stack of positions. A recursive `yield return` method, or a cursor over node links, are the usual ways. Preorder, postorder and breadth-first can each be a separate method.
-- **Null iterator.** An always-empty iterator (`Enumerable.Empty<T>()`) removes special cases for leaves.
+## Variações
+- **Quem controla o laço.** Um iterador externo (o cliente chama `MoveNext`) é flexível: você pode percorrer duas coleções em paralelo ou parar cedo. Um iterador interno (a coleção chama seu delegate para cada elemento, como `List<T>.ForEach`) é mais curto de usar, mas não pode ser pausado nem pareado.
+- **Quem é dono do algoritmo de percurso.** O iterador pode conter o algoritmo, o que torna os algoritmos reutilizáveis entre agregados, mas pode precisar acessar a parte interna do agregado. Ou o próprio agregado pode ser o dono do percurso e entregar um cursor que apenas marca uma posição. Um cursor é um snapshot leve da posição, próximo de um memento ([memento.md](memento.md)).
+- **Robustez.** Alterar uma coleção durante o percurso pode pular ou repetir elementos. As coleções do .NET lançam `InvalidOperationException` ao serem modificadas. As alternativas são percorrer uma cópia ou projetar o agregado para ajustar os iteradores ativos.
+- **Operações extras.** Além do mínimo (`MoveNext`, `Current`), um iterador pode oferecer `Reset`, `Previous`, pular ou espiar, se algum uso precisar.
+- **Estruturas compostas.** Percorrer uma árvore com um iterador externo exige uma pilha de posições. Um método recursivo com `yield return`, ou um cursor sobre os vínculos entre os nós, são as formas usuais. Pré-ordem, pós-ordem e largura podem ser cada um um método separado.
+- **Iterador nulo.** Um iterador sempre vazio (`Enumerable.Empty<T>()`) elimina casos especiais para as folhas.
 
-## Risks and C# alternatives
-- In C#, prefer `IEnumerable<T>` with `yield return` to a hand-written enumerator class. The compiler generates the state machine.
-- `yield` defers execution: a bug or an exception in the source shows up at enumeration, not at the call. Validate arguments in an outer non-iterator method when this matters.
-- Enumerating twice runs the source twice (two network calls above). Materialize with `ToList()` when you need several passes.
-- `IEnumerator<T>` is `IDisposable`. `foreach` and `using` dispose it. A hand-driven enumerator must be disposed, especially if it holds a connection.
-- For asynchronous sources, `IAsyncEnumerable<T>` with `await foreach` fits paged APIs better than blocking calls.
-- LINQ is a library of iterators. Check whether a query already does the traversal you plan to write.
+## Riscos e alternativas em C#
+- Em C#, prefira `IEnumerable<T>` com `yield return` a uma classe enumeradora escrita à mão. O compilador gera a máquina de estados.
+- `yield` adia a execução: um bug ou uma exceção na fonte aparece na enumeração, e não na chamada. Valide os argumentos em um método externo que não seja iterador, quando isso importar.
+- Enumerar duas vezes executa a fonte duas vezes (duas chamadas de rede, no exemplo acima). Materialize com `ToList()` quando precisar de várias passagens.
+- `IEnumerator<T>` é `IDisposable`. `foreach` e `using` fazem o descarte. Um enumerador usado manualmente deve ser descartado, principalmente se segura uma conexão.
+- Para fontes assíncronas, `IAsyncEnumerable<T>` com `await foreach` se encaixa melhor em APIs paginadas do que chamadas bloqueantes.
+- LINQ é uma biblioteca de iteradores. Verifique se alguma consulta já faz o percurso que você pretende escrever.
 
-## Related patterns
-- [Composite](../structural/composite.md): iterators are often applied to recursive structures like composites.
-- [Factory Method](../creational/factory-method.md): polymorphic iterators rely on a factory method (`GetEnumerator`) to create the right one.
-- [Memento](memento.md): an iterator can capture its position as a memento.
+## Padrões relacionados
+- [Composite](../structural/composite.md): iteradores são frequentemente aplicados a estruturas recursivas, como composites.
+- [Factory Method](../creational/factory-method.md): iteradores polimórficos dependem de um factory method (`GetEnumerator`) para criar o correto.
+- [Memento](memento.md): um iterador pode capturar sua posição como um memento.
 
-## Verification
-- The consumer enumerates with `foreach` and never touches the storage details (page tokens, indexes).
-- Two enumerations over the same aggregate do not disturb each other.
-- An empty aggregate and a single-element aggregate both work.
-- Work is lazy: stopping early (`First`, `break`) does not read the rest.
+## Verificação
+- O consumidor enumera com `foreach` e nunca toca nos detalhes de armazenamento (tokens de página, índices).
+- Duas enumerações sobre o mesmo agregado não se perturbam.
+- Um agregado vazio e um agregado com um único elemento funcionam.
+- O trabalho é preguiçoso: parar cedo (`First`, `break`) não lê o restante.

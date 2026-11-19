@@ -1,24 +1,24 @@
 # Composite
 
-Gamma et al. (1995), ch. 4. Category: object structural.
+Gamma et al. (1995), cap. 4. Categoria: estrutural de objeto.
 
-## Intent
-Arrange objects in a tree of parts and wholes where a single item and a group of items are used through the same interface.
+## Intenção
+Organizar objetos em uma árvore de partes e todos, em que um item isolado e um grupo de itens são usados pela mesma interface.
 
-## When it pays off
-- The domain is a part-whole hierarchy (a cart with products and bundles, folders and files, nested permission groups) and callers should not care whether a node is a leaf or a group.
-- Client code gets simpler: no loops that test the kind of each node, and new node kinds work with existing code.
-- Liability: the design can become too general. It is hard to forbid a group from containing certain kinds, since the type system sees every node as the same type. Such rules become runtime checks.
-- Skip it when the tree has one fixed depth (a list of items and nothing nested), where a plain collection is clearer.
+## Quando compensa
+- O domínio é uma hierarquia parte-todo (um carrinho com produtos e pacotes, pastas e arquivos, grupos de permissão aninhados) e quem chama não deve se importar se um nó é folha ou grupo.
+- O código cliente fica mais simples: sem laços que testam o tipo de cada nó, e novos tipos de nó funcionam com o código existente.
+- Custo: o design pode ficar genérico demais. É difícil proibir que um grupo contenha certos tipos, já que o sistema de tipos vê todo nó como do mesmo tipo. Essas regras viram verificações em tempo de execução.
+- Não vale a pena quando a árvore tem uma profundidade fixa (uma lista de itens e nada aninhado), caso em que uma coleção simples é mais clara.
 
-## Participants in C#
-- **Component** (`IPriced`): interface or abstract class for every node. In the example it has one operation, `Total()`, and child management lives only in the composite.
-- **Leaf** (`Product`): a node without children, implements the operation directly.
-- **Composite** (`Bundle`): holds child components and implements the operation by combining the children's results.
-- **Client** (the code in `Main`): works only with the component interface when it prices things.
+## Participantes em C#
+- **Component** (`IPriced`): interface ou classe abstrata para todo nó. No exemplo tem uma operação, `Total()`, e o gerenciamento de filhos fica apenas no composite.
+- **Leaf** (`Product`): um nó sem filhos, que implementa a operação diretamente.
+- **Composite** (`Bundle`): guarda componentes filhos e implementa a operação combinando os resultados dos filhos.
+- **Client** (o código em `Main`): trabalha apenas com a interface do componente ao calcular preços.
 
-## Example (C#)
-A checkout prices individual products and bundles. A bundle can contain products and other bundles, and applies its own discount to the sum of its children.
+## Exemplo (C#)
+Um checkout precifica produtos avulsos e pacotes. Um pacote pode conter produtos e outros pacotes, e aplica o seu próprio desconto sobre a soma dos filhos.
 
 ```csharp
 using System;
@@ -89,31 +89,31 @@ public static class Program
 }
 ```
 
-## Variations
-- **Where child management is declared**: on the component, so every node looks the same (transparent, but adding to a leaf is meaningless and has to throw), or only on the composite (safe, since the compiler rejects it, but clients must know which nodes can have children). The example takes the safe choice and exposes `Add` only on `Bundle`.
-- **Leaf with empty children**: if the component exposes `Children`, a leaf can return an empty sequence, so traversal needs no kind checks.
-- **Parent references**: keep a link to the parent in each node to ease moving up or removing. Then update it only inside `Add` and `Remove`, so the link and the child list never disagree. It also blocks sharing one node in two parents.
-- **Child order**: if order matters (steps in a pipeline), use a list and design the access API for it.
-- **Caching**: a composite can cache a computed result (a total, a bounding size) and drop the cache when a child changes. That needs a way for children to tell the parent, hence parent links or events.
-- **Storage**: a list, array, dictionary or even named fields per child, when each composite has a fixed set of children.
+## Variações
+- **Onde o gerenciamento de filhos é declarado**: no componente, para que todo nó pareça igual (transparente, mas adicionar algo a uma folha não tem sentido e precisa lançar exceção), ou só no composite (seguro, já que o compilador recusa a operação, mas os clientes precisam saber quais nós podem ter filhos). O exemplo faz a escolha segura e expõe `Add` apenas em `Bundle`.
+- **Folha com filhos vazios**: se o componente expõe `Children`, uma folha pode devolver uma sequência vazia, então a travessia não precisa de verificações de tipo.
+- **Referências ao pai**: mantenha um vínculo com o pai em cada nó para facilitar subir ou remover. Atualize-o apenas dentro de `Add` e `Remove`, para que o vínculo e a lista de filhos nunca divirjam. Isso também impede que um nó seja compartilhado por dois pais.
+- **Ordem dos filhos**: se a ordem importa (passos de um pipeline), use uma lista e projete a API de acesso para isso.
+- **Cache**: um composite pode guardar em cache um resultado calculado (um total, um tamanho delimitador) e descartá-lo quando um filho muda. Isso exige um meio de os filhos avisarem o pai, por meio de vínculos com o pai ou de eventos.
+- **Armazenamento**: uma lista, um array, um dicionário ou até campos nomeados por filho, quando cada composite tem um conjunto fixo de filhos.
 
-## Risks and C# alternatives
-- Recursion depth: a very deep tree can overflow the stack. Traverse with an explicit stack or `yield return` when depth is not bounded.
-- Cycles: guard against adding a node to its own descendants. The example only checks the direct self-reference; check ancestors if nodes can be reused.
-- Expose children as `IEnumerable<T>` or `IReadOnlyList<T>`, never the internal `List<T>`, or callers bypass your invariants.
-- For traversals that vary a lot (print, export, validate), keep the nodes small and add operations by a visitor or by plain pattern matching in a function, instead of growing the component interface.
-- A one-off nested structure that never gets new operations may be simpler as plain data plus a recursive function.
+## Riscos e alternativas em C#
+- Profundidade de recursão: uma árvore muito profunda pode estourar a pilha. Percorra com uma pilha explícita ou com `yield return` quando a profundidade não for limitada.
+- Ciclos: impeça que um nó seja adicionado a um dos seus próprios descendentes. O exemplo verifica apenas a auto-referência direta; verifique os ancestrais se os nós puderem ser reutilizados.
+- Exponha os filhos como `IEnumerable<T>` ou `IReadOnlyList<T>`, nunca a `List<T>` interna, ou os chamadores contornam as suas invariantes.
+- Para travessias que variam muito (imprimir, exportar, validar), mantenha os nós pequenos e adicione operações por um visitor ou por casamento de padrões simples em uma função, em vez de aumentar a interface do componente.
+- Uma estrutura aninhada pontual, que nunca recebe novas operações, pode ser mais simples como dados puros mais uma função recursiva.
 
-## Related patterns
-- [decorator.md](decorator.md): often combined with composite and shares the recursive structure, but it adds behavior to one component instead of aggregating several.
-- [flyweight.md](flyweight.md): lets leaves be shared, but shared leaves cannot hold a parent reference.
-- [iterator.md](../behavioral/iterator.md): traverses a composite.
-- [visitor.md](../behavioral/visitor.md): keeps operations across leaf and composite classes in one place.
-- [chain-of-responsibility.md](../behavioral/chain-of-responsibility.md): the parent link often serves as the chain.
-- [command.md](../behavioral/command.md): a macro command is a composite of commands.
+## Padrões relacionados
+- [decorator.md](decorator.md): costuma ser combinado com o composite e compartilha a forma recursiva, mas acrescenta comportamento a um componente em vez de agregar vários.
+- [flyweight.md](flyweight.md): permite compartilhar folhas, mas folhas compartilhadas não podem guardar referência ao pai.
+- [iterator.md](../behavioral/iterator.md): percorre um composite.
+- [visitor.md](../behavioral/visitor.md): mantém as operações sobre classes folha e composite em um único lugar.
+- [chain-of-responsibility.md](../behavioral/chain-of-responsibility.md): o vínculo com o pai muitas vezes faz o papel da cadeia.
+- [command.md](../behavioral/command.md): um comando macro é um composite de comandos.
 
-## Verification
-- Client code calls `Total()` on a product, a bundle and a bundle of bundles without checking types.
-- A new node kind (for example a gift card) works in existing carts without editing the client.
-- Tests cover an empty group, nested groups and the rule you enforce at runtime (no self-containment).
-- The internal child collection cannot be modified from outside.
+## Verificação
+- O código cliente chama `Total()` em um produto, em um pacote e em um pacote de pacotes sem verificar tipos.
+- Um novo tipo de nó (por exemplo, um vale-presente) funciona nos carrinhos existentes sem editar o cliente.
+- Os testes cobrem um grupo vazio, grupos aninhados e a regra que você impõe em tempo de execução (sem auto-contenção).
+- A coleção interna de filhos não pode ser modificada de fora.

@@ -1,39 +1,38 @@
-# Move Statements into Function
+# Mover Instruções para Função (Move Statements into Function)
 
-Fowler (2018), ch. 8. Formerly / aka: —. Inverse: Move Statements to Callers
+Fowler (2018), cap. 8. Nome anterior / outro nome: —. Inversa: Mover Instruções para os Chamadores (Move Statements to Callers)
 ([move-statements-to-callers.md](move-statements-to-callers.md)).
 
-## When to use
-- Every call to a function is accompanied by the same statements, right before or right after it.
-- Those statements are easier to understand as part of the function than as something each
-  caller must remember to do.
-- Moving them means a future change happens in one place instead of one per caller.
+## Quando usar
+- Toda chamada a uma função vem acompanhada das mesmas instruções, logo antes ou logo depois dela.
+- Essas instruções são mais fáceis de entender como parte da função do que como algo de que cada
+  chamador precisa se lembrar.
+- Movê-las significa que uma mudança futura acontece em um só lugar, em vez de um por chamador.
 
-Skip it when the statements do not really belong to the function but must still run with it.
-In that case extract a new function that wraps the statements and the call (the same steps
-below, minus the inline and rename). Also skip it when callers already differ, or are likely to;
-if a shared behavior has to start varying, the inverse refactoring is the tool.
+Pule quando as instruções não pertencem de fato à função, mas ainda assim precisam rodar com ela.
+Nesse caso, extraia uma nova função que envolva as instruções e a chamada (os mesmos passos
+abaixo, menos a internalização e a renomeação). Pule também quando os chamadores já diferem, ou provavelmente vão diferir;
+se um comportamento compartilhado precisar começar a variar, a refatoração inversa é a ferramenta.
 
-## Mechanics
-1. Make sure the statements sit directly next to the call; if not, use Slide Statements
-   ([slide-statements.md](slide-statements.md)) to bring them together.
-2. With a single caller, just cut the statements into the function body, run the tests and stop.
-3. With several callers, pick one and apply Extract Function
-   ([extract-function.md](../first-set/extract-function.md)) to the statements together with the call. Give
-   the new function a placeholder name you can search for later.
-4. Replace the statements and the old call in each other caller with a call to the new function,
-   running the tests after each replacement.
-5. When no caller uses the original function any more, apply Inline Function
-   ([inline-function.md](../first-set/inline-function.md)) to fold it into the new one, then delete it.
-6. Use Change Function Declaration
-   ([change-function-declaration.md](../first-set/change-function-declaration.md)) to rename the new function
-   to the original name, or a better one.
+## Mecânica
+1. Garanta que as instruções estejam diretamente ao lado da chamada; se não estiverem, use Deslocar Instruções (Slide Statements)
+   ([slide-statements.md](slide-statements.md)) para juntá-las.
+2. Com um único chamador, basta recortar as instruções para o corpo da função, executar os testes e parar.
+3. Com vários chamadores, escolha um e aplique Extrair Função (Extract Function)
+   ([extract-function.md](../first-set/extract-function.md)) às instruções junto com a chamada. Dê
+   à nova função um nome provisório que você possa buscar depois.
+4. Substitua as instruções e a chamada antiga em cada outro chamador por uma chamada à nova função,
+   executando os testes após cada substituição.
+5. Quando nenhum chamador usar mais a função original, aplique Internalizar Função (Inline Function)
+   ([inline-function.md](../first-set/inline-function.md)) para incorporá-la à nova e então apague-a.
+6. Use Mudar Declaração de Função (Change Function Declaration)
+   ([change-function-declaration.md](../first-set/change-function-declaration.md)) para renomear a nova função
+   para o nome original, ou um melhor.
 
-## Example
-Two methods print a shipment's address block. Each one prints the recipient name just before
-calling `PrintAddress`.
+## Exemplo
+Dois métodos imprimem o bloco de endereço de uma remessa. Cada um imprime o nome do destinatário logo antes de chamar `PrintAddress`.
 
-Before:
+Antes:
 
 ```csharp
 using System.Collections.Generic;
@@ -78,10 +77,7 @@ public class LabelPrinter
 }
 ```
 
-After step 3, `PrintShippingLabel` calls a temporary `PrintRecipientAndAddress(recipient)`, whose
-body is the name line followed by the `PrintAddress` call; `PrintDeliveryReceipt` still has its own name
-line and `PrintAddress` call. Steps 4 and 5 update `PrintDeliveryReceipt` and inline `PrintAddress`, and
-step 6 renames the temporary function to `PrintAddress`. After:
+Depois do passo 3, `PrintShippingLabel` chama um `PrintRecipientAndAddress(recipient)` temporário, cujo corpo é a linha do nome seguida da chamada a `PrintAddress`; `PrintDeliveryReceipt` ainda tem sua própria linha de nome e sua própria chamada a `PrintAddress`. Os passos 4 e 5 atualizam `PrintDeliveryReceipt` e internalizam `PrintAddress`, e o passo 6 renomeia a função temporária para `PrintAddress`. Depois:
 
 ```csharp
 using System.Collections.Generic;
@@ -111,10 +107,10 @@ public class LabelPrinter
 }
 ```
 
-The output of both methods is unchanged.
+A saída dos dois métodos não muda.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Search for the placeholder name to confirm it is gone.
-- Confirm no caller still performs the moved statements itself.
-- Compare the output of each caller before and after the change.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Procure o nome provisório para confirmar que ele sumiu.
+- Confirme que nenhum chamador ainda executa por conta própria as instruções movidas.
+- Compare a saída de cada chamador antes e depois da mudança.

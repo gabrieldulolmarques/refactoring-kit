@@ -1,25 +1,25 @@
 # Bridge
 
-Gamma et al. (1995), ch. 4. Also known as: Handle/Body. Category: object structural.
+Gamma et al. (1995), cap. 4. Também conhecido como: Handle/Body. Categoria: estrutural de objeto.
 
-## Intent
-Split an abstraction from its implementation into two hierarchies joined by a reference, so each can be extended on its own.
+## Intenção
+Separar uma abstração da sua implementação em duas hierarquias ligadas por uma referência, para que cada uma possa ser estendida por conta própria.
 
-## When it pays off
-- You have two independent dimensions of variation (for example what a message means and how it is delivered), and subclassing for every pair would multiply classes (`UrgentEmail`, `UrgentPush`, `ReminderEmail`, ...).
-- The implementation should be chosen or swapped at runtime, or hidden from client code.
-- Benefits: implementation and abstraction can be extended separately, clients depend only on the abstraction, and the implementation can change without touching them.
-- Liability: one more layer of indirection, and the split must be made at the right seam. It is designed in from the start; it is not a fix for two classes that happen to be incompatible.
-- Skip it when there is one implementation and no sign of more. A plain interface is enough then, and the bridge can come later.
+## Quando compensa
+- Você tem duas dimensões independentes de variação (por exemplo, o que uma mensagem significa e como ela é entregue), e criar uma subclasse para cada par multiplicaria as classes (`UrgentEmail`, `UrgentPush`, `ReminderEmail`, ...).
+- A implementação deve poder ser escolhida ou trocada em tempo de execução, ou ocultada do código cliente.
+- Benefícios: implementação e abstração podem ser estendidas separadamente, os clientes dependem apenas da abstração, e a implementação pode mudar sem tocar neles.
+- Custo: mais uma camada de indireção, e a divisão precisa ser feita no ponto certo. O padrão é planejado desde o início; não é uma correção para duas classes que, por acaso, são incompatíveis.
+- Não vale a pena quando há uma só implementação e nenhum sinal de que haverá mais. Uma interface simples basta, e a bridge pode vir depois.
 
-## Participants in C#
-- **Abstraction** (`Notification`): an abstract class that holds a reference to the implementor and defines the high-level operation in terms of it.
-- **RefinedAbstraction** (`SecurityAlert`, `DeliveryReminder`): subclasses that vary the high-level behavior.
-- **Implementor** (`IChannel`): interface with the primitive operations the abstraction needs. It need not look like the abstraction's interface.
-- **ConcreteImplementor** (`EmailChannel`, `PushChannel`, `WebhookChannel`): classes that implement `IChannel` for a specific delivery method.
+## Participantes em C#
+- **Abstraction** (`Notification`): classe abstrata que guarda uma referência ao implementador e define a operação de alto nível em termos dele.
+- **RefinedAbstraction** (`SecurityAlert`, `DeliveryReminder`): subclasses que variam o comportamento de alto nível.
+- **Implementor** (`IChannel`): interface com as operações primitivas de que a abstração precisa. Não precisa parecer com a interface da abstração.
+- **ConcreteImplementor** (`EmailChannel`, `PushChannel`, `WebhookChannel`): classes que implementam `IChannel` para um meio de entrega específico.
 
-## Example (C#)
-Notifications have kinds (security alert, delivery reminder) and channels (e-mail, push, webhook). Each kind builds its text and sends it through whatever channel it was given. Adding a channel or a kind touches one place.
+## Exemplo (C#)
+Notificações têm tipos (alerta de segurança, lembrete de entrega) e canais (e-mail, push, webhook). Cada tipo monta o seu texto e o envia pelo canal que recebeu. Adicionar um canal ou um tipo mexe em um só lugar.
 
 ```csharp
 using System;
@@ -94,24 +94,24 @@ public static class Program
 }
 ```
 
-## Variations
-- **Single implementor**: when there is only one implementation, the abstract implementor can be dropped. The separation still lets that implementation change without touching clients.
-- **Choosing the implementor**: the abstraction can pick it in its constructor from parameters, start with a default and switch later (for example by size or load), or ask a factory so it never names a concrete class. In C# the simplest form is constructor injection, with the choice made at the composition root or by a DI container.
-- **Shared implementors**: several abstraction objects can hold the same implementor instance. Implementors are often stateless or thread-safe so that sharing is safe.
-- **Back reference**: the implementor may need to report events (a message was rejected) to the abstraction; give it an event or a callback, not the concrete type.
+## Variações
+- **Implementador único**: quando há só uma implementação, o implementador abstrato pode ser descartado. A separação ainda permite que essa implementação mude sem tocar nos clientes.
+- **Escolha do implementador**: a abstração pode escolhê-lo no construtor a partir de parâmetros, começar com uma implementação padrão e trocar depois (por exemplo, pelo tamanho ou pela carga), ou pedir a uma fábrica para nunca citar uma classe concreta. Em C#, a forma mais simples é a injeção pelo construtor, com a escolha feita na raiz de composição ou por um contêiner de DI.
+- **Implementadores compartilhados**: vários objetos de abstração podem guardar a mesma instância de implementador. Os implementadores costumam ser sem estado ou seguros para threads, para que o compartilhamento seja seguro.
+- **Referência de volta**: o implementador pode precisar avisar a abstração sobre eventos (uma mensagem foi rejeitada); dê a ele um evento ou um callback, não o tipo concreto.
 
-## Risks and C# alternatives
-- If the implementor needs only one operation, a delegate (`Action<string, string, string>`) can replace the interface. Keep the interface once it has several members or needs its own state and tests.
-- Dependency injection already gives you the bridge for free: the abstraction takes the interface in its constructor. The pattern is mostly about seeing the two axes and keeping them apart.
-- Do not let `Notification` subclasses test the channel type (`if (Channel is EmailChannel)`). That voids the decoupling; put the difference into the interface.
-- Splitting too early adds interfaces nobody uses. Do it when the second axis shows up, not before.
+## Riscos e alternativas em C#
+- Se o implementador precisa de apenas uma operação, um delegate (`Action<string, string, string>`) pode substituir a interface. Mantenha a interface quando ela tiver vários membros ou precisar de estado e testes próprios.
+- A injeção de dependência já oferece a bridge de graça: a abstração recebe a interface no construtor. O padrão serve principalmente para enxergar os dois eixos e mantê-los separados.
+- Não deixe as subclasses de `Notification` testar o tipo do canal (`if (Channel is EmailChannel)`). Isso anula o desacoplamento; coloque a diferença na interface.
+- Separar cedo demais adiciona interfaces que ninguém usa. Faça isso quando o segundo eixo aparecer, não antes.
 
-## Related patterns
-- [abstract-factory.md](../creational/abstract-factory.md): can create and configure a particular bridge, so abstractions do not name concrete implementors.
-- [adapter.md](adapter.md): looks alike, but it reconciles existing, unrelated classes after the fact. Bridge is a design choice made up front.
+## Padrões relacionados
+- [abstract-factory.md](../creational/abstract-factory.md): pode criar e configurar uma bridge específica, para que as abstrações não citem implementadores concretos.
+- [adapter.md](adapter.md): parece parecido, mas reconcilia classes existentes e não relacionadas, depois do fato. A Bridge é uma decisão de design tomada de antemão.
 
-## Verification
-- Adding a channel needs no change in `Notification` or its subclasses; adding a kind needs no change in channels.
-- The number of classes grows as kinds plus channels, not kinds times channels.
-- No refined abstraction checks the concrete type of its implementor.
-- Tests for a kind use a fake `IChannel` and check what was sent.
+## Verificação
+- Adicionar um canal não exige mudança em `Notification` nem em suas subclasses; adicionar um tipo não exige mudança nos canais.
+- O número de classes cresce como tipos mais canais, não como tipos vezes canais.
+- Nenhuma abstração refinada verifica o tipo concreto do seu implementador.
+- Os testes de um tipo usam um `IChannel` falso e verificam o que foi enviado.

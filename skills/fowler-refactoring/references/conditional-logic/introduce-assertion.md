@@ -1,36 +1,36 @@
-# Introduce Assertion
+# Introduzir Asserção (Introduce Assertion)
 
-Fowler (2018), ch. 10. Formerly / aka: —. Inverse: —.
+Fowler (2018), cap. 10. Nome anterior / outro nome: —. Inversa: —.
 
-## When to use
-Smell: Comments. A comment that says "this must be positive" or "x is never null here" is
-an assumption written for humans only. An assertion states the same thing in code, so
-the reader sees it and the runtime can check it.
+## Quando usar
+Smell: Comentários (Comments). Um comentário que diz "isto deve ser positivo" ou "x nunca é nulo aqui" é
+uma suposição escrita só para humanos. Uma asserção afirma a mesma coisa em código, de modo que
+o leitor a vê e o ambiente de execução pode verificá-la.
 
-An assertion marks a programmer error: a condition that must hold if the rest of the
-system is correct. Reserve assertions for invariants the design depends on. Skip the
-merely plausible ones, because every assertion is one more condition to maintain.
+Uma asserção marca um erro de programador: uma condição que deve valer se o resto do
+sistema estiver correto. Reserve as asserções para invariantes das quais o design depende. Pule as
+meramente plausíveis, porque cada asserção é mais uma condição a manter.
 
-Input from outside the program (files, network, users, other systems) can legitimately be
-wrong, so it needs real validation and error handling, not an assertion. An assertion
-failure means a bug. Nothing should handle it as a normal outcome.
+Entradas de fora do programa (arquivos, rede, usuários, outros sistemas) podem legitimamente estar
+erradas, então precisam de validação e tratamento de erros de verdade, não de uma asserção. Uma falha de asserção
+significa um bug. Nada deve tratá-la como um resultado normal.
 
-## Mechanics
-1. Find a condition the code assumes to be true at this point.
-2. When needed: if the code shape does not allow a statement there (for example a ternary
-   expression), first reshape it into plain `if` statements. Test.
-3. Add the assertion at that point. Behavior is unchanged as long as the assertion has no
-   side effects and the program would work the same with all assertions removed. It is only
-   evaluated in Debug builds, so test in Debug. Test.
-4. When needed: ask where the bad value would first enter. Often the better place is the setter,
-   constructor or factory that produces it, so a failure points at the source and not at
-   the code that later uses it. Move or add the assertion there. Test.
-5. When needed: if the same condition appears in several assertions, extract it into a named function
-   ([extract-function.md](../first-set/extract-function.md)) so it is changed in one place.
-6. Remove the comment the assertion replaces.
+## Mecânica
+1. Encontre uma condição que o código assume ser verdadeira neste ponto.
+2. Quando necessário: se o formato do código não permitir uma instrução ali (por exemplo, uma expressão
+   ternária), reformule-o antes em instruções `if` simples. Teste.
+3. Adicione a asserção nesse ponto. O comportamento não muda desde que a asserção não tenha
+   efeitos colaterais e que o programa funcione do mesmo jeito com todas as asserções removidas. Ela só
+   é avaliada em builds Debug, então teste em Debug. Teste.
+4. Quando necessário: pergunte onde o valor ruim entraria primeiro. Muitas vezes o melhor lugar é o setter,
+   construtor ou fábrica que o produz, de modo que uma falha aponte para a origem e não para
+   o código que o usa depois. Mova ou adicione a asserção ali. Teste.
+5. Quando necessário: se a mesma condição aparecer em várias asserções, extraia-a para uma função nomeada
+   ([extract-function.md](../first-set/extract-function.md)) para que seja alterada em um só lugar.
+6. Remova o comentário que a asserção substitui.
 
-## Example
-Before:
+## Exemplo
+Antes:
 
 ```csharp
 public class Promotion
@@ -46,13 +46,13 @@ public class Promotion
 
     public string Label()
     {
-        // a promotion always has a coupon code or a season name
+        // uma promoção sempre tem um código de cupom ou um nome de temporada
         return string.IsNullOrEmpty(Code) ? SeasonName! : Code;
     }
 }
 ```
 
-After (the check lives in the constructor, where a bad pair would first enter):
+Depois (a verificação fica no construtor, onde um par inválido entraria primeiro):
 
 ```csharp
 using System.Diagnostics;
@@ -78,16 +78,11 @@ public class Promotion
 }
 ```
 
-## C# notes
-- `Debug.Assert` (`System.Diagnostics`) is removed from Release builds, which fits the rule
-  that the program must behave the same without assertions. Do not put side effects in the
-  asserted expression.
-- `Debug.Assert` does not change nullable flow analysis, so the `!` in `Label`
-  stays and still hides a possible null when `Code` is empty. The assertion documents the
-  invariant; it does not prove it to the compiler.
-- If a check must also run in production, it is not an assertion: use real validation
-  (for example throwing `ArgumentException`).
+## Notas (C#)
+- `Debug.Assert` (`System.Diagnostics`) é removido das compilações Release, o que combina com a regra de que o programa deve se comportar igual sem asserções. Não coloque efeitos colaterais na expressão verificada.
+- `Debug.Assert` não muda a análise de fluxo de nulos do compilador, então o `!` em `Label` continua e ainda oculta um possível null quando `Code` estiver vazio. A asserção documenta o invariante; ela não o prova para o compilador.
+- Se a verificação também precisar rodar em produção, ela não é uma asserção: use validação de verdade (por exemplo, lançar `ArgumentException`).
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Run the tests in a Debug build so the new assertion is actually evaluated.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Rode os testes em uma compilação Debug para que a nova asserção de fato seja avaliada.

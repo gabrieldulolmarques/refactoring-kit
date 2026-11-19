@@ -1,31 +1,31 @@
-# Introduce Special Case
+# Introduzir Caso Especial (Introduce Special Case)
 
-Fowler (2018), ch. 10. Formerly / aka: Introduce Null Object. Inverse: —.
+Fowler (2018), cap. 10. Nome anterior / outro nome: Introduce Null Object. Inversa: —.
 
-## When to use
-Smells: Temporary Field.
-- Many callers of a data structure check for the same special value (null, a sentinel string, a magic id) and most of them respond the same way.
-- You want that shared response in one place, so callers just ask the object for what they need.
-- Null is the commonest special value, hence the name Null Object, but the technique works for any special case ("unknown", "guest", "no plan").
-- Keep a real check where a caller genuinely needs different behavior; a few exceptions are normal.
+## Quando usar
+Smells: Campo Temporário (Temporary Field).
+- Muitos chamadores de uma estrutura de dados verificam o mesmo valor especial (null, uma string sentinela, um id mágico) e a maioria deles responde do mesmo jeito.
+- Você quer essa resposta compartilhada em um só lugar, de modo que os chamadores simplesmente peçam ao objeto o que precisam.
+- Null é o valor especial mais comum, daí o nome Null Object, mas a técnica funciona para qualquer caso especial ("desconhecido", "visitante", "sem plano").
+- Mantenha uma verificação real onde um chamador realmente precisar de comportamento diferente; algumas exceções são normais.
 
-## Mechanics
-Start from a container (class or record) whose property, the subject, can hold the special value, and clients that compare it to that value.
+## Mecânica
+Parta de um contêiner (classe ou record) cuja propriedade, o sujeito, pode guardar o valor especial, e de clientes que o comparam com esse valor.
 
-1. Add an `IsSpecialCase`-style property to the subject class, returning `false`.
-2. Create the special-case type with only that property, returning `true`.
-3. Extract Function ([extract-function.md](../first-set/extract-function.md)) on the special-value comparison, and make every client call the new function instead of comparing directly. Optionally make it throw on unexpected values while you migrate.
-4. Make the container return the special-case object instead of the raw special value (or add it through a transform step for plain records).
-5. Change the body of the extracted check to use the new property. Compile and test.
-6. For each client, find the shared reaction and move it into the special-case type (Combine Functions into Class, [combine-functions-into-class.md](../first-set/combine-functions-into-class.md), or into Transform, [combine-functions-into-transform.md](../first-set/combine-functions-into-transform.md)). Replace the client's conditional with a plain call. Test after each client.
-7. Related objects the special case must return are themselves special cases (for example a null history object). Writes that clients used to skip become no-ops on the special case.
-8. For clients that still need different behavior, Inline Function ([inline-function.md](../first-set/inline-function.md)) the extracted check into a direct property test.
-9. Remove Dead Code ([remove-dead-code.md](../moving-features/remove-dead-code.md)) on the extracted check once nobody calls it.
+1. Adicione ao sujeito uma propriedade no estilo `IsSpecialCase`, retornando `false`.
+2. Crie o tipo de caso especial apenas com essa propriedade, retornando `true`.
+3. Aplique Extrair Função (Extract Function) ([extract-function.md](../first-set/extract-function.md)) à comparação com o valor especial e faça todo cliente chamar a nova função em vez de comparar diretamente. Opcionalmente, faça-a lançar exceção em valores inesperados durante a migração.
+4. Faça o contêiner retornar o objeto de caso especial em vez do valor especial bruto (ou adicione-o por um passo de transformação para registros simples).
+5. Altere o corpo da verificação extraída para usar a nova propriedade. Compile e teste.
+6. Para cada cliente, encontre a reação compartilhada e mova-a para o tipo de caso especial (Combinar Funções em Classe (Combine Functions into Class), [combine-functions-into-class.md](../first-set/combine-functions-into-class.md), ou em Transformação, [combine-functions-into-transform.md](../first-set/combine-functions-into-transform.md)). Substitua a condicional do cliente por uma chamada simples. Teste após cada cliente.
+7. Objetos relacionados que o caso especial precisa retornar são eles mesmos casos especiais (por exemplo, um objeto de histórico nulo). Escritas que os clientes costumavam pular viram operações vazias no caso especial.
+8. Para os clientes que ainda precisam de comportamento diferente, aplique Internalizar Função (Inline Function) ([inline-function.md](../first-set/inline-function.md)) à verificação extraída, transformando-a em um teste direto da propriedade.
+9. Aplique Remover Código Morto (Remove Dead Code) ([remove-dead-code.md](../moving-features/remove-dead-code.md)) à verificação extraída quando ninguém mais a chamar.
 
-Treat the special case as a value: it should not change after creation, whatever the real objects it replaces allow. If clients only read, a constant or literal instance can be enough.
+Trate o caso especial como um valor: ele não deve mudar após a criação, seja o que for que os objetos reais que ele substitui permitam. Se os clientes só leem, uma instância constante ou literal pode bastar.
 
-## Example
-Before: four clients handle a cart with no promotion. The example skips the extracted-check stage (step 3) and goes straight to the final shape.
+## Exemplo
+Antes: quatro clientes tratam um carrinho sem promoção. O exemplo pula a etapa de verificação extraída (passo 3) e vai direto para a forma final.
 
 ```csharp
 public class Promotion
@@ -63,7 +63,7 @@ public class PromotionClients
 }
 ```
 
-After: the missing promotion is a special-case object.
+Depois: a promoção ausente vira um objeto de caso especial.
 
 ```csharp
 public class Promotion
@@ -86,7 +86,7 @@ public sealed class MissingPromotion : Promotion
 {
     public MissingPromotion() : base("no promotion", 0m, 0) { }
     public override bool IsMissing => true;
-    public override int Redemptions { get => 0; set { /* ignored */ } }
+    public override int Redemptions { get => 0; set { /* ignorado */ } }
 }
 
 public class Cart
@@ -103,16 +103,16 @@ public class PromotionClients
     public int DaysLeft(Cart cart) => cart.Promotion.DaysLeft;
     public void Redeem(Cart cart) => cart.Promotion.Redemptions++;
 
-    // the one client that must behave differently keeps an explicit test
+    // o único cliente que deve se comportar de forma diferente mantém um teste explícito
     public string Banner(Cart cart) =>
         cart.Promotion.IsMissing ? "Join the newsletter for coupons" : $"{cart.Promotion.Name} ends soon";
 }
 ```
 
-`Banner` is a fifth client that is not in the Before; it is added only to show a client that keeps its own explicit test. Apart from it, the behavior is the same: callers get the same values as before, and the write to a missing promotion is still a no-op.
+`Banner` é um quinto cliente que não está no Antes; ele foi adicionado só para mostrar um cliente que mantém o seu próprio teste explícito. Fora ele, o comportamento é o mesmo: os chamadores recebem os mesmos valores de antes, e a escrita em uma promoção ausente continua sem efeito.
 
-## C# notes
-- With nullable reference types enabled, the special case removes `?` and null checks at the call sites: the property becomes non-nullable and never returns null.
+## Notas (C#)
+- Com tipos de referência anuláveis ativados, o caso especial remove o `?` e as verificações de null nos pontos de chamada: a propriedade passa a não ser anulável e nunca retorna null.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.

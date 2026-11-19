@@ -1,43 +1,43 @@
-# Remove Subclass
+# Remover Subclasse (Remove Subclass)
 
-Fowler (2018), ch. 12. Formerly / aka: formerly Replace Subclass with Fields.
-Inverse: Replace Type Code with Subclasses ([replace-type-code-with-subclasses.md](replace-type-code-with-subclasses.md)).
+Fowler (2018), cap. 12. Nome anterior / outro nome: Replace Subclass with Fields.
+Inversa: Substituir Código de Tipo por Subclasses (Replace Type Code with Subclasses) ([replace-type-code-with-subclasses.md](replace-type-code-with-subclasses.md)).
 
-## When to use
-Smell: none specific in the book (related: Lazy Element, Speculative Generality).
+## Quando usar
+Smell: nenhum específico no livro (relacionados: Elemento Ocioso (Lazy Element), Generalidade Especulativa (Speculative Generality)).
 
-- A subclass was added for variation that never grew: it overrides a member or two to return a
-  constant, and nothing else depends on its type. The class costs readers attention and
-  gives nothing back.
-- The behavior that justified the subclass moved elsewhere or was deleted, leaving a stump.
-- Usually applied to a whole group of sibling subclasses. Prepare all of them first
-  (factory, type tests), then fold them in one at a time.
-- Before deleting, look at the clients for behavior that depends on the subclass. If it would
-  belong inside the subclass, the subclass may still be worth keeping.
-- Do not use it when the subclasses carry real polymorphic behavior or different data
-  structure. That variation is what inheritance is for.
+- Uma subclasse foi adicionada para uma variação que nunca cresceu: ela sobrescreve um ou dois membros para retornar uma
+  constante, e nada mais depende do seu tipo. A classe custa atenção dos leitores e
+  não devolve nada.
+- O comportamento que justificava a subclasse foi para outro lugar ou foi apagado, deixando apenas um resto.
+- Normalmente aplicada a um grupo inteiro de subclasses irmãs. Prepare todas primeiro
+  (fábrica, testes de tipo), depois incorpore-as uma de cada vez.
+- Antes de apagar, olhe os clientes em busca de comportamento que dependa da subclasse. Se ele
+  pertenceria à subclasse, talvez valha a pena mantê-la.
+- Não use quando as subclasses carregam comportamento polimórfico real ou estrutura de dados
+  diferente. Essa variação é para o que a herança serve.
 
-## Mechanics
-1. Encapsulate construction: apply Replace Constructor with Factory Function
-   ([replace-constructor-with-factory-function.md](../refactoring-apis/replace-constructor-with-factory-function.md)) to each subclass constructor. If the
-   callers pick the subclass from a data value (a code, a record field), move that selection
-   logic into the factory. Compile and test.
-2. Find every place that tests the type of an object against a subclass (`is`, `as`,
-   `GetType()`). Extract each test into a function ([extract-function.md](../first-set/extract-function.md)), move it onto
-   the superclass ([move-function.md](../moving-features/move-function.md)), and make callers use it. Compile and test after
-   each change.
-3. Add a field to the superclass that represents what the subclasses differ in, and set it in
-   the constructor to the default case. Expose it through the same member the subclasses
-   override.
-4. Take one subclass. Change the factory so it returns the superclass with the field set to
-   that subclass's value, and change the moved type tests to read the field. Compile and test.
-5. Delete that subclass. Compile and test.
-6. Repeat steps 4 and 5 for each remaining subclass.
-7. Optionally make the default case symmetrical with the others (set the field explicitly in
-   the factory) if that adds no complexity.
+## Mecânica
+1. Encapsule a construção: aplique Substituir Construtor por Função de Fábrica (Replace Constructor with Factory Function)
+   ([replace-constructor-with-factory-function.md](../refactoring-apis/replace-constructor-with-factory-function.md)) a cada construtor de subclasse. Se os
+   chamadores escolhem a subclasse a partir de um valor de dados (um código, um campo de registro), mova essa lógica
+   de seleção para a fábrica. Compile e teste.
+2. Encontre todo lugar que testa o tipo de um objeto contra uma subclasse (`is`, `as`,
+   `GetType()`). Extraia cada teste para uma função ([extract-function.md](../first-set/extract-function.md)), mova-a para
+   a superclasse ([move-function.md](../moving-features/move-function.md)) e faça os chamadores usá-la. Compile e teste após
+   cada mudança.
+3. Adicione à superclasse um campo que represente aquilo em que as subclasses diferem, e defina-o no
+   construtor com o caso padrão. Exponha-o pelo mesmo membro que as subclasses
+   sobrescrevem.
+4. Escolha uma subclasse. Mude a fábrica para que ela retorne a superclasse com o campo definido com
+   o valor daquela subclasse, e mude os testes de tipo movidos para que leiam o campo. Compile e teste.
+5. Apague essa subclasse. Compile e teste.
+6. Repita os passos 4 e 5 para cada subclasse restante.
+7. Opcionalmente, torne o caso padrão simétrico aos outros (defina o campo explicitamente na
+   fábrica) se isso não acrescentar complexidade.
 
-## Example
-Before: two subclasses that only return a constant, created from stored records.
+## Exemplo
+Antes: duas subclasses que apenas retornam uma constante, criadas a partir de registros armazenados.
 
 ```csharp
 using System.Collections.Generic;
@@ -94,8 +94,7 @@ public class Library
 }
 ```
 
-Steps 1 and 2: encapsulate creation in a factory and the type test in a member of the
-superclass.
+Passos 1 e 2: encapsule a criação em uma fábrica e o teste de tipo em um membro da superclasse.
 
 ```csharp
 // fragment
@@ -122,7 +121,7 @@ public class Library
 }
 ```
 
-Steps 3 to 7: add the field, fold each subclass into the factory, then delete the subclasses.
+Passos 3 a 7: adicione o campo, incorpore cada subclasse na fábrica, depois apague as subclasses.
 
 ```csharp
 // fragment
@@ -147,8 +146,8 @@ public class Playlist
 }
 ```
 
-Behavior is unchanged: `Kind` returns the same values, and the client code only changed in the
-first two steps, before any subclass disappeared.
+O comportamento não muda: `Kind` retorna os mesmos valores, e o código do cliente só mudou nos dois
+primeiros passos, antes de qualquer subclasse desaparecer.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.

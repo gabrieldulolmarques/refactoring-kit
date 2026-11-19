@@ -1,32 +1,31 @@
-# Change Value to Reference
+# Mudar Valor para Referência (Change Value to Reference)
 
-Fowler (2018), ch. 9. Formerly / aka: —. Inverse: Change Reference to Value
+Fowler (2018), cap. 9. Nome anterior / outro nome: —. Inversa: Mudar Referência para Valor (Change Reference to Value)
 ([change-reference-to-value.md](change-reference-to-value.md)).
 
-## When to use
-- Several host objects (invoices, orders) each hold their own copy of the same logical entity
-  (one account, one customer), built with `new` from the same identifier.
-- The entity is updated or enriched over time, so every copy must be found and changed. A missed
-  copy leaves the data inconsistent.
-- The entity has a real identity: two objects with the same id are the same thing, not just
-  equal values.
+## Quando usar
+- Vários objetos hospedeiros (faturas, pedidos) guardam cada um a sua própria cópia da mesma entidade lógica
+  (uma conta, um cliente), construída com `new` a partir do mesmo identificador.
+- A entidade é atualizada ou enriquecida ao longo do tempo, então toda cópia precisa ser encontrada e alterada. Uma cópia
+  esquecida deixa os dados inconsistentes.
+- A entidade tem identidade real: dois objetos com o mesmo id são a mesma coisa, não apenas
+  valores iguais.
 
-Not worth it when the entity is never updated: copies are then harmless, and a value is simpler
-(no repository, no lifetime to manage). Duplicate memory alone is rarely a reason.
+Não vale a pena quando a entidade nunca é atualizada: as cópias são então inofensivas, e um valor é mais simples
+(sem repositório, sem ciclo de vida para gerenciar). Memória duplicada, por si só, raramente é motivo.
 
-## Mechanics
-1. Create a repository (or registry) that holds one instance per identifier, if the code does not
-   have one yet. Reuse an existing one when there is one.
-2. Make sure the code that builds the host object has what it needs to look up the right
-   instance, usually the identifier already present in its input.
-3. Change the host's constructor (or the code that creates it) to ask the repository for the
-   instance instead of calling `new`. Compile and test after each constructor you change.
+## Mecânica
+1. Crie um repositório (ou registro) que guarde uma instância por identificador, se o código ainda não
+   tiver um. Reutilize um existente, se houver.
+2. Garanta que o código que constrói o objeto hospedeiro tenha o que precisa para localizar a instância
+   correta, normalmente o identificador que já está presente na sua entrada.
+3. Mude o construtor do hospedeiro (ou o código que o cria) para pedir a instância ao repositório
+   em vez de chamar `new`. Compile e teste após cada construtor que você mudar.
 
-**Beyond the book:** decide how the repository is filled: created on first request, or pre-loaded so that an unknown id is an error, and make the host's behavior match that choice. If the repository is a global, consider passing it in as a constructor parameter so the host is not coupled to shared state.
+**Além do livro:** decida como o repositório é preenchido: criado no primeiro pedido, ou pré-carregado de modo que um id desconhecido seja um erro, e faça o comportamento do hospedeiro corresponder a essa escolha. Se o repositório for global, considere passá-lo como parâmetro do construtor para que o hospedeiro não fique acoplado a estado compartilhado.
 
-## Example
-Before: every reading builds its own `Sensor`, so two readings from the same sensor hold two
-separate objects.
+## Exemplo
+Antes: cada leitura cria o seu próprio `Sensor`, então duas leituras do mesmo sensor guardam dois objetos separados.
 
 ```csharp
 public class Sensor
@@ -49,9 +48,9 @@ public class Reading
 }
 ```
 
-Raising the alarm threshold through one reading does not affect the other.
+Alterar o limite de alarme por meio de uma leitura não afeta a outra.
 
-After: a registry hands out one `Sensor` per id, and `Reading` uses it.
+Depois: um registro entrega um único `Sensor` por id, e `Reading` o usa.
 
 ```csharp
 using System.Collections.Generic;
@@ -87,18 +86,13 @@ public class Reading
 }
 ```
 
-Now `a.Sensor` and `b.Sensor` are the same object for the same id, so a change made through one
-reading is seen by all. Here the registry is passed in rather than read from a global.
+Agora `a.Sensor` e `b.Sensor` são o mesmo objeto para o mesmo id, então uma mudança feita por uma leitura é vista por todas. Aqui o registro é passado como parâmetro, em vez de ser lido de uma variável global.
 
-## C# notes
-- A repository or registry that hands out the shared instance is the usual shape: a
-  dictionary keyed by id, behind a small class.
-- If the repository is shared across threads, use a thread-safe structure (for example
-  `ConcurrentDictionary.GetOrAdd`) so two callers cannot create two instances for one id.
-- Reference equality is the default for a class, which is what you want here: do not add value
-  equality to the shared entity.
+## Notas (C#)
+- Um repositório ou registro que entrega a instância compartilhada é o formato usual: um dicionário indexado por id, dentro de uma pequena classe.
+- Se o repositório for compartilhado entre threads, use uma estrutura segura para threads (por exemplo, `ConcurrentDictionary.GetOrAdd`) para que dois chamadores não criem duas instâncias para um mesmo id.
+- A igualdade por referência é o comportamento padrão de uma classe, e é o que se quer aqui: não adicione igualdade por valor à entidade compartilhada.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Add a test that two hosts built from the same id return the same instance
-  (`Assert.Same`), and that a change made through one is visible through the other.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Adicione um teste de que duas instâncias criadas com o mesmo id retornam a mesma instância (`Assert.Same`), e de que uma mudança feita por uma é visível pela outra.

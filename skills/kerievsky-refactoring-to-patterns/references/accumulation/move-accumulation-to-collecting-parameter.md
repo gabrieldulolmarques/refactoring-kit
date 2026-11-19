@@ -1,26 +1,26 @@
-# Move Accumulation to Collecting Parameter
+# Mover Acumulação para Collecting Parameter (Move Accumulation to Collecting Parameter)
 
-Kerievsky (2004), ch. 10. Pattern: Collecting Parameter. Direction: to.
+Kerievsky (2004), cap. 10. Padrão: Collecting Parameter. Direção: até.
 
-## When to use
-Smells: Long Method.
+## Quando usar
+Smells: Método Longo (Long Method).
 
-- One bulky method builds up a result in a local variable (a string, a list, a running report). To split it into small methods, each piece needs somewhere to put what it finds.
-- Instead of each extracted method returning a piece that the caller must combine, pass the result object to each of them and let them add to it. The object that gathers the data is the Collecting Parameter.
-- It pairs naturally with [compose-method.md](../simplification/compose-method.md): the accumulation method ends up as three things, create the result, pass it along, read it back.
-- It also works across several objects, for example recursively over a Composite: each node adds its own data to the same parameter.
-- Benefits: smaller, simpler methods, and sometimes faster code (one buffer instead of many concatenations).
-- Limit: it suits specific classes with a known interface. When the data comes from many unrelated classes with different interfaces, [move-accumulation-to-visitor.md](move-accumulation-to-visitor.md) can be cleaner, but try this one first because a Visitor is harder to build.
+- Um método volumoso constrói um resultado em uma variável local (uma string, uma lista, um relatório parcial). Para dividi-lo em métodos pequenos, cada pedaço precisa de um lugar para colocar o que encontra.
+- Em vez de cada método extraído devolver um pedaço que o chamador precisa combinar, passe o objeto de resultado para cada um deles e deixe que acrescentem a ele. O objeto que reúne os dados é o Collecting Parameter.
+- Combina naturalmente com Compor Método (Compose Method) ([compose-method.md](../simplification/compose-method.md)): o método de acumulação acaba sendo três coisas: criar o resultado, passá-lo adiante e ler de volta.
+- Também funciona com vários objetos, por exemplo recursivamente sobre um Composite: cada nó acrescenta os seus próprios dados ao mesmo parâmetro.
+- Benefícios: métodos menores e mais simples, e às vezes código mais rápido (um buffer em vez de muitas concatenações).
+- Limite: serve para classes específicas com uma interface conhecida. Quando os dados vêm de muitas classes sem relação entre si, com interfaces diferentes, [move-accumulation-to-visitor.md](move-accumulation-to-visitor.md) pode ser mais limpo, mas experimente este primeiro, porque um Visitor é mais difícil de construir.
 
-## Mechanics
-1. Find the accumulation method and the local variable that holds the result. If its type cannot be built up across calls (an immutable string, for example), change it to one that can, such as a `StringBuilder`. Compile.
-2. Pick one accumulation step and apply Extract Function ([extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md)) to move it into a private method that returns `void` and receives the result as a parameter, writing into it there. Compile and test.
-3. Repeat step 2 for every step. The original method should now only create the result, pass it to the extracted methods, and read the final value. Compile and test.
+## Mecânica
+1. Encontre o método de acumulação e a variável local que guarda o resultado. Se o tipo dela não pode ser construído ao longo de várias chamadas (uma string imutável, por exemplo), troque-o por um que possa, como um `StringBuilder`. Compile.
+2. Escolha um passo de acumulação e aplique Extrair Função (Extract Function) ([extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md)) para movê-lo para um método privado que devolve `void` e recebe o resultado como parâmetro, escrevendo nele. Compile e teste.
+3. Repita o passo 2 para cada passo. O método original agora deve apenas criar o resultado, passá-lo aos métodos extraídos e ler o valor final. Compile e teste.
 
-**Beyond the book:** when a step also produces a value the caller needs (a subtotal, for example), the extracted method may return that value as well. The result being built still goes through the parameter.
+**Além do livro:** quando um passo também produz um valor que o chamador precisa (um subtotal, por exemplo), o método extraído pode devolver esse valor também. O resultado que está sendo construído continua passando pelo parâmetro.
 
-## Example
-Before: one method builds the CSV text, concatenating onto a string while it also computes the total.
+## Exemplo
+Antes: um método monta o texto CSV, concatenando em uma string enquanto também calcula o total.
 
 ```csharp
 using System.Collections.Generic;
@@ -77,7 +77,7 @@ public class CsvExporter
 }
 ```
 
-After: the `StringBuilder` is created once and passed to each step. The steps that also contribute to the total return an amount, which departs from the book's `void` rule in step 2 (see the note after the mechanics).
+Depois: o `StringBuilder` é criado uma vez e passado a cada passo. Os passos que também contribuem para o total devolvem um valor, o que se afasta da regra do `void` do livro no passo 2 (veja a nota depois da mecânica).
 
 ```csharp
 using System.Text;
@@ -120,9 +120,9 @@ public class CsvExporter
 }
 ```
 
-## C# notes
-- `string` is immutable, so step 1 usually means `StringBuilder`. For lists, an `ICollection<T>` or `List<T>` passed in works the same way.
-- Where the parameter only ever receives text, a `TextWriter` parameter lets callers pick the destination (a string, a file, a stream) and avoids a final `ToString()`.
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- The output is byte-for-byte the same as before for a few representative inputs, including the empty and the with-fee cases.
+## Notas (C#)
+- `string` é imutável, então o passo 1 normalmente significa `StringBuilder`. Para listas, um `ICollection<T>` ou `List<T>` passado como parâmetro funciona do mesmo jeito.
+- Quando o parâmetro só recebe texto, um parâmetro `TextWriter` permite que o chamador escolha o destino (uma string, um arquivo, um stream) e evita um `ToString()` final.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- A saída é byte a byte igual à anterior para alguns casos representativos, incluindo os casos vazio e com taxa.

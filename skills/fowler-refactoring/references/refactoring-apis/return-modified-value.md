@@ -1,24 +1,24 @@
-# Return Modified Value
+# Retornar Valor Modificado (Return Modified Value)
 
-Fowler (2018), web edition only (not in the print book); summary at https://refactoring.com/catalog/returnModifiedValue.html. Formerly / aka: —. Inverse: —.
+Fowler (2018), só na edição web (não está no livro impresso); resumo em https://refactoring.com/catalog/returnModifiedValue.html. Nome anterior / outro nome: —. Inversa: —.
 
-## When to use
-Smell: none specific (web edition only; related: Mutable Data, Long Function).
-- A function reads some inputs, computes a value and stores it in a variable declared outside it (a field, a local captured by the caller, a shared accumulator), returning nothing.
-- A reader of the calling code cannot tell that the call produces a value, or which variable it feeds.
-- You want to extract, move or reorder such code and the hidden write makes that risky.
+## Quando usar
+Smell: nenhum específico (só na edição web; relacionados: Dados Mutáveis (Mutable Data), Função Longa (Long Function)).
+- Uma função lê algumas entradas, calcula um valor e o armazena em uma variável declarada fora dela (um campo, uma variável local capturada pelo chamador, um acumulador compartilhado), sem retornar nada.
+- Quem lê o código chamador não consegue saber que a chamada produz um valor, nem qual variável ela alimenta.
+- Você quer extrair, mover ou reordenar esse código e a escrita oculta torna isso arriscado.
 
-Skip it when the function updates several variables at once (return a small record, or split the function first) or when mutating shared state is the whole point of the operation.
+Pule quando a função atualiza várias variáveis de uma vez (retorne um pequeno registro, ou divida a função primeiro) ou quando alterar estado compartilhado é o objetivo inteiro da operação.
 
-## Mechanics
-1. Make the function return the variable it modifies, and at the call site assign the returned value to that variable. Compile and test.
-2. Inside the function, declare a local for the value it returns, starting where the caller used to start it, and update the local instead of the outside variable. The caller's initialization is now ignored; changing it temporarily is a quick way to confirm that. Compile and test.
-   - If the function accumulates onto a value left by earlier calls, start the local at the identity value (`0` for a sum, an empty list) and have the caller combine the result with its variable.
-3. Combine the declaration with the calculation where you can, and make the receiving variable read-only if nothing else changes it. Compile and test.
-4. Rename the variable inside the function to reflect its new role (often `result`), and remove the outside variable if nothing else needs it. Compile and test.
+## Mecânica
+1. Faça a função retornar a variável que ela modifica e, no ponto de chamada, atribua o valor retornado a essa variável. Compile e teste.
+2. Dentro da função, declare uma variável local para o valor que ela retorna, começando de onde o chamador começava, e atualize a local em vez da variável externa. A inicialização no chamador agora é ignorada; mudá-la temporariamente é um jeito rápido de confirmar isso. Compile e teste.
+   - Se a função acumula sobre um valor deixado por chamadas anteriores, inicie a local no valor identidade (`0` para uma soma, uma lista vazia) e faça o chamador combinar o resultado com a sua variável.
+3. Junte a declaração com o cálculo onde der, e torne a variável que recebe o valor somente leitura se nada mais a altera. Compile e teste.
+4. Renomeie a variável dentro da função para refletir o novo papel (muitas vezes `result`), e remova a variável externa se nada mais precisar dela. Compile e teste.
 
-## Example
-Before:
+## Exemplo
+Antes:
 
 ```csharp
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ public class DeliveryAttempt
 }
 ```
 
-After:
+Depois:
 
 ```csharp
 using System.Collections.Generic;
@@ -82,7 +82,7 @@ public class DeliveryReport
 }
 ```
 
-Same behavior, including repeated calls (the "before" resets the field at the start of `Summarize`), with the field gone and the data flow visible at the call.
+O comportamento é o mesmo, inclusive nas chamadas repetidas (o "antes" zera o campo no início de `Summarize`), com o campo removido e o fluxo de dados visível na chamada.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.

@@ -1,91 +1,93 @@
 # refactoring-kit
 
-The refactoring catalogs of Martin Fowler and Joshua Kerievsky and GoF design patterns, packaged
-as [Agent Skills](https://agentskills.io) for coding agents (Claude Code and Codex). The package
-also ships two subagents, two rules and a C# example in every refactoring and pattern file.
+Os catálogos de refatoração de Martin Fowler e de Joshua Kerievsky e os 23 padrões do GoF, empacotados
+como [Agent Skills](https://agentskills.io) para agentes de código (Claude Code e Codex). O
+pacote traz também dois subagentes, duas rules e um exemplo em C# em cada arquivo de refatoração e de
+padrão.
 
-**Using it?** If these skills help you in a project, a paper or a post, please mention it: link
-this repository and credit Gabriel R. Marques ([gabrieldulolmarques](https://github.com/gabrieldulolmarques)
-on GitHub). I'd also like to hear how it went, so feel free to open an issue.
+**Vai usar?** Se estas skills ajudarem você em um projeto, um artigo ou uma postagem, por favor mencione:
+coloque o link deste repositório e dê o crédito a Gabriel R. Marques
+([gabrieldulolmarques](https://github.com/gabrieldulolmarques) no GitHub). Também gostaria de saber como
+foi, então fique à vontade para abrir uma issue.
 
-## What is in it
+## O que tem
 
-One skill per book, so you can tell which catalog each applied thing came from, plus an entry skill:
+Uma skill por livro, para saber de qual catálogo veio cada coisa aplicada, mais uma de entrada:
 
-| Skill | Source | What it brings | ID |
+| Skill | Fonte | O que traz | ID |
 |---|---|---|---|
-| `refactoring` | | The entry point: `/refactoring <target>` (in Codex, `$refactoring <target>`; through the plugin, `$refactoring-kit:refactoring <target>`) diagnoses, picks the skill and applies step by step | |
-| `fowler-refactoring` | Fowler (2018) | 24 code smells and 66 refactorings | `F:<slug>` |
-| `kerievsky-refactoring-to-patterns` | Kerievsky (2004) | 12 code smells and 27 refactorings that take code to a pattern, towards it or away from it | `K:<slug>` |
-| `gof-design-patterns` | Gamma et al. (1995) | Lookup for the 23 patterns, each linked to the refactorings that reach it, where there are any | `GoF:<pattern>` |
+| `refactoring` | | A porta de entrada: `/refactoring <alvo>` (no Codex, `$refactoring <alvo>`; pelo plugin, `$refactoring-kit:refactoring <alvo>`) diagnostica, escolhe a skill e aplica passo a passo | |
+| `fowler-refactoring` | Fowler (2018) | 24 code smells e 66 refatorações | `F:<slug>` |
+| `kerievsky-refactoring-to-patterns` | Kerievsky (2004) | 12 code smells e 27 refatorações que levam a um padrão, rumo a ele ou para longe dele | `K:<slug>` |
+| `gof-design-patterns` | Gamma et al. (1995) | Consulta aos 23 padrões, cada um ligado às refatorações que levam a ele, quando há | `GoF:<padrão>` |
 
-Each refactoring has when to use, step-by-step mechanics, a C# example and a verification checklist.
-Each pattern has intent, when it pays off, participants, an example and risks. Sources are cited by
-chapter and entry name, never by page.
+Cada refatoração tem quando usar, mecânica passo a passo, exemplo em C# e uma lista de verificação.
+Cada padrão tem intenção, quando compensa, participantes, exemplo e riscos. As fontes são citadas por
+capítulo e nome da entrada, nunca por página.
 
-## How the pieces fit together
+## Como as peças se encaixam
 
-![Flow from the violated principle to the design pattern: SOLID, smell, Fowler refactoring, Kerievsky refactoring to a pattern and GoF pattern](docs/flow.svg)
+![Fluxo do princípio violado ao padrão de projeto: SOLID, smell, refatoração de Fowler, refatoração para padrão de Kerievsky e padrão do GoF](docs/flow.svg)
 
-A violated SOLID principle points to a smell, the smell to a Fowler refactoring and, if it pays off, to
-a Kerievsky refactoring that ends in a GoF pattern. The drawing is editable: open
-[`docs/flow.excalidraw`](docs/flow.excalidraw) in [excalidraw.com](https://excalidraw.com).
+Um princípio do SOLID violado aponta para um smell, o smell para uma refatoração de Fowler e, se
+compensar, para uma refatoração de Kerievsky que termina num padrão do GoF. O desenho é editável: abra
+[`docs/flow.excalidraw`](docs/flow.excalidraw) em [excalidraw.com](https://excalidraw.com).
 
-## Agents and rules
+## Agentes e rules
 
-- `refactoring-analyst` reads the code it is pointed at, names the smells and returns a short plan:
-  where, which smell, which refactoring, whether tests cover it and the risk. It never edits.
-- `refactoring-implementer` applies one item of the plan (or a named refactoring), following the
-  mechanics with a build and a test run after each step. It makes one commit per refactoring, with the
-  source ID at the end of the description, and never pushes. Build and test commands come from the call
-  or from the project's own instructions, not from this package.
-- `rules/solid.md` has the SOLID checks, with the path from each principle to the refactorings.
-- `rules/source-ids.md` defines the `F:`, `K:`, `GoF:` and `SOLID:` IDs in commits, plans and reports,
-  for example `♻️ refactor(billing): replace payment type switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`.
-  With them, `git rev-list --count --grep='\[F:' HEAD` counts the use of each source.
+- `refactoring-analyst` lê o código indicado, nomeia os smells e devolve um plano curto: onde, qual
+  smell, qual refatoração, se há testes cobrindo e o risco. Nunca edita.
+- `refactoring-implementer` aplica um item do plano (ou uma refatoração nomeada), seguindo a mecânica
+  com um build e uma execução dos testes após cada passo. Faz um commit por refatoração, com o ID da
+  fonte no fim da descrição, e nunca faz push. Os comandos de build e de teste vêm da chamada ou das
+  instruções do projeto, não deste pacote.
+- `rules/solid.md` traz os cheques do SOLID, com o caminho de cada princípio até as refatorações.
+- `rules/source-ids.md` define os IDs `F:`, `K:`, `GoF:` e `SOLID:` nos commits, planos e relatórios, por
+  exemplo `♻️ refactor(billing): replace payment type switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`.
+  Com eles, `git rev-list --count --grep='\[F:' HEAD` conta o uso de cada fonte.
 
-Review the analyst's plan before handing an item to the implementer.
+Revise o plano do analista antes de entregar um item ao implementador.
 
-## Installation
+## Instalação
 
-- **Claude Code, as a plugin:** clone the repository (`git clone https://github.com/gabrieldulolmarques/refactoring-kit`)
-  and run `claude --plugin-dir <path-to-the-clone>`. The skills and agents get
-  the `refactoring-kit:` prefix, and the entry point is `/refactoring-kit:refactoring`.
-- **Codex, as a plugin:** `codex plugin marketplace add gabrieldulolmarques/refactoring-kit` (or a local path), then
-  `codex plugin add refactoring-kit@refactoring-kit`. The router only runs when called, and the plugin prefixes its name: use
-  `$refactoring-kit:refactoring`. The subagents do not come with the plugin: copy `codex/agents/*.toml` into the
-  project's `.codex/agents/` (or `~/.codex/agents/`). Codex gives a subagent no sandbox of its own:
-  `refactoring_analyst` is told not to edit, but it uses the session's sandbox.
-- **Any Agent Skills client:** link each folder in `skills/` into the project's skills folder
-  (`.agents/skills/` for Codex, `.claude/skills/` for Claude Code). On Windows, use a junction
-  (`New-Item -ItemType Junction`). Install the four side by side: Kerievsky's refactorings point to
-  Fowler's.
-- **Rules:** copy `rules/*.md` into `.claude/rules/` or reference them from `AGENTS.md`. Plugins and
-  skills do not install rules.
+- **Claude Code, como plugin:** clone o repositório (`git clone https://github.com/gabrieldulolmarques/refactoring-kit`)
+  e rode `claude --plugin-dir <caminho-do-clone>`. As skills e os
+  agentes ganham o prefixo `refactoring-kit:`, e a entrada é `/refactoring-kit:refactoring`.
+- **Codex, como plugin:** `codex plugin marketplace add gabrieldulolmarques/refactoring-kit` (ou um caminho local) e depois
+  `codex plugin add refactoring-kit@refactoring-kit`. O roteador só roda quando chamado, e o plugin dá um prefixo ao nome: use
+  `$refactoring-kit:refactoring`. Os subagentes não vêm no plugin: copie `codex/agents/*.toml` para `.codex/agents/` do
+  projeto (ou `~/.codex/agents/`). O Codex não dá sandbox próprio ao subagente: o `refactoring_analyst`
+  recebe a instrução de não editar, mas usa o sandbox da sessão.
+- **Qualquer cliente de Agent Skills:** crie um link de cada pasta de `skills/` na pasta de skills do
+  projeto (`.agents/skills/` para o Codex, `.claude/skills/` para o Claude Code). No Windows, use uma
+  junção (`New-Item -ItemType Junction`). Instale as quatro lado a lado: as refatorações de Kerievsky
+  apontam para as de Fowler.
+- **Rules:** copie `rules/*.md` para `.claude/rules/` ou cite-as no `AGENTS.md`. Plugins e skills não
+  instalam rules.
 
-Use one route per project, or Claude Code sees the skills twice.
+Use uma só via por projeto, ou o Claude Code verá as skills duas vezes.
 
-## Layout
+## Estrutura
 
-| Path | Content |
+| Caminho | Conteúdo |
 |---|---|
-| `skills/` | The four skills. The `SKILL.md` of `refactoring` routes to the others; those of the two refactoring catalogs lead from the smell to the refactoring and its file; the GoF one indexes the patterns. `references/` has one file per entry |
-| `agents/` | The two Claude Code subagents (`.md`) |
-| `codex/agents/` | The same subagents in TOML, for Codex |
-| `rules/` | `solid.md` and `source-ids.md` |
-| `.claude-plugin/`, `.codex-plugin/`, `.agents/plugins/` | The plugin manifests and Codex's local marketplace |
-| `docs/` | The diagram (`flow.svg` and `flow.excalidraw`) |
-| `CATALOG.md` | The spec: the 66 + 27 refactorings, the 24 + 12 smells, the 23 patterns, the file format and the C# level |
-| `LICENSE`, `NOTICE` | CC BY 4.0; credit to Fowler, Kerievsky, the GoF authors and Addison-Wesley, and what the license covers |
+| `skills/` | As quatro skills. O `SKILL.md` do `refactoring` encaminha às outras; os dos dois catálogos de refatoração levam do smell à refatoração e ao arquivo; o do GoF indexa os padrões. `references/` tem um arquivo por entrada |
+| `agents/` | Os dois subagentes do Claude Code (`.md`) |
+| `codex/agents/` | Os mesmos subagentes em TOML, para o Codex |
+| `rules/` | `solid.md` e `source-ids.md` |
+| `.claude-plugin/`, `.codex-plugin/`, `.agents/plugins/` | Manifestos dos plugins e a marketplace local do Codex |
+| `docs/` | O diagrama (`flow.svg` e `flow.excalidraw`) |
+| `CATALOG.md` | A especificação: as 66 + 27 refatorações, os 24 + 12 smells, os 23 padrões, o formato dos arquivos e o nível de C# |
+| `LICENSE`, `NOTICE` | CC BY 4.0; crédito a Fowler, Kerievsky, aos autores do GoF e à Addison-Wesley, e o que a licença cobre |
 
-Only each skill's description stays in the agent's context. The body loads when the skill is used, and
-each refactoring's file only when the agent opens it. In the Claude Code subagents, the `SKILL.md` of the three
-catalog skills is preloaded.
+Só a descrição de cada skill fica no contexto do agente. O corpo é carregado quando a skill é usada, e
+o arquivo de cada refatoração só quando o agente o abre. Nos subagentes do Claude Code, o `SKILL.md` das três
+skills de catálogo é pré-carregado.
 
-## License and credit
+## Licença e crédito
 
-[CC BY 4.0](LICENSE): free to share and adapt for any purpose, as long as you credit this
-package **and** the books it is based on:
+[CC BY 4.0](LICENSE): livre para compartilhar e adaptar para qualquer finalidade, desde que você dê crédito a este
+pacote **e** aos livros em que ele se baseia:
 
 > Martin Fowler. *Refactoring: Improving the Design of Existing Code*. 2nd ed. Boston:
 > Addison-Wesley (Pearson Education), 2018. ISBN 978-0-13-475759-9.
@@ -102,8 +104,8 @@ package **and** the books it is based on:
 > Robert C. Martin. *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Pearson,
 > 2017. ISBN 978-0-13-449416-6.
 
-The license covers only this package's own content, not the books (see [NOTICE](NOTICE)).
-The motivation and mechanics in the skills are paraphrased, with the chapter cited;
-nothing is copied from the books, refactoring.com or industriallogic.com. Refactoring names, former
-names and inverses come from the book's section headers, and from the book's web edition for the five web-only
-refactorings. The C# examples are original.
+A licença cobre apenas o conteúdo próprio deste pacote, não os livros (veja [NOTICE](NOTICE)).
+A motivação e a mecânica nas skills são parafraseadas, com o capítulo citado;
+nada é copiado dos livros, de refactoring.com nem de industriallogic.com. Os nomes das refatorações, os nomes
+antigos e as inversas vêm dos cabeçalhos de seção do livro e da edição web do livro para as cinco
+refatorações só da web. Os exemplos em C# são originais.

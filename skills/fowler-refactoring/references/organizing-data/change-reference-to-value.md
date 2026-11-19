@@ -1,34 +1,34 @@
-# Change Reference to Value
+# Mudar Referência para Valor (Change Reference to Value)
 
-Fowler (2018), ch. 9. Formerly / aka: —. Inverse: Change Value to Reference
+Fowler (2018), cap. 9. Nome anterior / outro nome: —. Inversa: Mudar Valor para Referência (Change Value to Reference)
 ([change-value-to-reference.md](change-value-to-reference.md)).
 
-## When to use
-Smell: Mutable Data. An object nested inside another is changed by assigning to its
-properties, so the same instance is updated in place. If the inner object has no identity of
-its own (two with the same contents are interchangeable), treat it as a value instead:
-immutable, replaced as a whole when something changes, and equal when its fields are equal.
-Immutable values are safe to share and to read from several threads, since nobody can mutate
-them.
+## Quando usar
+Smell: Dados Mutáveis (Mutable Data). Um objeto aninhado em outro é alterado por atribuição às suas
+propriedades, de modo que a mesma instância é atualizada no lugar. Se o objeto interno não tem
+identidade própria (dois com o mesmo conteúdo são intercambiáveis), trate-o como um valor:
+imutável, substituído por inteiro quando algo muda e igual quando seus campos são iguais.
+Valores imutáveis podem ser compartilhados e lidos por várias threads com segurança, já que ninguém pode
+modificá-los.
 
-Do not apply it when several owners must share one object and see each other's changes. That
-object is a real reference, and the right move may be the inverse refactoring.
+Não aplique quando vários donos precisam compartilhar um mesmo objeto e ver as mudanças uns dos outros. Esse
+objeto é uma referência de verdade, e o movimento certo pode ser a refatoração inversa.
 
-## Mechanics
-1. Check that the class is immutable or can become so: no outside code needs to mutate the
-   same instance and observe the change elsewhere.
-2. Remove the mutability one setter at a time, using
-   [remove-setting-method.md](../refactoring-apis/remove-setting-method.md). First move the fields into the
-   constructor, then rewrite each caller of a setter so it builds a new instance and assigns
-   it to the owner's field. Test after each setter.
-3. Add value-based equality over all the fields, and the matching hash code. Write tests that
-   compare two independently built instances with the same contents, instances that differ in
-   each field, `null`, and an object of another type.
-4. Check the callers that compared the old instances by identity, or used them as keys, and
-   update them to the new equality.
+## Mecânica
+1. Verifique que a classe é imutável ou pode se tornar imutável: nenhum código externo precisa modificar
+   a mesma instância e observar a mudança em outro lugar.
+2. Remova a mutabilidade um setter por vez, usando
+   [remove-setting-method.md](../refactoring-apis/remove-setting-method.md). Primeiro mova os campos para o
+   construtor, depois reescreva cada chamador de um setter para que ele construa uma nova instância e a atribua
+   ao campo do dono. Teste após cada setter.
+3. Adicione igualdade por valor sobre todos os campos, e o hash code correspondente. Escreva testes que
+   comparem duas instâncias construídas independentemente com o mesmo conteúdo, instâncias que difiram em
+   cada campo, `null` e um objeto de outro tipo.
+4. Verifique os chamadores que comparavam as instâncias antigas por identidade, ou as usavam como chaves, e
+   atualize-os para a nova igualdade.
 
-## Example
-Before: a device owns a mutable calibration, and its properties update that calibration in place.
+## Exemplo
+Antes: um dispositivo possui uma calibração mutável, e suas propriedades atualizam essa calibração no lugar.
 
 ```csharp
 public class Calibration
@@ -55,8 +55,7 @@ public class Device
 }
 ```
 
-Step 1, remove the setters one at a time. The constructor takes the fields, and each setter
-on `Device` replaces the whole calibration:
+Passo 1, remova os setters um de cada vez. O construtor recebe os campos, e cada setter de `Device` substitui a calibração inteira:
 
 ```csharp
 public class Calibration
@@ -89,7 +88,7 @@ public class Device
 }
 ```
 
-Step 2, give it value equality (here by hand; see the C# notes for the shorter form):
+Passo 2, dê a ela igualdade por valor (aqui à mão; veja as notas de C# para a forma mais curta):
 
 ```csharp
 // fragment
@@ -115,19 +114,13 @@ public sealed class Calibration : IEquatable<Calibration>
 }
 ```
 
-Behavior seen from outside `Device` is the same; `new Calibration(0.5, 1)` now equals
-another instance built from the same arguments.
+Visto de fora de `Device`, o comportamento é o mesmo; `new Calibration(0.5, 1)` agora é igual a outra instância criada com os mesmos argumentos.
 
-## C# notes
-- A `record` (on older targets it needs an `IsExternalInit` shim), `readonly record struct` or an immutable class with value equality
-  (`Equals`/`GetHashCode`) all fit. With a `record Calibration(double Offset, double Scale)`,
-  equality and hash code are generated, and the owner's setter can be
-  `_calibration = _calibration with { Scale = value };`.
-- Whenever `Equals` is overridden, override `GetHashCode` with the same fields, or hash-based
-  collections misbehave. Consider `==`/`!=` operators too if callers use them.
-- Keep the value's fields themselves immutable (or compared by value), otherwise the value can
-  still be changed from inside.
+## Notas (C#)
+- Um `record` (em alvos mais antigos ele precisa de um shim de `IsExternalInit`), um `readonly record struct` ou uma classe imutável com igualdade por valor (`Equals`/`GetHashCode`) servem. Com um `record Calibration(double Offset, double Scale)`, a igualdade e o código de hash são gerados, e o setter do dono pode ser `_calibration = _calibration with { Scale = value };`.
+- Sempre que `Equals` for sobrescrito, sobrescreva `GetHashCode` com os mesmos campos, ou as coleções baseadas em hash se comportam mal. Considere também os operadores `==`/`!=` se os chamadores os usarem.
+- Mantenha os próprios campos do valor imutáveis (ou comparados por valor); do contrário, o valor ainda pode ser alterado por dentro.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- The equality tests from step 3 pass, including `null` and other types.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Os testes de igualdade do passo 3 passam, inclusive com `null` e outros tipos.

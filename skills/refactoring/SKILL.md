@@ -1,32 +1,33 @@
 ---
 name: refactoring
-description: "Entry point to refactor a target (file, folder or class) end to end: diagnoses with the SOLID checks, chooses among the fowler-refactoring, kerievsky-refactoring-to-patterns and gof-design-patterns skills, applies one refactoring at a time with build and tests, and records the source ID. Use only when the user runs /refactoring (Claude Code) or $refactoring (Codex; $refactoring-kit:refactoring through the plugin), or, in Claude Code, asks for this full flow; for one specific refactoring or pattern, use the catalog skill directly."
+description: "Porta de entrada para refatorar um alvo (arquivo, pasta ou classe) do início ao fim: diagnostica com os cheques do SOLID, escolhe entre as skills fowler-refactoring, kerievsky-refactoring-to-patterns e gof-design-patterns, aplica uma refatoração por vez com build e testes e registra o ID da fonte. Use somente quando o usuário rodar /refactoring (Claude Code) ou $refactoring (Codex; pelo plugin, $refactoring-kit:refactoring), ou, no Claude Code, pedir esse fluxo completo; para uma refatoração ou um padrão específico, use direto a skill do catálogo."
 ---
 
-# /refactoring <target> (in Codex, `$refactoring <target>`; through the plugin, `$refactoring-kit:refactoring`)
+# /refactoring <alvo> (no Codex, `$refactoring <alvo>`; pelo plugin, `$refactoring-kit:refactoring`)
 
-The full refactoring flow. This skill only routes: the content is in the `fowler-refactoring`,
-`kerievsky-refactoring-to-patterns` and `gof-design-patterns` skills, and the design criterion is in
-the `solid.md` rule. If the request has no target, ask for one.
+O fluxo completo de refatoração. Esta skill só encaminha: o conteúdo está nas skills
+`fowler-refactoring`, `kerievsky-refactoring-to-patterns` e `gof-design-patterns`, e o critério de
+design, na rule `solid.md`. Se o pedido não trouxer um alvo, pergunte qual é.
 
-1. **Diagnose.** Read the target and name the smells and the SOLID principles it violates, with file
-   and lines (the checks are in the `solid.md` rule, if installed). If the `refactoring-analyst` (in Codex, `refactoring_analyst`) subagent exists, hand it the target and use the plan it returns.
-2. **Pick the source, one per finding:**
-   - a simple refactoring removes the smell: `fowler-refactoring` skill;
-   - the smell calls for a pattern (conditionals that choose variants, hard-coded notifications,
-     scattered object creation): `kerievsky-refactoring-to-patterns` skill, reading the pattern in
-     the `gof-design-patterns` skill first, when it is a GoF pattern;
-   - there is only a question about a pattern: `gof-design-patterns` skill.
-3. **Set up the safety net.** Tests passing before you start. If nothing covers the code, first
-   write a test that pins the current behavior.
-4. **Apply one refactoring at a time**, following its file's mechanics, with build and tests after
-   each step. If the `refactoring-implementer` (in Codex, `refactoring_implementer`) subagent exists, hand it each item.
-5. **Record.** One commit per refactoring, with the refactoring ID at
-   the end of the description, `[F:<slug>]` or `[K:<slug>]`, plus `[GoF:<pattern>]` and
-   `[SOLID:<acronym>]` when they justify the change (the full rule is in `rules/source-ids.md`, if
-   installed). Never push. If the `refactoring-implementer` already committed, this step is done.
-6. **Check the result** with the same SOLID checks (without the rule, check SRP, OCP, LSP, ISP and
-   DIP by name) and report what changed, the IDs used and what
-   was found but left untouched.
+1. **Diagnosticar.** Leia o alvo e nomeie os smells e os princípios do SOLID que ele viola, com
+   arquivo e linhas (os cheques estão na rule `solid.md`, se estiver instalada). Se o subagente
+   `refactoring-analyst` (no Codex, `refactoring_analyst`) existir, entregue o alvo a ele e use o plano que ele devolver.
+2. **Escolher a fonte, uma por achado:**
+   - uma refatoração simples resolve o smell: skill `fowler-refactoring`;
+   - o smell pede um padrão (condicionais que escolhem variantes, notificações fixas no código,
+     criação de objetos espalhada): skill `kerievsky-refactoring-to-patterns`, lendo antes o padrão
+     na skill `gof-design-patterns`, quando ele for do GoF;
+   - só há dúvida sobre um padrão: skill `gof-design-patterns`.
+3. **Armar a rede de segurança.** Testes passando antes de começar. Se nada cobrir o código,
+   escreva primeiro um teste que fixe o comportamento atual.
+4. **Aplicar uma refatoração por vez**, pela mecânica do arquivo dela, com build e testes a cada
+   passo. Se o subagente `refactoring-implementer` (no Codex, `refactoring_implementer`) existir, entregue cada item a ele.
+5. **Registrar.** Um commit por refatoração, com o ID da refatoração
+   no fim da descrição, `[F:<slug>]` ou `[K:<slug>]`, mais `[GoF:<padrão>]` e `[SOLID:<sigla>]` quando
+   justificarem a mudança (a regra completa está em `rules/source-ids.md`, se instalada). Nunca faça push. Se o
+   `refactoring-implementer` já commitou, esta etapa está cumprida.
+6. **Conferir o resultado** com os mesmos cheques do SOLID (sem a rule, confira SRP, OCP, LSP, ISP e
+   DIP pelo nome) e relatar o que mudou, os IDs usados e o
+   que foi encontrado mas não tocado.
 
-Stop as soon as the smell is gone: going *towards* a pattern is often enough.
+Pare assim que o smell sumir: ir *rumo a* um padrão muitas vezes basta.

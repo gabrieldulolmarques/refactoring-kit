@@ -1,89 +1,60 @@
-# Discipline for refactoring to patterns
+# Disciplina de refatoração para padrões
 
-Kerievsky (2004), ch. 1-3. Paraphrased.
+Kerievsky (2004), cap. 1-3. Parafraseado.
 
-## The goal is a better design, not a pattern
+## O objetivo é um design melhor, não um padrão
 
-Refactoring to a pattern has the same motivations as any refactoring: remove duplication, simplify
-what is complicated, and make the code say what it means (ch. 1). A pattern is a destination that
-can serve those goals, never a goal of its own. After refactoring to or towards a pattern, check
-that the design really improved; if it did not, back out or go another way (ch. 3).
+Refatorar para um padrão tem as mesmas motivações de qualquer refatoração: remover duplicação, simplificar o que é complicado e fazer o código dizer o que significa (cap. 1). Um padrão é um destino que pode servir a esses objetivos, nunca um objetivo em si. Depois de refatorar até um padrão ou rumo a um padrão, verifique se o design realmente melhorou; se não melhorou, desfaça a mudança ou siga por outro caminho (cap. 3).
 
-## Over-engineering and under-engineering
+## Excesso de engenharia e falta de engenharia
 
-- **Over-engineering** (ch. 1): code more flexible or sophisticated than today's needs, built
-  for a future that may not come. It is rarely removed, makes the code base bigger than it needs to
-  be, and costs everyone time to learn.
-- **Under-engineering** (ch. 1): poorly designed code written in a hurry, with no time to
-  refactor. Each release gets slower than the last, until a rewrite looks like the only way out.
-- Avoid both by evolving the design: add a pattern when the code asks for it, through refactoring,
-  not up front "just in case" (ch. 1).
+- **Excesso de engenharia** (cap. 1): código mais flexível ou sofisticado do que as necessidades de hoje, feito para um futuro que pode não chegar. Raramente é removido, deixa a base de código maior do que precisa e custa tempo de todos para entendê-lo.
+- **Falta de engenharia** (cap. 1): código mal projetado, escrito às pressas, sem tempo para refatorar. Cada versão fica mais lenta que a anterior, até que uma reescrita pareça a única saída.
+- Evite os dois evoluindo o design: adicione um padrão quando o código pedir, por meio de refatoração, e não antecipadamente "por precaução" (cap. 1).
 
-## Patterns happy
+## *Patterns happy* (encantado por padrões)
 
-Being *patterns happy* means using patterns because you like them, not because the code needs them
-(ch. 3). The result is pattern-dense code that is harder to read than a simple conditional
-or a plain class. Before applying a refactoring to a pattern, ask whether a simpler change removes
-the smell. When a pattern no longer pays for itself, refactor away from it.
+Ser *patterns happy* (encantado por padrões) é usar padrões porque se gosta deles, e não porque o código precisa (cap. 3). O resultado é código carregado de padrões, mais difícil de ler do que um condicional simples ou uma classe comum. Antes de aplicar uma refatoração para um padrão, pergunte se uma mudança mais simples remove o smell. Quando um padrão deixa de compensar, refatore para longe dele.
 
-## Test-driven development and continuous refactoring
+## Desenvolvimento guiado por testes e refatoração contínua
 
-Write a failing test, make it pass in the simplest way, then refactor (red, green, refactor; ch. 1). Refactor continuously, a little at a time, instead of saving it for later (ch. 1).
-Patterns then appear when duplication or complexity calls for them.
+Escreva um teste que falha, faça-o passar do jeito mais simples e depois refatore (red, green, refactor; cap. 1). Refatore continuamente, aos poucos, em vez de guardar a refatoração para depois (cap. 1). Os padrões então aparecem quando a duplicação ou a complexidade os exigem.
 
-## Small steps
+## Passos pequenos
 
-Combining several refactorings into one big step feels faster but is slower: the tests stay red for
-a long time and the fixes pile up (ch. 2). If the tests have been failing for more than a
-few minutes, the step is too big: go back to the last green state and take a smaller one.
+Combinar várias refatorações em um passo grande parece mais rápido, mas é mais lento: os testes ficam vermelhos por muito tempo e as correções se acumulam (cap. 2). Se os testes estiverem falhando há mais de alguns minutos, o passo é grande demais: volte ao último estado verde e dê um passo menor.
 
-## Composite and test-driven refactorings
+## Refatorações compostas e guiadas por testes
 
-- Almost every refactoring to a pattern is **composite**: a sequence of low-level refactorings
-  (mostly Fowler's), with the tests run between each one (ch. 2). The book's mechanics
-  give an order that works; you can certainly apply the steps in another order if you see fit.
-- A **test-driven refactoring** writes the replacement with test-driven development and then swaps
-  it in for the old code, keeping and rerunning the old code's tests (ch. 2). Use it when
-  the new design is too far from the current one to reach by moving code around, as when
-  substituting an algorithm or introducing a Builder.
+- Quase toda refatoração para um padrão é **composta**: uma sequência de refatorações de baixo nível (em sua maioria de Fowler), com os testes executados entre cada uma (cap. 2). A mecânica do livro dá uma ordem que funciona; você pode aplicar os passos em outra ordem, se achar melhor.
+- Uma **refatoração guiada por testes** escreve a substituição com desenvolvimento guiado por testes e depois a troca pelo código antigo, mantendo e reexecutando os testes do código antigo (cap. 2). Use-a quando o novo design estiver longe demais do atual para chegar apenas movendo código, como ao substituir um algoritmo ou ao introduzir um Builder.
 
-## To, towards and away
+## Até, rumo a e longe
 
-- Some refactorings only help if you go all the way **to** the pattern: half a Template Method
-  removes no duplication.
-- Others already improve the design partway: going **towards** a Decorator or a Command may be
-  enough, and you can stop as soon as the smell is gone.
-- Refactoring **away** from a pattern is just as legitimate: remove a Singleton or an Iterator when
-  the design is better without it.
+- Algumas refatorações só ajudam se você for **até** o padrão: meio Template Method não remove duplicação alguma.
+- Outras já melhoram o design no meio do caminho: ir **rumo a** um Decorator ou a um Command pode bastar, e você pode parar assim que o smell sumir.
+- Refatorar para **longe** de um padrão é tão legítimo quanto: remova um Singleton ou um Iterator quando o design ficar melhor sem ele.
 
-Each reference file states its direction (ch. 3).
+Cada arquivo de referência indica sua direção (cap. 3).
 
-## Many ways to implement a pattern
+## Muitas formas de implementar um padrão
 
-A pattern's usual class diagram is one example, not a specification (ch. 3). Implement only
-what the code needs, with your own names; a minimal pattern is the normal result of evolving a
-design.
+O diagrama de classes usual de um padrão é um exemplo, não uma especificação (cap. 3). Implemente só o que o código precisa, com nomes próprios; um padrão mínimo é o resultado normal de evoluir um design.
 
-## Do patterns make code more complex?
+## Padrões tornam o código mais complexo?
 
-Code with a pattern looks more complex to someone who does not know the pattern (ch. 3). Prefer
-teaching the pattern to the team over avoiding it, but if an implementation really is more complex
-than the problem, simplify it or refactor away from it.
+Código com um padrão parece mais complexo para quem não conhece o padrão (cap. 3). Prefira ensinar o padrão à equipe a evitá-lo, mas, se uma implementação for realmente mais complexa que o problema, simplifique-a ou refatore para longe dela.
 
-## Design up front with patterns only rarely
+## Projetar antecipadamente com padrões só raramente
 
-Designing with patterns before writing code is sometimes justified, for example when a detailed
-design must be presented before the work starts and the requirements are small and fixed (ch. 3). Otherwise evolve the system and refactor to, towards or away from patterns as needed.
+Projetar com padrões antes de escrever código às vezes se justifica, por exemplo quando um design detalhado precisa ser apresentado antes do início do trabalho e os requisitos são pequenos e fixos (cap. 3). Fora isso, evolua o sistema e refatore até, rumo a ou para longe de padrões, conforme necessário.
 
-## Design debt
+## Dívida de design
 
-Design debt builds up whenever duplication is not removed, code is not simplified, or intent is not
-made clear (ch. 2). Like financial debt, it grows if it is not paid down; paying it a
-little at a time, through continuous refactoring, keeps the code easy to change.
+A dívida de design se acumula sempre que a duplicação não é removida, o código não é simplificado ou a intenção não fica clara (cap. 2). Como a dívida financeira, ela cresce se não for quitada; pagá-la aos poucos, por meio da refatoração contínua, mantém o código fácil de mudar.
 
-## Verification checklist (same for every refactoring to a pattern)
+## Checklist de verificação (igual para toda refatoração para um padrão)
 
-- Compiles and the tests pass after every low-level step; one commit per refactoring.
-- The smell that motivated the refactoring is gone.
-- The design is simpler than before for someone who knows the pattern; if not, back out or go
-  another way.
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- O smell que motivou a refatoração desapareceu.
+- O design está mais simples do que antes para quem conhece o padrão; se não estiver, desfaça a mudança ou siga por outro caminho.

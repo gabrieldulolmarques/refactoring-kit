@@ -1,28 +1,28 @@
-# Compose Method
+# Compor Método (Compose Method)
 
-Kerievsky (2004), ch. 7. Pattern: Composed Method. Direction: to.
+Kerievsky (2004), cap. 7. Padrão: Composed Method. Direção: até.
 
-## When to use
-Smells: Long Method.
+## Quando usar
+Smells: Método Longo (Long Method).
 
-- You cannot grasp what a method does without reading every line, because high-level calls sit next to loops, conditionals and index arithmetic.
-- The goal is a method of about five lines (rarely over ten) made of calls to well-named methods, all at the same level of detail. The name says what, the body says how.
-- This is the same work as [extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md) and [slide-statements.md](../../../fowler-refactoring/references/moving-features/slide-statements.md), aimed at one result. The book gives no fixed recipe, only guidelines.
-- Liabilities: it can leave many tiny private methods (a hint to apply [extract-class.md](../../../fowler-refactoring/references/encapsulation/extract-class.md)), and the real work becomes harder to find in a debugger. Performance is not a reason to stop unless a profiler says so.
+- Você não consegue entender o que um método faz sem ler cada linha, porque chamadas de alto nível ficam ao lado de laços, condicionais e aritmética de índices.
+- O objetivo é um método de cerca de cinco linhas (raramente mais de dez), feito de chamadas a métodos bem nomeados, todos no mesmo nível de detalhe. O nome diz o quê; o corpo diz como.
+- Este é o mesmo trabalho de [extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md) e [slide-statements.md](../../../fowler-refactoring/references/moving-features/slide-statements.md), voltado a um único resultado. O livro não dá uma receita fixa, apenas diretrizes.
+- Desvantagens: pode deixar muitos métodos privados minúsculos (um sinal para aplicar [extract-class.md](../../../fowler-refactoring/references/encapsulation/extract-class.md)), e o trabalho real fica mais difícil de achar no depurador. Desempenho não é motivo para parar, a menos que um profiler indique o contrário.
 
-## Mechanics
-Follow [extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md); there is no separate procedure. The book gives guidelines, not steps, and they can be applied in any order:
+## Mecânica
+Siga o procedimento de Extrair Função (Extract Function) em [extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md); não há um procedimento separado. O livro dá diretrizes, não passos, e elas podem ser aplicadas em qualquer ordem:
 
-- Think small: aim for about five lines, rarely more than ten.
-- Remove duplication and dead code ([remove-dead-code.md](../../../fowler-refactoring/references/moving-features/remove-dead-code.md)), so there is less to read.
-- Communicate intention: name variables, methods and parameters for their purpose. If you cannot find a good name for what you extracted, undo it with [inline-function.md](../../../fowler-refactoring/references/first-set/inline-function.md) and cut along a different line.
-- Simplify: question how something is coded and try alternatives.
-- Keep one level of detail: find the lines that sit at a different level from their neighbors (a raw condition, a loop, an array write among calls) and push each one down with [extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md), named for its intention.
+- Pense pequeno: mire em cerca de cinco linhas, raramente mais de dez.
+- Remova a duplicação e o código morto ([remove-dead-code.md](../../../fowler-refactoring/references/moving-features/remove-dead-code.md)), para haver menos o que ler.
+- Comunique a intenção: nomeie variáveis, métodos e parâmetros pelo seu propósito. Se não achar um bom nome para o que extraiu, desfaça com [inline-function.md](../../../fowler-refactoring/references/first-set/inline-function.md) e corte em outra linha.
+- Simplifique: questione como algo foi codificado e tente alternativas.
+- Mantenha um só nível de detalhe: encontre as linhas que estão em um nível diferente dos vizinhos (uma condição crua, um laço, uma escrita em array no meio de chamadas) e empurre cada uma para baixo com [extract-function.md](../../../fowler-refactoring/references/first-set/extract-function.md), nomeada pela sua intenção.
 
-**Beyond the book:** flatten nesting where it hides the main path ([replace-nested-conditional-with-guard-clauses.md](../../../fowler-refactoring/references/conditional-logic/replace-nested-conditional-with-guard-clauses.md), [consolidate-conditional-expression.md](../../../fowler-refactoring/references/conditional-logic/consolidate-conditional-expression.md)), replace magic literals with named constants ([replace-magic-literal.md](../../../fowler-refactoring/references/organizing-data/replace-magic-literal.md)), and compile and test after each change.
+**Além do livro:** achate o aninhamento quando ele esconde o caminho principal ([replace-nested-conditional-with-guard-clauses.md](../../../fowler-refactoring/references/conditional-logic/replace-nested-conditional-with-guard-clauses.md), [consolidate-conditional-expression.md](../../../fowler-refactoring/references/conditional-logic/consolidate-conditional-expression.md)), troque literais mágicos por constantes nomeadas ([replace-magic-literal.md](../../../fowler-refactoring/references/organizing-data/replace-magic-literal.md)), e compile e teste após cada mudança.
 
-## Example
-Before: the settling method nests two checks around mixed-level code.
+## Exemplo
+Antes: o método de liquidação aninha duas verificações em volta de código de níveis misturados.
 
 ```csharp
 using System;
@@ -66,7 +66,7 @@ public class SettlementDesk
 }
 ```
 
-After: a guard clause first, then two steps at the same level. The expiry rule has a name.
+Depois: primeiro uma cláusula de guarda, depois dois passos no mesmo nível. A regra de expiração ganha um nome.
 
 ```csharp
 using System;
@@ -99,8 +99,9 @@ public class SettlementDesk
 }
 ```
 
-## C# notes
-- Expression-bodied members keep the extracted pieces short. Use a local function when a piece serves one method only.
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Read the top method aloud: each line should be a step you would name in a sentence, with no operators or indexing left in it.
+## Notas (C#)
+- Membros com corpo de expressão mantêm as partes extraídas curtas. Use uma função local quando a parte servir a um único método.
+
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Leia o método de cima em voz alta: cada linha deve ser um passo que você nomearia em uma frase, sem operadores nem índices.

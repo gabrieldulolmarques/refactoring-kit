@@ -1,34 +1,35 @@
-# Remove Middle Man
+# Remover Intermediário (Remove Middle Man)
 
-Fowler (2018), ch. 7. Formerly / aka: —. Inverse: Hide Delegate ([hide-delegate.md](hide-delegate.md)).
+Fowler (2018), cap. 7. Nome anterior / outro nome: —. Inversa: Ocultar Delegação (Hide Delegate) ([hide-delegate.md](hide-delegate.md)).
 
-## When to use
-Smell: Middle Man. A class hides a delegate behind forwarding methods, and over time most of
-its members do nothing except call the same member on the delegate. Each new delegate feature
-forces another forwarder, and the class adds no behavior of its own.
+## Quando usar
+Smell: Intermediário (Middle Man). Uma classe oculta um delegado atrás de métodos de encaminhamento e, com o tempo, a maioria
+de seus membros não faz nada além de chamar o mesmo membro no delegado. Cada novo recurso do delegado
+exige mais um encaminhador, e a classe não acrescenta comportamento próprio.
 
-Typical trigger: hiding applied too eagerly, in the name of "never talk to strangers". How much
-to hide is a judgment call that changes as the system evolves, so it is fine to reverse an
-earlier Hide Delegate.
+Gatilho típico: ocultação aplicada com entusiasmo demais, em nome de "nunca fale com estranhos". Até onde
+ocultar é uma decisão de julgamento que muda conforme o sistema evolui, então é normal desfazer uma
+aplicação anterior de Ocultar Delegação.
 
-Not a reason to remove everything: a few forwarders that clients use constantly can stay. It is
-also fine to keep the hiding where the delegate is likely to be replaced or its structure is
-likely to change, since callers would then be shielded from that change.
+Não é motivo para remover tudo: alguns encaminhadores que os clientes usam constantemente podem ficar. Também
+é normal manter a ocultação onde o delegado provavelmente será substituído ou sua estrutura
+provavelmente mudará, já que os chamadores ficariam protegidos dessa mudança.
 
-## Mechanics
-1. Add a getter (an accessor) on the server that exposes the delegate object.
-2. Pick one forwarding method. In each client that calls it, replace the call with a chained
-   call through the new accessor (`server.Delegate.Member`). Compile and test after each
-   replacement.
-3. When no caller of that forwarding method is left, delete it. Compile and test.
-4. Repeat steps 2 and 3 for the other forwarders you want to remove.
+## Mecânica
+1. Adicione um getter (um acessor) no servidor que exponha o objeto delegado.
+2. Escolha um método de encaminhamento. Em cada cliente que o chama, substitua a chamada por uma
+   chamada encadeada pelo novo acessor (`server.Delegate.Member`). Compile e teste após cada
+   substituição.
+3. Quando não restar nenhum chamador desse método de encaminhamento, apague-o. Compile e teste.
+4. Repita os passos 2 e 3 para os outros encaminhadores que você quer remover.
 
-If your tooling supports it, a shortcut is to apply Encapsulate Variable to the delegate field
-so the forwarders go through the public accessor, then Inline Function on each forwarder to
-replace all its callers at once ([encapsulate-variable.md](../first-set/encapsulate-variable.md), [inline-function.md](../first-set/inline-function.md)).
+Se sua ferramenta permitir, um atalho é aplicar Encapsular Variável (Encapsulate Variable) ao campo do delegado
+para que os encaminhadores passem pelo acessor público e depois Internalizar Função (Inline Function) em cada encaminhador para
+substituir todos os seus chamadores de uma vez ([encapsulate-variable.md](../first-set/encapsulate-variable.md), [inline-function.md](../first-set/inline-function.md)).
 
-## Example
-Before: `Workspace` hides its `BillingAccount` and forwards to it.
+## Exemplo
+
+Antes: `Workspace` oculta a sua `BillingAccount` e encaminha chamadas para ela.
 
 ```csharp
 public class BillingAccount
@@ -63,7 +64,7 @@ public static class Client
 }
 ```
 
-Step 1: expose the delegate.
+Passo 1: exponha o delegado.
 
 ```csharp
 public class Workspace
@@ -78,7 +79,7 @@ public class Workspace
 }
 ```
 
-Steps 2 and 3: update each client, then delete the forwarders that are no longer used.
+Passos 2 e 3: atualize cada cliente e depois apague os encaminhadores que não são mais usados.
 
 ```csharp
 public class Workspace
@@ -98,7 +99,7 @@ public static class Client
 }
 ```
 
-Behavior is the same; `Workspace` no longer needs a new member each time `BillingAccount` gains one.
+O comportamento é o mesmo; `Workspace` não precisa mais de um membro novo cada vez que `BillingAccount` ganha um.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.

@@ -1,25 +1,25 @@
 # Builder
 
-Gamma et al. (1995), ch. 3. Category: object creational.
+Gamma et al. (1995), cap. 3. Categoria: criacional de objeto.
 
-## Intent
-Separate the step-by-step process of assembling a complex object from the representation that results, so the same process can produce different representations.
+## Intenção
+Executar uma mesma sequência de passos de construção, que não depende da forma final, para que ela possa gerar várias formas de um objeto complexo.
 
-## When it pays off
-- The procedure that decides which parts to create and in what order should be reusable and independent of what the parts are and how they are put together.
-- The same procedure must be able to produce different outputs (CSV and JSON of the same report, for instance).
-- Construction is a sequence of steps, and the product is only complete at the end; the builder gives finer control over that process than a single constructor call.
-- It keeps the code that builds a representation in one place, apart from the code that decides what to build.
-- Not worth it when a constructor with a few parameters, or an object initializer, already reads well. Builders earn their place with many optional parts or several output forms.
+## Quando compensa
+- O procedimento que decide quais partes criar e em que ordem deve ser reutilizável e independente de quais são as partes e de como são montadas.
+- O mesmo procedimento precisa conseguir produzir saídas diferentes (CSV e JSON do mesmo relatório, por exemplo).
+- A construção é uma sequência de passos, e o produto só fica completo no fim; o builder dá mais controle sobre esse processo do que uma única chamada de construtor.
+- Mantém o código que monta uma representação em um único lugar, separado do código que decide o que montar.
+- Não vale a pena quando um construtor com poucos parâmetros, ou um inicializador de objeto, já é claro. Os builders se justificam com muitas partes opcionais ou com várias formas de saída.
 
-## Participants in C#
-- **Builder** (`IReportBuilder`): interface with one method per construction step.
-- **ConcreteBuilder** (`CsvReportBuilder`, `JsonReportBuilder`): implements the steps, accumulates the result, and exposes a method to retrieve it.
-- **Director** (`ReportDirector`): runs the construction steps against whatever builder it receives.
-- **Product** (`string` here, but it can be any class): the finished object. Different builders often return unrelated types, so a common product interface is not required.
+## Participantes em C#
+- **Builder** (`IReportBuilder`): interface com um método por passo de construção.
+- **ConcreteBuilder** (`CsvReportBuilder`, `JsonReportBuilder`): implementa os passos, acumula o resultado e expõe um método para recuperá-lo.
+- **Director** (`ReportDirector`): executa os passos de construção sobre qualquer builder que receber.
+- **Product** (`string` aqui, mas pode ser qualquer classe): o objeto final. Builders diferentes costumam devolver tipos sem relação entre si, então não é exigida uma interface comum de produto.
 
-## Example (C#)
-A report export must be producible as CSV or JSON from the same rows. The director decides the order (title, then rows); each builder decides the format.
+## Exemplo (C#)
+A exportação de um relatório precisa poder ser gerada como CSV ou JSON a partir das mesmas linhas. O director decide a ordem (título, depois linhas); cada builder decide o formato.
 
 ```csharp
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ public class JsonReportBuilder : IReportBuilder
     private string _title = "";
     private readonly List<string> _rows = new();
 
-    // Handles backslash, quote, newline and carriage return; real code should use System.Text.Json.
+    // Trata barra invertida, aspas, nova linha e retorno de carro; em código real, use System.Text.Json.
     private static string Quote(string text) =>
         "\"" + text.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r") + "\"";
 
@@ -91,7 +91,7 @@ public static class Program
 }
 ```
 
-**Beyond the book:** a second form, a C# idiom that is not the GoF pattern, is a fluent builder with no director and a single representation. The caller issues the steps in any order, and the final `Build()` validates and returns an immutable object. It suits objects with many optional settings.
+**Além do livro:** uma segunda forma, um idioma de C# que não é o padrão do GoF, é o builder fluente, sem director e com uma única representação. Quem chama emite os passos em qualquer ordem, e o `Build()` final valida e devolve um objeto imutável. Serve para objetos com muitas configurações opcionais.
 
 ```csharp
 using System;
@@ -128,24 +128,24 @@ public class RetryPolicyBuilder
 }
 ```
 
-## Variations
-- **Empty defaults in the builder interface.** In the book's form the builder base class implements every step as a no-op, so a concrete builder overrides only what it needs. In C#, use an abstract class with `virtual` empty methods, or default interface methods (C# 8), instead of forcing every builder to implement all steps.
-- **Appending versus querying earlier parts.** Most builders only append. If a step needs a part built earlier (a link between two existing nodes), the builder must expose a way to look it up, or return handles from earlier steps that the director passes back.
-- **No common product type.** Because outputs can be unrelated, `GetResult()` is declared on each concrete builder, and the client that chose the builder knows its type. Forcing a shared product base class usually buys nothing.
+## Variações
+- **Implementações padrão vazias na interface do builder.** Na forma do livro, a classe base do builder implementa cada passo como uma operação vazia, então um builder concreto sobrescreve apenas o que precisa. Em C#, use uma classe abstrata com métodos `virtual` vazios, ou métodos padrão de interface (C# 8), em vez de forçar todo builder a implementar todos os passos.
+- **Anexar versus consultar partes anteriores.** A maioria dos builders apenas acrescenta partes. Se um passo precisa de uma parte construída antes (um vínculo entre dois nós existentes), o builder deve expor uma forma de localizá-la, ou devolver identificadores dos passos anteriores que o director repassa de volta.
+- **Sem tipo de produto comum.** Como as saídas podem não ter relação, `GetResult()` é declarado em cada builder concreto, e o cliente que escolheu o builder conhece o seu tipo. Forçar uma classe base comum de produto normalmente não traz ganho.
 
-## Risks and C# alternatives
-- For plain "many optional parameters", named and optional arguments, or an object initializer with get/set properties, are simpler than a builder class.
-- A fluent builder that is reused after `Build()` shares mutable state with the next product. Either make `Build()` copy the collections it holds or document the builder as single use.
-- Validate in `Build()` (or in the product's constructor), not in each step, so an incomplete object cannot escape.
-- For string output, `StringBuilder` already is a builder; do not wrap it unless a second representation is really needed.
-- With dependency injection, builders that hold per-call state should be registered as transient, never as a singleton.
+## Riscos e alternativas em C#
+- Para o caso simples de "muitos parâmetros opcionais", argumentos nomeados e opcionais, ou um inicializador de objeto com propriedades get/set, são mais simples do que uma classe builder.
+- Um builder fluente reutilizado depois de `Build()` compartilha estado mutável com o próximo produto. Ou faça `Build()` copiar as coleções que mantém, ou documente o builder como de uso único.
+- Valide em `Build()` (ou no construtor do produto), não em cada passo, para que um objeto incompleto não escape.
+- Para saída de texto, `StringBuilder` já é um builder; não o encapsule a menos que uma segunda representação seja de fato necessária.
+- Com injeção de dependência, builders que guardam estado por chamada devem ser registrados como transitórios (transient), nunca como singleton.
 
-## Related patterns
-- [Abstract Factory](abstract-factory.md): similar goal, but it returns each product immediately and focuses on families, while Builder constructs one complex product step by step.
-- [Composite](../structural/composite.md): the structure a builder frequently assembles.
+## Padrões relacionados
+- [Abstract Factory](abstract-factory.md): objetivo parecido, mas devolve cada produto imediatamente e foca em famílias, enquanto o Builder constrói um produto complexo passo a passo.
+- [Composite](../structural/composite.md): a estrutura que um builder costuma montar.
 
-## Verification
-- The director contains no format-specific code, and builders contain no ordering logic.
-- Adding a third output format needs one new builder and no change to the director.
-- The same input through two builders yields equivalent content in two forms (covered by a test per builder).
-- In the fluent form, an incomplete or invalid build fails at `Build()` instead of producing a half-made product. `GetResult()` in the director form only returns what was accumulated.
+## Verificação
+- O director não contém código específico de formato, e os builders não contêm lógica de ordenação.
+- Adicionar um terceiro formato de saída exige um novo builder e nenhuma mudança no director.
+- A mesma entrada passada por dois builders gera conteúdo equivalente em duas formas (coberto por um teste por builder).
+- Na forma fluente, uma montagem incompleta ou inválida falha em `Build()`, em vez de produzir um produto meio pronto. Na forma com director, `GetResult()` apenas devolve o que foi acumulado.

@@ -1,29 +1,29 @@
 # Abstract Factory
 
-Gamma et al. (1995), ch. 3. Also known as: Kit. Category: object creational.
+Gamma et al. (1995), cap. 3. Também conhecido como: Kit. Categoria: criacional de objeto.
 
-## Intent
-Offer one interface for creating a whole family of related objects, so client code never names the concrete classes of that family.
+## Intenção
+Oferecer uma interface para criar uma família inteira de objetos relacionados, para que o código cliente nunca nomeie as classes concretas dessa família.
 
-## When it pays off
-- The system should not depend on how its products are created, composed or represented.
-- The system must work with one of several product families (for example one set of classes per region or per provider) and must not depend on which one.
-- The products of a family only make sense together, and you want the compiler and the factory, not discipline, to keep them from being mixed.
-- You ship a library of products and want to expose only their interfaces, not their implementations.
-- Switching the family is a single decision at one place: the concrete factory is created once and handed to the code that needs products.
-- It isolates concrete classes: product names appear only inside the concrete factories.
-- Liability: adding a new kind of product changes the factory interface and every concrete factory.
-- Not worth it when there is only one family, or when the "family" is a single product (a plain [Factory Method](factory-method.md) or a `Func<T>` is enough).
+## Quando compensa
+- O sistema não deve depender de como seus produtos são criados, compostos ou representados.
+- O sistema precisa funcionar com uma entre várias famílias de produtos (por exemplo, um conjunto de classes por região ou por provedor) e não pode depender de qual delas está em uso.
+- Os produtos de uma família só fazem sentido juntos, e você quer que o compilador e a fábrica, e não a disciplina da equipe, impeçam que sejam misturados.
+- Você distribui uma biblioteca de produtos e quer expor apenas as interfaces deles, não as implementações.
+- Trocar a família é uma decisão única, em um só lugar: a fábrica concreta é criada uma vez e entregue ao código que precisa dos produtos.
+- Isola as classes concretas: os nomes dos produtos aparecem apenas dentro das fábricas concretas.
+- Custo: adicionar um novo tipo de produto altera a interface da fábrica e todas as fábricas concretas.
+- Não vale a pena quando existe apenas uma família, ou quando a "família" é um único produto (um [Factory Method](factory-method.md) simples ou um `Func<T>` bastam).
 
-## Participants in C#
-- **AbstractFactory** (`ICheckoutFactory`): interface with one creation method per product kind.
-- **ConcreteFactory** (`BrazilCheckoutFactory`, `GermanyCheckoutFactory`): classes implementing the interface, each returning the products of one family.
-- **AbstractProduct** (`ITaxCalculator`, `IInvoiceFormatter`): one interface per kind of product.
-- **ConcreteProduct** (`BrazilTaxCalculator`, `GermanyInvoiceFormatter`, ...): the classes a concrete factory instantiates.
-- **Client** (`CheckoutService`): receives an `ICheckoutFactory` and uses only the interfaces.
+## Participantes em C#
+- **AbstractFactory** (`ICheckoutFactory`): interface com um método de criação por tipo de produto.
+- **ConcreteFactory** (`BrazilCheckoutFactory`, `GermanyCheckoutFactory`): classes que implementam a interface, cada uma devolvendo os produtos de uma família.
+- **AbstractProduct** (`ITaxCalculator`, `IInvoiceFormatter`): uma interface por tipo de produto.
+- **ConcreteProduct** (`BrazilTaxCalculator`, `GermanyInvoiceFormatter`, ...): as classes que uma fábrica concreta instancia.
+- **Client** (`CheckoutService`): recebe um `ICheckoutFactory` e usa apenas as interfaces.
 
-## Example (C#)
-An online checkout must compute tax and format the invoice according to the buyer's country. Tax rules and invoice layout belong together, so each country gets one factory that creates both.
+## Exemplo (C#)
+Um checkout online precisa calcular o imposto e formatar a nota fiscal de acordo com o país do comprador. As regras de imposto e o layout da nota andam juntos, então cada país tem uma fábrica que cria os dois.
 
 ```csharp
 using System;
@@ -98,7 +98,7 @@ public static class Program
 {
     public static void Main()
     {
-        // the country is decided once, at the composition point
+        // o país é decidido uma única vez, no ponto de composição
         ICheckoutFactory factory = new GermanyCheckoutFactory();
         var checkout = new CheckoutService(factory);
         Console.WriteLine(checkout.Close("A-1001", 100m));
@@ -106,27 +106,27 @@ public static class Program
 }
 ```
 
-## Variations
-- **Factory methods inside the factory.** The usual form: each creation method is a factory method, and a concrete factory implements them. Simple, but it takes one factory class per family.
-- **Prototype-based factory.** The factory keeps one prototype of each product and clones it on demand (see [prototype.md](prototype.md)). A new family is then just a new set of prototypes, with no new factory class.
-- **Parameterized creation.** One `Create(kind)` method replaces the one-method-per-product interface, so new product kinds need no interface change. The price is type safety: every result comes back as the common base type, and callers that need more must cast.
-- **One factory per family, normally one instance.** The factory is usually created once and shared. Handing it down by constructor, as above, is enough; it does not have to be a [Singleton](singleton.md).
+## Variações
+- **Métodos de fábrica dentro da fábrica.** A forma usual: cada método de criação é um método de fábrica, e uma fábrica concreta os implementa. Simples, mas exige uma classe de fábrica por família.
+- **Fábrica baseada em protótipos.** A fábrica guarda um protótipo de cada produto e o clona sob demanda (veja [prototype.md](prototype.md)). Uma nova família é então apenas um novo conjunto de protótipos, sem nova classe de fábrica.
+- **Criação parametrizada.** Um único método `Create(kind)` substitui a interface com um método por produto, então novos tipos de produto não exigem mudança na interface. O preço é a segurança de tipos: todo resultado volta como o tipo base comum, e quem precisar de mais deve fazer um cast.
+- **Uma fábrica por família, normalmente uma instância.** A fábrica costuma ser criada uma vez e compartilhada. Recebê-la pelo construtor, como acima, basta; ela não precisa ser um [Singleton](singleton.md).
 
-## Risks and C# alternatives
-- If the family is just "which implementation of this interface", register the implementations in a dependency injection container, selected by configuration (country, tenant). The container is then the abstract factory and no factory interface is written by hand.
-- When the product kinds are few and stable, a pair of delegates (`Func<ITaxCalculator>`, `Func<IInvoiceFormatter>`) passed to the client does the same job with less ceremony.
-- When families are chosen at runtime by key, keep a `Dictionary<string, ICheckoutFactory>` and fail loudly on an unknown key at the boundary, instead of falling back to a default family.
-- Do not let clients receive a factory and then ignore it by constructing concrete classes elsewhere; that breaks the guarantee that a family is never mixed.
-- Adding a product kind later forces edits in every factory. If that happens often, the family boundary is probably wrong.
+## Riscos e alternativas em C#
+- Se a família é apenas "qual implementação desta interface", registre as implementações em um contêiner de injeção de dependência, escolhidas por configuração (país, tenant). O contêiner passa a ser a fábrica abstrata e nenhuma interface de fábrica precisa ser escrita à mão.
+- Quando os tipos de produto são poucos e estáveis, um par de delegates (`Func<ITaxCalculator>`, `Func<IInvoiceFormatter>`) passado ao cliente faz o mesmo trabalho com menos cerimônia.
+- Quando as famílias são escolhidas em tempo de execução por chave, mantenha um `Dictionary<string, ICheckoutFactory>` e falhe de forma explícita com uma chave desconhecida na fronteira, em vez de cair em uma família padrão.
+- Não deixe os clientes receberem uma fábrica e depois ignorá-la, instanciando classes concretas em outro lugar; isso quebra a garantia de que uma família nunca é misturada.
+- Adicionar um tipo de produto depois obriga a editar todas as fábricas. Se isso acontece com frequência, a fronteira da família provavelmente está errada.
 
-## Related patterns
-- [Factory Method](factory-method.md): a concrete factory is usually a set of factory methods.
-- [Prototype](prototype.md): an alternative way to implement the concrete factory, by cloning.
-- [Singleton](singleton.md): a concrete factory is often a single shared instance.
-- [Builder](builder.md): also creates complex objects, but step by step and returns the product at the end; Abstract Factory returns each product at once and stresses families.
+## Padrões relacionados
+- [Factory Method](factory-method.md): uma fábrica concreta costuma ser um conjunto de métodos de fábrica.
+- [Prototype](prototype.md): uma forma alternativa de implementar a fábrica concreta, por clonagem.
+- [Singleton](singleton.md): uma fábrica concreta costuma ser uma única instância compartilhada.
+- [Builder](builder.md): também cria objetos complexos, mas passo a passo, e devolve o produto no fim; o Abstract Factory devolve cada produto de imediato e enfatiza famílias.
 
-## Verification
-- No client code outside the composition point names a concrete product or concrete factory class.
-- Changing the family requires touching one line (the place the factory is created).
-- A test creates each concrete factory and checks that its products belong together (same region, same rules).
-- Adding a second family needed new classes only, not edits to the client.
+## Verificação
+- Nenhum código cliente fora do ponto de composição cita uma classe de produto concreto ou de fábrica concreta.
+- Trocar a família exige alterar uma única linha (o lugar onde a fábrica é criada).
+- Um teste cria cada fábrica concreta e verifica se seus produtos pertencem juntos (mesma região, mesmas regras).
+- Adicionar uma segunda família exigiu apenas classes novas, sem edições no cliente.

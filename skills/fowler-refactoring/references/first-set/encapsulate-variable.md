@@ -1,50 +1,51 @@
-# Encapsulate Variable
+# Encapsular Variável (Encapsulate Variable)
 
-Fowler (2018), ch. 6. Formerly / aka: Encapsulate Field, Self-Encapsulate Field. Inverse: —.
+Fowler (2018), cap. 6. Nome anterior / outro nome: Encapsulate Field, Self-Encapsulate Field. Inversa: —.
 
-## When to use
-Smells: Global Data, Mutable Data.
+## Quando usar
+Smells: Dados Globais (Global Data), Dados Mutáveis (Mutable Data).
 
-- Data is easy to reorganize only when access to it goes through functions: a function can be
-  moved or renamed while an old one forwards to it, but raw data has to be repointed everywhere
-  at once. Encapsulating first turns a hard data move into an easy function move.
-- It also gives one place to add validation, side effects, logging or change tracking.
-- The wider the scope of mutable data, the stronger the case. Data used inside a single small
-  function rarely needs it.
-- Immutable data needs it much less: nothing needs a hook before updates, and copies are safe.
-- With legacy code, encapsulate a variable whenever you must add or change a reference to it,
-  so coupling to it stops growing.
-- Self-encapsulating a class's own fields (accessors even inside the class) is usually
-  excessive. If a class is big enough to need it, split the class. It is still a useful step
-  right before splitting one.
+- Os dados só são fáceis de reorganizar quando o acesso a eles passa por funções: uma função pode ser
+  movida ou renomeada enquanto uma antiga encaminha para ela, mas dados brutos precisam ser redirecionados em todo lugar
+  de uma vez. Encapsular primeiro transforma uma movimentação difícil de dados em uma movimentação fácil de função.
+- Também dá um só lugar para adicionar validação, efeitos colaterais, registro em log ou rastreamento de mudanças.
+- Quanto maior o escopo dos dados mutáveis, mais forte o argumento. Dados usados dentro de uma única função pequena
+  raramente precisam disso.
+- Dados imutáveis precisam muito menos: nada exige um gancho antes das atualizações, e as cópias são seguras.
+- Com código legado, encapsule uma variável sempre que precisar adicionar ou alterar uma referência a ela,
+  para que o acoplamento a ela pare de crescer.
+- Autoencapsular os campos da própria classe (acessores até dentro da classe) costuma ser
+  excessivo. Se uma classe é grande o bastante para precisar disso, divida a classe. Ainda assim é um passo útil
+  logo antes de dividir uma.
 
-## Mechanics
-1. Create a getter and a setter (or a property) that read and write the variable.
-2. Build and run static checks.
-3. Replace each direct read with the getter and each direct assignment with the setter, one
-   reference at a time, running the tests after each.
-4. Restrict the visibility of the variable (private, or a separate class) so the compiler
-   reports any reference you missed and new direct access cannot appear.
-   If visibility cannot be restricted, rename it to a deliberately conspicuous name (for
-   example `_privateOnly_x`), build, and fix what breaks.
-5. Run the tests.
-6. Decide how deep the encapsulation goes (see below). If the value is a record, consider
-   Encapsulate Record ([encapsulate-record.md](../encapsulation/encapsulate-record.md)).
+## Mecânica
+1. Crie um getter e um setter (ou uma propriedade) que leiam e escrevam a variável.
+2. Faça o build e execute as verificações estáticas.
+3. Substitua cada leitura direta pelo getter e cada atribuição direta pelo setter, uma
+   referência de cada vez, executando os testes após cada uma.
+4. Restrinja a visibilidade da variável (private, ou uma classe separada) para que o compilador
+   aponte qualquer referência que você tenha deixado passar e novos acessos diretos não possam surgir.
+   Se a visibilidade não puder ser restringida, renomeie-a para um nome deliberadamente chamativo (por
+   exemplo `_privateOnly_x`), faça o build e conserte o que quebrar.
+5. Execute os testes.
+6. Decida até que profundidade vai o encapsulamento (veja abaixo). Se o valor for um registro, considere
+   Encapsular Registro (Encapsulate Record) ([encapsulate-record.md](../encapsulation/encapsulate-record.md)).
 
-### Encapsulating the value, not only the reference
-The steps above control reassignment of the variable, not changes to the object it holds.
-Options when callers should not mutate the shared object:
-- Return a copy from the getter (common for lists). Callers can change their copy, but the
-  shared data stays intact. Tests reveal code that relied on mutating the shared instance.
-- Return a read-only wrapper or an immutable type, so mutation attempts fail visibly. This is
-  often a good temporary measure to find all mutators, which you then remove or turn into
-  explicit update methods, before switching the getter to a copy.
-- Also copy in the setter when the source should not stay linked to the stored data.
-- Copies and wrappers are one level deep. Nested structures need copies or wrappers at each
-  level.
+### Encapsulando o valor, não apenas a referência
+Os passos acima controlam a reatribuição da variável, não mudanças no objeto que ela guarda.
+Opções quando os chamadores não devem mutar o objeto compartilhado:
+- Devolva uma cópia no getter (comum para listas). Os chamadores podem alterar a cópia deles, mas os
+  dados compartilhados ficam intactos. Os testes revelam código que dependia de mutar a instância compartilhada.
+- Devolva um invólucro (wrapper) somente leitura ou um tipo imutável, para que tentativas de mutação falhem de forma visível. Isso é
+  muitas vezes uma boa medida temporária para encontrar todos os mutadores, que você então remove ou transforma em
+  métodos de atualização explícitos, antes de trocar o getter para uma cópia.
+- Copie também no setter quando a origem não deve continuar ligada aos dados armazenados.
+- Cópias e invólucros só protegem um nível de profundidade. Estruturas aninhadas precisam de cópias ou invólucros em cada
+  nível.
 
-## Example
-Before: a static field read and written from many classes.
+## Exemplo
+
+Antes: um campo estático lido e escrito por muitas classes.
 
 ```csharp
 public class CheckoutSettings
@@ -63,8 +64,8 @@ public class SettingsScreen
 }
 ```
 
-After: the field is renamed and private, and a property with the old name forwards to it.
-Behavior is unchanged.
+Depois: o campo é renomeado e fica privado, e uma propriedade com o nome antigo o encaminha.
+O comportamento não muda.
 
 ```csharp
 public class CheckoutSettings
@@ -78,12 +79,12 @@ public class CheckoutSettings
     }
 }
 
-// Callers keep the same syntax: CheckoutSettings.TaxRate and CheckoutSettings.TaxRate = rate.
+// Os chamadores mantêm a mesma sintaxe: CheckoutSettings.TaxRate e CheckoutSettings.TaxRate = rate.
 ```
 
-Follow-up change, not part of the refactoring because it changes behavior: with the setter
-as the single entry point, validation can now be added in one place, and a negative rate
-that used to be accepted now throws.
+Mudança posterior, que não faz parte da refatoração porque altera o comportamento: com o setter
+como único ponto de entrada, a validação pode ser adicionada em um só lugar, e uma taxa negativa
+que antes era aceita agora lança exceção.
 
 ```csharp
 using System;
@@ -104,7 +105,7 @@ public class CheckoutSettings
 }
 ```
 
-Encapsulating the value: a shared list handed out as a copy.
+Encapsulando o valor: uma lista compartilhada entregue como cópia.
 
 ```csharp
 using System.Collections.Generic;
@@ -119,20 +120,20 @@ public class CouponRegistry
 }
 ```
 
-## C# notes
-- A public field becomes a private field plus a property. In C#, switching a field to a
-  property keeps the call syntax, but it breaks binary compatibility and anything that passes
-  it by `ref`/`out` or relies on reflection by field name, so check those.
-- A static field becomes a static property.
-- A property sharing the field's name keeps call syntax, so step 3 has nothing to replace.
-  Rename the field first (`_x`), add a property under the old name, then build. If callers
-  must change (accessors as methods, or a renamed member), replace references one at a time
-  with tests.
-- Code that passes the member by `ref`/`out` no longer compiles against a property.
-- A property of a struct type cannot be mutated in place (`Prop.X = 1` is a compile error);
-  read it, change the copy and assign it back.
+## Notas (C#)
+- Um campo público vira um campo privado mais uma propriedade. Em C#, trocar um campo por uma
+  propriedade mantém a sintaxe de chamada, mas quebra a compatibilidade binária e qualquer código que
+  passe o campo por `ref`/`out` ou dependa de reflexão pelo nome do campo, então verifique esses casos.
+- Um campo estático vira uma propriedade estática.
+- Uma propriedade com o mesmo nome do campo mantém a sintaxe de chamada, então o passo 3 não tem o que
+  substituir. Renomeie o campo primeiro (`_x`), adicione uma propriedade com o nome antigo e compile. Se os
+  chamadores precisarem mudar (acessores como métodos, ou um membro renomeado), substitua as referências
+  uma de cada vez, com testes.
+- Código que passa o membro por `ref`/`out` deixa de compilar contra uma propriedade.
+- Uma propriedade de tipo struct não pode ser mutada no lugar (`Prop.X = 1` é erro de compilação); leia-a,
+  altere a cópia e atribua de volta.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- No member outside the owning class references the field (build after making it private),
-  and a search for the old name finds only the accessor.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Nenhum membro fora da classe dona referencia o campo (compile depois de torná-lo privado), e uma busca
+  pelo nome antigo encontra apenas o acessor.

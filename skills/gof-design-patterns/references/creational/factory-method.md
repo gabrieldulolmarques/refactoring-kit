@@ -1,27 +1,27 @@
 # Factory Method
 
-Gamma et al. (1995), ch. 3. Also known as: Virtual Constructor. Category: class creational.
+Gamma et al. (1995), cap. 3. Também conhecido como: Virtual Constructor. Categoria: criacional de classe.
 
-## Intent
-Give a class an overridable method that creates its product, so each subclass picks the concrete class and the base class never names it.
+## Intenção
+Dar a uma classe um método sobrescrevível que cria o seu produto, para que cada subclasse escolha a classe concreta e a classe base nunca a nomeie.
 
-## When it pays off
-- A base class knows when an object is needed but not which concrete class to create.
-- The creating class is meant to leave the choice of product to its subclasses.
-- A class hands work to one of several helper subclasses, and you want the knowledge of which helper applies kept in one place.
-- It gives subclasses a hook: a method with a sensible default that a subclass can override to supply an extended version.
-- Code depends only on the product interface, so new concrete products need no change to the base class.
-- Liability: you may have to create a subclass of the creator only to change the product, which adds a point of evolution.
-- Not worth it when the created class never changes. Use `new`, or a delegate if the choice is just a parameter.
+## Quando compensa
+- Uma classe base sabe quando um objeto é necessário, mas não qual classe concreta criar.
+- A classe criadora foi pensada para deixar a escolha do produto a cargo das suas subclasses.
+- Uma classe repassa o trabalho a uma entre várias subclasses auxiliares, e você quer manter em um só lugar o conhecimento de qual auxiliar se aplica.
+- Dá às subclasses um gancho: um método com uma implementação padrão sensata que uma subclasse pode sobrescrever para fornecer uma versão estendida.
+- O código depende apenas da interface do produto, então novos produtos concretos não exigem mudança na classe base.
+- Custo: você pode precisar criar uma subclasse do criador só para mudar o produto, o que adiciona um ponto de evolução.
+- Não vale a pena quando a classe criada nunca muda. Use `new`, ou um delegate se a escolha é apenas um parâmetro.
 
-## Participants in C#
-- **Product** (`INotification`): interface of what the factory method returns.
-- **ConcreteProduct** (`EmailNotification`, `PushNotification`): implementations.
-- **Creator** (`NotificationService`): abstract (or concrete) class that declares the factory method (`CreateNotification`) and uses it inside its own logic. It may provide a default product.
-- **ConcreteCreator** (`EmailNotificationService`, `PushNotificationService`): overrides the factory method to return a specific product.
+## Participantes em C#
+- **Product** (`INotification`): interface do que o método de fábrica devolve.
+- **ConcreteProduct** (`EmailNotification`, `PushNotification`): implementações.
+- **Creator** (`NotificationService`): classe abstrata (ou concreta) que declara o método de fábrica (`CreateNotification`) e o usa na sua própria lógica. Pode fornecer um produto padrão.
+- **ConcreteCreator** (`EmailNotificationService`, `PushNotificationService`): sobrescreve o método de fábrica para devolver um produto específico.
 
-## Example (C#)
-A notification service sends an "order shipped" message. The flow is the same for every channel; only the channel object differs, so the base class leaves its creation to subclasses.
+## Exemplo (C#)
+Um serviço de notificações envia a mensagem "pedido enviado". O fluxo é o mesmo para qualquer canal; só o objeto do canal muda, então a classe base deixa a criação para as subclasses.
 
 ```csharp
 using System;
@@ -45,7 +45,7 @@ public class PushNotification : INotification
 
 public abstract class NotificationService
 {
-    // the factory method
+    // o método de fábrica
     protected abstract INotification CreateNotification();
 
     public void NotifyOrderShipped(string recipient, string orderId)
@@ -75,7 +75,7 @@ public static class Program
 }
 ```
 
-The parameterized form uses one creation method with a key, so no subclass is needed per product. The set of products is fixed in one switch, and an unknown key fails fast.
+A forma parametrizada usa um único método de criação com uma chave, então não é necessária uma subclasse por produto. O conjunto de produtos fica fixo em um único `switch`, e uma chave desconhecida falha imediatamente.
 
 ```csharp
 // fragment
@@ -90,27 +90,27 @@ public static class NotificationFactory
 }
 ```
 
-## Variations
-- **Abstract creator or default implementation.** With an abstract creator, subclasses must supply the product because no reasonable default exists. With a concrete creator, the factory method returns a default product and exists only so subclasses can change it.
-- **Parameterized factory method.** One method creates several kinds, selected by a parameter (enum, string, type). A subclass can extend the set by handling its own keys and delegating the rest to the base method. All products come back as the common interface, so callers needing more must cast.
-- **Generic creator.** In C# a `Creator<TProduct> where TProduct : INotification, new()` creates the product without a subclass per product. It covers the case where the only job is to pick the class.
-- **Lazy creation.** Do not call a virtual factory method from the base constructor: the derived class is not initialized yet. Create the product on first use through a property instead (`Lazy<T>` fits).
-- **Naming.** Name factory methods so they read as such (`Create...`, `Make...`).
+## Variações
+- **Criador abstrato ou implementação padrão.** Com um criador abstrato, as subclasses precisam fornecer o produto, porque não existe implementação padrão razoável. Com um criador concreto, o método de fábrica devolve um produto padrão e existe apenas para que as subclasses possam trocá-lo.
+- **Método de fábrica parametrizado.** Um único método cria vários tipos, selecionados por um parâmetro (enum, string, tipo). Uma subclasse pode ampliar o conjunto tratando as suas próprias chaves e delegando o restante ao método base. Todos os produtos voltam como a interface comum, então quem precisar de mais deve fazer um cast.
+- **Criador genérico.** Em C#, um `Creator<TProduct> where TProduct : INotification, new()` cria o produto sem uma subclasse por produto. Cobre o caso em que o único trabalho é escolher a classe.
+- **Criação preguiçosa.** Não chame um método de fábrica virtual a partir do construtor da base: a classe derivada ainda não foi inicializada. Crie o produto no primeiro uso, por meio de uma propriedade (`Lazy<T>` se encaixa bem).
+- **Nomenclatura.** Nomeie os métodos de fábrica para que sejam reconhecidos como tal (`Create...`, `Make...`).
 
-## Risks and C# alternatives
-- A `Func<INotification>` passed to the constructor replaces a subclass-per-product hierarchy, and is often all that is needed.
-- With dependency injection, the container is the factory; inject `INotification` (or a keyed lookup of implementations) rather than writing creators.
-- Calling a virtual method from a constructor is legal in C# but runs before the derived constructor body, so it can see uninitialized fields. Avoid it.
-- A static `Create(kind)` switch is simpler than a creator hierarchy when no behavior varies besides the class; the cost is that the switch must change for each new kind.
-- Keep factory methods `protected` when only the creator uses them, so clients are not tempted to call them.
+## Riscos e alternativas em C#
+- Um `Func<INotification>` passado ao construtor substitui uma hierarquia de subclasse por produto, e muitas vezes é tudo o que é preciso.
+- Com injeção de dependência, o contêiner é a fábrica; injete `INotification` (ou uma busca por chave das implementações) em vez de escrever criadores.
+- Chamar um método virtual a partir de um construtor é válido em C#, mas roda antes do corpo do construtor da classe derivada, então pode enxergar campos não inicializados. Evite.
+- Um `switch` estático `Create(kind)` é mais simples do que uma hierarquia de criadores quando nenhum comportamento varia além da classe; o custo é que o `switch` precisa mudar a cada novo tipo.
+- Mantenha os métodos de fábrica `protected` quando só o criador os usa, para que os clientes não sejam tentados a chamá-los.
 
-## Related patterns
-- [Abstract Factory](abstract-factory.md): usually implemented as a set of factory methods.
-- [Template Method](../behavioral/template-method.md): factory methods are commonly called from template methods (`NotifyOrderShipped` above).
-- [Prototype](prototype.md): avoids subclassing the creator, but the product then needs a clone operation and often an initialization step.
+## Padrões relacionados
+- [Abstract Factory](abstract-factory.md): normalmente implementado como um conjunto de métodos de fábrica.
+- [Template Method](../behavioral/template-method.md): métodos de fábrica costumam ser chamados a partir de métodos template (`NotifyOrderShipped` acima).
+- [Prototype](prototype.md): evita criar subclasses do criador, mas então o produto precisa de uma operação de clonagem e, muitas vezes, de uma etapa de inicialização.
 
-## Verification
-- The creator's code mentions only the product interface, never a concrete product.
-- A new product is added by writing one subclass (or one switch arm) without editing the creator's logic.
-- No virtual factory method is called from a constructor.
-- If the subclasses only differ in the class they create, check whether a delegate or generic would be simpler.
+## Verificação
+- O código do criador menciona apenas a interface do produto, nunca um produto concreto.
+- Um novo produto é adicionado escrevendo uma subclasse (ou um braço de `switch`) sem editar a lógica do criador.
+- Nenhum método de fábrica virtual é chamado a partir de um construtor.
+- Se as subclasses diferem apenas pela classe que criam, verifique se um delegate ou um genérico seria mais simples.

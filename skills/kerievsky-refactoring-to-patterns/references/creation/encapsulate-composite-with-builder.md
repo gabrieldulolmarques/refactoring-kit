@@ -1,26 +1,26 @@
-# Encapsulate Composite with Builder
+# Encapsular Composite com Builder (Encapsulate Composite with Builder)
 
-Kerievsky (2004), ch. 6. Pattern: Builder. Direction: to (Builder); away (Composite).
+Kerievsky (2004), cap. 6. Padrão: Builder. Direção: até (Builder); longe (Composite).
 
-## When to use
-Smells: Primitive Obsession, Duplicated Code.
+## Quando usar
+Smells: Obsessão por Primitivos (Primitive Obsession), Código Duplicado (Duplicated Code).
 
-- Building a Composite takes the same three steps every time: create a node, set it up, attach it to the right parent. Skipping the last step, or attaching to the wrong parent, is an easy mistake, and the code is repetitive.
-- Client code is tied to the Composite's classes. When the underlying tree library changes, every place that builds a tree has to change. A Builder that takes simple arguments (strings, numbers) and returns nothing of the library's types hides it. You can later write another Builder with the same interface for a different representation.
-- The pattern's original intent is to let one construction process make different representations. Simplifying construction and decoupling the client are equally good reasons.
-- Liability: a Builder's interface is sometimes not obvious, because it hides a lot of work (current position, parent tracking). Its tests or documentation may be the best way to learn it.
-- Related: the Composite itself can come from [replace-implicit-tree-with-composite.md](../simplification/replace-implicit-tree-with-composite.md). The "away from Composite" direction means clients stop touching the Composite directly.
+- Construir um Composite leva sempre os mesmos três passos: criar um nó, configurá-lo e anexá-lo ao pai certo. Pular o último passo, ou anexar ao pai errado, é um erro fácil, e o código fica repetitivo.
+- O código cliente fica preso às classes do Composite. Quando a biblioteca de árvore subjacente muda, todo lugar que constrói uma árvore precisa mudar. Um Builder que recebe argumentos simples (strings, números) e não devolve nenhum tipo da biblioteca esconde isso. Depois você pode escrever outro Builder com a mesma interface para uma representação diferente.
+- A intenção original do padrão é permitir que um mesmo processo de construção gere representações diferentes. Simplificar a construção e desacoplar o cliente são razões igualmente boas.
+- Desvantagem: a interface de um Builder às vezes não é óbvia, porque esconde muito trabalho (posição atual, rastreamento do pai). Seus testes ou sua documentação podem ser a melhor forma de aprendê-la.
+- Relacionado: o próprio Composite pode vir de [replace-implicit-tree-with-composite.md](../simplification/replace-implicit-tree-with-composite.md). A direção "longe de Composite" significa que os clientes deixam de tocar diretamente no Composite.
 
-## Mechanics
-There is no single set of mechanics: Builders for Composites can be designed in many ways. These are the general steps. The book suggests building the Builder test-first.
-1. Create the builder class. Make it able to produce a one-node Composite and add a method to get the result. Compile and test.
-2. Make it able to build children. This usually means a few methods to create a node and position it (add a child of the current node, add a sibling, go back up). Compile and test.
-3. If the code you are replacing sets attributes or values on nodes, let the builder set them too. Compile and test.
-4. Look at how simple it is to use, and simplify it.
-5. Change the Composite-building code to use the builder. The client becomes the Director in the pattern. Compile and test.
+## Mecânica
+Não há um conjunto único de mecânica: Builders para Composites podem ser projetados de muitas maneiras. Estes são os passos gerais. O livro sugere construir o Builder começando pelos testes.
+1. Crie a classe builder. Faça-a capaz de produzir um Composite de um só nó e adicione um método para obter o resultado. Compile e teste.
+2. Faça-a capaz de construir filhos. Isso geralmente significa alguns métodos para criar um nó e posicioná-lo (adicionar um filho do nó atual, adicionar um irmão, voltar um nível). Compile e teste.
+3. Se o código que você está substituindo define atributos ou valores nos nós, deixe o builder defini-los também. Compile e teste.
+4. Veja quão simples é de usar, e simplifique.
+5. Troque o código que constrói o Composite para usar o builder. O cliente passa a ser o Director do padrão. Compile e teste.
 
-## Example
-Before: a route tree built by hand. Each node is created, added to its parent, and the current parent is tracked in local variables.
+## Exemplo
+Antes: uma árvore de rotas montada à mão. Cada nó é criado, adicionado ao pai, e o pai atual é guardado em variáveis locais.
 
 ```csharp
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ public static class Caller
 }
 ```
 
-After: `RouteBuilder` keeps the path from the root to the current node. Clients pass segment names only and read the result at the end.
+Depois: `RouteBuilder` guarda o caminho da raiz até o nó atual. Os clientes passam apenas nomes de segmento e leem o resultado no fim.
 
 ```csharp
 using System;
@@ -109,9 +109,9 @@ public static class Caller
 }
 ```
 
-The tree is the same. `AddSibling("orders")` goes up from `users` and adds under `v1`. The next `Up` leaves `orders` for `v1`, and `AddSibling("health")` goes up once more and adds under `api`.
+A árvore é a mesma. `AddSibling("orders")` sobe de `users` e adiciona em `v1`. O `Up` seguinte deixa `orders` para `v1`, e `AddSibling("health")` sobe mais uma vez e adiciona em `api`.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- The builder's output equals the old hand-built tree for the same input (compare the rendered or serialized form).
-- No client code outside the builder references the Composite's node constructor or its child collection.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- A saída do builder é igual à da árvore montada à mão para a mesma entrada (compare a forma renderizada ou serializada).
+- Nenhum código cliente fora do builder referencia o construtor do nó do Composite nem a sua coleção de filhos.

@@ -1,24 +1,24 @@
 # Singleton
 
-Gamma et al. (1995), ch. 3. Category: object creational.
+Gamma et al. (1995), cap. 3. Categoria: criacional de objeto.
 
-## Intent
-Guarantee that a class has exactly one instance and give a single, well-known point of access to it.
+## Intenção
+Garantir que uma classe tenha exatamente uma instância e oferecer um único ponto de acesso bem conhecido a ela.
 
-## When it pays off
-- Exactly one instance must exist (one shared cache, one connection pool, one configuration source) and clients must reach it from a known place.
-- The sole instance should be replaceable by a subclass or another implementation without changing client code.
-- Benefits listed for the pattern: controlled access to the instance, no extra global names, the possibility to refine behavior by subclassing, and the freedom to later allow more than one instance.
-- Warning: this is the most criticized of the creational patterns. Read "Risks and C# alternatives" below before using it. In most modern C# code, a singleton lifetime in a DI container is the better answer.
-- Not worth it when the only need is "share one object": create it once and pass it to those who need it.
+## Quando compensa
+- Deve existir exatamente uma instância (um cache compartilhado, um pool de conexões, uma fonte única de configuração) e os clientes precisam alcançá-la a partir de um lugar conhecido.
+- A instância única deve poder ser substituída por uma subclasse ou por outra implementação sem mudar o código cliente.
+- Benefícios listados para o padrão: acesso controlado à instância, sem nomes globais extras, possibilidade de refinar o comportamento por herança e liberdade para, mais tarde, permitir mais de uma instância.
+- Atenção: é o padrão criacional mais criticado. Leia "Riscos e alternativas em C#" abaixo antes de usá-lo. Na maior parte do código C# moderno, um tempo de vida singleton em um contêiner de DI é a melhor resposta.
+- Não vale a pena quando a única necessidade é "compartilhar um objeto": crie-o uma vez e passe-o a quem precisa.
 
-## Participants in C#
-- **Singleton** (`FeatureFlags`): a class with a private constructor, a private static field holding the instance, and a static `Instance` property that creates it on first use.
+## Participantes em C#
+- **Singleton** (`FeatureFlags`): uma classe com construtor privado, um campo estático privado que guarda a instância e uma propriedade estática `Instance` que a cria no primeiro uso.
 
-The example declares the class `sealed`, a C# choice that gives up the subclass selection described in the variation "Choosing a subclass"; leave it unsealed if that is needed. The interface (`IFeatureFlags`) is not part of the original pattern but is what makes the instance replaceable and testable.
+O exemplo declara a classe como `sealed`, uma escolha de C# que abre mão da escolha de subclasse descrita na variação "Escolha de subclasse"; deixe-a sem `sealed` se isso for necessário. A interface (`IFeatureFlags`) não faz parte do padrão original, mas é o que torna a instância substituível e testável.
 
-## Example (C#)
-A feature-flag store must exist once for the process. `Lazy<T>` gives lazy creation and thread safety without hand-written locking.
+## Exemplo (C#)
+Um armazenamento de feature flags deve existir uma única vez no processo. `Lazy<T>` oferece criação preguiçosa e segurança para threads sem travas (lock) escritas à mão.
 
 ```csharp
 using System;
@@ -39,7 +39,7 @@ public sealed class FeatureFlags : IFeatureFlags
 
     private FeatureFlags()
     {
-        // loaded once, on first access
+        // carregado uma única vez, no primeiro acesso
         _enabled = new HashSet<string> { "new-checkout" };
     }
 
@@ -55,7 +55,7 @@ public static class Program
 }
 ```
 
-The preferred shape keeps the "one instance" decision at the composition point and passes the object in. The consumer has an ordinary public constructor and depends on the interface:
+A forma preferida mantém a decisão de "uma instância" no ponto de composição e passa o objeto adiante. O consumidor tem um construtor público comum e depende da interface:
 
 ```csharp
 public class CheckoutService
@@ -78,44 +78,44 @@ public static class Composition
 {
     public static void Run()
     {
-        // one shared instance, created once and handed down
+        // uma instância compartilhada, criada uma vez e repassada
         IFeatureFlags flags = FeatureFlags.Instance;
         var checkout = new CheckoutService(flags);
 
-        // a test passes its own implementation
+        // um teste passa sua própria implementação
         var testCheckout = new CheckoutService(new FixedFlags(false));
         System.Console.WriteLine(checkout.PickFlow() + " " + testCheckout.PickFlow());
 
-        // with a DI container the same intent is one line, for example:
+        // com um contêiner de DI, a mesma intenção cabe em uma linha, por exemplo:
         // services.AddSingleton<IFeatureFlags, FeatureFlags>();
     }
 }
 ```
 
-## Variations
-- **Lazy creation.** Create the instance on first access. In C# use `Lazy<T>` (thread-safe by default) or a `static readonly` field, which the runtime initializes once and safely.
-- **Eager creation.** `public static readonly FeatureFlags Instance = new FeatureFlags();` is the simplest thread-safe form, at the cost of creating the instance when the type is first touched.
-- **Choosing a subclass.** The `Instance` code can pick the concrete class from configuration or an environment variable; this hard-wires the set of possible classes.
-- **Registry of singletons.** `Instance` looks up an implementation by name in a registry that implementations register into. More flexible, and it moves the design towards a service locator.
-- **Controlled number of instances.** Only the access operation has to change if you later need two, for example one per tenant.
+## Variações
+- **Criação preguiçosa.** Crie a instância no primeiro acesso. Em C# use `Lazy<T>` (seguro para threads por padrão) ou um campo `static readonly`, que o runtime inicializa uma vez e com segurança.
+- **Criação antecipada.** `public static readonly FeatureFlags Instance = new FeatureFlags();` é a forma mais simples de ser seguro para threads, ao custo de criar a instância quando o tipo é usado pela primeira vez.
+- **Escolha de subclasse.** O código de `Instance` pode escolher a classe concreta a partir de configuração ou de uma variável de ambiente; isso fixa no código o conjunto de classes possíveis.
+- **Registro de singletons.** `Instance` busca uma implementação pelo nome em um registro no qual as implementações se cadastram. Mais flexível, e aproxima o design de um localizador de serviços.
+- **Número controlado de instâncias.** Só a operação de acesso precisa mudar se você precisar de duas no futuro, por exemplo, uma por tenant.
 
-## Risks and C# alternatives
-- **Global state.** A static `Instance` is a global variable in disguise. Any code can read or change it, so behavior depends on who touched it before, and tests that run in one process leak state into each other.
-- **Hidden dependencies.** A class that calls `FeatureFlags.Instance` inside its methods does not show the dependency in its constructor or signature. Readers and tools cannot see it, and replacing it means editing the class.
-- **Testing.** You cannot substitute a fake without extra tricks (reset methods, reflection, test-only setters), and parallel tests interfere. Depending on an interface that is passed in removes all of this.
-- **Prefer passing the instance.** Create the one object at startup and give it to the classes that need it, as a constructor parameter typed by an interface (second example above).
-- **Prefer a container's singleton lifetime.** With dependency injection, `AddSingleton<IFeatureFlags, FeatureFlags>()` gives one shared instance for the application, with a public constructor, no static access, and the lifetime in one visible place.
-- **`Lazy<T>` when the pattern is really needed.** When a static access point is unavoidable (a library entry point, code that cannot receive dependencies), use `Lazy<T>` or a `static readonly` field. Avoid hand-written double-checked locking.
-- **Other hazards.** A singleton that holds mutable state needs its own synchronization. One that implements `IDisposable` needs a clear owner. One that depends on another singleton creates hidden initialization order. Static classes cannot implement interfaces or be injected.
-- **Do not confuse "one instance needed" with "global access needed".** The first is a lifetime decision; the second is almost always avoidable.
+## Riscos e alternativas em C#
+- **Estado global.** Um `Instance` estático é uma variável global disfarçada. Qualquer código pode lê-la ou alterá-la, então o comportamento depende de quem a tocou antes, e testes executados no mesmo processo vazam estado entre si.
+- **Dependências ocultas.** Uma classe que chama `FeatureFlags.Instance` dentro dos seus métodos não mostra a dependência no construtor nem na assinatura. Leitores e ferramentas não a enxergam, e substituí-la exige editar a classe.
+- **Testes.** Não é possível trocá-lo por uma implementação falsa sem artifícios extras (métodos de reset, reflexão, setters só para teste), e testes em paralelo interferem entre si. Depender de uma interface recebida por parâmetro elimina tudo isso.
+- **Prefira passar a instância.** Crie o objeto único na inicialização e entregue-o às classes que precisam, como parâmetro de construtor tipado por uma interface (segundo exemplo acima).
+- **Prefira o tempo de vida singleton do contêiner.** Com injeção de dependência, `AddSingleton<IFeatureFlags, FeatureFlags>()` dá uma instância compartilhada para a aplicação, com construtor público, sem acesso estático e com o tempo de vida em um único lugar visível.
+- **`Lazy<T>` quando o padrão for realmente necessário.** Quando um ponto de acesso estático é inevitável (ponto de entrada de uma biblioteca, código que não pode receber dependências), use `Lazy<T>` ou um campo `static readonly`. Evite escrever à mão o double-checked locking.
+- **Outros riscos.** Um singleton que mantém estado mutável precisa de sincronização própria. Um que implementa `IDisposable` precisa de um dono claro. Um que depende de outro singleton cria uma ordem de inicialização oculta. Classes estáticas não podem implementar interfaces nem ser injetadas.
+- **Não confunda "precisa de uma instância" com "precisa de acesso global".** A primeira é uma decisão de tempo de vida; a segunda quase sempre pode ser evitada.
 
-## Related patterns
-- [Abstract Factory](abstract-factory.md): a concrete factory is often a single shared instance, though it can simply be passed in.
-- [Builder](builder.md): a builder can be shared, but is usually better as a transient object.
-- [Prototype](prototype.md): a prototype manager is often a single shared instance.
+## Padrões relacionados
+- [Abstract Factory](abstract-factory.md): uma fábrica concreta costuma ser uma única instância compartilhada, embora também possa simplesmente ser passada como parâmetro.
+- [Builder](builder.md): um builder pode ser compartilhado, mas geralmente é melhor como objeto transitório (transient).
+- [Prototype](prototype.md): um gerenciador de protótipos costuma ser uma única instância compartilhada.
 
-## Verification
-- The constructor is private (or the DI registration is the only way to get the instance) and creation is thread-safe.
-- Consumers depend on an interface, and at least one test runs a consumer with a fake instead of the real singleton.
-- Nothing mutable is exposed without synchronization, and no test depends on the order of other tests.
-- Re-check that "exactly one instance" is a real requirement and not just convenience of access; if it is the latter, pass the object in.
+## Verificação
+- O construtor é privado (ou o registro de DI é a única forma de obter a instância) e a criação é segura para threads.
+- Os consumidores dependem de uma interface, e pelo menos um teste executa um consumidor com uma implementação falsa em vez do singleton real.
+- Nada mutável é exposto sem sincronização, e nenhum teste depende da ordem de outros testes.
+- Confirme de novo que "exatamente uma instância" é um requisito real, e não só conveniência de acesso; se for só conveniência, passe o objeto adiante.

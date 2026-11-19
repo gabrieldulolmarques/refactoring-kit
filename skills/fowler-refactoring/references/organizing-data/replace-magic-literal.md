@@ -1,21 +1,21 @@
-# Replace Magic Literal
+# Substituir Literal Mágico (Replace Magic Literal)
 
-Fowler (2018), web edition only (not in the print book); summary at https://refactoring.com/catalog/replaceMagicLiteral.html. Formerly / aka: Replace Magic Number with Symbolic Constant. Inverse: —.
+Fowler (2018), só na edição web (não está no livro impresso); resumo em https://refactoring.com/catalog/replaceMagicLiteral.html. Nome anterior / outro nome: Replace Magic Number with Symbolic Constant. Inversa: —.
 
-## When to use
-A literal value sits in an expression and its meaning has to be guessed: a tax rate, a time unit, a physical constant, a status string, a size limit. The same value repeated in several places is worse, because a change means finding every copy and telling apart the ones that mean the same thing from the ones that only look alike.
+## Quando usar
+Um valor literal aparece em uma expressão e o seu significado precisa ser adivinhado: uma taxa de imposto, uma unidade de tempo, uma constante física, uma string de status, um limite de tamanho. O mesmo valor repetido em vários lugares é pior, porque uma mudança exige encontrar toda cópia e distinguir as que significam a mesma coisa das que só parecem iguais.
 
-Do not extract every literal. `0`, `1`, `""` or `-1` in an obvious role (a loop start, an empty check, "not found") are usually clearer as they are. When the literal is really a set of related alternatives, an `enum` or a type is a better home than a loose constant.
+Não extraia todo literal. `0`, `1`, `""` ou `-1` em um papel óbvio (início de laço, verificação de vazio, "não encontrado") em geral são mais claros como estão. Quando o literal é na verdade um conjunto de alternativas relacionadas, um `enum` ou um tipo é um lugar melhor do que uma constante solta.
 
-## Mechanics
-1. Declare a constant with a name that says what the value means, not what it is (`StandardGravity`, not `NineEightOne`).
-2. Find the occurrences of the literal. For each one, decide whether it has the same meaning as the constant; equal values with different meanings get their own constants or stay as they are.
-3. Replace one occurrence with the constant. Compile and test.
-4. Repeat for the remaining occurrences of that meaning, testing as you go.
-5. To check the result, change the constant's value temporarily and see whether the tests notice everywhere they should. It is not always possible, but it is a cheap check when it is.
+## Mecânica
+1. Declare uma constante com um nome que diga o que o valor significa, não o que ele é (`StandardGravity`, não `NineEightOne`).
+2. Encontre as ocorrências do literal. Para cada uma, decida se ela tem o mesmo significado que a constante; valores iguais com significados diferentes ganham suas próprias constantes ou ficam como estão.
+3. Substitua uma ocorrência pela constante. Compile e teste.
+4. Repita para as demais ocorrências daquele significado, testando ao longo do caminho.
+5. Para conferir o resultado, mude temporariamente o valor da constante e veja se os testes percebem em todos os lugares onde deveriam. Nem sempre é possível, mas quando é, é uma verificação barata.
 
-## Example
-Before:
+## Exemplo
+Antes:
 
 ```csharp
 public class TemperatureConverter
@@ -32,7 +32,7 @@ public class TemperatureConverter
 }
 ```
 
-After:
+Depois:
 
 ```csharp
 public class TemperatureConverter
@@ -51,12 +51,12 @@ public class TemperatureConverter
 }
 ```
 
-Behavior is unchanged, and the relation between the two methods is now visible.
+O comportamento não muda, e a relação entre os dois métodos agora fica visível.
 
-## C# notes
-- `const` is limited to primitives, `string` and `null`. Use it for compile-time values, `static readonly` for the rest (computed at startup, or of a type that cannot be `const`).
-- A `const` from another assembly is inlined at compile time, so changing its value requires recompiling the consumers; prefer `static readonly` for public values that may change.
+## Notas (C#)
+- `const` se limita a tipos primitivos, `string` e `null`. Use-o para valores de tempo de compilação, e `static readonly` para o resto (calculado na inicialização, ou de um tipo que não pode ser `const`).
+- Um `const` de outro assembly é embutido em tempo de compilação, então mudar seu valor exige recompilar os consumidores; prefira `static readonly` para valores públicos que possam mudar.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Search the code for the old literal to confirm no occurrence of that meaning remains, and that occurrences of the same value with a different meaning were left alone.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Busque no código o literal antigo para confirmar que nenhuma ocorrência com esse significado restou, e que ocorrências do mesmo valor com outro significado foram deixadas em paz.

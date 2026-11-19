@@ -1,26 +1,26 @@
 # Observer
 
-Gamma et al. (1995), ch. 5. Also known as: Dependents, Publish-Subscribe. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Também conhecido como: Dependents, Publish-Subscribe. Categoria: comportamental de objeto.
 
-## Intent
-Let one object (the subject) announce its changes to any number of dependents (the observers) without knowing who they are or what they do with the news.
+## Intenção
+Permitir que um objeto (o sujeito) anuncie suas mudanças a qualquer número de dependentes (os observadores), sem conhecer quem são eles nem o que fazem com a notícia.
 
-## When it pays off
-- One aspect of an abstraction depends on another, and you want to vary and reuse them separately (a sensor and the screens that show it).
-- A change in one object must reach others, and the number of receivers is unknown or changes at run time.
-- The subject should not assume anything about the receivers, so they can live in higher layers without breaking the layering.
-- Benefits: abstract, minimal coupling; broadcast without addressing; observers can be added or removed without touching the subject.
-- Liabilities: observers do not know about each other, so one innocent change can trigger a long cascade of updates that is hard to trace. A bare "something changed" signal also forces observers to work out what changed.
-- Skip it when there is a single, fixed receiver: a direct call or a delegate parameter is clearer.
+## Quando compensa
+- Um aspecto de uma abstração depende de outro, e você quer variar e reutilizar cada um separadamente (um sensor e as telas que o mostram).
+- Uma mudança em um objeto precisa chegar a outros, e o número de receptores é desconhecido ou muda em tempo de execução.
+- O sujeito não deve presumir nada sobre os receptores, para que eles possam viver em camadas superiores sem quebrar a arquitetura em camadas.
+- Benefícios: acoplamento mínimo e abstrato; difusão sem endereçamento; observadores podem ser adicionados ou removidos sem tocar no sujeito.
+- Custos: observadores não sabem uns dos outros, então uma mudança inocente pode disparar uma longa cascata de atualizações, difícil de rastrear. Um sinal genérico de "algo mudou" também obriga os observadores a descobrir o que mudou.
+- Não vale a pena quando há um único receptor fixo: uma chamada direta ou um parâmetro delegate é mais claro.
 
-## Participants in C#
-- **Subject** (`TemperatureSensor`): holds the list of observers and offers attach and detach. In C# this is an `event` field, whose `+=` and `-=` are the attach and detach operations.
-- **Observer** (`EventHandler<ReadingChangedEventArgs>`): the updating interface. A delegate type replaces the one-method interface.
-- **ConcreteSubject** (`TemperatureSensor`): stores the state of interest and raises the event when it changes.
-- **ConcreteObserver** (`Dashboard`, `OverheatAlert`): subscribes to a subject, reads what it needs from the event data or the sender, and keeps its own state consistent.
+## Participantes em C#
+- **Subject** (`TemperatureSensor`): mantém a lista de observadores e oferece anexar e desanexar. Em C#, isso é um campo `event`, cujos `+=` e `-=` são as operações de anexar e desanexar.
+- **Observer** (`EventHandler<ReadingChangedEventArgs>`): a interface de atualização. Um tipo delegate substitui a interface de um método.
+- **ConcreteSubject** (`TemperatureSensor`): guarda o estado de interesse e dispara o evento quando ele muda.
+- **ConcreteObserver** (`Dashboard`, `OverheatAlert`): se inscreve em um sujeito, lê do evento ou do remetente o que precisa e mantém o próprio estado consistente.
 
-## Example (C#)
-A temperature sensor in an IoT system raises an event on each new reading. A dashboard and an alert rule subscribe independently. Both detach by disposing, so the sensor never keeps them alive longer than needed.
+## Exemplo (C#)
+Um sensor de temperatura em um sistema IoT dispara um evento a cada nova leitura. Um painel e uma regra de alerta se inscrevem de forma independente. Ambos se desligam ao serem descartados, para que o sensor nunca os mantenha vivos por mais tempo do que o necessário.
 
 ```csharp
 using System;
@@ -46,13 +46,13 @@ public class TemperatureSensor
 
     public string Id { get; }
 
-    // Subject side: subscribers attach with += and detach with -=.
+    // Lado do sujeito: os inscritos se anexam com += e se desanexam com -=.
     public event EventHandler<ReadingChangedEventArgs>? ReadingChanged;
 
     public void Report(double celsius)
     {
-        if (celsius == _celsius) return;   // no change, no notification
-        _celsius = celsius;                // state is consistent before notifying
+        if (celsius == _celsius) return;   // sem mudança, sem notificação
+        _celsius = celsius;                // o estado fica consistente antes de notificar
         ReadingChanged?.Invoke(this, new ReadingChangedEventArgs(Id, celsius));
     }
 }
@@ -72,7 +72,7 @@ public class Dashboard : IDisposable
 
     private void OnReading(object? sender, ReadingChangedEventArgs e) => _latest[e.SensorId] = e.Celsius;
 
-    public void Dispose() => _sensor.ReadingChanged -= OnReading;   // matches the +=
+    public void Dispose() => _sensor.ReadingChanged -= OnReading;   // corresponde ao +=
 }
 
 public class OverheatAlert : IDisposable
@@ -113,30 +113,30 @@ public static class Program
 }
 ```
 
-## Variations
-- **Where observers are stored.** A list inside each subject is simplest. If there are many subjects and few observers, a shared lookup from subject to observers saves memory at the cost of slower access.
-- **Several subjects per observer.** The update carries the sender (the `sender` argument of `EventHandler`), so one handler can tell which subject fired.
-- **Who triggers the notification.** Either the state-changing methods notify themselves (clients cannot forget, but a burst of changes causes a burst of updates), or the client calls a notify method after a batch (fewer updates, but easy to forget).
-- **Push or pull.** Push sends the details in the event data (the example does). Pull sends almost nothing and the observer reads the subject. Push couples the subject to what observers need; pull can make observers do extra work.
-- **Interest by event type.** Expose several events (`ReadingChanged`, `Offline`) or a topic filter so that observers receive only what they asked for.
-- **Self-consistent state first.** Notify as the last step of an operation, after all fields are updated. In a class hierarchy, raise the event from a non-overridable method that calls an overridable step, so a subclass cannot notify halfway.
-- **A change manager.** When many subjects and observers depend on each other, a separate object can collect changes and notify each observer once. This is a mediator for updates.
-- **Subject going away.** The subject can raise a final event so observers drop their reference.
+## Variações
+- **Onde os observadores ficam guardados.** Uma lista dentro de cada sujeito é o mais simples. Se há muitos sujeitos e poucos observadores, uma tabela compartilhada de sujeito para observadores economiza memória, ao custo de um acesso mais lento.
+- **Vários sujeitos por observador.** A atualização carrega o remetente (o argumento `sender` de `EventHandler`), então um único handler pode saber qual sujeito disparou.
+- **Quem dispara a notificação.** Ou os métodos que mudam o estado notificam por conta própria (clientes não podem esquecer, mas uma rajada de mudanças gera uma rajada de atualizações), ou o cliente chama um método de notificação depois de um lote (menos atualizações, mas fácil de esquecer).
+- **Push ou pull.** Push envia os detalhes nos dados do evento (o exemplo faz isso). Pull envia quase nada, e o observador lê o sujeito. Push acopla o sujeito ao que os observadores precisam; pull pode fazer os observadores trabalharem a mais.
+- **Interesse por tipo de evento.** Exponha vários eventos (`ReadingChanged`, `Offline`) ou um filtro por tópico, para que os observadores recebam apenas o que pediram.
+- **Estado autoconsistente primeiro.** Notifique como último passo de uma operação, depois que todos os campos foram atualizados. Em uma hierarquia de classes, dispare o evento a partir de um método não sobrescrevível que chama um passo sobrescrevível, para que uma subclasse não notifique no meio do caminho.
+- **Um gerenciador de mudanças.** Quando muitos sujeitos e observadores dependem uns dos outros, um objeto separado pode coletar as mudanças e notificar cada observador uma única vez. Isso é um mediador para atualizações.
+- **Sujeito que deixa de existir.** O sujeito pode disparar um evento final para que os observadores soltem sua referência.
 
-## Risks and C# alternatives
-- Use the language feature: `event EventHandler<T>` for subject and observer, and `Action<T>` or a plain delegate when no event data type is needed. Write your own `ISubject`/`IObserver` pair only when you need ordering, filtering or per-subscriber state. `IObservable<T>`/`IObserver<T>` exist in the base library and suit streams that also complete or fail.
-- **Every `+=` needs a matching `-=`.** The subject holds a strong reference to each handler's target. A long-lived subject (a sensor, a singleton service, a static event) keeps every subscriber alive after the owner is done with it: a memory leak, and the dead object still receives calls. Unsubscribe in `Dispose`, in a lifecycle hook or when the view closes. Be wary of lambdas, which cannot be detached unless you keep the delegate in a variable.
-- **Handlers run synchronously**, on the thread that raised the event, one after another, before the raising call returns. A slow handler slows the subject; an exception in one handler stops the remaining ones and surfaces at the raiser. Keep handlers short, catch inside them, or hand the work to a queue or a `Channel<T>`. An `async void` handler returns at its first `await`, so the subject cannot wait for it or see its exceptions.
-- Handlers can attach, detach or change the subject while the event is being raised. `?.Invoke` copies the delegate, so a subscription change does not corrupt the call in progress, but a handler removed during the call may still be called once.
-- On multiple threads, the delegate copy is safe, but the handlers themselves run on the raising thread. Marshal to the right context (a UI thread, for example) in the handler.
-- Cascades: if a handler changes the subject, or another subject that feeds back, you can get loops. Document which operations notify.
+## Riscos e alternativas em C#
+- Use o recurso da linguagem: `event EventHandler<T>` para sujeito e observador, e `Action<T>` ou um delegate simples quando não for preciso um tipo de dados de evento. Escreva seu próprio par `ISubject`/`IObserver` apenas quando precisar de ordenação, filtragem ou estado por inscrito. `IObservable<T>`/`IObserver<T>` existem na biblioteca base e servem a fluxos que também terminam ou falham.
+- **Cada `+=` precisa de um `-=` correspondente.** O sujeito mantém uma referência forte ao alvo de cada handler. Um sujeito de vida longa (um sensor, um serviço singleton, um evento estático) mantém vivo todo inscrito depois que o dono já não precisa dele: um vazamento de memória, e o objeto morto continua recebendo chamadas. Cancele a inscrição em `Dispose`, em um gancho de ciclo de vida ou quando a tela fechar. Cuidado com lambdas, que não podem ser desanexadas a menos que você guarde o delegate em uma variável.
+- **Handlers rodam de forma síncrona**, na thread que disparou o evento, um após o outro, antes de a chamada que disparou retornar. Um handler lento atrasa o sujeito; uma exceção em um handler interrompe os seguintes e aparece para quem disparou. Mantenha os handlers curtos, capture exceções dentro deles, ou repasse o trabalho a uma fila ou a um `Channel<T>`. Um handler `async void` retorna já no primeiro `await`, então o sujeito não pode esperá-lo nem ver suas exceções.
+- Handlers podem anexar, desanexar ou alterar o sujeito enquanto o evento está sendo disparado. `?.Invoke` copia o delegate, então uma mudança de inscrição não corrompe a chamada em andamento, mas um handler removido durante a chamada ainda pode ser chamado uma vez.
+- Com várias threads, a cópia do delegate é segura, mas os handlers rodam na thread que disparou. Redirecione para o contexto certo (uma thread de UI, por exemplo) dentro do handler.
+- Cascatas: se um handler altera o sujeito, ou outro sujeito que realimenta o primeiro, podem surgir laços. Documente quais operações notificam.
 
-## Related patterns
-- [Mediator](mediator.md): a change manager that holds the subject-observer relations acts as a mediator. Observer spreads the communication across objects; Mediator centralizes it in one.
-- [Singleton](../creational/singleton.md): a change manager is often unique and global, but pass it in rather than reaching for a global.
+## Padrões relacionados
+- [Mediator](mediator.md): um gerenciador de mudanças que guarda as relações sujeito-observador atua como mediador. Observer espalha a comunicação entre objetos; Mediator a centraliza em um só.
+- [Singleton](../creational/singleton.md): um gerenciador de mudanças costuma ser único e global, mas passe-o como parâmetro em vez de buscá-lo em uma variável global.
 
-## Verification
-- The subject compiles and runs with zero subscribers, and its code names no concrete observer type.
-- Adding a new observer needs no change to the subject or to other observers.
-- Every subscription has an unsubscription on a path that actually runs; after dispose, the subject's handler list no longer references the observer.
-- The subject is in a consistent state at the moment each notification is raised, and the operations that notify are documented.
+## Verificação
+- O sujeito compila e roda com zero inscritos, e seu código não cita nenhum tipo concreto de observador.
+- Adicionar um novo observador não exige mudança no sujeito nem nos outros observadores.
+- Toda inscrição tem o seu cancelamento em um caminho que realmente executa; depois do dispose, a lista de handlers do sujeito não referencia mais o observador.
+- O sujeito está em estado consistente no momento em que cada notificação é disparada, e as operações que notificam estão documentadas.

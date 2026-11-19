@@ -1,36 +1,36 @@
-# Extract Adapter
+# Extrair Adapter (Extract Adapter)
 
-Kerievsky (2004), ch. 8. Pattern: Adapter. Direction: to.
+Kerievsky (2004), cap. 8. Padrão: Adapter. Direção: até.
 
-## When to use
-Smells: Solution Sprawl.
+## Quando usar
+Smells: Solução Espalhada (Solution Sprawl).
 
-- One class adapts several versions of a component, library or API, so it carries version-specific fields, constructors, methods and conditionals. Comments like "delete when we drop version 1" stay forever, because nobody dares to remove code that something unknown may still use.
-- One adapter per version, all behind a common interface, keeps each class responsible for one version. The class name can even carry the version. The program picks the right adapter from configuration or runtime information.
-- Adapters also shield you from fast-changing APIs that you do not control.
-- Do not do it before the multiple versions actually cause conditionals or maintenance trouble.
-- An adapter can hide behavior the client needs, because the client only sees the adapter's interface. If so, widen the interface.
-- An adapter wraps one object. If you need to wrap a whole subsystem behind a simpler view, that is a Facade, a different pattern.
+- Uma classe adapta várias versões de um componente, biblioteca ou API, então carrega campos, construtores, métodos e condicionais específicos de cada versão. Comentários como "apague quando deixarmos a versão 1" ficam para sempre, porque ninguém se arrisca a remover código que algo desconhecido ainda pode usar.
+- Um adaptador por versão, todos atrás de uma interface comum, mantém cada classe responsável por uma versão. O nome da classe pode até trazer a versão. O programa escolhe o adaptador certo a partir da configuração ou de informações de tempo de execução.
+- Adaptadores também protegem você de APIs que mudam rápido e que você não controla.
+- Não faça isso antes de as múltiplas versões realmente causarem condicionais ou problemas de manutenção.
+- Um adaptador pode esconder um comportamento que o cliente precisa, porque o cliente só enxerga a interface do adaptador. Se for o caso, amplie a interface.
+- Um adaptador envolve um único objeto. Se você precisa envolver um subsistema inteiro atrás de uma visão mais simples, isso é um Facade, que é outro padrão.
 
-## Mechanics
-There are several routes. If a class uses conditionals to handle versions, you can usually get one adapter per version by applying Replace Conditional with Polymorphism ([replace-conditional-with-polymorphism.md](../../../fowler-refactoring/references/conditional-logic/replace-conditional-with-polymorphism.md)) repeatedly. The steps below cover the other common case: an existing adapter class with version-specific fields and methods.
+## Mecânica
+Há várias formas de fazer isso. Se uma classe usa condicionais para tratar versões, normalmente você obtém um adaptador por versão aplicando repetidamente Substituir Condicional por Polimorfismo (Replace Conditional with Polymorphism) ([replace-conditional-with-polymorphism.md](../../../fowler-refactoring/references/conditional-logic/replace-conditional-with-polymorphism.md)). Os passos abaixo cobrem o outro caso comum: uma classe adaptadora existente, com campos e métodos específicos de versão.
 
-1. Identify the overburdened adapter, the class that adapts too many versions.
-2. Create a new adapter for one version, by extracting a subclass (Extract Subclass is 1st ed. only; see [replace-type-code-with-subclasses.md](../../../fowler-refactoring/references/inheritance/replace-type-code-with-subclasses.md)) or by Extract Class ([extract-class.md](../../../fowler-refactoring/references/encapsulation/extract-class.md)). Move or copy to it every field and method used only by that version. You may have to widen the visibility of some members of the overburdened adapter, and initialize some fields through the new class's constructor, which changes the code that constructs it. Compile and test.
-3. Repeat step 2 for each version until the overburdened adapter holds no version-specific code.
-4. Remove the duplication among the new adapters with Pull Up Method ([pull-up-method.md](../../../fowler-refactoring/references/inheritance/pull-up-method.md)) and Form Template Method ([form-template-method.md](form-template-method.md)). Compile and test.
+1. Identifique o adaptador sobrecarregado, a classe que adapta versões demais.
+2. Crie um novo adaptador para uma versão, por Extrair Subclasse (Extract Subclass) (só na 1ª ed.; veja [replace-type-code-with-subclasses.md](../../../fowler-refactoring/references/inheritance/replace-type-code-with-subclasses.md)) ou por Extrair Classe (Extract Class) ([extract-class.md](../../../fowler-refactoring/references/encapsulation/extract-class.md)). Mova ou copie para ele cada campo e método usado apenas por essa versão. Talvez seja preciso ampliar a visibilidade de alguns membros do adaptador sobrecarregado e inicializar alguns campos pelo construtor da nova classe, o que muda o código que a constrói. Compile e teste.
+3. Repita o passo 2 para cada versão, até que o adaptador sobrecarregado não contenha mais código específico de versão.
+4. Remova a duplicação entre os novos adaptadores com Subir Método (Pull Up Method) ([pull-up-method.md](../../../fowler-refactoring/references/inheritance/pull-up-method.md)) e Formar Template Method (Form Template Method) ([form-template-method.md](form-template-method.md)). Compile e teste.
 
-## Example
-Before: `AssistantModel` adapts two versions of a model provider's API. It has two constructors, one nullable field per version, and a branch in the only method.
+## Exemplo
+Antes: `AssistantModel` adapta duas versões da API de um provedor de modelos. Tem dois construtores, um campo anulável por versão e um desvio no único método.
 
 ```csharp
-// Old version of the provider API: a single prompt string in, text out.
+// Versão antiga da API do provedor: um prompt de texto na entrada, texto na saída.
 public class LegacyCompletionService
 {
     public string Complete(string prompt) => $"  reply to [{prompt}]  ";
 }
 
-// New version: system and user text are separate, and the answer is an object.
+// Nova versão: os textos de sistema e de usuário são separados, e a resposta é um objeto.
 public class ChatReply
 {
     public string Text { get; }
@@ -60,7 +60,7 @@ public class AssistantModel
 }
 ```
 
-After: one adapter per version, behind a common interface. The shared trimming stays in a base class (the Form Template Method step), and each adapter implements only how to get the raw reply.
+Depois: um adaptador por versão, atrás de uma interface comum. A limpeza compartilhada (o `Trim`) fica em uma classe base (o passo de Formar Template Method), e cada adaptador implementa apenas como obter a resposta bruta.
 
 ```csharp
 public class LegacyCompletionService
@@ -106,8 +106,8 @@ public class V2AssistantModel : AssistantModel
 }
 ```
 
-Clients depend on `IAssistantModel`; startup code (or configuration) chooses `LegacyAssistantModel` or `V2AssistantModel`. When version 1 is retired, delete one class and nothing else.
+Os clientes dependem de `IAssistantModel`; o código de inicialização (ou a configuração) escolhe `LegacyAssistantModel` ou `V2AssistantModel`. Quando a versão 1 for aposentada, apague uma classe e nada mais.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Each adapter has a test against its own version (or a fake of it), and the old overburdened class has no version fields or branches left before you delete it.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Cada adaptador tem um teste contra a sua própria versão (ou um fake dela), e a classe sobrecarregada antiga não tem mais campos nem desvios de versão antes de você apagá-la.

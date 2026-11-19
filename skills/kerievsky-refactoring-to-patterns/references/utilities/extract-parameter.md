@@ -1,21 +1,21 @@
-# Extract Parameter
+# Extrair Parâmetro (Extract Parameter)
 
-Kerievsky (2004), ch. 11. Pattern: —. Direction: —.
+Kerievsky (2004), cap. 11. Padrão: —. Direção: —.
 
-## When to use
-Smells: — (a low-level step; the book needed it right after turning inheritance into delegation).
+## Quando usar
+Smells: — (um passo de baixo nível; o livro precisou dele logo depois de transformar herança em delegação).
 
-- A field is assigned from an object created inside the class (in a constructor or method), and you would rather let the client decide which object it gets.
-- Split the assignment in two: the client supplies the right-hand side, the class keeps the left-hand side.
-- The book used it in [move-embellishment-to-decorator.md](../simplification/move-embellishment-to-decorator.md), after Replace Superclass with Delegate ([replace-superclass-with-delegate.md](../../../fowler-refactoring/references/inheritance/replace-superclass-with-delegate.md)): the class that delegates created its own delegate, but a client needed to supply it.
+- Um campo é atribuído a partir de um objeto criado dentro da classe (em um construtor ou método), e você prefere deixar o cliente decidir qual objeto recebe.
+- Divida a atribuição em duas: o cliente fornece o lado direito, a classe mantém o lado esquerdo.
+- O livro usou em [move-embellishment-to-decorator.md](../simplification/move-embellishment-to-decorator.md), depois de Substituir Superclasse por Delegação (Replace Superclass with Delegate) ([replace-superclass-with-delegate.md](../../../fowler-refactoring/references/inheritance/replace-superclass-with-delegate.md)): a classe que delega criava o próprio delegado, mas um cliente precisava fornecê-lo.
 
-## Mechanics
-1. The assignment must be in a constructor or method. If it is not (a field initializer, for example), move it into one first.
-2. Add a parameter for the value ([change-function-declaration.md](../../../fowler-refactoring/references/first-set/change-function-declaration.md)), typed as the field's type. Pass at each call site the expression that used to sit in the assignment, and change the assignment to use the parameter. Compile and test.
-3. If the old arguments of the method are no longer used, remove them with Change Function Declaration too.
+## Mecânica
+1. A atribuição precisa estar em um construtor ou método. Se não estiver (um inicializador de campo, por exemplo), mova-a primeiro para dentro de um.
+2. Adicione um parâmetro para o valor ([change-function-declaration.md](../../../fowler-refactoring/references/first-set/change-function-declaration.md)), tipado como o tipo do campo. Em cada ponto de chamada, passe a expressão que antes estava na atribuição, e troque a atribuição para usar o parâmetro. Compile e teste.
+3. Se os argumentos antigos do método não forem mais usados, remova-os também com Mudar Declaração de Função (Change Function Declaration). Compile e teste.
 
-## Example
-Before: the uploader creates its own cool-tier store, so uploading to another tier means editing the class.
+## Exemplo
+Antes: o uploader cria seu próprio armazenamento da camada cool, então enviar para outra camada exige editar a classe.
 
 ```csharp
 public interface IBlobStore { string Put(string key, byte[] data, string contentType); }
@@ -35,7 +35,7 @@ public class Uploader
 }
 ```
 
-After: the store comes from the client. The old behavior lives in the call site that builds the uploader.
+Depois: o armazenamento vem do cliente. O comportamento antigo fica no ponto de chamada que monta o uploader.
 
 ```csharp
 public class Uploader
@@ -53,8 +53,8 @@ public static class Caller
 }
 ```
 
-## C# notes
-- Validate at the boundary: a `null` parameter should fail with `ArgumentNullException.ThrowIfNull(store)` where a null would otherwise show up much later.
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- No code in the class creates the value any more, and a test can now pass in a fake of the type.
+## Notas (C#)
+- Valide na fronteira: um parâmetro `null` deve falhar com `ArgumentNullException.ThrowIfNull(store)` quando, sem isso, o nulo apareceria bem mais tarde.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Nenhum código da classe cria mais o valor, e um teste agora pode passar um fake do tipo.

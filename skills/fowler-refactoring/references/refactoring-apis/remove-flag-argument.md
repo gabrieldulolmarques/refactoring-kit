@@ -1,31 +1,31 @@
-# Remove Flag Argument
+# Remover Argumento de Flag (Remove Flag Argument)
 
-Fowler (2018), ch. 11. Formerly / aka: formerly Replace Parameter with Explicit Methods. Inverse: —.
+Fowler (2018), cap. 11. Nome anterior / outro nome: Replace Parameter with Explicit Methods. Inversa: —.
 
-## When to use
-Smells: Long Parameter List.
+## Quando usar
+Smells: Lista Longa de Parâmetros (Long Parameter List).
 
-A flag argument is a parameter the caller sets to a literal (`true`, an enum member, a string) only to tell the method which branch to run. The call site then says nothing about what the value means, and the list of methods does not show which variations exist.
+Um argumento de flag é um parâmetro que o chamador define como um literal (`true`, um membro de enum, uma string) apenas para dizer ao método qual ramo executar. O ponto de chamada então não diz nada sobre o que o valor significa, e a lista de métodos não mostra quais variações existem.
 
-It is a flag argument only when both hold:
-- the caller passes a constant that merely picks a branch, not a value that originates elsewhere in the program;
-- the method uses the parameter only to choose a path, not to pass along or store.
+É um argumento de flag somente quando as duas condições valem:
+- o chamador passa uma constante que apenas escolhe um ramo, não um valor que se origina em outro lugar do programa;
+- o método usa o parâmetro apenas para escolher um caminho, não para repassar ou armazenar.
 
-Do not change callers that pass computed values. If some callers pass literals and others pass data, add the explicit methods, migrate only the literal callers, and keep the original method for the data callers.
+Não mude chamadores que passam valores calculados. Se alguns chamadores passam literais e outros passam dados, adicione os métodos explícitos, migre apenas os chamadores de literais e mantenha o método original para os chamadores de dados.
 
-With several independent flags, one method per combination is impractical, so keeping the flags can be reasonable. Treat them as a prompt to split the method into smaller composable ones.
+Com várias flags independentes, um método por combinação é impraticável, então manter as flags pode ser razoável. Trate-as como um sinal para dividir o método em métodos menores e combináveis.
 
-## Mechanics
-1. Create one explicit method per value of the parameter, named for what that value means.
-   - If the original method already dispatches on the parameter at its outermost level, apply [decompose-conditional.md](../conditional-logic/decompose-conditional.md): each branch becomes the body of an explicit method, and the original just calls them.
-   - If the parameter is tangled through the body, make each explicit method a thin wrapper that calls the original with a fixed value.
-2. Compile and test.
-3. Replace each caller that passes a literal with a call to the matching explicit method. Compile and test after each caller (or small group).
+## Mecânica
+1. Crie um método explícito para cada valor do parâmetro, nomeado pelo que aquele valor significa.
+   - Se o método original já despacha pelo parâmetro no seu nível mais externo, aplique [decompose-conditional.md](../conditional-logic/decompose-conditional.md): cada ramo vira o corpo de um método explícito, e o original apenas os chama.
+   - Se o parâmetro estiver entrelaçado pelo corpo, faça de cada método explícito um invólucro (wrapper) fino que chama o original com um valor fixo.
+2. Compile e teste.
+3. Substitua cada chamador que passa um literal por uma chamada ao método explícito correspondente. Compile e teste após cada chamador (ou grupo pequeno).
 
-**Beyond the book:** when no caller uses the parameter any more, delete the original method. If it stays as a wrapper target, reduce its visibility or rename it so it signals "internal" (for example a `Core` or `Impl` suffix), then compile and test.
+**Além do livro:** quando nenhum chamador usar mais o parâmetro, apague o método original. Se ele permanecer como alvo dos invólucros, reduza a sua visibilidade ou renomeie-o para sinalizar "interno" (por exemplo, com o sufixo `Core` ou `Impl`), e então compile e teste.
 
-## Example
-Before:
+## Exemplo
+Antes:
 
 ```csharp
 using System.Collections.Generic;
@@ -46,12 +46,12 @@ public class Notifier
     }
 }
 
-// callers
+// chamadores
 // notifier.Send("ada@example.com", "Your code is 4821", true);
 // notifier.Send("ada@example.com", "Weekly digest", false);
 ```
 
-After:
+Depois:
 
 ```csharp
 using System.Collections.Generic;
@@ -72,12 +72,12 @@ public class Notifier
     }
 }
 
-// callers
+// chamadores
 // notifier.SendNow("ada@example.com", "Your code is 4821");
 // notifier.Enqueue("ada@example.com", "Weekly digest");
 ```
 
-When the flag is used in several places in the body, keep the original and add wrappers instead. In the end state below, the original `Send` has been renamed to `SendCore` and made private, which is possible once no literal caller uses it:
+Quando a flag é usada em vários lugares do corpo, mantenha o original e adicione invólucros. No estado final abaixo, o `Send` original foi renomeado para `SendCore` e tornado privado, o que é possível quando nenhum chamador de literal o usa mais:
 
 ```csharp
 using System.Collections.Generic;
@@ -101,8 +101,12 @@ public class Notifier
         _queue.Add(recipient + ": " + line);
     }
 }
+
+// chamadores
+// notifier.SendNow("ada@example.com", "Your code is 4821");
+// notifier.Enqueue("ada@example.com", "Weekly digest");
 ```
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Every literal caller now reads as the explicit method, and behavior for each value is unchanged.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Todo chamador de literal agora se lê como o método explícito, e o comportamento para cada valor não mudou.

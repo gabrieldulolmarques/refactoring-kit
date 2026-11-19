@@ -1,26 +1,27 @@
-# Replace Primitive with Object
+# Substituir Primitivo por Objeto (Replace Primitive with Object)
 
-Fowler (2018), ch. 7. Formerly / aka: Replace Data Value with Object, Replace Type Code with Class. Inverse: —.
+Fowler (2018), cap. 7. Nome anterior / outro nome: Replace Data Value with Object, Replace Type Code with Class. Inversa: —.
 
-## When to use
-Smell: Primitive Obsession. A plain `string` or `int` stands for a domain concept, and logic about it (validation, formatting, comparison, extracting parts) is starting to appear, or is duplicated across the code base. Wrapping the value gives that logic one home.
+## Quando usar
+Smell: Obsessão por Primitivos (Primitive Obsession). Um simples `string` ou `int` representa um conceito de domínio, e a lógica sobre ele (validação, formatação, comparação, extração de partes) começa a aparecer ou está duplicada pela base de código. Encapsular o valor dá a essa lógica um lugar só dela.
 
-Do it as soon as you want to do more with the value than print or store it. The first version of the type can be a bare wrapper, since it gives later behavior a place to land. This is a judgment call: if the value is only passed through and never inspected, a wrapper may not be worth it.
+Faça isso assim que quiser fazer mais com o valor do que imprimir ou armazenar. A primeira versão do tipo pode ser um invólucro (wrapper) simples, já que dá ao comportamento futuro um lugar onde ficar. É uma questão de julgamento: se o valor só é repassado e nunca inspecionado, um invólucro pode não valer a pena.
 
-## Mechanics
-1. If the value is a bare field, apply Encapsulate Variable first ([encapsulate-variable.md](../first-set/encapsulate-variable.md)), so all reads and writes go through one getter and setter.
-2. Create a small value type that takes the existing primitive in its constructor and exposes it (in C#, `ToString()` or an explicit conversion usually reads better than a generic `Value` property).
-3. Build and run static checks.
-4. Change the setter to construct the new type and store that, changing the field's type.
-5. Change the getter to return the primitive obtained from the new type, so callers still see the old type.
-6. Build and test.
-7. Rename the original accessors ([change-function-declaration.md](../first-set/change-function-declaration.md)) if they now mislead, for example a getter that returns a description string rather than the concept.
-8. Decide whether it is a value object or a reference object ([change-reference-to-value.md](../organizing-data/change-reference-to-value.md), [change-value-to-reference.md](../organizing-data/change-value-to-reference.md)).
+## Mecânica
+1. Se o valor for um campo simples, aplique antes Encapsular Variável (Encapsulate Variable) ([encapsulate-variable.md](../first-set/encapsulate-variable.md)), para que todas as leituras e escritas passem por um único getter e setter.
+2. Crie um pequeno tipo de valor que receba o primitivo existente em seu construtor e o exponha (em C#, `ToString()` ou uma conversão explícita costuma ler melhor do que uma propriedade genérica `Value`).
+3. Faça o build e execute as verificações estáticas.
+4. Altere o setter para construir o novo tipo e armazená-lo, mudando o tipo do campo.
+5. Altere o getter para retornar o primitivo obtido do novo tipo, de modo que os chamadores ainda vejam o tipo antigo.
+6. Faça o build e teste.
+7. Renomeie os acessores originais ([change-function-declaration.md](../first-set/change-function-declaration.md)) se agora enganarem, por exemplo um getter que retorna uma string de descrição em vez do conceito.
+8. Decida se é um objeto de valor ou um objeto de referência ([change-reference-to-value.md](../organizing-data/change-reference-to-value.md), [change-value-to-reference.md](../organizing-data/change-value-to-reference.md)).
 
-Next, optionally: add an accessor that returns the new object and migrate callers to it one at a time, then move validation, comparison and formatting onto the type, making it immutable with value equality. Each of those is its own small, tested change.
+A seguir, opcionalmente: adicione um acessor que retorne o novo objeto e migre os chamadores para ele um de cada vez, depois mova a validação, a comparação e a formatação para o tipo, tornando-o imutável com igualdade por valor. Cada uma dessas é uma pequena mudança testada por si só.
 
-## Example
-Before: a subscription's coupon is a string, and callers pick it apart.
+## Exemplo
+
+Antes: o cupom de uma assinatura é uma string, e os chamadores a desmontam.
 
 ```csharp
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ public static class Reports
 }
 ```
 
-After: a value type owns validation and the campaign.
+Depois: um tipo de valor passa a cuidar da validação e da campanha.
 
 ```csharp
 using System;
@@ -73,7 +74,7 @@ public class Subscription
 
     public CouponCode Coupon => _coupon;
 
-    // Old accessor kept for existing callers, renamed because it now returns text.
+    // Acessor antigo mantido para os chamadores existentes, renomeado porque agora devolve texto.
     public string CouponText
     {
         get => _coupon.ToString();
@@ -88,15 +89,22 @@ public static class Reports
 }
 ```
 
-Same behavior for valid codes; a malformed code is now rejected when it is assigned, not discovered later. The subscription is always built with a coupon, so `Coupon` is never null.
+Mesmo comportamento para códigos válidos; um código malformado agora é rejeitado no momento da
+atribuição, e não descoberto mais tarde. A assinatura sempre é criada com um cupom, então `Coupon` nunca é nulo.
 
-## C# notes
-- A meaningful `string` or `int` becomes its own type: a `record`, or a `readonly record struct` for small values (on older targets it needs an `IsExternalInit` shim). If the legal values are a fixed closed set with no extra behavior, an `enum` may be enough.
-- A `record` gives value equality for free; keep the state immutable.
-- A `readonly record struct` can be `default`, which skips the constructor and its validation. A `with` expression on a record also copies state without running validation. Use a `sealed class` when either matters.
-- An `enum` is weaker than a wrapper: any integer can be cast to it without a check.
+## Notas (C#)
+- Um `string` ou `int` com significado vira um tipo próprio: um `record`, ou um `readonly record struct` para
+  valores pequenos (em alvos mais antigos precisa de um shim de
+  `IsExternalInit`). Se os valores legais forem um conjunto fechado fixo, sem comportamento extra, um `enum`
+  pode bastar.
+- Um `record` oferece igualdade por valor de graça; mantenha o estado imutável.
+- Um `readonly record struct` pode ser `default`, o que pula o construtor e a sua validação. Uma expressão
+  `with` em um record também copia o estado sem rodar a validação. Use uma `sealed class` quando qualquer um
+  desses casos importar.
+- Um `enum` é mais fraco que um invólucro: qualquer inteiro pode ser convertido para ele sem verificação.
 
-## Verification
-- Compiles and the tests pass after every step; one commit per refactoring.
-- Grep for the old primitive's raw comparisons and parsing (string literals, `StartsWith`, `Substring`); none should remain outside the new type.
-- Every construction site goes through the validating constructor.
+## Verificação
+- Compila e os testes passam após cada passo; um commit por refatoração.
+- Faça uma busca pelas comparações e análises brutas do primitivo antigo (literais de string, `StartsWith`,
+  `Substring`); nenhuma deve restar fora do novo tipo.
+- Todo ponto de construção passa pelo construtor que valida.

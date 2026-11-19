@@ -1,28 +1,28 @@
 # Visitor
 
-Gamma et al. (1995), ch. 5. Category: object behavioral.
+Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
-## Intent
-Package an operation over the elements of an object structure into a separate object, so you can add new operations without changing the element classes.
+## Intenção
+Empacotar uma operação sobre os elementos de uma estrutura de objetos em um objeto separado, para que novas operações possam ser adicionadas sem mudar as classes dos elementos.
 
-## When it pays off
-- A structure holds many classes with different interfaces, and operations depend on the concrete class of each element.
-- Many unrelated operations (pricing, rendering, auditing) would otherwise clutter the element classes. Each operation gets one visitor class that keeps its code and its working data together.
-- The element classes rarely change, but new operations over them are added often.
-- The structure is shared by many applications, and each application should get only the operations it needs.
-- Benefits: a new operation is a new class; related code is in one place, unrelated code is apart; a visitor can accumulate state while it walks the structure; it can visit elements that share no common base class.
-- Liabilities: adding a new element class is costly, because the visitor interface and every visitor must change; the elements usually have to expose enough of their state for visitors to work, which weakens encapsulation.
-- Skip it when the element types change more often than the operations: put the operation on the elements instead.
+## Quando compensa
+- Uma estrutura guarda muitas classes com interfaces diferentes, e as operações dependem da classe concreta de cada elemento.
+- Muitas operações não relacionadas (preço, renderização, auditoria) poluiriam as classes dos elementos. Cada operação ganha uma classe visitor que mantém seu código e seus dados de trabalho juntos.
+- As classes dos elementos raramente mudam, mas novas operações sobre elas são adicionadas com frequência.
+- A estrutura é compartilhada por várias aplicações, e cada aplicação deve receber apenas as operações de que precisa.
+- Benefícios: uma nova operação é uma nova classe; o código relacionado fica em um lugar, o não relacionado fica separado; um visitor pode acumular estado enquanto percorre a estrutura; ele pode visitar elementos que não compartilham uma classe base comum.
+- Custos: adicionar uma nova classe de elemento é caro, porque a interface do visitor e todos os visitors precisam mudar; os elementos geralmente precisam expor estado suficiente para que os visitors funcionem, o que enfraquece o encapsulamento.
+- Não vale a pena quando os tipos de elemento mudam mais do que as operações: coloque a operação nos próprios elementos.
 
-## Participants in C#
-- **Visitor** (`IInvoiceVisitor`): interface with one `Visit` method for each element class.
-- **ConcreteVisitor** (`TotalCalculator`, `TextRenderer`): implements one operation over the whole structure, and keeps its running state in fields.
-- **Element** (`InvoiceLine`): abstract class with `Accept(IInvoiceVisitor)`.
-- **ConcreteElement** (`SubscriptionLine`, `UsageLine`, `DiscountLine`): implements `Accept` by calling the `Visit` method that matches its own type.
-- **ObjectStructure** (`Invoice`): the collection of elements. It offers a way to hand a visitor to all of them.
+## Participantes em C#
+- **Visitor** (`IInvoiceVisitor`): interface com um método `Visit` para cada classe de elemento.
+- **ConcreteVisitor** (`TotalCalculator`, `TextRenderer`): implementa uma operação sobre a estrutura inteira e mantém seu estado acumulado em campos.
+- **Element** (`InvoiceLine`): classe abstrata com `Accept(IInvoiceVisitor)`.
+- **ConcreteElement** (`SubscriptionLine`, `UsageLine`, `DiscountLine`): implementa `Accept` chamando o método `Visit` que corresponde ao seu próprio tipo.
+- **ObjectStructure** (`Invoice`): a coleção de elementos. Oferece uma forma de entregar um visitor a todos eles.
 
-## Example (C#)
-A SaaS invoice is a list of lines of three kinds: a subscription fee, metered usage and a percentage discount. Totaling and rendering are two visitors. A third operation (a tax report, say) would be a new visitor, with no change to the lines.
+## Exemplo (C#)
+Uma fatura de SaaS é uma lista de linhas de três tipos: uma taxa de assinatura, uso medido e um desconto percentual. Calcular o total e renderizar são dois visitors. Uma terceira operação (um relatório de impostos, por exemplo) seria um novo visitor, sem mudança nas linhas.
 
 ```csharp
 using System;
@@ -53,7 +53,7 @@ public sealed class SubscriptionLine : InvoiceLine
     public string Plan { get; }
     public decimal MonthlyPrice { get; }
 
-    public override void Accept(IInvoiceVisitor visitor) => visitor.Visit(this);   // first dispatch
+    public override void Accept(IInvoiceVisitor visitor) => visitor.Visit(this);   // primeiro despacho
 }
 
 public sealed class UsageLine : InvoiceLine
@@ -96,7 +96,7 @@ public class Invoice
         return this;
     }
 
-    // The structure drives the traversal.
+    // A estrutura conduz o percurso.
     public void Accept(IInvoiceVisitor visitor)
     {
         foreach (var line in _lines) line.Accept(visitor);
@@ -105,11 +105,11 @@ public class Invoice
 
 public class TotalCalculator : IInvoiceVisitor
 {
-    public decimal Total { get; private set; }   // state accumulated during the walk
+    public decimal Total { get; private set; }   // estado acumulado durante o percurso
 
     public void Visit(SubscriptionLine line) => Total += line.MonthlyPrice;
     public void Visit(UsageLine line) => Total += line.Units * line.UnitPrice;
-    public void Visit(DiscountLine line) => Total -= Total * line.Percent / 100m;   // applies to what came before
+    public void Visit(DiscountLine line) => Total -= Total * line.Percent / 100m;   // vale para o que veio antes
 }
 
 public class TextRenderer : IInvoiceVisitor
@@ -146,7 +146,7 @@ public static class Program
 }
 ```
 
-The same total with a `switch` on the element type, which needs no `Accept` or visitor interface:
+O mesmo total com um `switch` sobre o tipo do elemento, que não precisa de `Accept` nem de interface de visitor:
 
 ```csharp
 public static class PatternMatchingTotal
@@ -169,28 +169,28 @@ public static class PatternMatchingTotal
 }
 ```
 
-## Variations
-- **Double dispatch.** The operation that runs depends on two types: the visitor's and the element's. `Accept` receives the visitor and calls the `Visit` overload for the element's own type, which is how the right code is selected without a type check. Languages with multiple dispatch need the pattern less.
-- **Who walks the structure.** Most often the structure itself: a list calls `Accept` on each element, and a tree's `Accept` recurses into the children. A separate iterator is the other option, and so is the visitor, which suits an irregular walk or one that depends on earlier results, at the price of duplicating the walk in every visitor.
-- **Overloads or distinct names.** `Visit(SubscriptionLine)` with overloads is short and shows the symmetry between the cases; names such as `VisitSubscription` make each call site explicit. Pick one and stay with it.
-- **Default behavior.** An abstract base visitor can give each `Visit` an empty body, so a concrete visitor overrides only the element kinds it cares about.
-- **Return values.** A generic `IInvoiceVisitor<TResult>` returns a result per element instead of accumulating it in a field, which makes the visitor reusable and removes the shared state.
+## Variações
+- **Despacho duplo.** A operação que roda depende de dois tipos: o do visitor e o do elemento. `Accept` recebe o visitor e chama a sobrecarga `Visit` correspondente ao tipo do próprio elemento, que é como o código certo é escolhido sem uma verificação de tipo. Linguagens com despacho múltiplo precisam menos do padrão.
+- **Quem percorre a estrutura.** Na maioria das vezes, a própria estrutura: uma lista chama `Accept` em cada elemento, e o `Accept` de uma árvore desce nos filhos. Um iterador separado é a outra opção, e o visitor também, o que serve a um percurso irregular ou que depende de resultados anteriores, ao preço de duplicar o percurso em cada visitor.
+- **Sobrecargas ou nomes distintos.** `Visit(SubscriptionLine)` com sobrecargas é curto e mostra a simetria entre os casos; nomes como `VisitSubscription` tornam cada ponto de chamada explícito. Escolha um e mantenha.
+- **Comportamento padrão.** Um visitor base abstrato pode dar a cada `Visit` um corpo vazio, para que um visitor concreto sobrescreva apenas os tipos de elemento que lhe interessam.
+- **Valores de retorno.** Um `IInvoiceVisitor<TResult>` genérico retorna um resultado por elemento, em vez de acumulá-lo em um campo, o que torna o visitor reutilizável e elimina o estado compartilhado.
 
-## Risks and C# alternatives
-- Pattern matching: `switch` statements and expressions over the element types do the same job in much less code when the set of element types is closed and lives in one assembly. The cost is that the compiler does not force every operation to handle a new element: without a failing `default` (as above), a new subclass is silently skipped. A visitor interface catches that at compile time, which is its main remaining advantage in C#.
-- C# has `dynamic` dispatch (`visitor.Visit((dynamic)element)`), which removes `Accept` but costs speed and loses compile-time checking. Avoid it except in throwaway code.
-- Every `Visit` signature changes when you add an element class. If elements change often, put the behavior on the elements.
-- Visitors read element state, so properties that were private become public. Expose only what visitors need, as get-only members.
-- A visitor with accumulated state (like `TotalCalculator`) can be used once. Create a new one for each walk, or reset it, and do not share one between threads.
-- Deep structures walked recursively can overflow the stack; use an explicit stack in the traversal if depth is unbounded.
+## Riscos e alternativas em C#
+- Pattern matching: instruções `switch` e expressões sobre os tipos de elemento fazem o mesmo trabalho com muito menos código quando o conjunto de tipos de elemento é fechado e vive em um só assembly. O custo é que o compilador não obriga cada operação a tratar um novo elemento: sem um `default` que falhe (como acima), uma nova subclasse é ignorada em silêncio. Uma interface de visitor detecta isso em tempo de compilação, e essa é a principal vantagem que resta ao padrão em C#.
+- C# tem despacho `dynamic` (`visitor.Visit((dynamic)element)`), que elimina `Accept`, mas custa velocidade e perde a verificação em tempo de compilação. Evite, exceto em código descartável.
+- Toda assinatura `Visit` muda quando você adiciona uma classe de elemento. Se os elementos mudam com frequência, coloque o comportamento neles.
+- Visitors leem o estado dos elementos, então propriedades que eram privadas passam a ser públicas. Exponha apenas o que os visitors precisam, como membros somente leitura.
+- Um visitor com estado acumulado (como `TotalCalculator`) pode ser usado uma vez. Crie um novo para cada percurso, ou reinicie-o, e não compartilhe um entre threads.
+- Estruturas profundas percorridas recursivamente podem estourar a pilha; use uma pilha explícita no percurso se a profundidade for ilimitada.
 
-## Related patterns
-- [Composite](../structural/composite.md): visitors apply an operation to a structure built as a composite.
-- [Interpreter](interpreter.md): a visitor can carry out the interpretation over the syntax tree.
-- [Iterator](iterator.md): can drive the traversal, but visits only elements that share a type; a visitor can handle unrelated element types.
+## Padrões relacionados
+- [Composite](../structural/composite.md): visitors aplicam uma operação a uma estrutura montada como composite.
+- [Interpreter](interpreter.md): um visitor pode executar a interpretação sobre a árvore sintática.
+- [Iterator](iterator.md): pode conduzir o percurso, mas visita apenas elementos que compartilham um tipo; um visitor pode tratar tipos de elemento não relacionados.
 
-## Verification
-- A new operation over the structure is a new visitor class, and no element class changed.
-- The element classes contain no operation-specific code (no pricing or formatting inside them).
-- Adding an element class fails to compile until every visitor handles it, or the `switch` alternative has a failing default that a test exercises.
-- Each visitor gives the same result when run on the same structure twice (state is reset or created per walk).
+## Verificação
+- Uma nova operação sobre a estrutura é uma nova classe visitor, e nenhuma classe de elemento mudou.
+- As classes de elemento não contêm código específico de operação (nada de preço ou formatação dentro delas).
+- Adicionar uma classe de elemento falha na compilação até que cada visitor a trate, ou a alternativa com `switch` tem um `default` que falha e um teste o exercita.
+- Cada visitor dá o mesmo resultado quando executado duas vezes sobre a mesma estrutura (o estado é reiniciado ou criado por percurso).
