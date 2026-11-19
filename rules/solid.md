@@ -49,7 +49,7 @@ interface de que precisa, e a infraestrutura (rede, motor, arquivos) a implement
 - Ao propor ou justificar uma mudança por um princípio, cite-o no plano e no commit (`SOLID:OCP`).
 - Princípio não é meta: só refatore quando a violação causar um custo real (mudança frequente,
   bug, extensão difícil). Código estável que viola um princípio pode ficar.
-- Se o caminho levar a um padrão, leia antes o padrão do GoF na skill `gof-design-patterns`.
+- Se o caminho levar a um padrão do GoF, leia antes o padrão na skill `gof-design-patterns`.
 
 ## Fonte
 
