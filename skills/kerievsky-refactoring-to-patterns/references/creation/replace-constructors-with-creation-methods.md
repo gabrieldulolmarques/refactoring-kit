@@ -85,7 +85,7 @@ public static class Caller
 
 ## C# notes
 - Optional parameters or object initializers can replace some chained constructors, but they do not name the kind of instance. Use them when the variants differ only by an optional value, and Creation Methods when the variants mean different things.
-- A `record` with a private constructor plus static methods works the same way (C# 9+; on older targets it needs an `IsExternalInit` shim).
+- A `record` with a private constructor plus static methods works the same way (on older targets it needs an `IsExternalInit` shim).
 ## Verification
 - Compiles and the tests pass after every step; one commit per refactoring.
 - A search for the constructor finds no caller outside the class, and no Creation Method is unused.

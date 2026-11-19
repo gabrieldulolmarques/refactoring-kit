@@ -91,7 +91,7 @@ public static class Reports
 Same behavior for valid codes; a malformed code is now rejected when it is assigned, not discovered later. The subscription is always built with a coupon, so `Coupon` is never null.
 
 ## C# notes
-- A meaningful `string` or `int` becomes its own type: a `record`, or a `readonly record struct` for small values (C# 9+ for `record`, C# 10 for `readonly record struct`; on older targets it needs an `IsExternalInit` shim). If the legal values are a fixed closed set with no extra behavior, an `enum` may be enough.
+- A meaningful `string` or `int` becomes its own type: a `record`, or a `readonly record struct` for small values (on older targets it needs an `IsExternalInit` shim). If the legal values are a fixed closed set with no extra behavior, an `enum` may be enough.
 - A `record` gives value equality for free; keep the state immutable.
 - A `readonly record struct` can be `default`, which skips the constructor and its validation. A `with` expression on a record also copies state without running validation. Use a `sealed class` when either matters.
 - An `enum` is weaker than a wrapper: any integer can be cast to it without a check.

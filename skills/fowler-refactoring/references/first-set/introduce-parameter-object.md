@@ -103,7 +103,7 @@ signature) compiled and passed the tests at each step.
 
 ## C# notes
 - The new type can be a class, a `record` or a `record struct`. A `record` gives value equality
-  and immutability (`init` or positional properties) for free, which suits a value object (C# 9+; on older targets it needs an `IsExternalInit` shim).
+  and immutability (`init` or positional properties) for free, which suits a value object (on older targets it needs an `IsExternalInit` shim).
 
 ## Verification
 - Compiles and the tests pass after every step; one commit per refactoring.

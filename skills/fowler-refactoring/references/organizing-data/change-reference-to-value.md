@@ -119,7 +119,7 @@ Behavior seen from outside `Device` is the same; `new Calibration(0.5, 1)` now e
 another instance built from the same arguments.
 
 ## C# notes
-- A `record` (C# 9+; on older targets it needs an `IsExternalInit` shim), `readonly record struct` or an immutable class with value equality
+- A `record` (on older targets it needs an `IsExternalInit` shim), `readonly record struct` or an immutable class with value equality
   (`Equals`/`GetHashCode`) all fit. With a `record Calibration(double Offset, double Scale)`,
   equality and hash code are generated, and the owner's setter can be
   `_calibration = _calibration with { Scale = value };`.

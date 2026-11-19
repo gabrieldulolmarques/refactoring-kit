@@ -159,7 +159,7 @@ public class SummaryBuilder : IRecordVisitor
 ```
 
 ## C# notes
-- On C# 9 and later, a `switch` expression with type patterns often solves the same problem with much less code. Use a Visitor only when several algorithms need the same structure, or when the type set is open to extension by other assemblies.
+- A `switch` expression with type patterns often solves the same problem with much less code. Use a Visitor only when several algorithms need the same structure, or when the type set is open to extension by other assemblies.
 - A generic `IRecordVisitor<TResult>` with return values avoids mutable fields, at the cost of a more elaborate interface.
 ## Verification
 - Compiles and the tests pass after every step; one commit per refactoring.

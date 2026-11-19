@@ -136,7 +136,7 @@ it a standalone type that repeats the fields.
 - This refactoring is idiomatic in JavaScript. In C# the transform is usually a function that
   returns a new enriched `record` (built with a constructor, or a copy constructor when it
   derives from the source record; `with` only fits when the enriched type is the same type),
-  so the original is never mutated and no deep copy is needed (C# 9+; on older targets a positional
+  so the original is never mutated and no deep copy is needed (on older targets a positional
   `record` needs an `IsExternalInit` shim).
 - Records are shallow: if the source holds mutable collections or objects, copy them too.
 - If the data does get mutated, or the derivations need the object's behavior, prefer

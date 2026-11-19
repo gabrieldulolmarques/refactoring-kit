@@ -196,7 +196,7 @@ Same output as before, including an empty cart (shipping is still `4.90`, as in 
 
 ## C# notes
 
-- The intermediate data structure is usually a `record` (`record` is C# 9; `record struct` and `readonly record struct`, for small, hot data, are C# 10; on older targets `record` needs an `IsExternalInit` shim). Immutability keeps the phases from reaching into each other's state.
+- The intermediate data structure is usually a `record` (`record struct` or `readonly record struct` for small, hot data; on older targets `record` needs an `IsExternalInit` shim). Immutability keeps the phases from reaching into each other's state.
 
 ## Verification
 
