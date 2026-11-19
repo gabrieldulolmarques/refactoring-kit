@@ -1,14 +1,15 @@
 ---
 name: kerievsky-refactoring-to-patterns
-description: "Joshua Kerievsky's refactorings to patterns (Refactoring to Patterns): 12 code smells and 27 refactorings that take code to a design pattern, towards it or away from it (Strategy, State, Command, Observer, Composite, Factory, Template Method...), each with mechanics, a C# example and verification. Includes the 23 GoF design patterns (Gamma et al.) as reference, with intent, participants and a C# example. Use when conditionals or switches keep growing, when object creation is scattered, when a design pattern is named, or to choose a pattern for a design problem. Uses the fowler-refactoring skill for the smaller steps."
+description: "Joshua Kerievsky's refactorings to patterns (Refactoring to Patterns): 12 code smells and 27 refactorings that take code to a design pattern, towards it or away from it (Strategy, State, Command, Observer, Composite, Factory, Template Method...), each with mechanics, a C# example and verification. Use when conditionals or switches keep growing, when object creation is scattered, or when one of Kerievsky's refactorings is named. Uses the fowler-refactoring skill for the smaller steps and the gof-design-patterns skill to describe the target pattern."
 ---
 
-# Refactoring to patterns: Kerievsky and the GoF catalog
+# Refactoring to patterns: Kerievsky
 
 Kerievsky (2004), ch. 4 (smells) and ch. 6-11 (refactorings to patterns). Each refactoring is a
 sequence of smaller refactorings, many of them Fowler's, from the `fowler-refactoring` skill,
-installed next to this one (the links point to `../fowler-refactoring/`). Gamma et al. (1995), in
-`references/gof/`: the 23 design patterns, the destinations of most of these refactorings.
+installed next to this one (the links point to `../fowler-refactoring/`). The destination
+patterns are in the `gof-design-patterns` skill (Gamma et al., 1995), also installed next to this
+one (the links point to `../gof-design-patterns/`).
 
 Flow: **smell -> refactoring -> its file in `references/`.**
 
@@ -17,7 +18,7 @@ Flow: **smell -> refactoring -> its file in `references/`.**
 2. Pick one refactoring for that smell and open its file from the tables further down. Reach
    for a refactoring to a pattern only when the smell calls for it, and stop as soon as the
    smell is gone: going *towards* a pattern is often enough. Before you start, read the
-   pattern's file in `references/gof/` (table at the end).
+   pattern in the `gof-design-patterns` skill.
 3. Before changing anything, check the safety net in
    [Fowler's discipline.md](../fowler-refactoring/references/discipline.md): passing tests,
    small steps, a commit after each green refactoring. Also read
@@ -27,9 +28,8 @@ Flow: **smell -> refactoring -> its file in `references/`.**
    the step.
 
 If the request names a refactoring, skip to step 3 and open its file directly. If it names a
-design pattern, or asks which pattern fits a design problem, start at
-[references/gof/catalog.md](references/gof/catalog.md) and
-[references/gof/principles.md](references/gof/principles.md).
+design pattern, or asks which pattern fits a design problem, use the
+`gof-design-patterns` skill.
 
 ## Smell quick index
 
@@ -58,8 +58,6 @@ in parentheses. Fowler's other smells are in the `fowler-refactoring` skill.
   specific to C#), Verification. What a file adds beyond the book is marked **Beyond the book**.
   Each file names the target pattern and the direction: *to* the pattern, *towards* it, or
   *away* from it.
-- **GoF:** Intent, When it pays off, Participants in C#, Example (C#), Variations, Risks and
-  alternatives in C#, Related patterns, Verification.
 
 ## Kerievsky: the refactorings to patterns
 
@@ -123,49 +121,20 @@ moves towards it, or removes one. The Pattern column gives the direction.
 | Unify Interfaces | — | a superclass or interface needs the same interface as a subclass | [unify-interfaces.md](references/utilities/unify-interfaces.md) |
 | Extract Parameter | — | a method or constructor assigns a field to a locally created value | [extract-parameter.md](references/utilities/extract-parameter.md) |
 
-## GoF: the 23 design patterns
+## Destination patterns
 
-The bridge between the patterns and the two refactoring catalogs. Each GoF file describes the
-pattern itself (intent, when it pays off, participants, C# example); the refactorings say how to
-reach it from existing code, or how to leave it.
-
-| Pattern | GoF file | Kerievsky refactorings (direction) | Fowler refactorings |
-|---|---|---|---|
-| Abstract Factory | [abstract-factory.md](references/gof/creational/abstract-factory.md) | — | — |
-| Builder | [builder.md](references/gof/creational/builder.md) | `encapsulate-composite-with-builder` (to) | — |
-| Factory Method | [factory-method.md](references/gof/creational/factory-method.md) | `introduce-polymorphic-creation-with-factory-method` (to) | — |
-| Prototype | [prototype.md](references/gof/creational/prototype.md) | — | — |
-| Singleton | [singleton.md](references/gof/creational/singleton.md) | `limit-instantiation-with-singleton` (to), `inline-singleton` (away) | — |
-| Adapter | [adapter.md](references/gof/structural/adapter.md) | `extract-adapter` (to), `unify-interfaces-with-adapter` (to, towards) | — |
-| Bridge | [bridge.md](references/gof/structural/bridge.md) | — | — |
-| Composite | [composite.md](references/gof/structural/composite.md) | `replace-one-many-distinctions-with-composite` (to), `extract-composite` (to), `replace-implicit-tree-with-composite` (to), `encapsulate-composite-with-builder` (away) | — |
-| Decorator | [decorator.md](references/gof/structural/decorator.md) | `move-embellishment-to-decorator` (to, towards) | — |
-| Facade | [facade.md](references/gof/structural/facade.md) | — | — |
-| Flyweight | [flyweight.md](references/gof/structural/flyweight.md) | — | — |
-| Proxy | [proxy.md](references/gof/structural/proxy.md) | — | — |
-| Chain of Responsibility | [chain-of-responsibility.md](references/gof/behavioral/chain-of-responsibility.md) | — | — |
-| Command | [command.md](references/gof/behavioral/command.md) | `replace-conditional-dispatcher-with-command` (to, towards) | `replace-function-with-command`, `replace-command-with-function` |
-| Interpreter | [interpreter.md](references/gof/behavioral/interpreter.md) | `replace-implicit-language-with-interpreter` (to) | — |
-| Iterator | [iterator.md](references/gof/behavioral/iterator.md) | `move-accumulation-to-visitor` (away) | — |
-| Mediator | [mediator.md](references/gof/behavioral/mediator.md) | — | — |
-| Memento | [memento.md](references/gof/behavioral/memento.md) | — | — |
-| Observer | [observer.md](references/gof/behavioral/observer.md) | `replace-hard-coded-notifications-with-observer` (to, towards) | — |
-| State | [state.md](references/gof/behavioral/state.md) | `replace-state-altering-conditionals-with-state` (to, towards) | `replace-type-code-with-subclasses`, `replace-conditional-with-polymorphism`, `replace-subclass-with-delegate` |
-| Strategy | [strategy.md](references/gof/behavioral/strategy.md) | `replace-conditional-logic-with-strategy` (to, towards) | `replace-conditional-with-polymorphism`, `replace-subclass-with-delegate` |
-| Template Method | [template-method.md](references/gof/behavioral/template-method.md) | `form-template-method` (to) | — |
-| Visitor | [visitor.md](references/gof/behavioral/visitor.md) | `move-accumulation-to-visitor` (to, towards) | — |
-
+The patterns are in the `gof-design-patterns` skill: intent, when it pays off, participants and an
+example for each one, and the table linking each pattern to the refactorings that reach it.
 Kerievsky also refactors to five patterns that are not in GoF; their reference files describe them:
 
-| Pattern | GoF file | Kerievsky refactorings (direction) | Fowler refactorings |
-|---|---|---|---|
-| Creation Method | — | `replace-constructors-with-creation-methods` (to) | — |
-| Factory | — | `move-creation-knowledge-to-factory` (to), `encapsulate-classes-with-factory` (to) | — |
-| Composed Method | — | `compose-method` (to) | — |
-| Collecting Parameter | — | `move-accumulation-to-collecting-parameter` (to) | — |
-| Null Object | — | `introduce-null-object` (to) | `introduce-special-case` |
+| Pattern | Kerievsky refactorings (direction) | Fowler refactorings |
+|---|---|---|
+| Creation Method | `replace-constructors-with-creation-methods` (to) | — |
+| Factory | `move-creation-knowledge-to-factory` (to), `encapsulate-classes-with-factory` (to) | — |
+| Composed Method | `compose-method` (to) | — |
+| Collecting Parameter | `move-accumulation-to-collecting-parameter` (to) | — |
+| Null Object | `introduce-null-object` (to) | `introduce-special-case` |
 
-Sources: Joshua Kerievsky, *Refactoring to Patterns*, Addison-Wesley (Pearson Education),
-2004, and the online catalog at https://www.industriallogic.com/refactoring-to-patterns/catalog/;
-Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides, *Design Patterns: Elements of
-Reusable Object-Oriented Software*, Addison-Wesley, 1995. Paraphrased; see the package NOTICE.
+Source: Joshua Kerievsky, *Refactoring to Patterns*, Addison-Wesley (Pearson Education),
+2004, and the online catalog at https://www.industriallogic.com/refactoring-to-patterns/catalog/.
+Paraphrased; see the package NOTICE.

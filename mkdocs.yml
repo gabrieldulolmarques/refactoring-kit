@@ -170,34 +170,35 @@ nav:
               - skills/kerievsky-refactoring-to-patterns/references/utilities/unify-interfaces.md
               - skills/kerievsky-refactoring-to-patterns/references/utilities/extract-parameter.md
       - "GoF (1995)":
-          - Catalog: skills/kerievsky-refactoring-to-patterns/references/gof/catalog.md
-          - Principles: skills/kerievsky-refactoring-to-patterns/references/gof/principles.md
+          - Skill: skills/gof-design-patterns/SKILL.md
+          - Catalog: skills/gof-design-patterns/references/catalog.md
+          - Principles: skills/gof-design-patterns/references/principles.md
           - "Creational (ch. 3)":
-              - skills/kerievsky-refactoring-to-patterns/references/gof/creational/abstract-factory.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/creational/builder.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/creational/factory-method.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/creational/prototype.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/creational/singleton.md
+              - skills/gof-design-patterns/references/creational/abstract-factory.md
+              - skills/gof-design-patterns/references/creational/builder.md
+              - skills/gof-design-patterns/references/creational/factory-method.md
+              - skills/gof-design-patterns/references/creational/prototype.md
+              - skills/gof-design-patterns/references/creational/singleton.md
           - "Structural (ch. 4)":
-              - skills/kerievsky-refactoring-to-patterns/references/gof/structural/adapter.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/structural/bridge.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/structural/composite.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/structural/decorator.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/structural/facade.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/structural/flyweight.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/structural/proxy.md
+              - skills/gof-design-patterns/references/structural/adapter.md
+              - skills/gof-design-patterns/references/structural/bridge.md
+              - skills/gof-design-patterns/references/structural/composite.md
+              - skills/gof-design-patterns/references/structural/decorator.md
+              - skills/gof-design-patterns/references/structural/facade.md
+              - skills/gof-design-patterns/references/structural/flyweight.md
+              - skills/gof-design-patterns/references/structural/proxy.md
           - "Behavioral (ch. 5)":
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/chain-of-responsibility.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/command.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/interpreter.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/iterator.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/mediator.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/memento.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/observer.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/state.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/strategy.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/template-method.md
-              - skills/kerievsky-refactoring-to-patterns/references/gof/behavioral/visitor.md
+              - skills/gof-design-patterns/references/behavioral/chain-of-responsibility.md
+              - skills/gof-design-patterns/references/behavioral/command.md
+              - skills/gof-design-patterns/references/behavioral/interpreter.md
+              - skills/gof-design-patterns/references/behavioral/iterator.md
+              - skills/gof-design-patterns/references/behavioral/mediator.md
+              - skills/gof-design-patterns/references/behavioral/memento.md
+              - skills/gof-design-patterns/references/behavioral/observer.md
+              - skills/gof-design-patterns/references/behavioral/state.md
+              - skills/gof-design-patterns/references/behavioral/strategy.md
+              - skills/gof-design-patterns/references/behavioral/template-method.md
+              - skills/gof-design-patterns/references/behavioral/visitor.md
   - Agents:
       - agents/refactoring-analyst.md
       - agents/refactoring-implementer.md

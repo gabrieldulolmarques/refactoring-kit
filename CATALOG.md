@@ -1,11 +1,12 @@
 # Catalog spec
 
-The spec the skills were written from and are checked against: two skills,
-`fowler-refactoring` and `kerievsky-refactoring-to-patterns`, with one reference file per refactoring, the smells and the discipline,
+The spec the skills were written from and are checked against: three skills,
+`fowler-refactoring`, `kerievsky-refactoring-to-patterns` and `gof-design-patterns`, with one reference file per refactoring, the smells and the discipline,
 and the file format. Sections 1–4 cover Fowler's catalog; section 5 covers Kerievsky's
 refactorings to patterns, added in 0.4.0; section 6 the GoF patterns and section 7 the C# level of
 every example (0.5.0). In 0.6.0 the single `refactoring` skill was split in two, one per
-refactoring book, with the GoF inside the second.
+refactoring book, with the GoF inside the second. In 0.7.0 the GoF became the third
+skill, `gof-design-patterns`.
 
 Sources: Fowler, *Refactoring*, 2nd ed. (2018), chapters 2–4 and 6–12, and the online catalog
 ([refactoring.com/catalog](https://refactoring.com/catalog/), checked on 2026-10-31), which
@@ -25,29 +26,30 @@ to a specific project, framework, engine or team workflow.
 
 ## 1. The skills
 
-Two skills, one per refactoring book: `fowler-refactoring` and
-`kerievsky-refactoring-to-patterns`, which also carries the GoF as reference, since the patterns are
-where Kerievsky's refactorings lead. Splitting by book means the loaded skill tells which catalog
-each applied refactoring came from. Only each one's `description` stays in the agent's context; the
+Three skills, one per book: `fowler-refactoring`, `kerievsky-refactoring-to-patterns` and
+`gof-design-patterns`, the last one for lookup only, since the patterns are where Kerievsky's
+refactorings lead but do not teach refactoring. Splitting by book means the loaded skill tells
+which catalog each applied thing came from. Only each one's `description` stays in the agent's context; the
 `SKILL.md` body loads when the skill is used, and each reference file only when the agent opens it.
 The agent starts from a problem (a smell), not from a refactoring's name, so one entry point per
-book that routes smell → refactoring → file works better than 93 competing descriptions.
+book that routes smell → refactoring → file works better than 116 competing descriptions.
 Kerievsky's refactorings link to the Fowler refactorings they use as steps, through
-`../fowler-refactoring/`: the two skills are installed side by side.
+`../fowler-refactoring/`: the three skills are installed side by side.
 
 | File | Source | Content |
 |---|---|---|
 | `fowler-refactoring/SKILL.md` | this spec | the flow smell → refactoring → file, a quick index of the 24 smells and a table of the 66 refactorings (name, when, file), grouped by chapter (section 4.1) |
-| `kerievsky-refactoring-to-patterns/SKILL.md` | this spec | the same for the 12 smells and the 27 refactorings to patterns, plus the table linking each GoF pattern to the refactorings that reach it |
+| `kerievsky-refactoring-to-patterns/SKILL.md` | this spec | the same for the 12 smells and the 27 refactorings to patterns |
+| `gof-design-patterns/SKILL.md` | this spec | the lookup flow and the table linking each GoF pattern to the refactorings that reach it |
 | `fowler-refactoring/references/smells.md` | ch. 3 | the 24 smells, symptoms and suggested refactorings (section 3) |
 | `fowler-refactoring/references/discipline.md` | ch. 2 and 4 | tests first, small steps, commit after each green refactoring |
 | `fowler-refactoring/references/<chapter>/<slug>.md` (66 files) | ch. 6–12, or the web edition for the web-only ones | one refactoring each: when to use, mechanics, C# example, verification (section 4.2) |
 | `kerievsky-refactoring-to-patterns/references/<chapter>/<slug>.md` (27 files) | Kerievsky ch. 6–11 | one refactoring to a pattern each, same format plus pattern and direction (section 5) |
 | `kerievsky-refactoring-to-patterns/references/smells.md` | Kerievsky ch. 4 | the 12 smells and the refactorings to patterns they point to (section 5.2) |
 | `kerievsky-refactoring-to-patterns/references/discipline.md` | Kerievsky ch. 1-3 | when a pattern pays off, composite and test-driven refactorings, to/towards/away, design debt |
-| `kerievsky-refactoring-to-patterns/references/gof/catalog.md` | GoF ch. 1, 3-5 | the 23 intents, purpose and scope, causes of redesign, what each pattern lets vary, comparisons (section 6) |
-| `kerievsky-refactoring-to-patterns/references/gof/principles.md` | GoF ch. 1 and 6 | design principles, how to select and use a pattern (section 6) |
-| `kerievsky-refactoring-to-patterns/references/gof/<category>/<slug>.md` (23 files) | GoF ch. 3-5 | one pattern each: intent, when it pays off, participants, C# example, variations, risks (section 6) |
+| `gof-design-patterns/references/catalog.md` | GoF ch. 1, 3-5 | the 23 intents, purpose and scope, causes of redesign, what each pattern lets vary, comparisons (section 6) |
+| `gof-design-patterns/references/principles.md` | GoF ch. 1 and 6 | design principles, how to select and use a pattern (section 6) |
+| `gof-design-patterns/references/<category>/<slug>.md` (23 files) | GoF ch. 3-5 | one pattern each: intent, when it pays off, participants, C# example, variations, risks (section 6) |
 
 The slug is the refactoring's name in kebab-case. Example: Extract Function →
 `fowler-refactoring/references/first-set/extract-function.md`. The files are grouped by skill (one per book) and then in one folder per chapter. Fowler's:
@@ -67,18 +69,20 @@ skills/
 │       │   ├── extract-function.md
 │       │   └── ...
 │       └── ... # 7 chapter folders, 66 files
-└── kerievsky-refactoring-to-patterns/
+├── kerievsky-refactoring-to-patterns/
+│   ├── SKILL.md
+│   └── references/
+│       ├── smells.md
+│       ├── discipline.md
+│       ├── creation/
+│       └── ... # 6 chapter folders, 27 files
+└── gof-design-patterns/
     ├── SKILL.md
     └── references/
-        ├── smells.md
-        ├── discipline.md
-        ├── creation/
-        ├── ... # 6 chapter folders, 27 files
-        └── gof/
-            ├── catalog.md
-            ├── principles.md
-            ├── creational/
-            └── ... # 3 category folders, 23 files
+        ├── catalog.md
+        ├── principles.md
+        ├── creational/
+        └── ... # 3 category folders, 23 files
 ```
 
 ---
@@ -239,7 +243,7 @@ text mentions it as the example of an exception (an immutable result record), no
 
 ### 4.1 `SKILL.md`
 
-Frontmatter `name` (`fowler-refactoring` or `kerievsky-refactoring-to-patterns`) and a `description`
+Frontmatter `name` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` or `gof-design-patterns`) and a `description`
 (at most 1024 characters) that names the catalog, the common symptoms and the most used refactorings, so the agent finds the skill
 both by problem ("this class does too much") and by name ("do an Extract Class"). The body has
 the flow (smell → refactoring → file, with the discipline before the first step), the smell
@@ -423,8 +427,8 @@ Source: Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides, *Design Pat
 Reusable Object-Oriented Software*, Addison-Wesley, 1995. Covered: ch. 1 (except §1.2), ch. 3-5,
 the comparisons that close each of them, and §6.1. Left out: §1.2 (MVC in Smalltalk), ch. 2 (a
 long case study in its own domain), §6.2-6.5 (history and community) and the appendices. The
-`gof/` files are self-contained: they do not mention the refactoring catalogs, and the table at the
-end of `SKILL.md` links each pattern to the refactorings that reach it.
+`gof-design-patterns/references/` files are self-contained: they do not mention the refactoring
+catalogs, and the table in `SKILL.md` links each pattern to the refactorings that reach it.
 
 | Pattern | Folder | Ch. |
 |---|---|---|

@@ -2,11 +2,11 @@
 
 Two refactoring catalogs and a design patterns catalog packaged as [Agent Skills](https://agentskills.io)
 for coding agents: Martin Fowler's *Refactoring* (2nd ed., 2018), Joshua Kerievsky's *Refactoring to
-Patterns* (2004) and the 23 patterns of Gamma et al.'s *Design Patterns* (GoF, 1995). There are two
-skills, one per refactoring book, so you can tell which catalog each applied refactoring came from:
-`fowler-refactoring` maps 24 code smells to the 66 refactorings that fix them, and
-`kerievsky-refactoring-to-patterns` maps 12 code smells to the 27 refactorings to patterns and carries
-the GoF as reference, linking each pattern to the refactorings that reach it. Every refactoring and pattern file has a C# 9 example.
+Patterns* (2004) and the 23 patterns of Gamma et al.'s *Design Patterns* (GoF, 1995). There are three
+skills, one per book, so you can tell which catalog each applied thing came from:
+`fowler-refactoring` maps 24 code smells to the 66 refactorings that fix them,
+`kerievsky-refactoring-to-patterns` maps 12 code smells to the 27 refactorings to patterns, and
+`gof-design-patterns` is the lookup for the 23 patterns, linking each pattern to the refactorings that reach it. Every refactoring and pattern file has a C# 9 example.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-skill/> (English and Portuguese).
 
@@ -31,17 +31,20 @@ skills/fowler-refactoring/
 ├── SKILL.md # flow smell → refactoring → file, index of the 24 smells, tables of the 66
 └── references/ # smells.md, discipline.md, a folder per chapter
 skills/kerievsky-refactoring-to-patterns/
-├── SKILL.md # flow smell → refactoring → file, index of the 12 smells, tables of the 27, the 23 patterns
-└── references/ # smells.md, discipline.md, a folder per chapter; gof/ (catalog.md, principles.md, a folder per category)
+├── SKILL.md # flow smell → refactoring → file, index of the 12 smells, tables of the 27
+└── references/ # smells.md, discipline.md, a folder per chapter
+skills/gof-design-patterns/
+├── SKILL.md # lookup: the 23 patterns and the refactorings that reach each one
+└── references/ # catalog.md, principles.md, a folder per category
 ```
 
 Only each skill's description stays in the agent's context. The body loads when the skill is
 used, and each refactoring's file only when the agent opens it. Kerievsky's refactorings link to
-the Fowler refactorings they use as steps, so install both skills side by side.
+the Fowler refactorings they use as steps, so install the skills side by side.
 
 ## Agents
 
-Two subagents that use both skills:
+Two subagents that use all three skills:
 
 - `refactoring-analyst` reads the code it is pointed at, names the smells and returns a short
   plan: where, which smell, which refactoring, whether tests cover it, and the risk. It never
@@ -55,7 +58,7 @@ from the call or from the project's own instructions, not from this package.
 ## Using it
 
 - **Any Agent Skills client** (Claude Code, Codex, OpenCode): link each folder
-  in `skills/` (`fowler-refactoring` and `kerievsky-refactoring-to-patterns`) into the project's skills folder (on Windows, a junction:
+  in `skills/` (`fowler-refactoring`, `kerievsky-refactoring-to-patterns` and `gof-design-patterns`) into the project's skills folder (on Windows, a junction:
   `New-Item -ItemType Junction`).
 - **Claude Code plugin**: `claude --plugin-dir <path-to-this-repo>`. The skills and agents are
   then namespaced as `refactoring-kit:<name>`.

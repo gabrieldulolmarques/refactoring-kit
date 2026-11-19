@@ -8,7 +8,7 @@ reports.
 |---|---|---|
 | `F:<slug>` | refactoring from the `fowler-refactoring` skill | `[F:extract-function]` |
 | `K:<slug>` | refactoring from the `kerievsky-refactoring-to-patterns` skill | `[K:replace-conditional-logic-with-strategy]` |
-| `GoF:<pattern>` | design pattern from Gamma et al. (1995) | `[GoF:strategy]` |
+| `GoF:<pattern>` | pattern from the `gof-design-patterns` skill (Gamma et al., 1995) | `[GoF:strategy]` |
 | `SOLID:<acronym>` | principle from the `solid.md` rule | `[SOLID:OCP]` |
 
 The slug is the reference file's name without `.md`; the GoF pattern is lowercase and hyphenated
