@@ -2,7 +2,7 @@
 
 Os catálogos de refatoração de Martin Fowler e de Joshua Kerievsky e os 23 padrões do GoF, empacotados
 como [Agent Skills](https://agentskills.io) para agentes de código (Claude Code e Codex). O
-pacote traz também dois subagentes, duas rules e um exemplo em C# 9 em cada arquivo de refatoração e de
+pacote traz também dois subagentes, duas rules e um exemplo em C# em cada arquivo de refatoração e de
 padrão.
 
 **Site:** <https://gabrieldulolmarques.github.io/refactoring-kit/> (inglês e português).
@@ -23,7 +23,7 @@ Uma skill por livro, para saber de qual catálogo veio cada coisa aplicada, mais
 | `kerievsky-refactoring-to-patterns` | Kerievsky (2004) | 12 code smells e 27 refatorações que levam a um padrão, rumo a ele ou para longe dele | `K:<slug>` |
 | `gof-design-patterns` | Gamma et al. (1995) | Consulta aos 23 padrões, cada um ligado às refatorações que levam a ele, quando há | `GoF:<padrão>` |
 
-Cada refatoração tem quando usar, mecânica passo a passo, exemplo em C# 9 e uma lista de verificação.
+Cada refatoração tem quando usar, mecânica passo a passo, exemplo em C# e uma lista de verificação.
 Cada padrão tem intenção, quando compensa, participantes, exemplo e riscos. As fontes são citadas por
 capítulo e nome da entrada, nunca por página.
 

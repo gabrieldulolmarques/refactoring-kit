@@ -19,7 +19,7 @@ padrão vale para as três fontes: `Fowler (2018), cap. 6`, `Kerievsky (2004), c
 `Gamma et al. (1995), §1.6` ou `cap. 5`, sempre com o nome da refatoração ou do padrão.
 
 As skills são genéricas: ensinam as refatorações e os padrões, não o processo de nenhum projeto. Os exemplos
-são C# 9 simples com temas atuais e neutros (seção 7), e nada faz referência
+são C# simples com temas atuais e neutros (seção 7), e nada faz referência
 a um projeto, framework, engine ou fluxo de trabalho de equipe específico.
 
 ---
@@ -300,7 +300,7 @@ exclusiva da web, a linha de citação diz "só na edição web" e aponta o resu
 |---|---|---|
 | Nome, antes / também, inversa | o cabeçalho de seção do livro (seção 2); a edição web para as exclusivas da web | curto: pode ser literal |
 | Quando usar, mecânica | o livro (a edição web para as exclusivas da web) | **paráfrase**, com o capítulo; nada copiado |
-| Exemplo | escrito para este pacote em C# | tema atual e neutro por capítulo, C# 9 (seção 7); não o exemplo nem o domínio do livro |
+| Exemplo | escrito para este pacote em C# | tema atual e neutro por capítulo, C# no nível da seção 7; não o exemplo nem o domínio do livro |
 | Notas (C#) | seção 2, coluna "Nota de C#" | só onde houver algo a dizer |
 | Verificação | cap. 4 + `fowler-refactoring/references/discipline.md` | a checagem comum, mais uma ou duas próprias da refatoração |
 | Linha de Fonte | esta especificação (4.1) | uma vez, no fim de `SKILL.md`; credita o autor e a editora |
@@ -482,12 +482,12 @@ Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
 ## 7. Nível de C# de todos os exemplos
 
-Todos os exemplos do pacote são em C# 9, para compilarem também onde o compilador para no
-C# 9 e o alvo é antigo: sem `record` nem `init` (lá exigem a classe auxiliar `IsExternalInit`), sem `required`, sem
+Todos os exemplos do pacote usam um subconjunto conservador de C#, para compilarem também com
+compiladores e alvos mais antigos: sem `record` nem `init` (lá exigem a classe auxiliar `IsExternalInit`), sem `required`, sem
 construtores primários, sem collection expressions, sem namespace por arquivo, sem `global using`,
 sem raw strings e sem list patterns. Pattern matching, switch expressions, `new()`, tipos de
 referência anuláveis, delegates, events, LINQ e `async` são usados à vontade. Todo bloco é compilado
-contra `netstandard2.1` com `LangVersion` 9; um bloco de propósito parcial começa com `// fragment`.
+contra `netstandard2.1`; um bloco de propósito parcial começa com `// fragment`.
 Os exemplos usam temas atuais e neutros (checkout, cobrança, pagamentos, clientes HTTP, um assistente
 de IA, IoT, feature flags, exportação de relatórios, armazenamento em nuvem...), nunca os exemplos
 dos próprios livros.
