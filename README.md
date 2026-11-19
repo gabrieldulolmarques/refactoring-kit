@@ -44,7 +44,7 @@ a Kerievsky refactoring that ends in a GoF pattern. The drawing is editable: ope
   or from the project's own instructions, not from this package.
 - `rules/solid.md` has the SOLID checks, with the path from each principle to the refactorings.
 - `rules/source-ids.md` defines the `F:`, `K:`, `GoF:` and `SOLID:` IDs in commits, plans and reports,
-  for example `♻️ refactor(units): replace equipment switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`.
+  for example `♻️ refactor(billing): replace payment type switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`.
   With them, `git log --grep "\[F:"` counts the use of each source.
 
 Review the analyst's plan before handing an item to the implementer.

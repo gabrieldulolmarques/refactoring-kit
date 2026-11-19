@@ -19,7 +19,7 @@ The slug is the reference file's name without `.md`; the GoF pattern is lowercas
 - In a commit, the ID goes at the end of the description, in square brackets, on the same line;
   several IDs are separated by a space. The brackets do not count as description, so `SOLID:OCP` can
   be uppercase:
-  `♻️ refactor(units): replace equipment switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`
+  `♻️ refactor(billing): replace payment type switch with strategy [SOLID:OCP] [F:replace-conditional-with-polymorphism]`
 - One commit per refactoring, so each commit has a single `F:` or `K:` ID. `SOLID:` and `GoF:` come
   along when they justify the change.
 - A commit that applies nothing from the catalogs (docs, configuration) carries no ID.
