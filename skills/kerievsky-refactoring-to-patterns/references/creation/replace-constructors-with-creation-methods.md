@@ -85,7 +85,7 @@ public static class Caller
 
 ## Notas (C#)
 - Parâmetros opcionais ou inicializadores de objeto podem substituir alguns construtores encadeados, mas não dão nome ao tipo de instância. Use-os quando as variantes diferem apenas por um valor opcional, e Creation Methods quando as variantes significam coisas diferentes.
-- Um `record` com construtor privado mais métodos estáticos funciona do mesmo jeito (C# 9+; no Unity ele precisa de um shim de `IsExternalInit`).
+- Um `record` com construtor privado mais métodos estáticos funciona do mesmo jeito (C# 9+; em alvos mais antigos ele precisa de um shim de `IsExternalInit`).
 
 ## Verificação
 - Compila e os testes passam após cada passo; um commit por refatoração.

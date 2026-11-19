@@ -64,7 +64,7 @@ Os valores persistidos (as strings antigas) voltam a uma instância por meio de 
 
 ## Notas (C#)
 - Um `enum` em C# é apenas um inteiro por baixo: `(Theme)42` compila e executa. Se o conjunto precisar ser fechado e o tipo precisar carregar comportamento, use uma classe sealed com construtor privado. Se nenhuma dessas coisas importar, um enum serve e esta refatoração não é necessária.
-- Com construtor privado as instâncias são únicas, então `==` sobre referências basta. Sem ele, sobrescreva `Equals` e `GetHashCode` (ou use um record, C# 9+; no Unity ele exige um shim de `IsExternalInit`).
+- Com construtor privado as instâncias são únicas, então `==` sobre referências basta. Sem ele, sobrescreva `Equals` e `GetHashCode` (ou use um record, C# 9+; em alvos mais antigos ele exige um shim de `IsExternalInit`).
 ## Verificação
 - Compila e os testes passam após cada passo; um commit por refatoração.
 - Nenhuma constante `string` ou `int` da família permanece, e não há forma pública de criar um valor fora da família se ela deve ser fechada.

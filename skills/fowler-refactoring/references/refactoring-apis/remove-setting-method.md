@@ -65,7 +65,7 @@ public static class Program
 ```
 
 ## Notas (C#)
-- Use `{ get; }` para um valor definido apenas no construtor, ou `{ get; init; }` (C# 9+; no Unity precisa de um shim de `IsExternalInit`) quando os chamadores ainda podem defini-lo em um inicializador de objeto (`new Recipient { Id = "R-1001" }`), mas não depois.
+- Use `{ get; }` para um valor definido apenas no construtor, ou `{ get; init; }` (C# 9+; em alvos mais antigos precisa de um shim de `IsExternalInit`) quando os chamadores ainda podem defini-lo em um inicializador de objeto (`new Recipient { Id = "R-1001" }`), mas não depois.
 - `init` (com a mesma ressalva do shim) é um primeiro passo mais leve quando muitos pontos de criação usam inicializadores: bloqueia a atribuição posterior sem forçar uma mudança no construtor de imediato. Prefira `{ get; }` com um construtor quando o valor for obrigatório, para que o compilador rejeite objetos montados sem ele.
 
 ## Verificação

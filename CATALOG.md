@@ -482,8 +482,8 @@ Gamma et al. (1995), cap. 5. Categoria: comportamental de objeto.
 
 ## 7. Nível de C# de todos os exemplos
 
-Todos os exemplos do pacote são em C# 9, para compilarem também no Unity, cujo compilador para no
-C# 9: sem `record` nem `init` (lá exigem a classe auxiliar `IsExternalInit`), sem `required`, sem
+Todos os exemplos do pacote são em C# 9, para compilarem também onde o compilador para no
+C# 9 e o alvo é antigo: sem `record` nem `init` (lá exigem a classe auxiliar `IsExternalInit`), sem `required`, sem
 construtores primários, sem collection expressions, sem namespace por arquivo, sem `global using`,
 sem raw strings e sem list patterns. Pattern matching, switch expressions, `new()`, tipos de
 referência anuláveis, delegates, events, LINQ e `async` são usados à vontade. Todo bloco é compilado

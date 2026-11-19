@@ -104,7 +104,7 @@ compilaram e passaram nos testes em cada passo.
 
 ## Notas (C#)
 - O novo tipo pode ser uma classe, um `record` ou um `record struct`. Um `record` oferece igualdade por valor e
-  imutabilidade (`init` ou propriedades posicionais) de graça, o que combina com um objeto de valor (C# 9+; no Unity
+  imutabilidade (`init` ou propriedades posicionais) de graça, o que combina com um objeto de valor (C# 9+; em alvos mais antigos
   precisa de um shim de `IsExternalInit`).
 
 ## Verificação

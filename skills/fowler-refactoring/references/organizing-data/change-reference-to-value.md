@@ -117,7 +117,7 @@ public sealed class Calibration : IEquatable<Calibration>
 Visto de fora de `Device`, o comportamento é o mesmo; `new Calibration(0.5, 1)` agora é igual a outra instância criada com os mesmos argumentos.
 
 ## Notas (C#)
-- Um `record` (C# 9+; no Unity ele precisa de um shim de `IsExternalInit`), um `readonly record struct` ou uma classe imutável com igualdade por valor (`Equals`/`GetHashCode`) servem. Com um `record Calibration(double Offset, double Scale)`, a igualdade e o código de hash são gerados, e o setter do dono pode ser `_calibration = _calibration with { Scale = value };`.
+- Um `record` (C# 9+; em alvos mais antigos ele precisa de um shim de `IsExternalInit`), um `readonly record struct` ou uma classe imutável com igualdade por valor (`Equals`/`GetHashCode`) servem. Com um `record Calibration(double Offset, double Scale)`, a igualdade e o código de hash são gerados, e o setter do dono pode ser `_calibration = _calibration with { Scale = value };`.
 - Sempre que `Equals` for sobrescrito, sobrescreva `GetHashCode` com os mesmos campos, ou as coleções baseadas em hash se comportam mal. Considere também os operadores `==`/`!=` se os chamadores os usarem.
 - Mantenha os próprios campos do valor imutáveis (ou comparados por valor); do contrário, o valor ainda pode ser alterado por dentro.
 
