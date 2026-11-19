@@ -1,6 +1,6 @@
 ---
 name: kerievsky-refactoring-to-patterns
-description: "Joshua Kerievsky's refactorings to patterns (Refactoring to Patterns): 12 code smells and 27 refactorings that take code to a design pattern, towards it or away from it (Strategy, State, Command, Observer, Composite, Factory, Template Method...), each with mechanics, a C# example and verification. Use when conditionals or switches keep growing, when object creation is scattered, or when one of Kerievsky's refactorings is named. Uses the fowler-refactoring skill for the smaller steps and the gof-design-patterns skill to describe the target pattern."
+description: "Joshua Kerievsky's refactorings to patterns (Refactoring to Patterns): 12 code smells and 27 refactorings that take code to a design pattern, towards it or away from it (Strategy, State, Command, Observer, Composite, Factory, Template Method...), each with mechanics, a C# example and verification. Use when conditionals or switches keep growing, when object creation is scattered, or when one of Kerievsky's refactorings is named. Uses the fowler-refactoring skill for the smaller steps and the gof-design-patterns skill to describe the target pattern when it is a GoF pattern."
 ---
 
 # Refactoring to patterns: Kerievsky
@@ -8,7 +8,7 @@ description: "Joshua Kerievsky's refactorings to patterns (Refactoring to Patter
 Kerievsky (2004), ch. 4 (smells) and ch. 6-11 (refactorings to patterns). Each refactoring is a
 sequence of smaller refactorings, many of them Fowler's, from the `fowler-refactoring` skill,
 installed next to this one (the links point to `../fowler-refactoring/`). The destination
-patterns are in the `gof-design-patterns` skill (Gamma et al., 1995), also installed next to this
+patterns that come from the GoF are in the `gof-design-patterns` skill (Gamma et al., 1995), also installed next to this
 one (the links point to `../gof-design-patterns/`).
 
 Flow: **smell -> refactoring -> its file in `references/`.**
